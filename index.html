@@ -106,7 +106,6 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
       <label title="Největší vzdálenost vypočteného středu od projektovaného středu, při které se pilota ještě přiřadí k bodu projektu (a tím dostane jeho název a odchylku). Na jeden bod PD připadne nejvýš jedna pilota. Výchozí 0,5 m."> do vzdálenosti [m] <input type="number" id="rdist" value="0.5" step="0.1" min="0"></label>
       <label title="Největší vzdálenost, ve které se nepoužitý bod ZSS/PIL přijme jako střed piloty zaměřený přímo (když se z bodů kolem nenašla kružnice). Brání tomu, aby se bod na plášti piloty považoval za střed. Nikdy není větší než „do vzdálenosti“. 0 = přímé středy vypnuty. Výchozí 0,2 m."> Přímý střed do [m] <input type="number" id="ddist" value="0.2" step="0.05" min="0"></label>
       <label title="Tolerance odchylky od projektu v milimetrech. Odchylka do této tolerance vyhovuje (v tabulce, plánu i DXF zeleně), větší nevyhovuje (červeně). Výchozí 100 mm."> Tolerance [mm] <input type="number" id="lim" value="100" step="10" min="0"></label>
-      <label title="Určuje, kam ukazují šipky odchylek a jak se čtou ΔY a ΔX. JTSK: kladné Y míří na západ, kladné X na jih. Druhá volba: Y na východ, X na sever (matematická orientace)."> Orientace šipek <select id="ori" title="Orientace os pro směr šipek odchylek: JTSK (Y → západ, X → jih) nebo Y → východ, X → sever."><option value="jtsk">JTSK (Y → západ, X → jih)</option><option value="mat">Y → východ, X → sever</option></select></label>
     </div>
   </div>
   <div class="zb"><button id="br" title="Vybereš soubor s projektovanými středy pilot (sloupce: 1. název bodu, 2. Y, 3. X, 4. Z – volitelné, 5. kód – volitelný). Alternativa k přetažení do modrého okna.">Načíst projektovaný SS</button><button id="rclr" hidden title="Odebere projektovaný SS. Tabulka se přepočítá bez odchylek od projektu a piloty dostanou názvy S001, S002 …">Zrušit projektovaný SS</button><input type="file" id="fr" hidden></div>
@@ -190,7 +189,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
 </div>
 <script>
 "use strict";
-const APP_VERSION="1.053", APP_DATE="31. 10. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
+const APP_VERSION="1.054", APP_DATE="31. 10. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
 const VALID = new Set(["ZSS","PIL","ZSSPIL"]);
 let parseLog = [], refLog = [], points = [], piles = [], fname = "", refs = [], refname = "";
 const $ = id => document.getElementById(id);
@@ -466,10 +465,10 @@ function evaluate(all,rmin,rmax,only,tol,r0user,devFrac,refs,rdist,refOnly,off,d
 /* ---------- UI ---------- */
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 const mmv=v=>Math.round(v*1000);
-function refCells(p,lim,ori){
+function refCells(p,lim){
   if(!p.ref) return "<td>–</td>".repeat(4);
   const over=p.rd*1000>lim;
-  const sx=ori==="jtsk"?-p.dy:p.dy, sy=ori==="jtsk"?p.dx:-p.dx;   // obrazovka: x doprava, y dolů
+  const sx=-p.dy, sy=p.dx;   // obrazovka: x doprava, y dolů
   const arrow = Math.hypot(sx,sy)<0.0005
     ? '<svg width="24" height="24" viewBox="-13 -13 26 26"><circle r="2.5" fill="currentColor"/></svg>'
     : `<svg width="24" height="24" viewBox="-13 -13 26 26"><g transform="rotate(${(Math.atan2(sy,sx)*180/Math.PI).toFixed(1)})" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M-10 0H10M4 -6L10 0L4 6"/></g></svg>`;
@@ -531,7 +530,7 @@ const IDS_MAX=32;   // nejvýš 32 znaků v buňce „Použité body“, delší
 const idsShort=p=>{ const t=p.ids.join(", "); return t.length<=IDS_MAX ? t : t.slice(0,IDS_MAX-3).replace(/[,\s]+$/,"")+"..."; };
 const idsTitle=p=>{ const t=p.ids.join(", "); return t.length<=IDS_MAX ? "" : ` title="${esc(t)}"`; };
 function renderTable(){
-  const lim=parseFloat($("lim").value)||0, rlim=parseFloat($("rlim").value)||0, ori=$("ori").value, tw=$("tw"), st=tw.scrollTop, sl=tw.scrollLeft, rows=[];
+  const lim=parseFloat($("lim").value)||0, rlim=parseFloat($("rlim").value)||0, tw=$("tw"), st=tw.scrollTop, sl=tw.scrollLeft, rows=[];
   // poloha fokusu v tabulce (po překreslení se vrátí, aby šlo ovládat klávesnicí)
   const ae=document.activeElement; let fk=null;
   if(ae&&$("tb").contains(ae)){ for(const t of ["use","pt","chev"]) if(ae.dataset&&ae.dataset[t]!==undefined){ fk=[t,ae.dataset[t]]; break; } }
@@ -554,7 +553,7 @@ function renderTable(){
     if(p.invalid) rows.push(`<tr ${attrs}>${head}<td>${esc(p.id)}</td><td>${p.n}</td><td${idsTitle(p)}>${chev}${esc(idsShort(p))}</td>`+"<td>–</td>".repeat(10)+`<td>${esc(p.note)}</td></tr>`);
     else rows.push(`<tr ${attrs}>${head}<td class="${nc}"><b>${esc(p.name)}</b></td><td>${p.n}</td><td${idsTitle(p)}>${chev}${esc(idsShort(p))}</td>`+
       `<td class="n">${p.y.toFixed(3)}</td><td class="n">${p.x.toFixed(3)}</td><td class="n">${p.z.toFixed(3)}</td>`+
-      `<td class="n">${(2*p.r).toFixed(3)}</td><td class="n">${Math.round(p.d*1000)}</td>${devCell(p,rlim)}${refCells(p,lim,ori)}<td>${esc(p.note)}</td></tr>`);
+      `<td class="n">${(2*p.r).toFixed(3)}</td><td class="n">${Math.round(p.d*1000)}</td>${devCell(p,rlim)}${refCells(p,lim)}<td>${esc(p.note)}</td></tr>`);
     if(open){
       const on=p.mem.filter(m=>m.on), worst=on.length>3?on.reduce((a2,m)=>m.res>a2.res?m:a2,on[0]).key:null;
       rows.push(`<tr class="sub"><td colspan="15"><div class="hint">Body piloty – odškrtnutím bod vyřadíš z výpočtu (nejméně 3 musí zůstat zapnuté). Číslo = vzdálenost bodu od kružnice, nejhorší bod je červený.</div>`+
@@ -648,7 +647,7 @@ $("cp").onclick=async()=>{ if(!needPiles()) return; const t=csvLines("\t");
   try{ await navigator.clipboard.writeText(t); }
   catch(e){ const ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); }
   $("st").textContent="Zkopírováno do schránky (vlož do Excelu)."; };
-["rmin","rmax","tol","rlim","only","r0","dv","ronly","rdist","ddist","lim","ori"].forEach(id=>$(id).addEventListener("change",()=>recalc()));   // hotová změna (Enter, opuštění pole, přepínače): přepočet hned
+["rmin","rmax","tol","rlim","only","r0","dv","ronly","rdist","ddist","lim"].forEach(id=>$(id).addEventListener("change",()=>recalc()));   // hotová změna (Enter, opuštění pole, přepínače): přepočet hned
 // číselná pole se přepočítají i při psaní, ale až 1 s po poslední změně (nepřepočítává se po každé číslici)
 ["rmin","rmax","tol","rlim","r0","dv","rdist","ddist","lim"].forEach(id=>$(id).addEventListener("input",()=>{
   clearTimeout(rcTimer);

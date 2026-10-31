@@ -181,6 +181,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
     </div>
     <label title="Zobrazí / skryje v plánu kružnice pilot (modré kruhy se středem v bodě PD). Platí i pro exporty."><input type="checkbox" id="gc" checked> Kružnice</label>
     <label title="Zobrazí / skryje v plánu měřené body, ze kterých jsou středy vypočteny (šedé křížky). Platí i pro exporty."><input type="checkbox" id="gp" checked> Měřené body</label>
+    <label title="Zobrazí / skryje hlavičku a popisy mimo rám výkresu (údaje o měření vpravo nahoře, legendu a autora dole). Po odškrtnutí zůstanou mimo rám jen 3 řádky nadpisu vlevo nahoře. Platí i pro PDF."><input type="checkbox" id="gh" checked> Hlavička</label>
     <span style="color:var(--mut)" title="Ovládání plánu: kolečkem myši se přibližuje a oddaluje, tažením myší se posouvá výkres.">kolečko = zoom, tažení = posun</span>
     <button class="wi io" id="gfit" style="margin-left:auto" aria-label="Celý výkres" title="Celý výkres: vrátí zobrazení tak, aby byly vidět všechny piloty (zruší přiblížení a posun)."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3" stroke-width="2"/><circle cx="12" cy="12" r="3.4" fill="currentColor" stroke="none"/></svg></button>
     <button class="wi io" id="gx" aria-label="Zavřít" title="Zavře plán a vrátí se do tabulky (stejně jako klávesa Esc)."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 5.5l13 13M18.5 5.5l-13 13" stroke-width="2.4"/></svg></button>
@@ -189,7 +190,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
 </div>
 <script>
 "use strict";
-const APP_VERSION="1.044", APP_DATE="31. 10. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
+const APP_VERSION="1.046", APP_DATE="31. 10. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
 const VALID = new Set(["ZSS","PIL","ZSSPIL"]);
 let parseLog = [], refLog = [], points = [], piles = [], fname = "", refs = [], refname = "";
 const $ = id => document.getElementById(id);
@@ -684,7 +685,14 @@ window.addEventListener("dragover",e=>e.preventDefault());
 window.addEventListener("drop",e=>{ e.preventDefault(); const f=e.dataTransfer.files[0]; if(f) loadFile(f); });
 /* ---------- graf ---------- */
 const GC={off:"#c4c8cf",ok:"#1b7a3a",bad:"#d92d20",pile:"#2b5ea7",ref:"#555555",pt:"#9aa0a6",grid:"#e3e6ea",txt:"#222222",frame:"#888888",gray:"#8a8f98"};
-function plotRect(W,H){ return {x:68,y:84,w:Math.max(50,W-86),h:Math.max(50,H-84-48)}; }
+function plotRect(W,H,top){ top=top||84; return {x:68,y:top,w:Math.max(50,W-86),h:Math.max(50,H-top-48)}; }
+// horní okraj rámu: při velkém písmu se posune níž, aby popisky souřadnic Y nad rámem nekolidovaly s 3 řádky nadpisu
+function headTop(W,H,o){
+  if(!o||o.exact) return 84;
+  const pl0=plotRect(W,H), base=o.fsFixed||Math.min(1.5,Math.max(0.75,Math.min(pl0.w,pl0.h)/600)), fs=base*(o.tx||1), hs=o.hs||Math.min(1.25,base);
+  const hb=(refs.length?51:20)*hs+4;   // spodní okraj posledního řádku nadpisu
+  return Math.max(84,Math.ceil(hb+9+7.9*fs));   // + mezera + výška popisku (číslice 10,5·fs · 0,75) + odsazení nad rámem
+}
 const HEAD1="Zaměření skutečného stavu (ZSS) pilot.", HEAD3="Šipky ukazují směr od projektu ke skutečnosti";
 function niceStep(raw){ const e=Math.pow(10,Math.floor(Math.log10(raw))), m=raw/e; return (m<1.5?1:m<3.5?2:m<7.5?5:10)*e; }
 function gBounds(gl){
@@ -695,15 +703,15 @@ function gBounds(gl){
   if(refs.length){ const matched=new Set(piles.map(p=>p.ref).filter(Boolean)); refs.forEach(r=>{ if(!matched.has(r)) add(r.y,r.x,0); }); }
   return b;
 }
-function fitView(W,H,gl){
-  const pl=plotRect(W,H), b=gBounds(gl), m=0.08;
+function fitView(W,H,gl,o){
+  const pl=plotRect(W,H,headTop(W,H,o)), b=gBounds(gl), m=0.08;
   const wy=Math.max((b[1]-b[0])*(1+2*m),0.5), wx=Math.max((b[3]-b[2])*(1+2*m),0.5);
   return {cy:(b[0]+b[1])/2, cx:(b[2]+b[3])/2, s:Math.min(pl.w/wy,pl.h/wx)};
 }
 function buildScene(W,H,v,o){
-  const pl=plotRect(W,H), s=v.s, ccx=pl.x+pl.w/2, ccy=pl.y+pl.h/2;
+  const pl=plotRect(W,H,headTop(W,H,o)), pl0=plotRect(W,H), s=v.s, ccx=pl.x+pl.w/2, ccy=pl.y+pl.h/2;
   // velikost písma i šipek se odvozuje z velikosti výkresu (plochy grafu) a z rozestupu pilot v datech
-  const fs=(o.fsFixed||Math.min(1.5,Math.max(0.75,Math.min(pl.w,pl.h)/600)))*(o.tx||1);
+  const fs=(o.fsFixed||Math.min(1.5,Math.max(0.75,Math.min(pl0.w,pl0.h)/600)))*(o.tx||1);
   const SX=y=>ccx-(y-v.cy)*s, SY=x=>ccy+(x-v.cx)*s;     // JTSK: Y roste doleva (západ), X dolů (jih)
   const it=[], fr=[];
   const ch=(o.exact?0.05*s:Math.max(0.05*s,8*fs))/2, cd=ch/Math.SQRT2;   // křížek × o délce ramen 5 cm (na obrazovce nejméně 8 bodů)
@@ -803,18 +811,29 @@ function buildScene(W,H,v,o){
     addR(best.cx-ex,best.cy-ey,best.cx+ex,best.cy+ey,-3);
   });
   // název piloty (číslo bodu PD) – nejlépe na straně opačné než šipka, jinak nejbližší volné místo
+  const CG=60, cgrid=new Map();   // mřížka středů pilot pro rychlé hledání sousedů
+  vis.forEach(v=>{ const k=Math.floor(v.px/CG)*100003+Math.floor(v.py/CG); let L=cgrid.get(k); if(!L){L=[];cgrid.set(k,L);} L.push(v); });
   vis.forEach(v=>{
     const name=v.p.name, sz=13*fs, w=tw(name,sz), h=sz*1.15, R0=Math.max(v.rr,6*fs)+5*fs;
     const base=v.arrow?Math.atan2(-v.uy,-v.ux):0;
-    const angs=[0,Math.PI,-Math.PI/2,Math.PI/2,Math.PI/4,-Math.PI/4,3*Math.PI/4,-3*Math.PI/4]
+    const angs=[0,Math.PI,-Math.PI/2,Math.PI/2,Math.PI/4,-Math.PI/4,3*Math.PI/4,-3*Math.PI/4,
+        Math.PI/8,-Math.PI/8,7*Math.PI/8,-7*Math.PI/8,3*Math.PI/8,-3*Math.PI/8,5*Math.PI/8,-5*Math.PI/8]
       .sort((a,b)=>Math.abs(Math.atan2(Math.sin(a-base),Math.cos(a-base)))-Math.abs(Math.atan2(Math.sin(b-base),Math.cos(b-base))));
     let best=null, n=0;
-    outer: for(const R of [R0,R0+14*fs,R0+28*fs]) for(const f of angs){
+    outer: for(const R of [R0,R0+14*fs,R0+28*fs,R0+42*fs]) for(const f of angs){
       const c=Math.cos(f), sn=Math.sin(f), Px=v.px+c*R, Py=v.py+sn*R;
       const a=c>0.35?"start":(c<-0.35?"end":"middle");
       const x0=a==="start"?Px:(a==="end"?Px-w:Px-w/2);
       let y0,bl; if(sn>0.35){y0=Py;bl=Py+0.95*sz;} else if(sn<-0.35){y0=Py-h;bl=Py-0.2*sz;} else {y0=Py-h/2;bl=Py+0.35*sz;}
-      const sc=overlap(x0,y0,x0+w,y0+h,-1)+0.01*(n++);
+      // číslo musí být nejblíž ke středu své piloty: žádný střed jiné piloty nesmí být k popisku blíž než ten vlastní
+      const dr=(qx,qy)=>Math.hypot(Math.max(x0-qx,0,qx-(x0+w)),Math.max(y0-qy,0,qy-(y0+h)));   // vzdálenost bodu od obdélníku popisku
+      const dOwn=dr(v.px,v.py); let worst=0;
+      // cizí střed může být blíž jen tehdy, leží-li do vzdálenosti dOwn od popisku → stačí projít buňky v tomto okolí
+      for(let gx=Math.floor((x0-dOwn)/CG);gx<=Math.floor((x0+w+dOwn)/CG);gx++) for(let gy=Math.floor((y0-dOwn)/CG);gy<=Math.floor((y0+h+dOwn)/CG);gy++){
+        const L=cgrid.get(gx*100003+gy); if(!L) continue;
+        for(const u of L){ if(u===v) continue; const e=dOwn-dr(u.px,u.py); if(e>worst) worst=e; } }
+      const pen=worst>0?1e5+worst*1e3:0;
+      const sc=overlap(x0,y0,x0+w,y0+h,-1)+0.01*(n++)+pen;
       if(!best||sc<best.sc) best={sc,x:Px,y:bl,a,x0,y0,R,Px,Py};
       if(sc<=0.05*1) break outer;
     }
@@ -839,7 +858,8 @@ function buildScene(W,H,v,o){
     fr.push({t:"text",x:pl.x,y:36*hs,s:refname,size:11*hs,c:GC.txt,a:"start"});
     fr.push({t:"text",x:pl.x,y:51*hs,s:HEAD3,size:11*hs,c:GC.txt,a:"start"});
   }
-  fr.push({t:"text",x:pl.x+pl.w,y:16*hs,s:"Měření: "+(fname||"")+", "+new Date().toLocaleDateString("cs-CZ")+(o.pg?", str. "+o.pg:""),size:8.5*hs,c:GC.gray,a:"end"});
+  const hd=o.hd!==false;   // „Hlavička“ odškrtnutá: mimo rám zůstanou jen 3 řádky nadpisu vlevo nahoře
+  if(hd) fr.push({t:"text",x:pl.x+pl.w,y:16*hs,s:"Měření: "+(fname||"")+", "+new Date().toLocaleDateString("cs-CZ")+(o.pg?", str. "+o.pg:""),size:8.5*hs,c:GC.gray,a:"end"});
   const ox=pl.x+pl.w-34*fs, oy=pl.y+30*fs;
   arrow(fr,ox,oy,ox-40*fs,oy,GC.txt,1.3*fs); fr.push({t:"text",x:ox-40*fs,y:oy-6*fs,s:"+Y (západ)",size:10*fs,c:GC.txt,a:"start"});
   arrow(fr,ox,oy,ox,oy+40*fs,GC.txt,1.3*fs); fr.push({t:"text",x:ox+5*fs,y:oy+40*fs,s:"+X (jih)",size:10*fs,c:GC.txt,a:"start"});
@@ -856,9 +876,9 @@ function buildScene(W,H,v,o){
       fr.push({t:"line",x1:x,y1:by-6*fs,x2:x,y2:by+6*fs,c:GC.txt,sw:1.1*fs});
       fr.push({t:"text",x:x,y:by-9*fs,s:d===0?"0":fm(d)+" m",size:10*fs,c:GC.txt,a:k===0?"end":(last?"start":"middle")}); });
   }
-  fr.push({t:"text",x:pl.x,y:H-28,s:(o.circ!==false?"Modrý kruh = pilota se středem v bodě PD (bez PD ve vypočteném středu), průměr po 50/100 mm; tmavé × = bod PD":"Tmavé × = bod PD")+"; modré × = vypočtený střed"+(o.pts?"; šedé × = měřené body"+(piles.some(p=>p.offPts&&p.offPts.length)?" (v kroužku = vypnuté)":""):""),size:8.5*lg,c:GC.txt,a:"start"});
-  fr.push({t:"text",x:pl.x,y:H-14,s:`Šipka = směr od PD ke skutečnosti (délka jen orientační), u ní odchylka v mm: zeleně do ${o.lim} mm včetně, červeně nad. JTSK [m]: Y doleva (západ), X dolů (jih).`,size:8.5*lg,c:GC.txt,a:"start"});
-  fr.push({t:"text",x:W-16,y:H-14,s:"Autor: Jan Bartůněk, verze "+APP_VERSION+" ("+APP_DATE+")",size:8*lg,c:GC.gray,a:"end"});
+  if(hd) fr.push({t:"text",x:pl.x,y:H-28,s:(o.circ!==false?"Modrý kruh = pilota se středem v bodě PD (bez PD ve vypočteném středu), průměr po 50/100 mm; tmavé × = bod PD":"Tmavé × = bod PD")+"; modré × = vypočtený střed"+(o.pts?"; šedé × = měřené body"+(piles.some(p=>p.offPts&&p.offPts.length)?" (v kroužku = vypnuté)":""):""),size:8.5*lg,c:GC.txt,a:"start"});
+  if(hd) fr.push({t:"text",x:pl.x,y:H-14,s:`Šipka = směr od PD ke skutečnosti (délka jen orientační), u ní odchylka v mm: zeleně do ${o.lim} mm včetně, červeně nad. JTSK [m]: Y doleva (západ), X dolů (jih).`,size:8.5*lg,c:GC.txt,a:"start"});
+  if(hd) fr.push({t:"text",x:W-16,y:H-14,s:"Autor: Jan Bartůněk, verze "+APP_VERSION+" ("+APP_DATE+")",size:8*lg,c:GC.gray,a:"end"});
   { const ld=[], rest=[]; it.forEach(i=>(i.k==="lead"?ld:rest).push(i));
     const ord=rest.slice(0,gridN).concat(ld,rest.slice(gridN)); it.length=0; ord.forEach(i=>it.push(i)); }
   return {W,H,pl,items:it,frame:fr};
@@ -886,7 +906,8 @@ function pdfTxt(s){ return Array.from(String(s)).map(ch=>{ const c=ch.charCodeAt
 function pdfEsc(t){ return Array.from(t).map(ch=>{ const c=ch.charCodeAt(0);
   if(ch==="\\"||ch==="("||ch===")") return "\\"+ch; if(c>=32&&c<127) return ch;
   return "\\"+(PDF_EXTRA[ch]!==undefined?PDF_EXTRA[ch]:c).toString(8).padStart(3,"0"); }).join(""); }
-function pdfWidth(t,size){ let w=0; for(const ch of t) w+=/[0-9]/.test(ch)?0.556:(ch==="."||ch===" "||ch===","?0.278:(ch==="Ø"?0.78:ch==="×"?0.58:(/[A-ZČĚŘŠŽŤĎŇŮ]/.test(ch)?0.68:0.52))); return w*size; }
+const PDF_W=[0,500,722,556,667,333,722,556,722,317,611,643,722,556,722,556,556,556,556,556,556,556,556,556,556,556,556,556,556,556,556,556,278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584,350,556,350,222,556,333,1000,556,556,333,1000,667,333,1000,350,611,350,350,222,222,333,333,350,556,1000,333,1000,500,333,944,350,500,667,278,333,556,556,556,556,260,556,333,737,370,556,584,333,737,333,400,584,333,333,333,556,537,278,333,333,365,556,834,834,834,611,667,667,667,667,667,667,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,500,556,556,556,556,278,278,278,278,556,556,556,556,556,556,556,584,611,556,556,556,556,500,556,500];   // šířky znaků Helvetiky (1/1000 em) podle kódu v PDF
+function pdfWidth(t,size){ let w=0; for(const ch of t){ const c=PDF_EXTRA[ch]!==undefined?PDF_EXTRA[ch]:ch.charCodeAt(0); w+=(PDF_W[c]||556)/1000; } return w*size; }
 function pdfContent(sc){
   const H=sc.H, N=v=>v.toFixed(2), Y=v=>(H-v).toFixed(2);
   const rgb=h=>[1,3,5].map(i=>(parseInt(h.substr(i,2),16)/255).toFixed(3)).join(" ");
@@ -911,7 +932,7 @@ function pdfOf(scs){
   const n=scs.length, cs=scs.map(pdfContent);
   const objs=["","<< /Type /Catalog /Pages 2 0 R >>",
     `<< /Type /Pages /Kids [${scs.map((_,i)=>`${4+2*i} 0 R`).join(" ")}] /Count ${n} >>`,
-    "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding << /Type /Encoding /BaseEncoding /WinAnsiEncoding /Differences [1 /ccaron /Ccaron /ecaron /Ecaron /rcaron /Rcaron /uring /Uring /tcaron /Tcaron /dcaron /Dcaron /ncaron /Ncaron] >> >>"];
+    "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FirstChar 0 /LastChar 255 /Widths ["+PDF_W.join(" ")+"] /Encoding << /Type /Encoding /BaseEncoding /WinAnsiEncoding /Differences [1 /ccaron /Ccaron /ecaron /Ecaron /rcaron /Rcaron /uring /Uring /tcaron /Tcaron /dcaron /Dcaron /ncaron /Ncaron] >> >>"];
   scs.forEach((sc,i)=>{
     objs[4+2*i]=`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${sc.W} ${sc.H}] /Resources << /Font << /F1 3 0 R >> >> /Contents ${5+2*i} 0 R >>`;
     objs[5+2*i]=`<< /Length ${cs[i].length} >>\nstream\n${cs[i]}endstream`;
@@ -924,7 +945,8 @@ function pdfOf(scs){
 }
 function pdfA3(o){   // vždy celý výkres na jednu stránku A3 (na šířku nebo na výšku podle tvaru plánu), drobné ale čitelné popisky
   const b=gBounds(), land=(b[1]-b[0])>=(b[3]-b[2]), W=land?1190.55:841.89, H=land?841.89:1190.55;
-  return buildScene(W,H,fitView(W,H),{...o,fsFixed:0.62,hs:1.1,a3:true});
+  const o2={...o,fsFixed:0.62,hs:1.1,a3:true};
+  return buildScene(W,H,fitView(W,H,0,o2),o2);
 }
 /* ---------- DXF ---------- */
 function dxfOf(o){
@@ -985,16 +1007,16 @@ let GV=null;
 const lvl=id=>{ const v=parseFloat($(id).value), t=isFinite(v)?v:50; return t<=50?0.25+0.75*t/50:1+1.5*(t-50)/50; };
 const axOf=()=>lvl("ga");
 const txOf=()=>{ const v=parseFloat($("gt").value), t=isFinite(v)?v:50; return t<=50?0.25+0.75*t/50:1+1.5*(t-50)/50; };   // 0..50 -> 25..100 %, 50..100 -> 100..250 %
-const gOpts=fs=>({tx:txOf(),ax:axOf(),pts:$("gp").checked,circ:$("gc").checked,lim:parseFloat($("lim").value)||0,fs});
+const gOpts=fs=>({tx:txOf(),ax:axOf(),pts:$("gp").checked,circ:$("gc").checked,hd:$("gh").checked,lim:parseFloat($("lim").value)||0,fs});
 function gRender(){
   const box=$("gsvg"), W=box.clientWidth, H=box.clientHeight;
-  if(!GV) GV=fitView(W,H,gOpts(1).gl);
+  if(!GV) GV=fitView(W,H,0,gOpts(1));
   box.innerHTML=svgOf(buildScene(W,H,GV,gOpts(1)));
 }
 $("gb").onclick=()=>{ if(!needPiles()) return; $("gm").hidden=false; GV=null; gRender(); };
 $("gx").onclick=()=>{ $("gm").hidden=true; };
 $("gfit").onclick=()=>{ GV=null; gRender(); };
-["gt","ga","gp","gc"].forEach(id=>$(id).addEventListener("input",()=>{ $("gtv").textContent=Math.round(txOf()*100)+" %"; $("gav").textContent=Math.round(axOf()*100)+" %"; if(!$("gm").hidden) gRender(); }));
+["gt","ga","gp","gc","gh"].forEach(id=>$(id).addEventListener("input",()=>{ $("gtv").textContent=Math.round(txOf()*100)+" %"; $("gav").textContent=Math.round(axOf()*100)+" %"; if(!$("gm").hidden) gRender(); }));
 $("gt").addEventListener("dblclick",()=>{ $("gt").value=50; $("gt").dispatchEvent(new Event("input")); });
 $("ga").addEventListener("dblclick",()=>{ $("ga").value=50; $("ga").dispatchEvent(new Event("input")); });
 $("gpdf").onclick=()=>{ if(!needPiles()) return; download(base()+"_plan_A3.pdf",pdfOf([pdfA3(gOpts())]),false,"application/pdf"); };
@@ -1006,7 +1028,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") $("gm").hidden=tru
   const box=$("gsvg"); let drag=null;
   box.addEventListener("wheel",e=>{
     e.preventDefault(); if(!GV) return;
-    const r=box.getBoundingClientRect(), W=box.clientWidth, H=box.clientHeight, pl=plotRect(W,H);
+    const r=box.getBoundingClientRect(), W=box.clientWidth, H=box.clientHeight, pl=plotRect(W,H,headTop(W,H,gOpts(1)));
     const mx=e.clientX-r.left, my=e.clientY-r.top, cx=pl.x+pl.w/2, cy=pl.y+pl.h/2;
     const wy=GV.cy-(mx-cx)/GV.s, wx=GV.cx+(my-cy)/GV.s, f=e.deltaY<0?1.25:1/1.25;
     GV.s*=f; GV.cy=wy+(mx-cx)/GV.s; GV.cx=wx-(my-cy)/GV.s; gRender();

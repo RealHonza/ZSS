@@ -415,7 +415,8 @@ function evaluate(all,rmin,rmax,only,tol,r0user,devFrac,refs,rdist,refOnly,off,d
     for(let b=i+1;b<Math.min(n,i+W-1);b++) for(let c=b+1;c<Math.min(n,i+W);c++){
       const cc=circle3(cand[i],cand[b],cand[c]);
       if(!cc||cc.r<rmin||cc.r>rmax) continue;
-      if(refOnly && !nearRef(cc.y,cc.x)) continue;
+      const dpd=refs.length?nearest(cc.y,cc.x).d:Infinity;   // vzdálenost středu kružnice od nejbližšího bodu PD
+      if(refOnly && !(dpd<=rdist)) continue;
       const extAll=[];
       if(tp>0) for(let k=c+1;k<n&&Math.abs(Math.hypot(cand[k].y-cc.y,cand[k].x-cc.x)-cc.r)<=tp;k++) extAll.push(k);
       // zkusí se všechny varianty: jen trojice, trojice + 1 navazující bod … + všechny (první bod sousední piloty, který náhodou leží u kružnice, tak nemusí být přibrán)
@@ -424,13 +425,13 @@ function evaluate(all,rmin,rmax,only,tol,r0user,devFrac,refs,rdist,refOnly,off,d
       if(r0s){ const dev=devR(cc.r);
         if(dev>devFrac){   // poloměr mimo typické: (a) s dalším bodem na kružnici (4 a více bodů), nebo (b) s projektem: střed leží u bodu PD, body jsou rozložené a uvnitř nic není
           const okExt=ext.length&&cc.r>=0.5*rLo&&cc.r<=2*rHi&&spread(cc,mem)&&ins<=1;
-          const dpd=refs.length?nearest(cc.y,cc.x).d:Infinity;
-          const okPD=dpd<=rdist&&spread(cc,[i,b,c])&&ptsInside(cand,GG,GD,cc,[i,b,c])<=1;
+          const okPD=dpd<=Math.min(rdist,0.8*cc.r)&&spread(cc,[i,b,c])&&ptsInside(cand,GG,GD,cc,[i,b,c])<=1;
           if(!okExt&&!okPD) continue;
           q=okPD?Math.max(0.5,0.95-0.45*dpd/Math.max(rdist,1e-9)):0.5;
         } else q=1.5-dev/devFrac; }
+      if(refs.length&&dpd<=rdist) q+=0.8*(1-dpd/Math.max(rdist,1e-9));   // střed blízko bodu PD je věrohodnější než střed kdesi mezi piloty
       q-=0.3*(c-i-2);
-      q-=0.25*Math.min(4,Math.max(0,ins-1));   // trojice, jejíž kružnice zahrnuje cizí body (např. přes dvě sousední piloty), je méně věrohodná
+      q-=0.5*Math.min(4,Math.max(0,ins-1));   // trojice, jejíž kružnice zahrnuje cizí body (např. přes dvě sousední piloty), je méně věrohodná
       if(q<=0) continue;
       const v=q+0.5*ext.length+f[c+ext.length+1];
       if(v>f[i]+1e-12){ f[i]=v; ch[i]={idx:[i,b,c,...ext],cc}; }

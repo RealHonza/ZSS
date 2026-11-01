@@ -232,7 +232,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
   <button class="wi io" id="gbs" disabled aria-label="Plán v rozdělené obrazovce" title="Otevře plán v rozdělené obrazovce: nahoře tabulka, dole plán (každý zhruba polovinu výšky). Klik na řádek tabulky označí pilotu v plánu a klik na pilotu v plánu označí její řádek v tabulce."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3.5" width="18" height="17" rx="2" stroke-width="1.8"/><path d="M3 12h18" stroke-width="1.8"/><rect x="5.5" y="14.2" width="13" height="4" rx=".6" fill="currentColor" stroke="none" opacity=".55"/></svg></button>
 </div></div></div>
 <div id="legend" hidden>Šipka ukazuje směr od projektu (PD) ke skutečnosti, mapa je orientována severem nahoru. Odchylky do meze zeleně, nad mezí červeně. ΔY, ΔX = skutečnost − PD.</div>
-<div id="fbar"><label title="Filtr ovlivní jen zobrazení tabulky. Plán, exporty i zaškrtávátka „použít pilotu“ fungují beze změny se všemi pilotami.">Zobrazit v tabulce <select id="flt"><option value="all">všechny piloty</option><option value="in">jen v mezi odchylky od PD</option><option value="over">jen nad mezí odchylky od PD</option><option value="sus">jen podezřelé (body nad mezí od kružnice)</option><option value="inv">jen neplatné</option><option value="prob">jen problémové (nad mezí, podezřelé i neplatné)</option></select></label><span id="fcnt" aria-live="polite"></span></div>
+<div id="fbar"><label title="Filtr pilot: určuje, které piloty se zobrazí v tabulce, v plánu (včetně PDF a DXF) a které se uloží do všech exportů (STX, CSV, kopírování). Zaškrtávátka „použít pilotu“ a ruční výběr bodů fungují dál, odškrtnuté piloty se nepoužijí nikdy.">Filtr pilot <select id="flt"><option value="all">všechny piloty</option><option value="in">jen v mezi odchylky od PD</option><option value="over">jen nad mezí odchylky od PD</option><option value="sus">jen podezřelé (body nad mezí od kružnice)</option><option value="inv">jen neplatné</option><option value="prob">jen problémové (nad mezí, podezřelé i neplatné)</option></select></label><span id="fcnt" aria-live="polite"></span></div>
 <div class="tw" id="tw"><table><thead><tr>
 <th><input type="checkbox" id="usall" checked title="Zaškrtnout / odškrtnout všechny piloty najednou. Odškrtnutá pilota zůstane v tabulce zašedlá, ale nebude v plánu, PDF, DXF ani v uložených souborech."> #</th><th title="Název piloty: číslo nejbližšího bodu projektu, bez projektu S001, S002 … Zelený do meze odchylky od projektu, červený nad ní.">Střed ZSS</th><th title="Počet bodů, ze kterých je střed piloty vypočten (ručně vypnuté body se nepočítají).">Bodů</th><th title="Čísla bodů použitých pro výpočet středu. Šipka ▸ před seznamem rozbalí body piloty, kde lze jednotlivé body odškrtnout a vyřadit z výpočtu.">Použité body</th><th class="r" title="Vypočtená souřadnice Y středu piloty [m].">Y</th><th class="r" title="Vypočtená souřadnice X středu piloty [m].">X</th><th class="r" title="Výška Z středu piloty [m]: průměr Z použitých bodů.">Z</th><th class="r" title="Průměr piloty [m] = 2 × poloměr.">Průměr</th><th class="r" title="Průměr piloty zaokrouhlený [mm]: menší piloty po menším kroku, větší piloty po větším (přesné hranice jsou v popisu aplikace).">Ø zaokr.</th><th class="r" title="Nejhorší bod piloty [mm]: největší vzdálenost použitého bodu od vypočtené kružnice. Červeně nad nastavenou mezí. „–“ = pilota je určena jen třemi body (nebo je střed zaměřen přímo), takže kružnice jimi projde vždy přesně a kontrola není možná.">max.Δ</th><th title="Číslo projektovaného bodu (PD), ke kterému byla pilota přiřazena. Jen s načteným projektovaným SS.">Bod PD</th><th title="Vzdálenost vypočteného středu od projektovaného středu [mm] se šipkou směru od projektu ke skutečnosti. Zeleně v toleranci, červeně nad ní.">Odchylka od PD</th><th class="r" title="Rozdíl souřadnic Y: skutečnost − projekt [mm].">ΔY [mm]</th><th class="r" title="Rozdíl souřadnic X: skutečnost − projekt [mm].">ΔX [mm]</th><th title="Upozornění k pilotě, např. ručně vypnuté body, vyřazené body, sloučené měření nebo důvod, proč je pilota neplatná.">Poznámka</th>
 </tr></thead><tbody id="tb"></tbody></table></div>
@@ -278,7 +278,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
 <li>Když žádný bod projektu nemá v dosahu měření, zobrazí se nahoře červené varování (záměna Y a X, opačné znaménko, jiný souřadnicový systém).</li></ul>
 <h3>4. Výstupy</h3>
 <p>Stavový řádek pod tabulkou shrnuje výsledek: počet pilot, kolik jich je nad mezí od projektu a kolik je podezřelých. Nad ním je souhrn odchylek od projektu: počet pilot do meze, nad mezí a nad 150 % meze (nulový počet není zvýrazněn červeně), největší odchylka s názvem piloty a průměrná odchylka; počítá se z pilot, které jdou do plánu a exportů. Varování jsou pod ním zvlášť (červeně důležitá, oranžově informativní). Podrobný log je pod tabulkou sbalený, otevře ho odkaz „zobrazit log“.</p>
-<ul><li><b>Tabulka</b> s polohami, průměry a zaokrouhleným průměrem (do Ø 400 mm včetně po 50 mm, větší piloty po 100 mm) a odchylkami od projektu. Kliknutím na záhlaví sloupce ji seřadíš (podruhé sestupně, potřetí zpět do původního pořadí; prázdné hodnoty jsou vždy na konci). Filtr nad tabulkou zobrazí jen piloty nad mezí odchylky od PD, podezřelé (body nad mezí od kružnice), neplatné nebo všechny problémové dohromady; ovlivní jen zobrazení tabulky, ne plán a exporty. Šipku ▸ i záhlaví sloupců lze ovládat klávesnicí (Tab, Enter, mezerník).</li>
+<ul><li><b>Tabulka</b> s polohami, průměry a zaokrouhleným průměrem (do Ø 400 mm včetně po 50 mm, větší piloty po 100 mm) a odchylkami od projektu. Kliknutím na záhlaví sloupce ji seřadíš (podruhé sestupně, potřetí zpět do původního pořadí; prázdné hodnoty jsou vždy na konci). „Filtr pilot“ nad tabulkou omezí piloty na ty v mezi odchylky od PD, nad mezí, podezřelé (body nad mezí od kružnice), neplatné nebo všechny problémové dohromady; platí pro tabulku, plán (i PDF a DXF) a všechny exporty (STX, CSV, kopírování). Body PD, ke kterým patří pilota skrytá filtrem, se v plánu nekreslí ani jako „PD bez piloty“. Šipku ▸ i záhlaví sloupců lze ovládat klávesnicí (Tab, Enter, mezerník).</li>
 <li><b>STX</b> (uložení středů): název, Y, X, Z, kód PIL (mezera nebo středník v názvu se při uložení nahradí podtržítkem).<b>CSV</b> (uložení tabulky): podrobná tabulka pro Excel. <b>Kopírovat do schránky</b>.</li>
 <li><b>Plán</b> (JTSK: Y doleva, X dolů): kruhy pilot (odhad piloty: kruh se zaokrouhleným průměrem a středem v bodě projektu, bez projektu ve vypočteném středu), křížky × (tmavé projekt, modré vypočtený střed, fialové měřené body), šipky odchylek s hodnotou v mm. Přibližování kolečkem, posun tažením, bublina s údaji o pilotě při najetí myší (název, průměr, počet bodů, odchylka od PD), posuvníky velikosti písma a šipek 25–250 % (hodnotu lze i napsat číslem vedle posuvníku), volitelné zobrazení odhadu piloty (modrý kruh), měřené kružnice (fialová čárkovaná, vypočtený střed a poloměr; výchozí vypnuto), měřených bodů (volba žádné / použité / všechny; „všechny“ zobrazí i body, které nepatří k žádné kružnici ani středu, oranžově; výchozí „použité“), jejich popisu (čísla bodů, výchozí vypnuto; je dostupný jen při zobrazených měřených bodech), bodů PD bez piloty (šedé křížky s názvem, výchozí zapnuto), průměrů pilot (Ø v mm uvnitř kruhu, výchozí vypnuto) a hlavičky (výchozí vypnuto) a legendy (všechny volby platí i pro PDF a DXF: co je vypnuté, v DXF nebude). První ikona vlevo od těchto voleb je zaškrtne nebo odškrtne všechny najednou, druhá (šipka dokola) je vrátí na výchozí hodnoty (velikost písma a šipek zůstane). Pod rámem je legenda s barevnými značkami (zobrazují se jen použité prvky, platí i pro PDF; vypíná ji volba „Legenda“). V rámu dole je půlená měřítková lišta přes šířku plánu: nula vpravo, vlevo celá délka (např. 80 m), další značky po půlení (40, 20, 10 m …); délka se mění s přiblížením.</li>
 <li><b>Rozdělená obrazovka</b>: tlačítko s ikonou rozdělené obrazovky vedle „Zobrazit plán“ (stejné je i v panelu plánu) přepíná dokola tři stavy: jen tabulka, rozdělená obrazovka (nahoře tabulka, dole plán, každé zhruba polovina výšky) a plán na celou obrazovku. V obou režimech s plánem klik na řádek tabulky označí pilotu oranžovým kroužkem v plánu (leží-li mimo střed výřezu, plán se na ni vycentruje) a klik na pilotu v plánu podbarví její řádek v tabulce a tabulka se k němu přesune; klik do prázdného místa plánu výběr zruší. Označení se nekreslí do PDF ani DXF. Šipky nahoru a dolů posouvají označení po řádcích tabulky (v zobrazeném pořadí a filtru) a plán na pilotu přejde. Poměr tabulky a plánu lze v rozdělené obrazovce měnit myší: tažením za proužek na horním okraji plánu od 20 : 80 do 80 : 20 (dvojklik vrátí 50 : 50, nastavení se pamatuje). Plán zavře Esc nebo křížek.</li>
@@ -784,12 +784,18 @@ const skipClear=()=>{ skip.clear(); skipSig.clear(); };
 function needPiles(){
   if(!points.length){ alert("Nejdřív načti soubor s měřením."); return false; }
   if(!piles.length){
-    alert(allRows.some(p=>!p.invalid)
+    alert($("flt").value!=="all"&&allRows.some(p=>!p.invalid&&!skip.has(p.first))
+      ? "Zvolenému filtru pilot nevyhovuje žádná použitá pilota, není co zobrazit ani uložit. Změň „Filtr pilot“ nad tabulkou."
+      : allRows.some(p=>!p.invalid)
       ? "Všechny piloty jsou odškrtnuté (nepoužité), není co zobrazit ani uložit. Zaškrtni aspoň jednu pilotu v tabulce nebo klikni na „Zrušit ruční výběr“."
       : "V měření se nenašla žádná použitelná pilota. Zkontroluj parametry (průměr, kódy ZSS / PIL, projektovaný SS) a log pod tabulkou.");
     return false; }
   return true;
 }
+const fltPass=(p,fv,lim,rlim)=>{   // filtr pilot (tabulka, plán i exporty)
+  const ov=!p.invalid&&!!p.ref&&p.rd*1000>lim, inn=!p.invalid&&!!p.ref&&p.rd*1000<=lim, sus=!p.invalid&&rlim>0&&p.n>3&&mmv(p.dev)>rlim;
+  return fv==="in"?inn:fv==="over"?ov:fv==="sus"?sus:fv==="inv"?!!p.invalid:fv==="prob"?(!!p.invalid||ov||sus):true; };
+let fltRefs=new Set();   // body PD pilot, které filtr skryl (nekreslí se jako „PD bez piloty“)
 function recalc(extra=""){
   clearTimeout(rcTimer);
   // Všechna číselná pole se kontrolují vždy (i bez načteného měření): číslo mimo rozsah i prázdné či nečitelné pole se přepíše na nejbližší platnou hodnotu (minimum nebo maximum).
@@ -820,7 +826,8 @@ function recalc(extra=""){
   if(!points.length) return;
   const rmin=dmin/2, rmax=dmax/2;
   const r=evaluate(points,rmin,rmax,$("only").checked,tol,r0list.map(v=>v/2),dvv/100,refs,rdist,$("ronly").checked&&refs.length>0,off,ddist,$("oo").checked);
-  piles=r.out.filter(p=>!skip.has(p.first)); allRows=r.all;
+  const fv=$("flt").value; fltRefs=new Set();
+  piles=r.out.filter(p=>{ if(skip.has(p.first)) return false; if(fltPass(p,fv,limv,rlimv)) return true; if(p.ref) fltRefs.add(p.ref); return false; }); allRows=r.all;   // filtr pilot platí i pro plán a exporty
   // do „všech měřených bodů“ patří i body odškrtnutých pilot
   unusedPts=(r.unusedPts||[]).concat(r.out.filter(p=>skip.has(p.first)).flatMap(p=>(p.pts||[]).concat(p.offPts||[]))); lastExtra=extra; lastWarn=r.warn||"";
   {  // odškrtnuté piloty a ručně vypnuté body jsou vázané na body měření; po změně parametrů se piloty mohou přeskupit
@@ -837,6 +844,7 @@ function recalc(extra=""){
   }
   $("log").textContent=parseLog.concat(refLog,r.log).join("\n");
   renderTable();
+  if(!$("gm").hidden){ if(piles.length) gRender(); else $("gsvg").innerHTML='<div style="padding:20px;color:var(--mut)">Žádná pilota nevyhovuje filtru ani ručnímu výběru, není co zobrazit.</div>'; }   // otevřený plán se překreslí podle filtru a výběru
 }
 function devCell(p,rlim){
   if(p.n<=3) return `<td class="n" title="${p.direct?"Střed zaměřen přímo – bez kontroly kružnicí.":"Jen tři body: kružnice jimi projde vždy přesně, kontrola není možná."}">–</td>`;
@@ -865,14 +873,14 @@ function renderTable(){
   // poloha fokusu v tabulce (po překreslení se vrátí, aby šlo ovládat klávesnicí)
   const ae=document.activeElement; let fk=null;
   if(ae&&$("tb").contains(ae)){ for(const t of ["use","pt","chev"]) if(ae.dataset&&ae.dataset[t]!==undefined){ fk=[t,ae.dataset[t]]; break; } }
-  // filtr a řazení ovlivní jen zobrazení tabulky (číslo # zůstává původní)
+  // filtr pilot platí pro tabulku, plán i exporty; řazení jen pro tabulku (číslo # zůstává původní)
   const fv=$("flt").value, isOver=p=>!p.invalid&&p.ref&&p.rd*1000>lim, isIn=p=>!p.invalid&&p.ref&&p.rd*1000<=lim, isSus=p=>!p.invalid&&rlim>0&&p.n>3&&mmv(p.dev)>rlim;
   const view=allRows.map((p,k)=>({p,no:k+1}));
-  const vw=view.filter(({p})=>fv==="in"?isIn(p):fv==="over"?isOver(p):fv==="sus"?isSus(p):fv==="inv"?!!p.invalid:fv==="prob"?(!!p.invalid||isOver(p)||isSus(p)):true);
+  const vw=view.filter(({p})=>fltPass(p,fv,lim,rlim));
   const FP={all:()=>true,in:isIn,over:isOver,sus:isSus,inv:p=>!!p.invalid,prob:p=>!!p.invalid||isOver(p)||isSus(p)};   // počty pilot v závorce u voleb filtru
   for(const o of $("flt").options){ if(o.dataset.l===undefined) o.dataset.l=o.textContent; o.textContent=`${o.dataset.l} (${view.filter(({p})=>FP[o.value](p)).length})`; }
   if(sortCol!==null&&SORTS[sortCol]){ const g=SORTS[sortCol]; vw.sort((a,b)=>cmpVals(g(a.p,a.no),g(b.p,b.no))||(a.no-b.no)); }
-  $("fcnt").textContent=fv==="all"?"":`Zobrazeno ${vw.length} z ${view.length} pilot`;
+  $("fcnt").textContent=fv==="all"?"":`Zobrazeno ${vw.length} z ${view.length} pilot (filtr platí i pro plán a exporty)`;
   document.querySelectorAll("#tw thead th").forEach((th,i)=>{ const b=th.querySelector("button.sb"); if(!b) return; const on=sortCol===i;
     th.setAttribute("aria-sort",on?(sortDir===1?"ascending":"descending"):"none"); b.querySelector(".si").textContent=on?(sortDir===1?"▲":"▼"):""; });
   if(view.length&&!vw.length) rows.push('<tr><td colspan="15" style="color:var(--mut)">Žádná pilota nevyhovuje zvolenému filtru.</td></tr>');
@@ -920,7 +928,9 @@ const EXP=["sstx","scsv","sdxf","cp","gb","gbs"];
 EXP.forEach(id=>{ $(id).dataset.t=$(id).title; });
 function syncExp(){
   const ok=piles.length>0;
-  const why=!points.length?"Nejdřív načti soubor s měřením.":(allRows.some(p=>!p.invalid)
+  const why=!points.length?"Nejdřív načti soubor s měřením.":($("flt").value!=="all"&&allRows.some(p=>!p.invalid&&!skip.has(p.first))
+    ? "Není co zobrazit ani uložit: zvolenému filtru pilot nevyhovuje žádná použitá pilota. Změň „Filtr pilot“ nad tabulkou."
+    : allRows.some(p=>!p.invalid)
     ? "Není co zobrazit ani uložit: všechny piloty jsou odškrtnuté (nepoužité). Zaškrtni aspoň jednu pilotu v tabulce nebo klikni na „Zrušit ruční výběr“."
     : "Není co zobrazit ani uložit: v měření se nenašla žádná použitelná pilota. Zkontroluj parametry (průměr, kódy ZSS / PIL, projektovaný SS) a log.");
   const gbb=$("gb"), wasOff=gbb.disabled;
@@ -974,7 +984,7 @@ $("tw").querySelector("thead").addEventListener("click",e=>{
   if(typeof saveSet==="function") saveSet();
   renderTable();
 });
-$("flt").addEventListener("change",()=>renderTable());
+$("flt").addEventListener("change",()=>{ if(points.length) recalc(lastExtra); else renderTable(); });
 function clearMeasurement(){ if(!RESTORING) clearView();   // úplné odebrání měření: data, odškrtnutí, tabulka, log i stavy
   try{ localStorage.removeItem(FK_M); }catch(e){}
   points=[]; piles=[]; unusedPts=[]; allRows=[]; lastExtra=""; lastWarn=""; lastInfo=""; parseLog=[]; fname="";
@@ -1155,7 +1165,7 @@ function gBounds(gl,o){
   const add=(y,x,r)=>{ b[0]=Math.min(b[0],y-r); b[1]=Math.max(b[1],y+r); b[2]=Math.min(b[2],x-r); b[3]=Math.max(b[3],x+r); };
   piles.forEach(p=>{ add(p.y,p.x,0); if(p.ref) add(p.ref.y,p.ref.x,p.d/2); else add(p.y,p.x,p.d/2); (p.pts||[]).forEach(q=>add(q.y,q.x,0)); });
   // body PD bez piloty (šedé křížky s názvem) se kreslí také, proto patří do rozsahu výkresu
-  if(refs.length&&(!o||o.nop!==false)){ const matched=new Set(piles.map(p=>p.ref).filter(Boolean)); refs.forEach(r=>{ if(!matched.has(r)) add(r.y,r.x,0); }); }
+  if(refs.length&&(!o||o.nop!==false)){ const matched=new Set(piles.map(p=>p.ref).filter(Boolean)); refs.forEach(r=>{ if(!matched.has(r)&&!fltRefs.has(r)) add(r.y,r.x,0); }); }
   if(o&&o.allp) unusedPts.forEach(q=>add(q.y,q.x,0));
   return b;
 }
@@ -1204,7 +1214,7 @@ function buildScene(W,H,v,o){
   // body PD, ke kterým nebyla nalezena pilota (jen název)
   if(refs.length&&o.nop!==false){
     const matched=new Set(piles.map(p=>p.ref).filter(Boolean)), sz=12*fs;
-    refs.forEach(r=>{ if(matched.has(r)) return; const px=SX(r.y), py=SY(r.x);
+    refs.forEach(r=>{ if(matched.has(r)||fltRefs.has(r)) return; const px=SX(r.y), py=SY(r.x);
       if(!near(px,py,30)) return;
       it.push({t:"line",x1:px-cd,y1:py-cd,x2:px+cd,y2:py+cd,c:GC.gray,sw:1.2*fs,k:"nopile"});
       it.push({t:"line",x1:px-cd,y1:py+cd,x2:px+cd,y2:py-cd,c:GC.gray,sw:1.2*fs,k:"nopile"});
@@ -1371,7 +1381,7 @@ function buildScene(W,H,v,o){
     const LG=[];
     if(o.circ!==false) LG.push([refs.length?"Odhad piloty (střed dle PD)":"Odhad piloty (střed vypočtený)",(cx,cy)=>fr.push({t:"circ",x:cx,y:cy,r:6*ls,c:GC.pile,sw:1.5*ls})]);
     if(refs.length) LG.push(["Bod PD (projekt)",(cx,cy)=>cross(cx,cy,GC.ref)]);
-    if(refs.length&&o.nop!==false&&refs.some(r=>!piles.some(p=>p.ref===r))) LG.push(["Bod PD bez piloty",(cx,cy)=>cross(cx,cy,GC.gray)]);
+    if(refs.length&&o.nop!==false&&refs.some(r=>!fltRefs.has(r)&&!piles.some(p=>p.ref===r))) LG.push(["Bod PD bez piloty",(cx,cy)=>cross(cx,cy,GC.gray)]);
     if(o.ctr!==false) LG.push(["Vypočtený střed",(cx,cy)=>cross(cx,cy,GC.pile)]);
     if(o.pts||o.allp) LG.push(["Měřený bod",(cx,cy)=>cross(cx,cy,GC.pt)]);
     if((o.pts||o.allp)&&piles.some(p=>p.offPts&&p.offPts.length)) LG.push(["Vypnutý bod",(cx,cy)=>{ cross(cx,cy,GC.off); fr.push({t:"circ",x:cx,y:cy,r:6*ls,c:GC.off,sw:1*ls}); }]);

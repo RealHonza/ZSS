@@ -20,7 +20,6 @@ h1{font-size:18px;margin:0 0 10px;display:flex;flex-wrap:nowrap;align-items:stre
 #hsp #rall{color:var(--ac);display:inline-flex;align-items:center;justify-content:center}
 @media (max-width:560px){#hlb{width:auto;padding:8px 12px}h1{flex-wrap:wrap}#htl{flex:1 1 100%}#hbt{flex:1 1 100%;padding:0 12px 8px}#hsp{flex:1}}
 #hsp #rall:hover{color:var(--red);background:color-mix(in srgb,var(--red) 12%,var(--card))}
-input[type=number]{width:75px}
 .row{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:10px 0}
 .xzone{display:flex;align-items:stretch;margin:10px 0;border:1px solid color-mix(in srgb,var(--ac) 28%,var(--bd));border-radius:12px;overflow:hidden;background:color-mix(in srgb,var(--ac) 5%,var(--bg))}   /* decentní rámeček kolem exportních tlačítek (nižší než zóny 1. a 2.) */
 .xzl{width:128px;flex:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 8px;background:color-mix(in srgb,var(--ac) 16%,var(--bg));color:var(--ac);font-size:12.5px;letter-spacing:.05em;text-align:center}
@@ -165,7 +164,7 @@ table{border-collapse:collapse;width:100%}
 th,td{padding:4px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}
 th{position:sticky;top:0;background:var(--card);text-align:left}
 td.n{text-align:right;font-variant-numeric:tabular-nums}
-td.heat{background:color-mix(in srgb,var(--hc) var(--hp),transparent)}
+td.heat{background:color-mix(in srgb,var(--red) 22%,transparent)}
 .author{margin:14px 0 0;font-size:11px;color:var(--mut)}
 pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:8px;max-height:200px;overflow:auto;white-space:pre-wrap;color:var(--mut);font-size:12px}
 </style>
@@ -188,9 +187,9 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
     <div class="zs" id="refst">Přetáhni sem soubor projektovaného STX (název bodu, Y, X, [Z], [kód]).</div>
     <div class="zopt">
       <label title="Zapnuto: vzniknou jen středy pilot, které leží do zadané vzdálenosti od některého projektovaného středu; ostatní kružnice se ignorují. Vypnuto: vyhodnotí se všechny nalezené piloty. Volba je dostupná až po načtení projektovaného SS."><input type="checkbox" id="ronly" checked disabled> Vyhodnotit středy jen dle PD</label>
-      <label title="Největší vzdálenost vypočteného středu od projektovaného středu, při které se pilota ještě přiřadí k bodu projektu (a tím dostane jeho název a odchylku). Na jeden bod PD připadne nejvýš jedna pilota."> do vzdálenosti [m] <input type="number" id="rdist" value="0.3" step="0.05" min="0"></label>
-      <label title="Největší vzdálenost, ve které se nepoužitý bod ZSS/PIL přijme jako střed piloty zaměřený přímo (když se z bodů kolem nenašla kružnice). Brání tomu, aby se bod na plášti piloty považoval za střed. Nikdy není větší než „do vzdálenosti“. 0 = přímé středy vypnuty."> Přímý střed do [m] <input type="number" id="ddist" value="0.2" step="0.05" min="0"></label>
-      <label title="Tolerance odchylky od projektu v milimetrech. Odchylka do této tolerance vyhovuje (v tabulce, plánu i DXF zeleně), větší nevyhovuje (červeně)."> Mez odchylky od projektu [mm] <input type="number" id="lim" value="100" step="10" min="0"></label>
+      <label title="Největší vzdálenost vypočteného středu od projektovaného středu, při které se pilota ještě přiřadí k bodu projektu (a tím dostane jeho název a odchylku). Na jeden bod PD připadne nejvýš jedna pilota. Povoleno 0,01 až 1 m: menší nebo větší hodnota se přepíše na minimum nebo maximum."> do vzdálenosti [m] <input type="number" id="rdist" value="0.3" step="0.05" min="0.01" max="1"></label>
+      <label title="Největší vzdálenost, ve které se nepoužitý bod ZSS/PIL přijme jako střed piloty zaměřený přímo (když se z bodů kolem nenašla kružnice). Brání tomu, aby se bod na plášti piloty považoval za střed. Nikdy není větší než „do vzdálenosti“. 0 = přímé středy vypnuty. Povoleno 0 až „do vzdálenosti“: menší nebo větší hodnota se přepíše na minimum nebo maximum."> Přímý střed do [m] <input type="number" id="ddist" value="0.2" step="0.05" min="0" max="1"></label>
+      <label title="Tolerance odchylky od projektu v milimetrech. Odchylka do této tolerance vyhovuje (v tabulce, plánu i DXF zeleně), větší nevyhovuje (červeně). Povoleno 1 až 9999 mm: menší nebo větší hodnota se přepíše na minimum nebo maximum."> Mez odchylky od projektu [mm] <input type="number" id="lim" value="100" step="10" min="1" max="9999"></label>
     </div>
   </div>
   <div class="zb"><button id="br" title="Vybereš soubor s projektovanými středy pilot (sloupce: 1. název bodu, 2. Y, 3. X, 4. Z – volitelné, 5. kód – volitelný). Alternativa k přetažení do modrého okna.">Načíst projektovaný SS</button><button id="rclr" hidden title="Odebere projektovaný SS. Tabulka se přepočítá bez odchylek od projektu a piloty dostanou názvy S001, S002 …">Zrušit projektovaný SS</button><input type="file" id="fr" accept=".stx,.txt,.csv" hidden></div>
@@ -202,7 +201,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
       <div class="fld"><label title="Nejmenší průměr kružnice, který se ještě může považovat za pilotu. Kružnice z tří bodů s menším průměrem se zahodí.">Min [m] <input type="number" id="rmin" value="0.25" step="0.01" min="0.01" max="9.999"></label></div>
       <div class="fld"><label title="Největší průměr kružnice, který se ještě může považovat za pilotu. Kružnice s větším průměrem (např. z bodů, které k sobě nepatří) se zahodí.">Max [m] <input type="number" id="rmax" value="1.5" step="0.01" min="0.01" max="9.999"></label></div>
       </div><p class="gh">Kružnice s průměrem mimo rozsah min–max se zahodí.</p></div>
-      <div class="fld"><label title="Průměr, který mají piloty v souboru zhruba mít. Prázdné = program ho odhadne z dat (i více různých průměrů). Lze zadat i víc průměrů oddělených středníkem, např. 0,6; 0,9; 1,2.">Typický [m] <input type="text" inputmode="decimal" id="r0" style="width:110px" placeholder="auto"></label><small class="hp">prázdné = odhad z dat; více průměrů odděl středníkem (0,6; 0,9)</small></div>
+      <div class="fld"><label title="Průměr, který mají piloty v souboru zhruba mít. Prázdné = program ho odhadne z dat (i více různých průměrů). Hodnoty mimo rozsah Min–Max se přepíšou na nejbližší mez. Lze zadat i víc průměrů oddělených středníkem, např. 0,6; 0,9; 1,2.">Typický [m] <input type="text" inputmode="decimal" id="r0" style="width:110px" placeholder="auto"></label><small class="hp">prázdné = odhad z dat; více průměrů odděl středníkem (0,6; 0,9)</small></div>
     </div>
   </fieldset>
   <fieldset class="pg"><legend>Body a kontrola</legend>
@@ -213,9 +212,9 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
   </fieldset>
   <details class="pg adv" id="adv"><summary>Pokročilé hledání</summary>
     <div class="pf">
-      <div class="fld"><label title="Největší povolená vzdálenost použitého bodu od vypočtené kružnice. Pilotu, jejíž nejhorší bod leží dál, se v tabulce označí červeně jako podezřelá (bod je třeba zkontrolovat nebo vyřadit). Piloty určené třemi body nelze takto ověřit. 0 = kontrola vypnuta.">Bod od kružnice – červeně nad [mm] <input type="number" id="rlim" value="50" step="5" min="0"></label><small class="hp">0 = kontrola vypnuta</small></div>
-      <div class="fld"><label title="O kolik procent se smí průměr piloty lišit od typického průměru (zadaného nebo odhadnutého z dat). Trojice bodů s průměrem mimo toto rozmezí se nepovažuje za pilotu. 0 = kontrola vypnuta, platí jen rozsah průměru min–max.">Odchylka průměru od typického [%] <input type="number" id="dv" value="40" step="5" min="0"></label><small class="hp">0 = kontrola vypnuta, platí jen min–max</small></div>
-      <div class="fld"><label title="Jak daleko od kružnice smí ležet další bod, aby se ještě přidal k pilotě. 0 = jen 3 body.">Tolerance bodů na kružnici [m] <input type="number" id="tol" value="0.05" step="0.005" min="0"></label><small class="hp">0 = jen 3 body</small></div>
+      <div class="fld"><label title="Největší povolená vzdálenost použitého bodu od vypočtené kružnice. Pilotu, jejíž nejhorší bod leží dál, se v tabulce označí červeně jako podezřelá (bod je třeba zkontrolovat nebo vyřadit). Piloty určené třemi body nelze takto ověřit. 0 = kontrola vypnuta. Povoleno 0 až 9999 mm.">Bod od kružnice – červeně nad [mm] <input type="number" id="rlim" value="50" step="5" min="0" max="9999"></label><small class="hp">0 = kontrola vypnuta</small></div>
+      <div class="fld"><label title="O kolik procent se smí průměr piloty lišit od typického průměru (zadaného nebo odhadnutého z dat). Trojice bodů s průměrem mimo toto rozmezí se nepovažuje za pilotu. 0 = kontrola vypnuta, platí jen rozsah průměru min–max. Povoleno 0 až 100 %.">Odchylka průměru od typického [%] <input type="number" id="dv" value="40" step="5" min="0" max="100"></label><small class="hp">0 = kontrola vypnuta, platí jen min–max</small></div>
+      <div class="fld"><label title="Jak daleko od kružnice smí ležet další bod, aby se ještě přidal k pilotě. 0 = jen 3 body. Povoleno 0 až 1 m.">Tolerance bodů na kružnici [m] <input type="number" id="tol" value="0.05" step="0.005" min="0" max="1"></label><small class="hp">0 = jen 3 body</small></div>
       <div class="fld"><label title="Zapnuto: body, které zůstaly nepoužité, se nakonec zkusí poskládat do kružnic bez ohledu na jejich pořadí v souboru (např. 2 body a později další bod téže piloty). Přijme se jen kružnice s průměrem v povolené odchylce od typického (stejné nastavení jako u hlavního hledání), s body rozloženými po celé kružnici a (u „jen dle PD“) se středem u bodu projektu. Taková pilota má v poznámce „dopočteno mimo pořadí“."><input type="checkbox" id="oo" checked> Dopočítat body mimo pořadí</label><small class="hp">nepoužité body se zkusí poskládat do dalších kružnic</small></div>
     </div>
   </details>
@@ -232,7 +231,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
   <button class="wi" id="gb" disabled title="Otevře plán pilot na celé obrazovce: kruhy pilot, středy, měřené body a šipky odchylek. Z plánu lze také exportovat PDF a DXF."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2.5v19M16 2.5v19M2.5 8h19M2.5 16h19" stroke-width="1.4" stroke-opacity=".55"/><g fill="currentColor" stroke="none"><circle cx="8" cy="8" r="3.2"/><circle cx="16" cy="8" r="3.2"/><circle cx="8" cy="16" r="3.2"/><circle cx="16" cy="16" r="3.2"/></g><path class="kos" d="M6.8 6.8l2.4 2.4m0-2.4l-2.4 2.4M14.8 6.8l2.4 2.4m0-2.4l-2.4 2.4M6.8 14.8l2.4 2.4m0-2.4l-2.4 2.4M14.8 14.8l2.4 2.4m0-2.4l-2.4 2.4" stroke-width="1.1"/></svg>Plán</button>
   <button class="wi io" id="gbs" disabled aria-label="Plán v rozdělené obrazovce" title="Otevře plán v rozdělené obrazovce: nahoře tabulka, dole plán (každý zhruba polovinu výšky). Klik na řádek tabulky označí pilotu v plánu a klik na pilotu v plánu označí její řádek v tabulce."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3.5" width="18" height="17" rx="2" stroke-width="1.8"/><path d="M3 12h18" stroke-width="1.8"/><rect x="5.5" y="14.2" width="13" height="4" rx=".6" fill="currentColor" stroke="none" opacity=".55"/></svg></button>
 </div></div></div>
-<div id="legend">Šipka ukazuje směr od projektu (PD) ke skutečnosti, mapa je orientována severem nahoru. Odchylky do meze zeleně, nad mezí červeně. ΔY, ΔX = skutečnost − PD.</div>
+<div id="legend" hidden>Šipka ukazuje směr od projektu (PD) ke skutečnosti, mapa je orientována severem nahoru. Odchylky do meze zeleně, nad mezí červeně. ΔY, ΔX = skutečnost − PD.</div>
 <div id="fbar"><label title="Filtr ovlivní jen zobrazení tabulky. Plán, exporty i zaškrtávátka „použít pilotu“ fungují beze změny se všemi pilotami.">Zobrazit v tabulce <select id="flt"><option value="all">všechny piloty</option><option value="in">jen v mezi odchylky od PD</option><option value="over">jen nad mezí odchylky od PD</option><option value="sus">jen podezřelé (body nad mezí od kružnice)</option><option value="inv">jen neplatné</option><option value="prob">jen problémové (nad mezí, podezřelé i neplatné)</option></select></label><span id="fcnt" aria-live="polite"></span></div>
 <div class="tw" id="tw"><table><thead><tr>
 <th><input type="checkbox" id="usall" checked title="Zaškrtnout / odškrtnout všechny piloty najednou. Odškrtnutá pilota zůstane v tabulce zašedlá, ale nebude v plánu, PDF, DXF ani v uložených souborech."> #</th><th title="Název piloty: číslo nejbližšího bodu projektu, bez projektu S001, S002 … Zelený do meze odchylky od projektu, červený nad ní.">Střed ZSS</th><th title="Počet bodů, ze kterých je střed piloty vypočten (ručně vypnuté body se nepočítají).">Bodů</th><th title="Čísla bodů použitých pro výpočet středu. Šipka ▸ před seznamem rozbalí body piloty, kde lze jednotlivé body odškrtnout a vyřadit z výpočtu.">Použité body</th><th class="r" title="Vypočtená souřadnice Y středu piloty [m].">Y</th><th class="r" title="Vypočtená souřadnice X středu piloty [m].">X</th><th class="r" title="Výška Z středu piloty [m]: průměr Z použitých bodů.">Z</th><th class="r" title="Průměr piloty [m] = 2 × poloměr.">Průměr</th><th class="r" title="Průměr piloty zaokrouhlený [mm]: menší piloty po menším kroku, větší piloty po větším (přesné hranice jsou v popisu aplikace).">Ø zaokr.</th><th class="r" title="Nejhorší bod piloty [mm]: největší vzdálenost použitého bodu od vypočtené kružnice. Červeně nad nastavenou mezí. „–“ = pilota je určena jen třemi body (nebo je střed zaměřen přímo), takže kružnice jimi projde vždy přesně a kontrola není možná.">max.Δ</th><th title="Číslo projektovaného bodu (PD), ke kterému byla pilota přiřazena. Jen s načteným projektovaným SS.">Bod PD</th><th title="Vzdálenost vypočteného středu od projektovaného středu [mm] se šipkou směru od projektu ke skutečnosti. Zeleně v toleranci, červeně nad ní.">Odchylka od PD</th><th class="r" title="Rozdíl souřadnic Y: skutečnost − projekt [mm].">ΔY [mm]</th><th class="r" title="Rozdíl souřadnic X: skutečnost − projekt [mm].">ΔX [mm]</th><th title="Upozornění k pilotě, např. ručně vypnuté body, vyřazené body, sloučené měření nebo důvod, proč je pilota neplatná.">Poznámka</th>
@@ -257,7 +256,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
 <p>Vyhodnotí zaměření skutečného stavu (ZSS) vrtaných pilot: ze změřených bodů na plášti pilot vypočte středy kružnic, porovná je s projektem a vytvoří tabulku, plán (PDF a DXF) a soubory se středy.</p>
 <h3>1. Měření</h3>
 <ul><li>Soubor STX přetáhni do zeleného okna nebo ho načti tlačítkem; tlačítkem „Zrušit měřený SS“ ho zase odebereš (u projektu „Zrušit projektovaný SS“). Sloupce vždy v tomto pořadí: 1. název bodu, 2. Y, 3. X, 4. Z (povinné), 5. kód (volitelný). Souřadnice v metrech, JTSK i místní systém. Plán počítá s kladnými hodnotami Y a X (jako v běžné geodetické praxi: Y roste na západ, X na jih). U záporných souřadnic (EPSG:5514) je výkres otočený o 180° a popisky os „západ/jih“ neplatí.</li>
-<li>Povolené přípony souborů: STX, TXT, CSV. Oddělovač může být mezera, tabulátor nebo středník, desetinná tečka i čárka. Řádky s málo sloupci, nečíselnými souřadnicemi nebo bez Z se přeskočí, výpis je v logu pod tabulkou. Název bodu s mezerou je možný jen při oddělovači středník nebo tabulátor.</li>
+<li>Povolené přípony souborů: STX, TXT, CSV. Oddělovač může být mezera, tabulátor nebo středník, desetinná tečka i čárka. Pozor: čárka jako oddělovač sloupců společně s desetinnou čárkou je nejednoznačné (řádek „A,1,5,2,3“ se chápe jako 5 sloupců) – u desetinné čárky proto radši použij středník nebo mezeru. Řádky s málo sloupci, nečíselnými souřadnicemi nebo bez Z se přeskočí, výpis je v logu pod tabulkou. Název bodu s mezerou je možný jen při oddělovači středník nebo tabulátor.</li>
 <li>Použijí se body s kódem nebo s předponou názvu <b>ZSS</b>, <b>PIL</b> nebo <b>ZSSPIL</b> (lze vypnout). Ve skupině „Body a kontrola“ lze přidat až 8 vlastních kódů (písmena A–Z a číslice bez diakritiky, 1 až 8 znaků; Enter nebo tlačítko „Přidat“): body s takovým kódem nebo předponou názvu se použijí také. Devátý kód přepíše nejstarší vložený, kód odebereš křížkem. Vlastní kódy se pamatují v prohlížeči a „Výchozí hodnoty“ je smažou; při vypnuté volbě „Jen kódy …“ se nepoužívají (použijí se všechny body).</li></ul>
 <p>Tlačítka „Načíst měřený SS“ a „Načíst projektovaný SS“ jsou vybarvená, jen když je příslušný soubor načtený; tlačítka „Zobrazit plán“, ikona rozdělené obrazovky, ukládání a kopírování jsou zašedlé, dokud není co zobrazit nebo uložit (tooltip říká proč); po odemčení je „Zobrazit plán“ vybarvené do zelena a přes tlačítko jednou přejede světelný pruh, ikona rozdělené obrazovky je zelená, když je plán otevřený, a ukládání a kopírování mají jen obrys; „Výchozí hodnoty“ jsou zašedlé, když jsou všechny parametry na výchozích hodnotách (není co vracet), jinak mají jen obrys; ostatní tlačítka mají pouze obrys.</p>
 <h3>2. Hledání středů pilot</h3>
@@ -334,7 +333,8 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
 </div>
 <script>
 "use strict";
-const APP_VERSION="1.083", APP_DATE="1. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
+const APP_VERSION="1.093", APP_DATE="1. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
+const RD_MIN=0.01, RD_MAX=1;   // meze pole „do vzdálenosti“ [m]
 const R_MIN_IN=0.01, R_MAX_IN=9.999;   // nejmenší a největší průměr [m], který jde zadat (výpočet uvnitř pracuje s poloměrem = průměr / 2)
 const VALID = new Set(["ZSS","PIL","ZSSPIL"]);
 const customCodes=[], CC_MAX=8, CC_RE=/^[A-Z0-9]{1,8}$/;   // vlastní kódy bodů (nejvýš 8, každý 1–8 znaků A–Z, 0–9); devátý přepíše nejstarší
@@ -752,7 +752,7 @@ function evaluate(all,rmin,rmax,only,tol,r0user,devFrac,refs,rdist,refOnly,off,d
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 const mmv=v=>Math.round(v*1000);
 // odchylka od projektu: do meze včetně zeleně (text), nad mezí červeně (text); nad 150 % meze je červeně vybarvená i buňka
-function heat(v,l){ return (l>0&&isFinite(v)&&v>1.5*l) ? ` heat" style="--hc:var(--red);--hp:22%` : ""; }
+function heat(v,l){ return (l>0&&isFinite(v)&&v>1.5*l) ? " heat" : ""; }   // podbarvení buňky odchylky nad 150 % meze (barva a síla jsou přímo v CSS td.heat)
 function refCells(p,lim){
   if(!p.ref) return "<td>–</td>".repeat(4);
   const over=p.rd*1000>lim;
@@ -774,6 +774,7 @@ const SORTS={0:(p,no)=>no, 1:p=>p.invalid?null:p.name, 2:p=>p.n, 4:p=>p.invalid?
 function cmpVals(a,b){ if(a===null&&b===null) return 0; if(a===null) return 1; if(b===null) return -1;
   const c=(typeof a==="string"||typeof b==="string")?String(a).localeCompare(String(b),"cs",{numeric:true}):a-b; return c*sortDir; }
 const off=new Set(), skip=new Set(), expanded=new Set(), skipSig=new Map();   // off = vypnuté body, skip = pilotu nepoužít ve výstupech
+let diaNote="", lastDia="rmin";   // které pole průměru (rmin / rmax) uživatel naposledy upravil
 let rcTimer=0;   // čekající přepočet po psaní do číselného pole
 const sigOf=p=>p.mem.map(m=>m.key).join(",");   // složení piloty (včetně ručně vypnutých bodů)
 const skipAdd=k=>{ skip.add(k); const p=allRows.find(q=>q.first===k); if(p) skipSig.set(k,sigOf(p)); };
@@ -790,14 +791,34 @@ function needPiles(){
 }
 function recalc(extra=""){
   clearTimeout(rcTimer);
+  // Všechna číselná pole se kontrolují vždy (i bez načteného měření): číslo mimo rozsah i prázdné či nečitelné pole se přepíše na nejbližší platnou hodnotu (minimum nebo maximum).
+  const num=id=>parseFloat($(id).value.replace(",",".")), cl=(v,lo,hi)=>isNaN(v)?lo:Math.min(hi,Math.max(lo,v));
+  let dmin=cl(num("rmin"),R_MIN_IN,R_MAX_IN), dmax=isNaN(num("rmax"))?R_MAX_IN:cl(num("rmax"),R_MIN_IN,R_MAX_IN);
+  // Min musí být menší než Max: naposledy upravené pole zůstane, druhé se dopočte (Max = Min + 10 mm, Min = Max − 10 mm) v mezích 0,01–9,999 m
+  if(dmin>=dmax){
+    const r3=v=>Math.round(v*1000)/1000, fixMax=lastDia!=="rmax";
+    if(fixMax){ dmax=Math.min(R_MAX_IN,r3(dmin+0.01)); if(dmax<=dmin) dmin=r3(dmax-0.01); }
+    else { dmin=Math.max(R_MIN_IN,r3(dmax-0.01)); if(dmin>=dmax) dmax=Math.min(R_MAX_IN,r3(dmin+0.01)); }
+    const f3=v=>String(v).replace(".",",");
+    diaNote=`průměr upraven na Min ${f3(dmin)} m, Max ${f3(dmax)} m (Min musí být menší než Max)`;
+  }
+  if(diaNote) extra=(extra?extra+" · ":"")+diaNote;
+  const rdist=cl(num("rdist"),RD_MIN,RD_MAX);          // „do vzdálenosti“: 0,01–1 m
+  const ddist=cl(num("ddist"),0,rdist);                // „Přímý střed do“: 0 (vypnuto) až „do vzdálenosti“
+  const limv=cl(num("lim"),1,9999);                    // mez odchylky od projektu: 1–9999 mm
+  const rlimv=cl(num("rlim"),0,9999);                  // bod od kružnice: 0 (vypnuto) až 9999 mm
+  const dvv=cl(num("dv"),0,100);                       // odchylka průměru od typického: 0 (vypnuto) až 100 %
+  const tol=cl(num("tol"),0,1);                        // tolerance bodů na kružnici: 0 (jen 3 body) až 1 m
+  // typický průměr: každá hodnota v rozsahu Min–Max, nečitelné části se vypustí; prázdné pole = odhad z dat
+  let r0ch=false; const r0list=[];
+  $("r0").value.split(";").map(t=>t.trim()).filter(t=>t!=="").forEach(t=>{ const v=parseFloat(t.replace(",",".")); if(isNaN(v)){ r0ch=true; return; } const c=Math.min(dmax,Math.max(dmin,v)); if(c!==v) r0ch=true; r0list.push(c); });
+  let wr=false;
+  [["rmin",dmin],["rmax",dmax],["rdist",rdist],["ddist",ddist],["lim",limv],["rlim",rlimv],["dv",dvv],["tol",tol]].forEach(([id,v])=>{ if(num(id)!==v){ $(id).value=v; wr=true; } });
+  if(r0ch){ $("r0").value=r0list.map(v=>String(Math.round(v*1000)/1000).replace(".",",")).join("; "); wr=true; }
+  if(wr){ syncDef(); saveSet(); }
   if(!points.length) return;
-  // průměr se omezí na 0,01–9,999 m; hodnota v poli se opraví, jen pokud do něj uživatel právě nepíše (uvnitř se počítá s poloměrem = průměr / 2)
-  const clampR=id=>{ const v=parseFloat($(id).value.replace(",",".")); if(isNaN(v)) return v;
-    const c=Math.min(R_MAX_IN,Math.max(R_MIN_IN,v)); if(c!==v&&document.activeElement!==$(id)) $(id).value=c; return c; };
-  const dmin=clampR("rmin"), dmax=clampR("rmax"), tol=parseFloat($("tol").value)||0;
-  if(isNaN(dmin)||isNaN(dmax)){ alert("Neplatný průměr."); return; }
   const rmin=dmin/2, rmax=dmax/2;
-  const r=evaluate(points,rmin,rmax,$("only").checked,tol,$("r0").value.split(/[;]/).map(t=>(parseFloat(t.replace(",","."))||0)/2).filter(x=>x>0),(parseFloat($("dv").value.replace(",","."))||0)/100,refs,parseFloat($("rdist").value)||0.3,$("ronly").checked&&refs.length>0,off,(isFinite(parseFloat($("ddist").value))?Math.max(0,parseFloat($("ddist").value)):0.2),$("oo").checked);
+  const r=evaluate(points,rmin,rmax,$("only").checked,tol,r0list.map(v=>v/2),dvv/100,refs,rdist,$("ronly").checked&&refs.length>0,off,ddist,$("oo").checked);
   piles=r.out.filter(p=>!skip.has(p.first)); allRows=r.all;
   // do „všech měřených bodů“ patří i body odškrtnutých pilot
   unusedPts=(r.unusedPts||[]).concat(r.out.filter(p=>skip.has(p.first)).flatMap(p=>(p.pts||[]).concat(p.offPts||[]))); lastExtra=extra; lastWarn=r.warn||"";
@@ -879,6 +900,7 @@ function renderTable(){
   $("usall").checked=skipVis===0;
   const devBad=rlim>0?piles.filter(p=>p.n>3&&mmv(p.dev)>rlim).length:0;
   renderSum(lim);
+  $("legend").hidden=!piles.length;   // legenda k tabulce se zobrazí až s načtenými daty
   const refd=piles.filter(p=>!p.invalid&&p.ref).length, overPD=piles.filter(p=>!p.invalid&&p.ref&&p.rd*1000>lim).length;
   const logN=$("log").textContent?$("log").textContent.split("\n").length:0;
   const seg=[`${esc(fname)} – pilot: <b>${piles.length}</b>`];
@@ -1018,7 +1040,7 @@ $("cp").onclick=async()=>{ if(!needPiles()) return; const t=csvLines("\t");
   try{ await navigator.clipboard.writeText(t); }
   catch(e){ const ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); }
   flash("Zkopírováno do schránky (vlož do Excelu)."); };
-$("pdef").onclick=()=>{ ["rmin","rmax","tol","rlim","r0","dv","rdist","ddist","lim"].forEach(id=>{ $(id).value=$(id).defaultValue; }); ["only","oo","ronly","comma"].forEach(id=>{ $(id).checked=$(id).defaultChecked; }); customCodes.length=0; $("ccin").value=""; ccMsg(""); renderCC(); saveSet(); recalc(); };   // vše zpět na výchozí hodnoty z HTML
+$("pdef").onclick=()=>{ diaNote=""; ["rmin","rmax","tol","rlim","r0","dv","rdist","ddist","lim"].forEach(id=>{ $(id).value=$(id).defaultValue; }); ["only","oo","ronly","comma"].forEach(id=>{ $(id).checked=$(id).defaultChecked; }); customCodes.length=0; $("ccin").value=""; ccMsg(""); renderCC(); saveSet(); recalc(); };   // vše zpět na výchozí hodnoty z HTML
 // tlačítko „Výchozí hodnoty“ je vybarvené, když jsou všechny parametry na výchozích hodnotách (stejně jako ostatní vybarvená tlačítka = platný stav)
 const DEF_NUM=["rmin","rmax","tol","rlim","r0","dv","rdist","ddist","lim"], DEF_CHK=["only","oo","ronly","comma"];
 const sameNum=(a,b)=>{ const x=a.trim().replace(",","."), y=b.trim().replace(",","."); return x===y||(x!==""&&y!==""&&parseFloat(x)===parseFloat(y)); };
@@ -1051,6 +1073,13 @@ syncDef();
   clearTimeout(rcTimer);
   rcTimer=setTimeout(()=>{ if(isNaN(parseFloat($("rmin").value))||isNaN(parseFloat($("rmax").value))) return; recalc(); },1000);   // rozepsaná nebo prázdná hodnota se mlčky přeskočí
 }));
+// ostatní číselná pole: jdou do nich psát jen čísla (písmena ani „e“ ne); Min a Max průměru připouštějí i mínus (mimo rozsah se přepíšou), ostatní jen nezáporná čísla
+[["rmin",/[0-9.,-]/],["rmax",/[0-9.,-]/],["tol",/[0-9.,]/],["rlim",/[0-9.,]/],["dv",/[0-9.,]/],["gtn",/[0-9.,]/],["gan",/[0-9.,]/],["r0",/[0-9.,; ]/]].forEach(([id,re])=>$(id).addEventListener("keydown",e=>{ if(!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.key.length===1&&!re.test(e.key)) e.preventDefault(); }));
+$("r0").addEventListener("input",()=>{ const v=$("r0").value, c=v.replace(/[^0-9.,; ]/g,""); if(c!==v) $("r0").value=c; });   // vložený text se očistí od písmen
+$("ddist").addEventListener("keydown",e=>{ if(!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.key.length===1&&!/[0-9.,-]/.test(e.key)) e.preventDefault(); });   // jen čísla; mimo rozsah se hodnota přepíše po 1 s, po Enteru nebo po opuštění pole
+$("lim").addEventListener("keydown",e=>{ if(!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.key.length===1&&!/[0-9.,-]/.test(e.key)) e.preventDefault(); });   // jen čísla; mimo rozsah se hodnota přepíše po 1 s, po Enteru nebo po opuštění pole
+$("rdist").addEventListener("keydown",e=>{ if(!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.key.length===1&&!/[0-9.,-]/.test(e.key)) e.preventDefault(); });   // do pole „do vzdálenosti“ jdou psát jen čísla (i záporná), mimo rozsah se hodnota přepíše po 1 s, po Enteru nebo po opuštění pole
+["rmin","rmax"].forEach(id=>{ $(id).addEventListener("input",()=>{ lastDia=id; diaNote=""; }); $(id).addEventListener("focus",()=>{ lastDia=id; }); });
 // vlastní kódy bodů: nejvýš 8, každý 1–8 znaků A–Z a číslice (bez diakritiky); další kód přepíše nejstarší vložený
 function renderCC(){
   $("cclist").innerHTML=customCodes.map(c=>`<span class="cc">${esc(c)}<button type="button" data-cc="${esc(c)}" aria-label="Odebrat kód ${esc(c)}" title="Odebrat kód ${esc(c)} ze seznamu.">×</button></span>`).join("");

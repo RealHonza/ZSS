@@ -9,11 +9,21 @@
 @media (prefers-color-scheme:dark){:root{--bg:#14171c;--fg:#e6e8ec;--card:#1d2128;--bd:#343a45;--ac:#48bb78;--acfg:#0b2415;--mer:#48bb78;--merfg:#0b2415;--mert:#17261d;--pro:#6aa6ff;--profg:#0a1a33;--prot:#16202f;--grn:#4cc38a;--red:#ff6b5b;--mut:#9aa3b2;--wrn:#f5a524}}
 *{box-sizing:border-box}
 body{margin:0;padding:16px;background:var(--bg);color:var(--fg);font:14px/1.4 system-ui,Segoe UI,sans-serif}
-h1{font-size:18px;margin:0 0 10px;display:flex;flex-wrap:nowrap;align-items:flex-start;gap:6px 10px}
-#htl{flex:1;min-width:0}   /* nadpis s popisem a tlačítkem „i“ se zalamuje uvnitř sebe, Reset zůstává vpravo nahoře */
-#rall{flex:none;margin-left:auto;white-space:nowrap;font-size:14px;color:var(--red);border-color:var(--red)}#rall:hover{background:color-mix(in srgb,var(--red) 12%,var(--card))}
+h1{font-size:18px;margin:0 0 10px;display:flex;flex-wrap:nowrap;align-items:stretch;gap:0;padding:0;overflow:hidden;border:1px solid color-mix(in srgb,var(--ac) 28%,var(--bd));border-radius:12px;background:color-mix(in srgb,var(--ac) 5%,var(--bg))}   /* nadpis s Resetem v decentním rámečku jako zóny */
+#hlb{width:128px;flex:none;display:flex;align-items:center;justify-content:center;padding:8px;text-align:center;background:color-mix(in srgb,var(--ac) 16%,var(--bg));color:var(--ac)}   /* název v sytější části jako štítky zón */
+#htl{flex:1;min-width:0;align-self:center;padding:8px 12px}
+@media (max-width:560px){#hlb{width:auto;padding:8px 12px}}   /* nadpis s popisem a tlačítkem „i“ se zalamuje uvnitř sebe, Reset zůstává vpravo nahoře */
+#rall{flex:none;margin:0 12px 0 auto;align-self:center;white-space:nowrap;font-size:14px;color:var(--red);border-color:var(--red)}#rall:hover{background:color-mix(in srgb,var(--red) 12%,var(--card))}
 input[type=number]{width:75px}
 .row{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:10px 0}
+.xzone{display:flex;align-items:stretch;margin:10px 0;border:1px solid color-mix(in srgb,var(--ac) 28%,var(--bd));border-radius:12px;overflow:hidden;background:color-mix(in srgb,var(--ac) 5%,var(--bg))}   /* decentní rámeček kolem exportních tlačítek (nižší než zóny 1. a 2.) */
+.xzl{width:128px;flex:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 8px;background:color-mix(in srgb,var(--ac) 16%,var(--bg));color:var(--ac);font-size:12.5px;letter-spacing:.05em;text-align:center}
+.xzl.col{flex-direction:column;gap:5px}.xzl.col .ic{width:34px;height:34px;stroke-width:1.8}   /* ikona nad textem jako u zón 1 a 2 */
+.xzm{flex:1;min-width:0;display:flex;align-items:flex-start;gap:10px;padding:8px 12px}
+.xzm>.params{flex:1;min-width:0;margin:0}
+@media (max-width:560px){.xzone{flex-direction:column}.xzl{width:auto}}
+#xl{flex:1;min-width:0;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}   /* export, CSV a výběr se na úzkém displeji zalamují */
+#xr{flex:none;display:flex;flex-wrap:nowrap;gap:8px;align-items:center;margin-left:auto}#xr button{white-space:nowrap}   /* Zobrazit plán a rozdělená obrazovka: vpravo, nezalamují se */
 label{display:inline-flex;gap:4px;align-items:center}
 input[type=number]{width:70px;padding:3px;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:4px}
 button{padding:6px 12px;border:1px solid var(--ac);background:var(--card);color:var(--ac);border-radius:6px;cursor:pointer;font-weight:500}
@@ -99,9 +109,9 @@ button.sq{flex-direction:column;justify-content:center;width:98px;height:98px;pa
 .ic{--ko:var(--card)}button:hover .ic{--ko:color-mix(in srgb,var(--ac) 12%,var(--card))}.ic .ko{fill:var(--ko)}.ic .kos{stroke:var(--ko)}
 input{accent-color:var(--ac)}
 input:focus-visible,button:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
-.zone{display:flex;border-radius:12px;overflow:hidden;border:2px solid var(--zc);background:var(--zt);margin:10px 0;min-height:104px}
+.zone{display:flex;border-radius:12px;overflow:hidden;border:2px solid var(--zc);background:color-mix(in srgb,var(--zc) 5%,var(--bg));margin:10px 0;min-height:104px}   /* stejný decentní styl jako zóny 3 a 4, barva podle zóny */
 .zone.over{box-shadow:0 0 0 4px color-mix(in srgb,var(--zc) 45%,transparent)}
-.zl{width:128px;flex:none;background:var(--zc);color:var(--zfg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:8px;font-size:12.5px;letter-spacing:.05em;text-align:center}
+.zl{width:128px;flex:none;background:color-mix(in srgb,var(--zc) 16%,var(--bg));color:var(--zc);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:8px;font-size:12.5px;letter-spacing:.05em;text-align:center}
 .zm{flex:1;min-width:0;padding:12px 18px;display:flex;flex-direction:column;justify-content:center;gap:6px}
 .zt{font-size:16px;font-weight:700}.zt small{font-weight:400;color:var(--mut);font-size:13px}
 .zs{color:var(--mut);display:flex;align-items:center;gap:6px}
@@ -114,8 +124,16 @@ button.p{background:var(--ac);color:var(--acfg)}
 button.p:hover{background:var(--ac);filter:brightness(1.1)}
 .pro button.p{background:var(--pro);color:var(--profg);border-color:var(--pro)}
 .pro button.p:hover{background:var(--pro);filter:brightness(1.1)}
-.params{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0;align-items:flex-start}
+.params{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0;align-items:stretch}   /* karty stejně vysoké; tlačítko Výchozí hodnoty vždy vpravo */
+.params>.pg:not(.adv){flex:1 1 240px;max-width:100%}   /* první dvě karty stejně široké, na širokém displeji se roztáhnou */
+.params>.adv{flex:0 0 auto;max-width:100%}.params>.adv[open]{flex:0 0 min(330px,100%)}   /* sbalené Pokročilé hledání je jen tak široké jako text, rozbalené se zvětší */
+.params>.fld{display:flex;flex:none;margin-left:auto}.params>.fld>button.sq{min-height:98px}
 .pg{border:1px solid var(--bd);border-radius:10px;background:var(--card);padding:6px 14px 10px;margin:0;min-width:0}
+.pg .pf{flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:4px}.pg .fld{width:100%}.pg .fld label{display:flex;justify-content:space-between;gap:8px}.pg .hp{max-width:none}
+.ccrow{display:flex;justify-content:space-between;align-items:center;gap:8px}.ccrow input{width:112px;padding:3px 6px;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:4px;text-transform:uppercase}.ccrow button{padding:2px 10px}#ccadd{min-height:28px}
+#cclist{display:flex;flex-wrap:wrap;gap:4px 6px;margin-top:4px}#cclist:empty,#ccmsg:empty{display:none}
+.cc{display:inline-flex;align-items:center;gap:2px;padding:0 3px 0 9px;border:1px solid var(--bd);border-radius:999px;background:var(--bg);font-size:12.5px}
+#cclist button{border:0;background:none;color:var(--mut);padding:0 5px;min-height:0;font-size:16px;line-height:1.2;border-radius:50%}#cclist button:hover{background:none;color:var(--red)}   /* řádky: popisek vlevo, pole vpravo */
 .pg legend,details.pg summary{padding:0 6px;font-weight:700;font-size:13px;color:var(--ac)}
 details.pg summary{cursor:pointer;padding:0;margin:2px 0}details.pg[open] summary{margin-bottom:8px}
 .pf{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:flex-start}
@@ -142,7 +160,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
 </head>
 <body>
 <nav id="mods" aria-label="Moduly"><button type="button" class="mod act" data-mod="zss" aria-current="page" title="Modul ZSS pilot: výpočet středů pilot ze zaměřených bodů a porovnání s projektem. Právě otevřený modul. Další moduly přibudou sem do lišty.">ZSS pilot</button></nav>
-<h1><span id="htl">ZSS pilot <span style="font-weight:400;color:var(--mut);font-size:13px">– středy pilot ze zaměřených bodů na plášti nebo ve středu, odchylky od projektu, plán PDF/DXF</span> <button id="ib" class="ib" title="Otevře popis aplikace: jak se hledají středy pilot, co znamenají jednotlivé volby a výstupy. Zkratka: I." aria-label="Popis aplikace">i</button></span><button id="rall" type="button" class="wi" title="Reset: odebere načtené soubory (měření i projekt), ruční výběr a uložená nastavení a vrátí všechny parametry i volby plánu na výchozí hodnoty. Před smazáním se zeptá."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg>Reset</button></h1>
+<h1><span id="hlb">ZSS pilot</span><span id="htl"><span style="font-weight:400;color:var(--mut);font-size:13px">Středy pilot ze zaměřených bodů na plášti nebo ve středu, odchylky od projektu, plán PDF/DXF</span> <button id="ib" class="ib" title="Otevře popis aplikace: jak se hledají středy pilot, co znamenají jednotlivé volby a výstupy. Zkratka: I." aria-label="Popis aplikace">i</button></span><button id="rall" type="button" class="wi" title="Reset: odebere načtené soubory (měření i projekt), ruční výběr a uložená nastavení a vrátí všechny parametry i volby plánu na výchozí hodnoty. Před smazáním se zeptá."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg>Reset</button></h1>
 <div class="zone mer cta" id="drop" title="Sem přetáhni soubor STX se zaměřenými body pilot (sloupce: název bodu, Y, X, Z, [kód]), nebo použij tlačítko Načíst měřený SS.">
   <div class="zl"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="7"/><path d="M12 2v6M12 16v6M2 12h6M16 12h6"/></svg><b>1. MĚŘENÍ</b></div>
   <div class="zm">
@@ -165,7 +183,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
   </div>
   <div class="zb"><button id="br" title="Vybereš soubor s projektovanými středy pilot (sloupce: 1. název bodu, 2. Y, 3. X, 4. Z – volitelné, 5. kód – volitelný). Alternativa k přetažení do modrého okna.">Načíst projektovaný SS</button><button id="rclr" hidden title="Odebere projektovaný SS. Tabulka se přepočítá bez odchylek od projektu a piloty dostanou názvy S001, S002 …">Zrušit projektovaný SS</button><input type="file" id="fr" accept=".stx,.txt,.csv" hidden></div>
 </div>
-<div class="params" id="params">
+<div class="xzone" id="szone"><div class="xzl col"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><b>3. NASTAVENÍ</b></div><div class="xzm"><div class="params" id="params">
   <fieldset class="pg"><legend>Průměr pilot</legend>
     <div class="pf">
       <div class="pmm"><div class="pf">
@@ -177,29 +195,31 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
   </fieldset>
   <fieldset class="pg"><legend>Body a kontrola</legend>
     <div class="pf">
-      <div class="fld"><label title="Zapnuto: použijí se jen body s kódem nebo předponou názvu ZSS, PIL nebo ZSSPIL, ostatní zaměřené body se ignorují. Vypnuto: použijí se všechny body v souboru."><input type="checkbox" id="only" checked> Jen kódy ZSS / PIL / ZSSPIL</label><small class="hp">vypnuto = použijí se všechny body v souboru</small></div>
-      <div class="fld"><label title="Největší povolená vzdálenost použitého bodu od vypočtené kružnice piloty. Pilota, jejíž nejhorší bod leží dál, se v tabulce označí červeně jako podezřelá (bod je třeba zkontrolovat nebo vyřadit). Piloty určené třemi body nelze takto ověřit. 0 = kontrola vypnuta.">Bod od kružnice – červeně nad [mm] <input type="number" id="rlim" value="50" step="5" min="0"></label><small class="hp">0 = kontrola vypnuta</small></div>
+      <div class="fld"><label title="Zapnuto: použijí se jen body s kódem nebo předponou názvu ZSS, PIL, ZSSPIL nebo s některým vlastním kódem ze seznamu níže, ostatní zaměřené body se ignorují. Vypnuto: použijí se všechny body v souboru."><input type="checkbox" id="only" checked> Jen kódy ZSS / PIL / ZSSPIL</label><small class="hp">vypnuto = použijí se všechny body v souboru</small></div>
+      <div class="fld"><div class="ccrow" id="ccrow"><label for="ccin" title="Další kód nebo předpona názvu bodu, podle které se body použijí (kromě ZSS, PIL, ZSSPIL). Jen písmena A–Z a číslice bez diakritiky, nejvýš 8 znaků. Seznam má nejvýš 8 kódů, další přepíše nejstarší vložený. Platí jen při zapnuté volbě „Jen kódy …“.">Vlastní kód</label><span style="display:inline-flex;gap:6px;align-items:center"><input type="text" id="ccin" maxlength="8" placeholder="max 8 znaků" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Vlastní kód bodu"><button type="button" id="ccadd" title="Přidá kód do seznamu (stejně jako Enter v poli). Seznam má nejvýš 8 kódů, další přepíše nejstarší.">Přidat</button></span></div><div id="cclist" aria-live="polite"></div><div id="ccmsg" class="stw" aria-live="polite"></div></div>
     </div>
   </fieldset>
   <details class="pg adv" id="adv"><summary>Pokročilé hledání</summary>
     <div class="pf">
+      <div class="fld"><label title="Největší povolená vzdálenost použitého bodu od vypočtené kružnice. Pilotu, jejíž nejhorší bod leží dál, se v tabulce označí červeně jako podezřelá (bod je třeba zkontrolovat nebo vyřadit). Piloty určené třemi body nelze takto ověřit. 0 = kontrola vypnuta.">Bod od kružnice – červeně nad [mm] <input type="number" id="rlim" value="50" step="5" min="0"></label><small class="hp">0 = kontrola vypnuta</small></div>
       <div class="fld"><label title="O kolik procent se smí průměr piloty lišit od typického průměru (zadaného nebo odhadnutého z dat). Trojice bodů s průměrem mimo toto rozmezí se nepovažuje za pilotu. 0 = kontrola vypnuta, platí jen rozsah průměru min–max.">Odchylka průměru od typického [%] <input type="number" id="dv" value="40" step="5" min="0"></label><small class="hp">0 = kontrola vypnuta, platí jen min–max</small></div>
       <div class="fld"><label title="Jak daleko od kružnice smí ležet další bod, aby se ještě přidal k pilotě. 0 = jen 3 body.">Tolerance bodů na kružnici [m] <input type="number" id="tol" value="0.05" step="0.005" min="0"></label><small class="hp">0 = jen 3 body</small></div>
       <div class="fld"><label title="Zapnuto: body, které zůstaly nepoužité, se nakonec zkusí poskládat do kružnic bez ohledu na jejich pořadí v souboru (např. 2 body a později další bod téže piloty). Přijme se jen kružnice s průměrem v povolené odchylce od typického (stejné nastavení jako u hlavního hledání), s body rozloženými po celé kružnici a (u „jen dle PD“) se středem u bodu projektu. Taková pilota má v poznámce „dopočteno mimo pořadí“."><input type="checkbox" id="oo" checked> Dopočítat body mimo pořadí</label><small class="hp">nepoužité body se zkusí poskládat do dalších kružnic</small></div>
     </div>
   </details>
   <div class="fld"><button type="button" id="pdef" class="wi sq" title="Vrátí všechny parametry (průměry, tolerance, meze, přepínače) na výchozí hodnoty a přepočítá. Načtené soubory a ruční výběr zůstanou."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg><span>Výchozí<br>hodnoty</span></button></div>
-</div>
-<div class="row">
+</div></div></div>
+<div class="xzone" id="xzone"><div class="xzl"><b>4. EXPORT</b></div><div class="xzm"><div id="xl">
   <button class="wi" id="sstx" disabled title="Zkratka Shift+T. Uloží vypočtené středy pilot do souboru STX: název, Y, X, Z a kód PIL. Pilotu s odškrtnutým „použít pilotu“ soubor neobsahuje."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>STX</button>
   <button class="wi" id="scsv" disabled title="Zkratka Shift+C. Uloží podrobnou tabulku (středy, poloměry, průměry, odchylky od projektu, poznámky) jako CSV pro Excel. Desetinný oddělovač určuje volba „CSV s des. čárkou“."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2"/><path d="M3 10h18M3 14.9h18M9 10v9.5M15 10v9.5" stroke-width="1.5"/><path d="M3 6.5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2V10H3z" fill="currentColor" fill-opacity=".22" stroke="none"/></svg>CSV</button>
   <label title="Zapnuto: čísla v uloženém CSV mají desetinnou čárku (vhodné pro český Excel). Vypnuto: desetinná tečka."><input type="checkbox" id="comma" checked> CSV s des. čárkou</label>
   <button class="wi" id="sdxf" disabled title="Zkratka Shift+S. Uloží výkres do DXF pro CAD: kružnice pilot, body projektu, vypočtené středy, měřené body, odchylky a popisy v samostatných vrstvách."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg>DXF</button>
   <button id="roff" disabled title="Vrátí výchozí stav: znovu zapne všechny ručně vypnuté body i odškrtnuté (nepoužité) piloty. Je aktivní, jen když něco vypnuto je.">Zrušit ruční výběr</button>
   <button id="cp" disabled title="Zkopíruje tabulku do schránky, aby šla vložit přímo do Excelu nebo jiného programu.">Kopírovat do schránky</button>
+</div><div id="xr">
   <button class="wi" id="gb" disabled title="Otevře plán pilot na celé obrazovce: kruhy pilot, středy, měřené body a šipky odchylek. Z plánu lze také exportovat PDF a DXF."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2.5v19M16 2.5v19M2.5 8h19M2.5 16h19" stroke-width="1.4" stroke-opacity=".55"/><g fill="currentColor" stroke="none"><circle cx="8" cy="8" r="3.2"/><circle cx="16" cy="8" r="3.2"/><circle cx="8" cy="16" r="3.2"/><circle cx="16" cy="16" r="3.2"/></g><path class="kos" d="M6.8 6.8l2.4 2.4m0-2.4l-2.4 2.4M14.8 6.8l2.4 2.4m0-2.4l-2.4 2.4M6.8 14.8l2.4 2.4m0-2.4l-2.4 2.4M14.8 14.8l2.4 2.4m0-2.4l-2.4 2.4" stroke-width="1.1"/></svg>Zobrazit plán</button>
   <button class="wi io" id="gbs" disabled aria-label="Plán v rozdělené obrazovce" title="Otevře plán v rozdělené obrazovce: nahoře tabulka, dole plán (každý zhruba polovinu výšky). Klik na řádek tabulky označí pilotu v plánu a klik na pilotu v plánu označí její řádek v tabulce."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3.5" width="18" height="17" rx="2" stroke-width="1.8"/><path d="M3 12h18" stroke-width="1.8"/><rect x="5.5" y="14.2" width="13" height="4" rx=".6" fill="currentColor" stroke="none" opacity=".55"/></svg></button>
-</div>
+</div></div></div>
 <div id="legend">Šipka ukazuje směr od projektu (PD) ke skutečnosti, mapa je orientována severem nahoru. Odchylky do meze zeleně, nad mezí červeně. ΔY, ΔX = skutečnost − PD.</div>
 <div id="fbar"><label title="Filtr ovlivní jen zobrazení tabulky. Plán, exporty i zaškrtávátka „použít pilotu“ fungují beze změny se všemi pilotami.">Zobrazit v tabulce <select id="flt"><option value="all">všechny piloty</option><option value="in">jen v mezi odchylky od PD</option><option value="over">jen nad mezí odchylky od PD</option><option value="sus">jen podezřelé (body nad mezí od kružnice)</option><option value="inv">jen neplatné</option><option value="prob">jen problémové (nad mezí, podezřelé i neplatné)</option></select></label><span id="fcnt" aria-live="polite"></span></div>
 <div class="tw" id="tw"><table><thead><tr>
@@ -221,7 +241,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
 <h3>1. Měření</h3>
 <ul><li>Soubor STX přetáhni do zeleného okna nebo ho načti tlačítkem; tlačítkem „Zrušit měřený SS“ ho zase odebereš (u projektu „Zrušit projektovaný SS“). Sloupce vždy v tomto pořadí: 1. název bodu, 2. Y, 3. X, 4. Z (povinné), 5. kód (volitelný). Souřadnice v metrech, JTSK i místní systém. Plán počítá s kladnými hodnotami Y a X (jako v běžné geodetické praxi: Y roste na západ, X na jih). U záporných souřadnic (EPSG:5514) je výkres otočený o 180° a popisky os „západ/jih“ neplatí.</li>
 <li>Povolené přípony souborů: STX, TXT, CSV. Oddělovač může být mezera, tabulátor nebo středník, desetinná tečka i čárka. Řádky s málo sloupci, nečíselnými souřadnicemi nebo bez Z se přeskočí, výpis je v logu pod tabulkou. Název bodu s mezerou je možný jen při oddělovači středník nebo tabulátor.</li>
-<li>Použijí se body s kódem nebo s předponou názvu <b>ZSS</b>, <b>PIL</b> nebo <b>ZSSPIL</b> (lze vypnout).</li></ul>
+<li>Použijí se body s kódem nebo s předponou názvu <b>ZSS</b>, <b>PIL</b> nebo <b>ZSSPIL</b> (lze vypnout). Ve skupině „Body a kontrola“ lze přidat až 8 vlastních kódů (písmena A–Z a číslice bez diakritiky, 1 až 8 znaků; Enter nebo tlačítko „Přidat“): body s takovým kódem nebo předponou názvu se použijí také. Devátý kód přepíše nejstarší vložený, kód odebereš křížkem. Vlastní kódy se pamatují v prohlížeči a „Výchozí hodnoty“ je smažou; při vypnuté volbě „Jen kódy …“ se nepoužívají (použijí se všechny body).</li></ul>
 <p>Tlačítka „Načíst měřený SS“ a „Načíst projektovaný SS“ jsou vybarvená, jen když je příslušný soubor načtený; tlačítka „Zobrazit plán“, ikona rozdělené obrazovky, ukládání a kopírování jsou zašedlé, dokud není co zobrazit nebo uložit (tooltip říká proč); po odemčení je „Zobrazit plán“ vybarvené do zelena a přes tlačítko jednou přejede světelný pruh, ikona rozdělené obrazovky je zelená, když je plán otevřený, a ukládání a kopírování mají jen obrys; „Výchozí hodnoty“ jsou vybarvené, když jsou všechny parametry na výchozích hodnotách; ostatní tlačítka mají pouze obrys.</p>
 <h3>2. Hledání středů pilot</h3>
 <p>Parametry jsou rozdělené do skupin; méně používané (odchylka průměru, tolerance bodů, dopočet mimo pořadí) jsou v rozbalovací sekci „Pokročilé hledání“. Tlačítko „Výchozí hodnoty“ vrátí všechny parametry na původní hodnoty. Hodnoty parametrů, volba „CSV s des. čárkou“, řazení a filtr tabulky, rozbalení „Pokročilého hledání“, volby a velikosti v plánu i poměr rozdělené obrazovky se pamatují v prohlížeči. Po novém otevření nebo obnovení stránky (F5) se znovu načte i poslední měření a projekt, obnoví se ruční výběr (vypnuté body a piloty), režim zobrazení (jen tabulka, rozdělená obrazovka nebo plán), posun tabulky, rozbalení a posun logu a přiblížení a posun plánu (tlačítko „Celý výkres“ v plánu je zapomene; po načtení nového souboru se plán otevře jako celý výkres); „Výchozí hodnoty“ vrátí jen parametry a načtené soubory ani ruční výběr nemění.</p>
@@ -300,6 +320,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
 const APP_VERSION="1.082", APP_DATE="1. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
 const R_MIN_IN=0.01, R_MAX_IN=9.999;   // nejmenší a největší průměr [m], který jde zadat (výpočet uvnitř pracuje s poloměrem = průměr / 2)
 const VALID = new Set(["ZSS","PIL","ZSSPIL"]);
+const customCodes=[], CC_MAX=8, CC_RE=/^[A-Z0-9]{1,8}$/;   // vlastní kódy bodů (nejvýš 8, každý 1–8 znaků A–Z, 0–9); devátý přepíše nejstarší
 let parseLog = [], refLog = [], points = [], piles = [], unusedPts = [], fname = "", refs = [], refname = "";
 const $ = id => document.getElementById(id);
 // vybarvené (plné) je jen tlačítko, jehož seznam je načtený; ostatní tlačítka mají jen obrys
@@ -406,7 +427,7 @@ function circleLsq(ps){
 }
 
 /* ---------- vyhodnocení ---------- */
-const matches = p => VALID.has(p.code) || /^(ZSSPIL|ZSS|PIL)/i.test(p.id);
+const matches = p => VALID.has(p.code) || /^(ZSSPIL|ZSS|PIL)/i.test(p.id) || (customCodes.length>0 && customCodes.some(c=>p.code===c||p.id.toUpperCase().startsWith(c)));
 // počet bodů (mimo idx) ležících uvnitř kružnice c (do 75 % poloměru): skutečná pilota má uvnitř nanejvýš přímo zaměřený střed,
 // kdežto náhodná velká kružnice přes body sousedních pilot jich má uvnitř víc
 function ptsInside(cand,grid,D,c,idx){
@@ -494,7 +515,7 @@ function evaluate(all,rmin,rmax,only,tol,r0user,devFrac,refs,rdist,refOnly,off,d
   const dDirect=Math.min(rdist,ddist==null?0.2:ddist);   // nejdál, kam se přijme bod zaměřený přímo jako střed (0 = vypnuto)
   const log=[], out=[];
   const cand = only ? all.filter(matches) : all.slice();
-  log.push(`Načteno bodů: ${all.length}, ${only?"s kódem/prefixem ZSS/PIL/ZSSPIL: "+cand.length:"(filtr vypnut)"}`);
+  log.push(`Načteno bodů: ${all.length}, ${only?"s kódem/prefixem "+["ZSS","PIL","ZSSPIL",...customCodes].join("/")+": "+cand.length:"(filtr vypnut)"}`);
   const warn=refs.length?coordWarn(cand,refs,rmax+Math.max(rdist,0)):"";
   if(warn) log.push("POZOR: "+warn);
   const n=cand.length, W=5;
@@ -980,12 +1001,12 @@ $("cp").onclick=async()=>{ if(!needPiles()) return; const t=csvLines("\t");
   try{ await navigator.clipboard.writeText(t); }
   catch(e){ const ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); }
   flash("Zkopírováno do schránky (vlož do Excelu)."); };
-$("pdef").onclick=()=>{ ["rmin","rmax","tol","rlim","r0","dv","rdist","ddist","lim"].forEach(id=>{ $(id).value=$(id).defaultValue; }); ["only","oo","ronly","comma"].forEach(id=>{ $(id).checked=$(id).defaultChecked; }); syncDef(); saveSet(); recalc(); };   // vše zpět na výchozí hodnoty z HTML
+$("pdef").onclick=()=>{ ["rmin","rmax","tol","rlim","r0","dv","rdist","ddist","lim"].forEach(id=>{ $(id).value=$(id).defaultValue; }); ["only","oo","ronly","comma"].forEach(id=>{ $(id).checked=$(id).defaultChecked; }); customCodes.length=0; $("ccin").value=""; ccMsg(""); renderCC(); saveSet(); recalc(); };   // vše zpět na výchozí hodnoty z HTML
 // tlačítko „Výchozí hodnoty“ je vybarvené, když jsou všechny parametry na výchozích hodnotách (stejně jako ostatní vybarvená tlačítka = platný stav)
 const DEF_NUM=["rmin","rmax","tol","rlim","r0","dv","rdist","ddist","lim"], DEF_CHK=["only","oo","ronly","comma"];
 const sameNum=(a,b)=>{ const x=a.trim().replace(",","."), y=b.trim().replace(",","."); return x===y||(x!==""&&y!==""&&parseFloat(x)===parseFloat(y)); };
 function syncDef(){
-  const ok=DEF_NUM.every(id=>sameNum($(id).value,$(id).defaultValue))&&DEF_CHK.every(id=>$(id).checked===$(id).defaultChecked);
+  const ok=DEF_NUM.every(id=>sameNum($(id).value,$(id).defaultValue))&&DEF_CHK.every(id=>$(id).checked===$(id).defaultChecked)&&customCodes.length===0;
   $("pdef").classList.toggle("p",ok);
 }
 // nastavení (parametry, CSV s des. čárkou, řazení tabulky) se pamatuje v prohlížeči; „Výchozí hodnoty“ uloží výchozí stav
@@ -994,13 +1015,15 @@ function saveSet(){ if(RESTORING) return; try{ const o={n:{},c:{},sc:sortCol,sd:
   DEF_NUM.forEach(id=>o.n[id]=$(id).value); DEF_CHK.forEach(id=>o.c[id]=$(id).checked);
   PLAN_IDS.forEach(id=>{ const e=$(id); o.g[id]=e.type==="checkbox"?e.checked:e.value; });   // volby a velikosti v plánu
   o.fl=$("flt").value; o.adv=$("adv").open; o.sy=$("tw").scrollTop; o.sx=$("tw").scrollLeft; o.lg={o:$("logd").open,t:$("logd").open?$("log").scrollTop:0};   // filtr tabulky, rozbalené „Pokročilé hledání“
+  o.cc=[...customCodes];
   o.off=[...off]; o.skip=[...skip].map(k=>[k,skipSig.get(k)||""]); o.exp=[...expanded];   // ruční výběr: vypnuté body, nepoužité piloty, rozbalené řádky
   localStorage.setItem(LSK,JSON.stringify(o)); }catch(e){} }
 function loadSet(){ try{ const o=JSON.parse(localStorage.getItem(LSK)||"null"); if(!o) return;
   DEF_NUM.forEach(id=>{ if(typeof o.n?.[id]==="string") $(id).value=o.n[id]; });
   DEF_CHK.forEach(id=>{ if(typeof o.c?.[id]==="boolean") $(id).checked=o.c[id]; });
+  if(Array.isArray(o.cc)) o.cc.forEach(c=>{ c=String(c).toUpperCase(); if(CC_RE.test(c)&&!VALID.has(c)&&!customCodes.includes(c)&&customCodes.length<CC_MAX) customCodes.push(c); });
   if(Number.isInteger(o.sc)&&SORTS[o.sc]){ sortCol=o.sc; sortDir=o.sd===-1?-1:1; } }catch(e){} }
-loadSet();
+loadSet(); renderCC();
 [...DEF_NUM,...DEF_CHK].forEach(id=>{ $(id).addEventListener("input",()=>{ syncDef(); saveSet(); }); $(id).addEventListener("change",()=>{ syncDef(); saveSet(); }); });
 [...PLAN_IDS,"flt"].forEach(id=>{ $(id).addEventListener("input",saveSet); $(id).addEventListener("change",saveSet); }); $("adv").addEventListener("toggle",saveSet);
 syncDef();
@@ -1010,6 +1033,28 @@ syncDef();
   clearTimeout(rcTimer);
   rcTimer=setTimeout(()=>{ if(isNaN(parseFloat($("rmin").value))||isNaN(parseFloat($("rmax").value))) return; recalc(); },1000);   // rozepsaná nebo prázdná hodnota se mlčky přeskočí
 }));
+// vlastní kódy bodů: nejvýš 8, každý 1–8 znaků A–Z a číslice (bez diakritiky); další kód přepíše nejstarší vložený
+function renderCC(){
+  $("cclist").innerHTML=customCodes.map(c=>`<span class="cc">${esc(c)}<button type="button" data-cc="${esc(c)}" aria-label="Odebrat kód ${esc(c)}" title="Odebrat kód ${esc(c)} ze seznamu.">×</button></span>`).join("");
+  const on=$("only").checked; $("ccin").disabled=!on; $("ccadd").disabled=!on; $("ccrow").style.opacity=on?"":".5"; syncDef();
+}
+function ccMsg(t,cls){ const m=$("ccmsg"); m.textContent=t||""; m.className="stw "+(cls||""); }
+function addCC(){
+  const v=$("ccin").value.trim().toUpperCase();
+  if(!v){ ccMsg(""); return; }
+  if(!CC_RE.test(v)){ ccMsg("Kód smí mít jen písmena A–Z a číslice (bez diakritiky a mezer), nejvýš 8 znaků.","bad"); return; }
+  if(VALID.has(v)){ ccMsg(`Kód ${v} se hledá vždy.`,"bad"); return; }
+  if(customCodes.includes(v)){ ccMsg(`Kód ${v} už v seznamu je.`,"bad"); return; }
+  customCodes.push(v); const gone=customCodes.length>CC_MAX?customCodes.shift():"";
+  $("ccin").value=""; ccMsg(gone?`Seznam má nejvýš ${CC_MAX} kódů, nejstarší kód ${gone} byl přepsán.`:"","warn");
+  renderCC(); saveSet(); recalc();
+}
+$("ccadd").onclick=addCC;
+$("ccin").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); addCC(); } });
+$("ccin").addEventListener("input",()=>ccMsg(""));
+$("cclist").addEventListener("click",e=>{ const b=e.target.closest("button[data-cc]"); if(!b) return;
+  const i=customCodes.indexOf(b.dataset.cc); if(i>=0) customCodes.splice(i,1); ccMsg(""); renderCC(); saveSet(); recalc(); });
+$("only").addEventListener("change",renderCC);
 $("bl").onclick=()=>$("fi").click();
 $("fi").onchange=e=>{ if(e.target.files[0]) loadFile(e.target.files[0]); e.target.value=""; };
 function loadRef(f){
@@ -1030,7 +1075,8 @@ function applyRef(text,name){ if(!RESTORING) clearView(); const r=parseRef(text)
     setStat($("refst"),`PD: ${refname} – ${refs.length} ${bodu(refs.length)} ${refs.some(q=>q.z!=null)?"(se Z)":"(bez Z)"}`+(r.bad?` · přeskočeno řádků: ${r.bad} (viz log)`:"")+(dup.size?` · duplicitních názvů: ${dup.size} (viz log)`:""));
     if(!points.length) $("log").textContent=refLog.join("\n");
     try{ localStorage.setItem(FK_R,JSON.stringify({n:name,t:text})); }catch(e){}   // uloží pro obnovení po F5
-    $("ronly").disabled=false; $("rclr").hidden=false; syncBtns(); recalc(); }
+    $("ronly").disabled=false; $("rclr").hidden=false; syncBtns(); recalc();
+    if(!RESTORING&&points.length&&piles.length) nudge($("gb")); }   // měření už je načtené: lesk přes „Zobrazit plán“ i po nahrání projektu
 $("br").onclick=()=>$("fr").click();
 $("fr").onchange=e=>{ if(e.target.files[0]) loadRef(e.target.files[0]); e.target.value=""; };
 $("rclr").onclick=()=>{ try{ localStorage.removeItem(FK_R); }catch(e){} refs=[]; refLog=[]; if(!points.length) $("log").textContent=""; $("refst").style.color=""; $("ronly").disabled=true; $("rclr").hidden=true; syncBtns();
@@ -1625,6 +1671,13 @@ $("ib").onclick=()=>{ $("im").hidden=false; };
 $("ix").onclick=()=>{ $("im").hidden=true; };
 $("im").addEventListener("click",e=>{ if(e.target===$("im")) $("im").hidden=true; });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape") $("im").hidden=true; });
+// tlačítka vpravo v zónách 1 až 3 mají stejnou šířku podle nejširšího z nich (i skrytá se změří)
+function syncBw(){
+  const bs=["bl","mclr","br","rclr","pdef"].map($); let w=0;
+  bs.forEach(b=>{ const h=b.hidden; b.hidden=false; b.style.width="max-content"; w=Math.max(w,b.getBoundingClientRect().width); b.hidden=h; });
+  bs.forEach(b=>{ b.style.width=Math.ceil(w)+"px"; });
+}
+syncBw(); if(document.fonts&&document.fonts.ready) document.fonts.ready.then(syncBw);
 </script>
 </body>
 </html>

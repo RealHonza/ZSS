@@ -197,7 +197,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
 <p>Stavový řádek pod tabulkou shrnuje výsledek: počet pilot, kolik jich je nad mezí od projektu a kolik je podezřelých. Varování jsou pod ním zvlášť (červeně důležitá, oranžově informativní). Podrobný log je pod tabulkou sbalený, otevře ho odkaz „zobrazit log“.</p>
 <ul><li><b>Tabulka</b> s polohami, průměry a zaokrouhleným průměrem (do Ø 400 mm včetně po 50 mm, větší piloty po 100 mm) a odchylkami od projektu. Kliknutím na záhlaví sloupce ji seřadíš (podruhé sestupně, potřetí zpět do původního pořadí; prázdné hodnoty jsou vždy na konci). Filtr nad tabulkou zobrazí jen piloty nad mezí odchylky od PD, podezřelé (body nad mezí od kružnice) nebo neplatné; ovlivní jen zobrazení tabulky, ne plán a exporty. Šipku ▸ i záhlaví sloupců lze ovládat klávesnicí (Tab, Enter, mezerník).</li>
 <li><b>Uložit středy (STX)</b>: název, Y, X, Z, kód PIL (mezera nebo středník v názvu se při uložení nahradí podtržítkem).<b>Uložit CSV</b>: podrobná tabulka pro Excel. <b>Kopírovat do schránky</b>.</li>
-<li><b>Plán</b> (JTSK: Y doleva, X dolů): kruhy pilot se středem v bodě projektu, křížky × (tmavé projekt, modré vypočtený střed, fialové měřené body), šipky odchylek s hodnotou v mm. Přibližování kolečkem, posun tažením, posuvníky velikosti písma a šipek 25–250 % (hodnotu lze i napsat číslem vedle posuvníku), volitelné zobrazení kružnic, měřené kružnice (fialová čárkovaná, vypočtený střed a poloměr; výchozí vypnuto), měřených bodů, volby „Všechny měřené body“ (zobrazí i body, které nepatří k žádné kružnici ani středu, oranžově; výchozí vypnuto), jejich popisu (čísla bodů, výchozí vypnuto) a hlavičky (platí i pro exporty); ikona vlevo od těchto voleb je zaškrtne nebo odškrtne všechny najednou. Dole je půlená měřítková lišta přes šířku plánu: nula vpravo, vlevo celá délka (např. 80 m), další značky po půlení (40, 20, 10 m …); délka se mění s přiblížením.</li>
+<li><b>Plán</b> (JTSK: Y doleva, X dolů): kruhy pilot se středem v bodě projektu, křížky × (tmavé projekt, modré vypočtený střed, fialové měřené body), šipky odchylek s hodnotou v mm. Přibližování kolečkem, posun tažením, posuvníky velikosti písma a šipek 25–250 % (hodnotu lze i napsat číslem vedle posuvníku), volitelné zobrazení kružnic, měřené kružnice (fialová čárkovaná, vypočtený střed a poloměr; výchozí vypnuto), měřených bodů, volby „Všechny měřené body“ (zobrazí i body, které nepatří k žádné kružnici ani středu, oranžově; výchozí vypnuto), jejich popisu (čísla bodů, výchozí vypnuto), hlavičky a legendy (platí i pro exporty); ikona vlevo od těchto voleb je zaškrtne nebo odškrtne všechny najednou. Pod rámem je legenda s barevnými značkami (zobrazují se jen použité prvky, platí i pro PDF; vypíná ji volba „Legenda“). V rámu dole je půlená měřítková lišta přes šířku plánu: nula vpravo, vlevo celá délka (např. 80 m), další značky po půlení (40, 20, 10 m …); délka se mění s přiblížením.</li>
 <li><b>PDF A3</b>: vždy celý výkres na jedné stránce A3 (na šířku nebo na výšku podle tvaru plánu), drobný, ale čitelný text a malé šipky; nezávisí na aktuálním přiblížení, velikost písma a šipek lze změnit posuvníky. <b>DXF</b>: vrstvy PILOTY, BODY_PD, STREDY_VYPOCTENE, MERENE_BODY, NEPOUZITE_BODY, ODCHYLKY_OK, ODCHYLKY_NAD, NAZVY, PRUMERY, NADPIS a další; texty podle velikosti písma, nadpis nad výkresem.</li></ul>
 <p style="color:var(--mut);margin-top:12px">Tip: Esc nebo klik mimo okno zavře tento popis.</p>
 </div></div>
@@ -215,7 +215,8 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
     <span style="display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center">
     <label title="Zobrazí / skryje v plánu kružnice pilot (modré kruhy se středem v bodě PD). Platí i pro exporty."><input type="checkbox" id="gc" checked> Kružnice</label>
     <label title="Zobrazí / skryje v plánu decentní fialovou čárkovanou kružnici vypočtenou z měřených bodů: se skutečným (vypočteným) středem a skutečným poloměrem, bez zaokrouhlení. Platí i pro PDF a DXF (vrstva KRUZNICE_MERENA). U pilot se středem zaměřeným přímo se nekreslí (kružnice se nepočítala)."><input type="checkbox" id="gr"> Měřená kružnice</label>
-    <label title="Zobrazí / skryje hlavičku a popisy mimo rám výkresu (údaje o měření vpravo nahoře, legendu a autora dole). Po odškrtnutí zůstanou mimo rám jen 3 řádky nadpisu vlevo nahoře. Platí i pro PDF."><input type="checkbox" id="gh" checked> Hlavička</label>
+    <label title="Zobrazí / skryje údaje o měření vpravo nahoře a autora dole vpravo. Po odškrtnutí zůstanou mimo rám jen 3 řádky nadpisu vlevo nahoře. Platí i pro PDF."><input type="checkbox" id="gh" checked> Hlavička</label>
+    <label title="Zobrazí / skryje legendu pod rámem výkresu (barevné značky s popisky a poznámku o šipce). V legendě jsou jen prvky, které jsou v plánu zapnuté. Platí i pro PDF."><input type="checkbox" id="gg" checked> Legenda</label>
     </span>
     <span style="display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center">
     <label title="Zobrazí / skryje v plánu měřené body, ze kterých jsou středy vypočteny (fialové křížky). Platí i pro exporty."><input type="checkbox" id="gp" checked> Měřené body</label>
@@ -232,7 +233,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
 </div>
 <script>
 "use strict";
-const APP_VERSION="1.069", APP_DATE="1. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
+const APP_VERSION="1.070", APP_DATE="1. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
 const R_MIN_IN=0.01, R_MAX_IN=9.999;   // nejmenší a největší průměr [m], který jde zadat (výpočet uvnitř pracuje s poloměrem = průměr / 2)
 const VALID = new Set(["ZSS","PIL","ZSSPIL"]);
 let parseLog = [], refLog = [], points = [], piles = [], unusedPts = [], fname = "", refs = [], refname = "";
@@ -891,7 +892,8 @@ window.addEventListener("dragover",e=>e.preventDefault());
 window.addEventListener("drop",e=>{ e.preventDefault(); const f=e.dataTransfer.files[0]; if(f) loadFile(f); });
 /* ---------- graf ---------- */
 const GC={off:"#c4c8cf",ok:"#1b7a3a",bad:"#d92d20",pile:"#2b5ea7",ref:"#555555",pt:"#7c3aed",grid:"#e3e6ea",txt:"#222222",frame:"#888888",gray:"#8a8f98",real:"#7c3aed",unp:"#d97706"};
-function plotRect(W,H,top){ top=top||84; return {x:68,y:top,w:Math.max(50,W-86),h:Math.max(50,H-top-62)}; }
+const PL_BOT=98;   // spodní okraj pod rámem: legenda, poznámka a autor
+function plotRect(W,H,top){ top=top||84; return {x:68,y:top,w:Math.max(50,W-86),h:Math.max(50,H-top-PL_BOT)}; }
 // horní okraj rámu: při velkém písmu se posune níž, aby popisky souřadnic Y nad rámem nekolidovaly s 3 řádky nadpisu
 function headTop(W,H,o){
   if(!o||o.exact) return 84;
@@ -1111,9 +1113,31 @@ function buildScene(W,H,v,o){
       fr.push({t:"line",x1:x,y1:by-6*fs,x2:x,y2:by+6*fs,c:GC.txt,sw:1.1*fs});
       fr.push({t:"text",x:x,y:by-9*fs,s:d===0?"0":fm(d)+" m",size:10*fs,c:GC.txt,a:k===0?"end":(last?"start":"middle")}); });
   }
-  if(hd) fr.push({t:"text",x:pl.x,y:H-40,s:(o.circ!==false?"Modrý kruh = pilota se středem v bodě PD (bez PD ve vypočteném středu), průměr po 50/100 mm; tmavé × = bod PD":"Tmavé × = bod PD")+"; modré × = vypočtený střed"+(o.real?"; fialově čárkovaně = měřená kružnice":"")+((o.pts||o.allp)?"; fialové × = měřené body"+(piles.some(p=>p.offPts&&p.offPts.length)?" (v kroužku = vypnuté)":""):"")+(o.allp?"; oranžové × = body mimo kružnice a středy":""),size:8.5*lg,c:GC.txt,a:"start"});
-  if(hd) fr.push({t:"text",x:pl.x,y:H-27,s:`Šipka = směr od PD ke skutečnosti (délka jen orientační), u ní odchylka v mm: v toleranci do ${o.lim} mm včetně zeleně, nad toleranci červeně. JTSK [m]: Y doleva (západ), X dolů (jih).`,size:8.5*lg,c:GC.txt,a:"start"});
-  if(hd) fr.push({t:"text",x:W-16,y:H-14,s:"Autor: Jan Bartůněk, verze "+APP_VERSION+" ("+APP_DATE+")",size:8*lg,c:GC.gray,a:"end"});
+  if(o.leg!==false){   // legenda: barevné značky s popisky (jen použité prvky), pod nimi poznámka a autor; velikost nezávisí na posuvníku písma
+    const lb=o.fsFixed||Math.min(1.5,Math.max(0.75,Math.min(pl0.w,pl0.h)/600)), ls=o.a3?0.9:Math.min(1.1,Math.max(lb,0.8)), lsz=9*ls, lim=o.lim;
+    const cross=(cx,cy,c)=>{ const d=4.5*ls; fr.push({t:"line",x1:cx-d,y1:cy-d,x2:cx+d,y2:cy+d,c,sw:1.5*ls}); fr.push({t:"line",x1:cx-d,y1:cy+d,x2:cx+d,y2:cy-d,c,sw:1.5*ls}); };
+    const arr=(cx,cy,c)=>arrow(fr,cx-8*ls,cy,cx+8*ls,cy,c,1.7*ls,0.6);
+    const LG=[];
+    if(o.circ!==false) LG.push([refs.length?"Odhad piloty (střed dle PD)":"Odhad piloty (střed vypočtený)",(cx,cy)=>fr.push({t:"circ",x:cx,y:cy,r:6*ls,c:GC.pile,sw:1.5*ls})]);
+    if(refs.length) LG.push(["Bod PD (projekt)",(cx,cy)=>cross(cx,cy,GC.ref)]);
+    if(refs.length&&refs.some(r=>!piles.some(p=>p.ref===r))) LG.push(["Bod PD bez piloty",(cx,cy)=>cross(cx,cy,GC.gray)]);
+    LG.push(["Vypočtený střed",(cx,cy)=>cross(cx,cy,GC.pile)]);
+    if(o.pts||o.allp) LG.push(["Měřený bod",(cx,cy)=>cross(cx,cy,GC.pt)]);
+    if((o.pts||o.allp)&&piles.some(p=>p.offPts&&p.offPts.length)) LG.push(["Vypnutý bod",(cx,cy)=>{ cross(cx,cy,GC.off); fr.push({t:"circ",x:cx,y:cy,r:6*ls,c:GC.off,sw:1*ls}); }]);
+    if(o.real) LG.push(["Měřená kružnice",(cx,cy)=>fr.push({t:"circ",x:cx,y:cy,r:6*ls,c:GC.real,sw:1.3*ls,dash:[3*ls,2*ls]})]);
+    if(o.allp) LG.push(["Bod mimo kružnice",(cx,cy)=>cross(cx,cy,GC.unp)]);
+    if(refs.length){ LG.push(["Odchylka ≤ "+lim+" mm",(cx,cy)=>arr(cx,cy,GC.ok)]); LG.push(["Odchylka > "+lim+" mm",(cx,cy)=>arr(cx,cy,GC.bad)]); }
+    const mw=22*ls, colW=Math.max(...LG.map(g=>mw+tw(g[0],lsz)))+16*ls, cols=Math.max(1,Math.floor(pl.w/colW)), rowH=15*ls, yb=pl.y+pl.h;
+    LG.forEach((g,k)=>{ const cx=pl.x+(k%cols)*colW+9*ls, cy=yb+17*ls+Math.floor(k/cols)*rowH;
+      g[1](cx,cy); fr.push({t:"text",x:pl.x+(k%cols)*colW+mw,y:cy+0.35*lsz,s:g[0],size:lsz,c:GC.txt,a:"start"}); });
+    const nrows=Math.ceil(LG.length/cols), sepY=Math.max(yb+17*ls+(nrows-1)*rowH+11*ls,H-14-12*ls-8*ls);
+    fr.push({t:"line",x1:pl.x,y1:sepY,x2:pl.x+pl.w,y2:sepY,c:GC.grid,sw:0.8});
+    fr.push({t:"text",x:pl.x,y:H-14,s:refs.length?"Šipka: od PD ke skutečnosti (délka orientační), u ní odchylka v mm · JTSK [m]: Y doleva (západ), X dolů (jih)":"JTSK [m]: Y doleva (západ), X dolů (jih)",size:8.5*ls,c:GC.gray,a:"start"});
+  }
+  if(hd){   // autor dole vpravo patří k hlavičce
+    const ls=o.a3?0.9:Math.min(1.1,Math.max(o.fsFixed||Math.min(1.5,Math.max(0.75,Math.min(pl0.w,pl0.h)/600)),0.8));
+    fr.push({t:"text",x:W-16,y:H-14,s:"Autor: Jan Bartůněk, verze "+APP_VERSION+" ("+APP_DATE+")",size:8*ls,c:GC.gray,a:"end"});
+  }
   { const ld=[], rest=[]; it.forEach(i=>(i.k==="lead"?ld:rest).push(i));
     const ord=rest.slice(0,gridN).concat(ld,rest.slice(gridN)); it.length=0; ord.forEach(i=>it.push(i)); }
   return {W,H,pl,items:it,frame:fr};
@@ -1187,7 +1211,7 @@ function pdfA3(o){   // vždy celý výkres na jednu stránku A3 (na šířku ne
 function dxfOf(o){
   // rozvržení stejné jako v grafu (stejné popisky bez překrývání), ve čitelném měřítku, přepočtené do metrů
   const b=gBounds(0,o), nns=piles.map(p=>p.nn).filter(Number.isFinite).sort((a,c)=>a-c), nm=nns.length?nns[nns.length>>1]:1;
-  const s=78/nm, pad=2, W=Math.ceil((b[1]-b[0]+2*pad)*s)+86, H=Math.ceil((b[3]-b[2]+2*pad)*s)+108;
+  const s=78/nm, pad=2, W=Math.ceil((b[1]-b[0]+2*pad)*s)+86, H=Math.ceil((b[3]-b[2]+2*pad)*s)+144;
   const v={cy:(b[0]+b[1])/2,cx:(b[2]+b[3])/2,s};
   const sc=buildScene(W,H,v,{...o,fsFixed:1,exact:true,dia:true}), ccx=sc.pl.x+sc.pl.w/2, ccy=sc.pl.y+sc.pl.h/2;
   const fx=px=>(px-ccx)/s-v.cy, fy=py=>-(v.cx+(py-ccy)/s);   // jako v grafu: x = -Y (Y doleva), y = -X (X dolů)
@@ -1246,7 +1270,7 @@ const pct=id=>{ const v=parseFloat($(id).value), t=isFinite(v)?v:50; return t<=5
 const lvl=id=>pct(id)/150;   // skutečný činitel velikosti: zobrazených 150 % = dřívější základní velikost, takže výchozích 100 % je menších (0,67×)
 const axOf=()=>lvl("ga");
 const txOf=()=>lvl("gt");
-const gOpts=fs=>({tx:txOf(),ax:axOf(),pts:$("gp").checked,allp:$("gu").checked,circ:$("gc").checked,real:$("gr").checked,hd:$("gh").checked,lbl:$("gl").checked,lim:parseFloat($("lim").value)||0,fs});
+const gOpts=fs=>({tx:txOf(),ax:axOf(),pts:$("gp").checked,allp:$("gu").checked,circ:$("gc").checked,real:$("gr").checked,hd:$("gh").checked,leg:$("gg").checked,lbl:$("gl").checked,lim:parseFloat($("lim").value)||0,fs});
 function gRender(){
   const box=$("gsvg"), W=box.clientWidth, H=box.clientHeight;
   if(!GV) GV=fitView(W,H,0,gOpts(1));
@@ -1257,7 +1281,7 @@ $("gx").onclick=()=>{ $("gm").hidden=true; };
 $("gfit").onclick=()=>{ GV=null; gRender(); };
 const slv=p=>p<=100?(p-25)*50/75:50+(p-100)*50/150;   // opak k pct: zobrazená % -> poloha posuvníku
 const syncNum=()=>{ [["gt","gtn"],["ga","gan"]].forEach(([s,n])=>{ if(document.activeElement!==$(n)) $(n).value=Math.round(pct(s)); }); };
-["gt","ga","gp","gu","gc","gr","gh","gl"].forEach(id=>$(id).addEventListener("input",()=>{ syncNum(); if(!$("gm").hidden) gRender(); }));
+["gt","ga","gp","gu","gc","gr","gh","gg","gl"].forEach(id=>$(id).addEventListener("input",()=>{ syncNum(); if(!$("gm").hidden) gRender(); }));
 // číselné zadání velikosti: platná hodnota 25–250 % se promítne do posuvníku hned při psaní, po opuštění pole se opraví do rozsahu
 [["gt","gtn"],["ga","gan"]].forEach(([s,n])=>{
   const val=()=>parseFloat($(n).value.replace(",","."));

@@ -5,23 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ZSS pilot</title>
 <style>
-:root{--bg:#f6f7f9;--fg:#1d2330;--card:#fff;--bd:#d5d9e0;--ac:#2f855a;--acfg:#fff;--mer:#2f855a;--merfg:#fff;--mert:#eef7f1;--pro:#2563c9;--profg:#fff;--prot:#eef4fd;--grn:#1b7a3a;--red:#d92d20;--mut:#6b7280;--wrn:#b45309}
+:root{--r-zone:8px;--r-bar:6px;--r-btn:4px;--r-field:3px;--r-pill:6px;--r-circle:4px;--bg:#f6f7f9;--fg:#1d2330;--card:#fff;--bd:#d5d9e0;--ac:#2f855a;--acfg:#fff;--mer:#2f855a;--merfg:#fff;--mert:#eef7f1;--pro:#2563c9;--profg:#fff;--prot:#eef4fd;--grn:#1b7a3a;--red:#d92d20;--mut:#6b7280;--wrn:#b45309}
 @media (prefers-color-scheme:dark){:root{--bg:#14171c;--fg:#e6e8ec;--card:#1d2128;--bd:#343a45;--ac:#48bb78;--acfg:#0b2415;--mer:#48bb78;--merfg:#0b2415;--mert:#17261d;--pro:#6aa6ff;--profg:#0a1a33;--prot:#16202f;--grn:#4cc38a;--red:#ff6b5b;--mut:#9aa3b2;--wrn:#f5a524}}
 *{box-sizing:border-box}
 body{margin:0;padding:16px;background:var(--bg);color:var(--fg);font:14px/1.4 system-ui,Segoe UI,sans-serif}
-h1{font-size:18px;margin:0 0 10px;display:flex;flex-wrap:nowrap;align-items:stretch;gap:0;padding:0;overflow:hidden;border:1px solid color-mix(in srgb,var(--ac) 28%,var(--bd));border-radius:12px;background:color-mix(in srgb,var(--ac) 5%,var(--bg))}   /* nadpis s Resetem v decentním rámečku jako zóny */
+h1{font-size:18px;margin:0 0 10px;display:flex;flex-wrap:nowrap;align-items:stretch;gap:0;padding:0;overflow:hidden;border:1px solid color-mix(in srgb,var(--ac) 28%,var(--bd));border-radius:var(--r-zone);background:color-mix(in srgb,var(--ac) 5%,var(--bg))}   /* nadpis s Resetem v decentním rámečku jako zóny */
 #hlb{font-size:16px;width:128px;flex:none;display:flex;align-items:center;justify-content:center;padding:6px 8px;text-align:center;background:color-mix(in srgb,var(--ac) 16%,var(--bg));color:var(--ac)}   /* název v sytější části jako štítky zón */
 #htl{flex:1;min-width:0;align-self:center;padding:8px 12px}   /* informace a Reset sdílejí zbytek řádku napůl */
    /* nadpis s popisem a tlačítkem „i“ se zalamuje uvnitř sebe, Reset zůstává vpravo nahoře */
 #rall{white-space:nowrap;font-size:14px;color:var(--red)}#hbt{flex:none;display:flex;align-items:center;padding:8px 19px 8px 18px}   /* výška pruhu = výška zóny 4. EXPORT (8 + 36 + 8 px) */   /* tlačítko velké jako v zónách 1–3, rozdělené napůl: „i“ vlevo, Reset vpravo */
-#hsp{display:flex;border:1px solid var(--ac);border-radius:6px;overflow:hidden;background:var(--card)}
+#hsp{display:flex;border:1px solid var(--ac);border-radius:var(--r-btn);overflow:hidden;background:var(--card)}
 #hsp button{flex:1 1 50%;min-width:0;width:auto;height:auto;min-height:34px;margin:0;border:0;border-radius:0;font-size:14px;font-weight:500}
 #hsp #ib{font:italic 700 16px Georgia,serif;color:var(--ac);border-right:1px solid var(--ac)}
 #hsp #rall{color:var(--ac);display:inline-flex;align-items:center;justify-content:center}
 @media (max-width:560px){#hlb{width:auto;padding:8px 12px}h1{flex-wrap:wrap}#htl{flex:1 1 100%}#hbt{flex:1 1 100%;padding:0 12px 8px}#hsp{flex:1}}
 #hsp #rall:hover{color:var(--red);background:color-mix(in srgb,var(--red) 12%,var(--card))}
 .row{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:10px 0}
-.xzone{display:flex;align-items:stretch;margin:10px 0;border:1px solid color-mix(in srgb,var(--ac) 28%,var(--bd));border-radius:12px;overflow:hidden;background:color-mix(in srgb,var(--ac) 5%,var(--bg))}   /* decentní rámeček kolem exportních tlačítek (nižší než zóny 1. a 2.) */
+.xzone{display:flex;align-items:stretch;margin:10px 0;border:1px solid color-mix(in srgb,var(--ac) 28%,var(--bd));border-radius:var(--r-zone);overflow:hidden;background:color-mix(in srgb,var(--ac) 5%,var(--bg))}   /* decentní rámeček kolem exportních tlačítek (nižší než zóny 1. a 2.) */
 .xzl{width:128px;flex:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 8px;background:color-mix(in srgb,var(--ac) 16%,var(--bg));color:var(--ac);font-size:12.5px;letter-spacing:.05em;text-align:center}
 .xzl.col{flex-direction:column;gap:5px}.xzl.col .ic{width:34px;height:34px;stroke-width:1.8}   /* ikona nad textem jako u zón 1 a 2 */
 .xzm{flex:1;min-width:0;display:flex;align-items:flex-start;gap:10px;padding:4px 12px}   /* nižší zóny 4 až 6 (menší mezera nahoře i dole) */
@@ -30,11 +30,11 @@ h1{font-size:18px;margin:0 0 10px;display:flex;flex-wrap:nowrap;align-items:stre
 @media (max-width:560px){.xzone{flex-direction:column}.xzl{width:auto}.rzh{flex-direction:column}}
 #xl{flex:1;min-width:0;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}   /* export, CSV a výběr se na úzkém displeji zalamují */
 #szone .xzm,#xzone .xzm{padding-right:19px}#szone .xzm{padding-top:8px;padding-bottom:8px}   /* zóna 3 Nastavení zůstává s původní mezerou */
-.pctr{cursor:pointer;border-radius:3px;padding:0 2px}.pctr:hover,.pctr:focus-visible{background:var(--bd,rgba(128,128,128,.25));outline:none}   /* klikací „%“: zpět na 100 % */
-#xr{flex:none;display:flex;flex-wrap:nowrap;gap:8px;align-items:center;margin-left:auto}   /* Plán a rozdělená obrazovka: vpravo v hlavičce zóny 5 */#xr button{white-space:nowrap}   /* Zobrazit plán a rozdělená obrazovka: vpravo, nezalamují se */
+.pctr{cursor:pointer;border-radius:var(--r-field);padding:0 2px}.pctr:hover,.pctr:focus-visible{background:var(--bd,rgba(128,128,128,.25));outline:none}   /* klikací „%“: zpět na 100 % */
+#xr{flex:none;display:flex;flex-wrap:nowrap;gap:2px;align-items:center;margin-left:auto;padding:3px;border:1px solid var(--bd);border-radius:var(--r-bar);background:var(--card)}#xr button:not(.p){border-color:transparent;background:transparent}#xr button:not(.p):hover:not(:disabled){background:color-mix(in srgb,var(--ac) 12%,var(--card))}   /* čtyři tlačítka vpravo v zóně 5 v jednom pásu jako v zóně 6 */   /* Plán a rozdělená obrazovka: vpravo v hlavičce zóny 5 */#xr button{white-space:nowrap}   /* Zobrazit plán a rozdělená obrazovka: vpravo, nezalamují se */
 label{display:inline-flex;gap:4px;align-items:center}
-input[type=number]{width:70px;padding:3px;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:4px}
-button{padding:6px 12px;border:1px solid var(--ac);background:var(--card);color:var(--ac);border-radius:6px;cursor:pointer;font-weight:500}
+input[type=number]{width:70px;padding:3px;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:var(--r-field)}
+button{padding:6px 12px;border:1px solid var(--ac);background:var(--card);color:var(--ac);border-radius:var(--r-btn);cursor:pointer;font-weight:500}
 button:hover{background:color-mix(in srgb,var(--ac) 12%,var(--card))}
 #mods{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;padding-bottom:10px;border-bottom:1px solid var(--bd)}
 #mods button.mod.act{background:var(--ac);color:var(--acfg)}
@@ -50,43 +50,44 @@ body.split{padding-bottom:calc(var(--sp,50)*1vh)}body.split #tw{max-height:calc(
 #gsplit::after{content:"";position:absolute;left:50%;top:50%;width:56px;height:5px;margin:-2.5px 0 0 -28px;border-radius:3px;background:var(--ac);opacity:.55}
 #gsplit:hover::after,#gsplit.drag::after{opacity:1}   /* táhlo poměru tabulky a plánu (rozdělená obrazovka) */
 #sum{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;margin:8px 0 4px}#sum:empty{display:none}
-#sum .sc{display:inline-flex;gap:5px;align-items:baseline;padding:2px 10px;border:1px solid var(--bd);border-radius:999px;background:var(--card);font-size:13px}
+#sum .sc{display:inline-flex;gap:5px;align-items:baseline;padding:2px 10px;border:1px solid var(--bd);border-radius:var(--r-pill);background:var(--card);font-size:13px}
 #sum .sc.ok{color:var(--grn);border-color:var(--grn)}#sum .sc.bad{color:var(--red);border-color:var(--red)}#sum .sc.bad2{color:var(--red);border-color:var(--red);background:color-mix(in srgb,var(--red) 22%,var(--card))}
 #sum .sl{color:var(--mut);font-size:12.5px;margin-right:2px}
-#gtip{position:fixed;z-index:30;pointer-events:none;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:6px;padding:6px 10px;font-size:12.5px;line-height:1.45;max-width:280px;box-shadow:0 3px 12px rgba(0,0,0,.2)}#gtip[hidden]{display:none}
+#gtip{position:fixed;z-index:30;pointer-events:none;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:var(--r-btn);padding:6px 10px;font-size:12.5px;line-height:1.45;max-width:280px;box-shadow:0 3px 12px rgba(0,0,0,.2)}#gtip[hidden]{display:none}
 #gtip b{font-size:13px}#gtip .m{color:var(--mut)}#gtip .bad{color:var(--red);font-weight:600}#gtip .ok{color:var(--grn);font-weight:600}
 tr.pile.sel td{background:color-mix(in srgb,#f59e0b 22%,var(--card))}
 tr.pile.sel.has:hover td{background:color-mix(in srgb,#f59e0b 22%,var(--card))}
-#gtop{display:flex;align-items:stretch;gap:0;margin:0;border:1px solid color-mix(in srgb,var(--ac) 28%,var(--bd));border-radius:12px;overflow:hidden;background:color-mix(in srgb,var(--ac) 5%,var(--bg))}   /* panel plánu jako zóna 6. PLÁN */
-#gtop>.xzl{padding:6px 8px}#gleft{padding:4px 0 4px 12px}#gbtn{align-self:center;margin:4px 12px 4px 10px}
+#gtop{display:flex;align-items:stretch;gap:0;margin:0;border:1px solid color-mix(in srgb,var(--ac) 28%,var(--bd));border-radius:var(--r-zone);overflow:hidden;background:color-mix(in srgb,var(--ac) 5%,var(--bg))}   /* panel plánu jako zóna 6. PLÁN */
+#gtop>.xzl{padding:6px 8px}#gleft{padding:4px 0 4px 12px}#gbtn{align-self:flex-start;margin:4px 12px 4px 10px}   /* pás tlačítek pevně vpravo nahoře, i když se levá část zalomí do více řádků */
 @media (max-width:560px){#gtop>.xzl{width:auto;padding:6px 10px}}
 #gleft{flex:1;min-width:0;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}   /* vše vlevo se při úzkém displeji zalamuje, tlačítka vpravo zůstávají napevno */
-#gbtn{flex:none;display:flex;gap:2px;padding:3px;border:1px solid var(--bd);border-radius:10px;background:var(--card)}
-#gchk{padding:4px 10px;border:1px solid var(--bd);border-radius:10px;background:var(--card)}
-.gsl{display:flex;flex-direction:column;gap:4px;padding:4px 10px;border:1px solid var(--bd);border-radius:10px;background:var(--card)}
+#gbtn{flex:none;display:flex;gap:2px;padding:3px;border:1px solid var(--bd);border-radius:var(--r-bar);background:var(--card)}
+#gexp{flex:none;display:flex;flex-direction:column;align-items:stretch;gap:2px;padding:3px;border:1px solid var(--bd);border-radius:var(--r-bar);background:var(--card)}#gexp button{min-height:25px;height:25px;padding-top:0;padding-bottom:0}#gexp button:not(:disabled){border-color:transparent;background:transparent}#gexp button:not(:disabled):hover{background:color-mix(in srgb,var(--ac) 12%,var(--card))}   /* PDF a DXF v plánu nad sebou v jednom svislém pásu (nerozšiřují lištu) */
+#gchk{padding:4px 10px;border:1px solid var(--bd);border-radius:var(--r-bar);background:var(--card)}
+.gsl{display:flex;flex-direction:column;gap:4px;padding:4px 10px;border:1px solid var(--bd);border-radius:var(--r-bar);background:var(--card)}
 #gbtn button:not(.p){border-color:transparent;background:transparent}#gbtn button:not(.p):hover{background:color-mix(in srgb,var(--ac) 12%,var(--card))}
 #gm.split #gleft>*{flex:none}   /* v rozdělené obrazovce se lišta při nedostatku místa zalomí (rámeček se zaškrtávátky přejde na další řádek) */
-#gsvg{flex:1;min-height:0;background:#fff;border:1px solid var(--bd);border-radius:6px;overflow:hidden;cursor:grab}
+#gsvg{flex:1;min-height:0;background:#fff;border:1px solid var(--bd);border-radius:var(--r-btn);overflow:hidden;cursor:grab}
 #gsvg svg{display:block}
-.verb{font-weight:600;font-size:12.5px;color:var(--fg);border:1px solid var(--ac);border-radius:999px;padding:2px 10px;vertical-align:middle}
-.ib{width:28px;height:28px;padding:0;border-radius:50%;font:italic 700 16px Georgia,serif;line-height:1;vertical-align:middle}
+.verb{font-weight:600;font-size:12.5px;color:var(--fg);border:1px solid var(--ac);border-radius:var(--r-pill);padding:2px 10px;vertical-align:middle}
+.ib{width:28px;height:28px;padding:0;border-radius:var(--r-circle);font:italic 700 16px Georgia,serif;line-height:1;vertical-align:middle}
 #im{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px}
 #im[hidden]{display:none}
 #rm{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px}#rm[hidden]{display:none}
-#rm .card{background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:12px;max-width:440px;width:100%;padding:18px 22px;box-shadow:0 8px 30px rgba(0,0,0,.3)}
+#rm .card{background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:var(--r-zone);max-width:440px;width:100%;padding:18px 22px;box-shadow:0 8px 30px rgba(0,0,0,.3)}
 #rm h2{margin:0 0 8px;font-size:18px}#rm p{margin:0 0 16px;font-size:13.5px;color:var(--mut)}
 .rmb{display:flex;justify-content:flex-end;gap:10px}
 #rmy{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}#rmy:hover{background:var(--red);filter:brightness(1.1)}
-#im .card{background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:12px;max-width:820px;width:100%;max-height:90vh;overflow:auto;padding:18px 24px}
+#im .card{background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:var(--r-zone);max-width:820px;width:100%;max-height:90vh;overflow:auto;padding:18px 24px}
 #imh{position:sticky;top:-18px;z-index:1;margin:-18px -24px 6px;padding:18px 24px 8px;background:var(--card);border-bottom:1px solid var(--bd)}   /* hlavička okna s hledáním zůstává při posunu nahoře */
-#ims{flex:1;min-width:160px;padding:5px 8px;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:6px;font:inherit}
+#ims{flex:1;min-width:160px;padding:5px 8px;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:var(--r-btn);font:inherit}
 #imc{color:var(--mut);font-size:12.5px;white-space:nowrap}
 mark.hl{background:rgba(74,222,128,.55);color:inherit;border-radius:2px;padding:0 1px}mark.hl.cur{background:rgba(34,197,94,.9);outline:2px solid #16a34a}   /* zvýrazňovač: nalezené zeleně, aktuální výrazněji */
 @media (prefers-color-scheme:dark){mark.hl{background:rgba(72,187,120,.45)}mark.hl.cur{background:rgba(72,187,120,.85);color:#06210f;outline-color:#86efac}}
 #im h2{margin:0 0 4px;font-size:18px}#im h3{margin:16px 0 4px;font-size:14px;color:var(--ac)}
 #im p,#im li{margin:3px 0;font-size:13.5px}#im ul{margin:4px 0;padding-left:20px}
 .chev{display:inline-block;width:1.2em;margin:-.3em 2px -.3em 0;font-size:1.7em;line-height:1;vertical-align:middle;text-align:center;color:var(--ac);cursor:pointer}
-button.chev,button.sb{border:0;background:none;padding:0;font-weight:inherit;color:inherit;border-radius:3px}
+button.chev,button.sb{border:0;background:none;padding:0;font-weight:inherit;color:inherit;border-radius:var(--r-field)}
 button.chev{color:var(--ac);font-size:1.7em;font-weight:400}
 button.chev:hover,button.sb:hover{background:none}
 button.sb{font:inherit;font-weight:700;text-align:left;white-space:nowrap}
@@ -94,7 +95,7 @@ button.sb:hover{color:var(--ac)}
 th .si{display:inline-block;width:.9em;color:var(--ac);font-size:11px}
 th.r{text-align:right}th.r button.sb{display:inline-flex;flex-direction:row-reverse;align-items:baseline;text-align:right}   /* záhlaví číselných sloupců vpravo, stejně jako čísla pod nimi; ukazatel řazení vlevo od textu */
 #fbar{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin:6px 0}
-#fbar select,#gchk select{padding:3px;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:4px}
+#fbar select,#gchk select{padding:3px;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:var(--r-field)}
 #fcnt{color:var(--mut);font-size:12.5px}
 td.hd{white-space:nowrap}td.hd input{vertical-align:middle;margin-right:2px}
 tr.skip td{opacity:.45}tr.skip td b{text-decoration:line-through}
@@ -102,11 +103,10 @@ tr.pile.has{cursor:pointer}tr.pile.has:hover td{background:color-mix(in srgb,var
 tr.bad td{color:var(--red);font-weight:600}
 tr.sub td{background:var(--bg);white-space:normal;padding:8px 14px}
 .hint{color:var(--mut);font-size:12.5px;margin-bottom:4px}
-.chip{display:inline-flex;align-items:center;gap:5px;margin:2px 10px 2px 0;padding:3px 10px;border:1px solid var(--bd);border-radius:999px;background:var(--card);cursor:pointer}
+.chip{display:inline-flex;align-items:center;gap:5px;margin:2px 10px 2px 0;padding:3px 10px;border:1px solid var(--bd);border-radius:var(--r-pill);background:var(--card);cursor:pointer}
 .chip.worst{border-color:var(--red);color:var(--red);font-weight:600}
 .chip.off{opacity:.6;text-decoration:line-through}
 button:not(.chev):not(.sb):not(.ib){min-height:36px}button.io{padding:6px 8px}
-#gx:hover{color:var(--red);border-color:var(--red);background:color-mix(in srgb,var(--red) 12%,var(--card))}
 button:disabled{opacity:.45;cursor:default}
 /* Zobrazit plán: tlačítko jen s ikonou, bez výplně; po odemčení přes něj jednou přejede světelný pruh */
 button#gb:not(:disabled){position:relative;overflow:hidden}
@@ -118,12 +118,12 @@ button#gb.shine::after{content:"";position:absolute;top:0;bottom:0;left:-60%;wid
 @keyframes ctaRing{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--zc) 60%,transparent)}100%{box-shadow:0 0 0 14px transparent}}
 @media (prefers-reduced-motion:reduce){button#gb.shine::after,.zone.cta.shine{animation:none}}
 button.wi{display:inline-flex;align-items:center;gap:6px}
-button.sq{flex-direction:column;justify-content:center;width:98px;height:98px;padding:6px;border-radius:10px;line-height:1.25;gap:8px;text-align:center}.sq .ic{width:32px;height:32px}
+button.sq{flex-direction:column;justify-content:center;width:98px;height:98px;padding:6px;border-radius:var(--r-bar);line-height:1.25;gap:8px;text-align:center}.sq .ic{width:32px;height:32px}
 .ic{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .ic{--ko:var(--card)}button:hover .ic{--ko:color-mix(in srgb,var(--ac) 12%,var(--card))}.ic .ko{fill:var(--ko)}.ic .kos{stroke:var(--ko)}
 input{accent-color:var(--ac)}
 input:focus-visible,button:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
-.zone{display:flex;border-radius:12px;overflow:hidden;border:2px solid var(--zc);background:color-mix(in srgb,var(--zc) 5%,var(--bg));margin:10px 0;min-height:104px}   /* stejný decentní styl jako zóny 3 a 4, barva podle zóny */
+.zone{display:flex;border-radius:var(--r-zone);overflow:hidden;border:2px solid var(--zc);background:color-mix(in srgb,var(--zc) 5%,var(--bg));margin:10px 0;min-height:104px}   /* stejný decentní styl jako zóny 3 a 4, barva podle zóny */
 .zone.over{box-shadow:0 0 0 4px color-mix(in srgb,var(--zc) 45%,transparent)}
 .zl{width:128px;flex:none;background:color-mix(in srgb,var(--zc) 16%,var(--bg));color:var(--zc);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:8px;font-size:12.5px;letter-spacing:.05em;text-align:center}
 .zm{flex:1;min-width:0;padding:12px 18px;display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;align-content:center;gap:6px 14px}.zm>.fchips,.zm>.zopt{flex:0 0 100%}   /* nadpis a stavový řádek jsou na jednom řádku, vejdou-li se; štítky souborů a volby vždy pod nimi */
@@ -137,9 +137,9 @@ input:focus-visible,button:focus-visible{outline:2px solid var(--ac);outline-off
 .zs svg{flex:none}
 .fchips{display:flex;flex-wrap:wrap;gap:6px}
 .fchips[hidden]{display:none}
-.fp{display:inline-flex;align-items:center;gap:2px;max-width:100%;padding:0 2px 0 10px;border-radius:999px;border:1px solid var(--zc);background:color-mix(in srgb,var(--zc) 12%,var(--bg));font-size:12.5px;line-height:1.3}
+.fp{display:inline-flex;align-items:center;gap:2px;max-width:100%;padding:0 2px 0 10px;border-radius:var(--r-pill);border:1px solid var(--zc);background:color-mix(in srgb,var(--zc) 12%,var(--bg));font-size:12.5px;line-height:1.3}
 .fp>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:260px}
-.fp button:not(.chev):not(.sb):not(.ib){flex:none;width:18px;height:18px;min-height:0;padding:0;border:0;border-radius:50%;background:transparent;color:var(--mut);font-size:16px;line-height:1;cursor:pointer}
+.fp button:not(.chev):not(.sb):not(.ib){flex:none;width:18px;height:18px;min-height:0;padding:0;border:0;border-radius:var(--r-circle);background:transparent;color:var(--mut);font-size:16px;line-height:1;cursor:pointer}
 .fp button:not(.chev):not(.sb):not(.ib):hover,.fp button:not(.chev):not(.sb):not(.ib):focus-visible{background:color-mix(in srgb,var(--zc) 28%,transparent);color:var(--fg)}
 button.p{background:var(--ac);color:var(--acfg)}
 button.p:hover{background:var(--ac);filter:brightness(1.1)}
@@ -147,14 +147,14 @@ button.p:hover{background:var(--ac);filter:brightness(1.1)}
 .pro button.p:hover{background:var(--pro);filter:brightness(1.1)}
 .params{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0;align-items:stretch}   /* karty stejně vysoké; tlačítko Výchozí hodnoty vždy vpravo */
 .params>.pg:not(.adv){flex:1 1 240px;max-width:100%}   /* první dvě karty stejně široké, na širokém displeji se roztáhnou */
-.params>.adv{flex:0 0 auto;max-width:100%}.params>.adv[open]{flex:0 0 min(330px,100%)}   /* sbalené Pokročilé hledání je jen tak široké jako text, rozbalené se zvětší */
+.params>.adv{flex:0 0 auto;max-width:100%}.params>.adv[open]{flex:0 0 min(330px,100%)}   /* sbalené Pokročilé nastavení je jen tak široké jako text, rozbalené se zvětší */
 .params>.fld{display:flex;flex:none;margin-left:auto}.params>.fld>button.sq{min-height:98px}
-.pg{border:1px solid var(--bd);border-radius:10px;background:var(--card);padding:6px 14px 10px;margin:0;min-width:0}
+.pg{border:1px solid var(--bd);border-radius:var(--r-bar);background:var(--card);padding:6px 14px 10px;margin:0;min-width:0}
 .pg .pf{flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:4px}.pg .fld{width:100%}.pg .fld label{display:flex;justify-content:space-between;gap:8px}.pg .hp{max-width:none}
-.ccrow{display:flex;justify-content:space-between;align-items:center;gap:8px}.ccrow input{width:112px;padding:3px 6px;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:4px;text-transform:uppercase}.ccrow button{padding:2px 10px}#ccadd{min-height:28px}
+.ccrow{display:flex;justify-content:space-between;align-items:center;gap:8px}.ccrow input{width:112px;padding:3px 6px;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:var(--r-field);text-transform:uppercase}.ccrow button{padding:2px 10px}#ccadd{min-height:28px}
 #cclist{display:flex;flex-wrap:wrap;gap:4px 6px;margin-top:4px}#cclist:empty,#ccmsg:empty{display:none}
-.cc{display:inline-flex;align-items:center;gap:2px;padding:0 3px 0 9px;border:1px solid var(--bd);border-radius:999px;background:var(--bg);font-size:12.5px}
-#cclist button{border:0;background:none;color:var(--mut);padding:0 5px;min-height:0;font-size:16px;line-height:1.2;border-radius:50%}#cclist button:hover{background:none;color:var(--red)}   /* řádky: popisek vlevo, pole vpravo */
+.cc{display:inline-flex;align-items:center;gap:2px;padding:0 3px 0 9px;border:1px solid var(--bd);border-radius:var(--r-pill);background:var(--bg);font-size:12.5px}
+#cclist button{border:0;background:none;color:var(--mut);padding:0 5px;min-height:0;font-size:16px;line-height:1.2;border-radius:var(--r-circle)}#cclist button:hover{background:none;color:var(--red)}   /* řádky: popisek vlevo, pole vpravo */
 .pg legend,details.pg summary{padding:0 6px;font-weight:700;font-size:13px;color:var(--ac)}
 details.pg summary{cursor:pointer;padding:0;margin:2px 0}details.pg[open] summary{margin-bottom:8px}
 .pf{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:flex-start}
@@ -169,14 +169,14 @@ button.sb.lk{font-weight:400;color:var(--ac);text-decoration:underline;text-unde
 details.logd{margin:10px 0 4px}details.logd summary{cursor:pointer;color:var(--mut)}details.logd[hidden]{display:none}
 button.p .ic,button.p:hover .ic{--ko:var(--ac)}
 #st{color:var(--mut);margin:6px 0}
-.tw{overflow-x:auto;background:var(--card);border:1px solid var(--bd);border-radius:8px;max-height:var(--twh,60vh);overflow-y:auto}   /* --twh nastavuje JS (fitTable): zóny 4 + 5 dohromady vyplní 100 % výšky okna */
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar);max-height:var(--twh,60vh);overflow-y:auto}   /* --twh nastavuje JS (fitTable): zóny 4 + 5 dohromady vyplní 100 % výšky okna */
 table{border-collapse:collapse;width:100%}
 th,td{padding:4px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}
 th{position:sticky;top:0;background:var(--card);text-align:left}
 td.n{text-align:right;font-variant-numeric:tabular-nums}
 td.heat{background:color-mix(in srgb,var(--red) 22%,transparent)}
 .lrow{position:relative;display:flow-root;min-height:36px}.author{position:absolute;right:0;top:10px;margin:0;font-size:11px;line-height:22px;color:var(--mut)}   /* autor na řádku s nadpisem „Log“, zarovnaný doprava (i když je log skrytý) */
-pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:8px;max-height:200px;overflow:auto;white-space:pre-wrap;color:var(--mut);font-size:12px}
+pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar);padding:8px;max-height:200px;overflow:auto;white-space:pre-wrap;color:var(--mut);font-size:12px}
 </style>
 </head>
 <body>
@@ -222,29 +222,29 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
       <div class="fld"><div class="ccrow" id="ccrow"><label for="ccin" title="Další kód nebo předpona názvu bodu, podle které se body použijí (kromě ZSS, PIL, ZSSPIL). Jen písmena A–Z a číslice bez diakritiky, nejvýš 8 znaků. Seznam má nejvýš 8 kódů, další přepíše nejstarší vložený. Platí jen při zapnuté volbě „Jen kódy …“.">Vlastní kód</label><span style="display:inline-flex;gap:6px;align-items:center"><input type="text" id="ccin" maxlength="8" placeholder="max 8 znaků" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Vlastní kód bodu"><button type="button" id="ccadd" title="Přidá kód do seznamu (stejně jako Enter v poli). Seznam má nejvýš 8 kódů, další přepíše nejstarší.">Přidat</button></span></div><div id="cclist" aria-live="polite"></div><div id="ccmsg" class="stw" aria-live="polite"></div></div>
     </div>
   </fieldset>
-  <details class="pg adv" id="adv"><summary>Pokročilé hledání</summary>
+  <details class="pg adv" id="adv"><summary>Pokročilé nastavení</summary>
     <div class="pf">
       <div class="fld"><label title="Největší povolená vzdálenost použitého bodu od vypočtené kružnice. Pilotu, jejíž nejhorší bod leží dál, se v tabulce označí červeně jako podezřelá (bod je třeba zkontrolovat nebo vyřadit). Piloty určené třemi body nelze takto ověřit. 0 = kontrola vypnuta. Povoleno 0 až 9999 mm.">Bod od kružnice – červeně nad [mm] <input type="number" id="rlim" value="50" step="5" min="0" max="9999"></label><small class="hp">0 = kontrola vypnuta</small></div>
       <div class="fld"><label title="O kolik procent se smí průměr piloty lišit od typického průměru (zadaného nebo odhadnutého z dat). Trojice bodů s průměrem mimo toto rozmezí se nepovažuje za pilotu. 0 = kontrola vypnuta, platí jen rozsah průměru min–max. Povoleno 0 až 100 %.">Odchylka průměru od typického [%] <input type="number" id="dv" value="40" step="5" min="0" max="100"></label><small class="hp">0 = kontrola vypnuta, platí jen min–max</small></div>
       <div class="fld"><label title="Jak daleko od kružnice smí ležet další bod, aby se ještě přidal k pilotě. 0 = jen 3 body. Povoleno 0 až 1 m.">Tolerance bodů na kružnici [m] <input type="number" id="tol" value="0.05" step="0.005" min="0" max="1"></label><small class="hp">0 = jen 3 body</small></div>
       <div class="fld"><label title="Zapnuto: body, které zůstaly nepoužité, se nakonec zkusí poskládat do kružnic bez ohledu na jejich pořadí v souboru (např. 2 body a později další bod téže piloty). Přijme se jen kružnice s průměrem v povolené odchylce od typického (stejné nastavení jako u hlavního hledání), s body rozloženými po celé kružnici a (u „jen dle PD“) se středem u bodu projektu. Taková pilota má v poznámce „dopočteno mimo pořadí“."><input type="checkbox" id="oo" checked> Dopočítat body mimo pořadí</label><small class="hp">nepoužité body se zkusí poskládat do dalších kružnic</small></div>
+      <div class="fld"><label title="CSV s desetinnou čárkou. Zapnuto: čísla v uloženém CSV mají desetinnou čárku (vhodné pro český Excel). Vypnuto: desetinná tečka."><input type="checkbox" id="comma" checked> CSV s des. čárkou</label><small class="hp">čísla v uloženém CSV; vypnuto = desetinná tečka</small></div>
     </div>
   </details>
   <div class="fld"><button type="button" id="pdef" class="wi sq" title="Vrátí všechny parametry (průměry, tolerance, meze, přepínače) na výchozí hodnoty a přepočítá. Načtené soubory a ruční výběr zůstanou."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg><span>Výchozí<br>hodnoty</span></button></div>
 </div></div></div>
 <div class="xzone" id="xzone"><div class="xzl"><b>4. EXPORT</b></div><div class="xzm"><div id="xl">
   <button class="wi" id="sstx" disabled title="Zkratka Shift+T. Uloží vypočtené středy pilot do souboru STX: název, Y, X, Z a kód PIL. Pilotu s odškrtnutým „použít pilotu“ soubor neobsahuje."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>STX</button>
-  <button class="wi" id="scsv" disabled title="Zkratka Shift+C. Uloží podrobnou tabulku (středy, poloměry, průměry, odchylky od projektu, poznámky) jako CSV pro Excel. Desetinný oddělovač určuje volba „CSV s des. čárkou“."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2"/><path d="M3 10h18M3 14.9h18M9 10v9.5M15 10v9.5" stroke-width="1.5"/><path d="M3 6.5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2V10H3z" fill="currentColor" fill-opacity=".22" stroke="none"/></svg>CSV</button>
-  <label title="CSV s desetinnou čárkou. Zapnuto: čísla v uloženém CSV mají desetinnou čárku (vhodné pro český Excel). Vypnuto: desetinná tečka."><input type="checkbox" id="comma" checked> Des. čárka</label>
+  <button class="wi" id="scsv" disabled title="Zkratka Shift+C. Uloží podrobnou tabulku (středy, poloměry, průměry, odchylky od projektu, poznámky) jako CSV pro Excel. Desetinný oddělovač určuje volba „CSV s des. čárkou“ v Nastavení (Pokročilé nastavení)."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2"/><path d="M3 10h18M3 14.9h18M9 10v9.5M15 10v9.5" stroke-width="1.5"/><path d="M3 6.5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2V10H3z" fill="currentColor" fill-opacity=".22" stroke="none"/></svg>CSV</button>
   <button class="wi" id="spdf" disabled title="Zkratka Shift+P. Uloží PDF A3 s celým výkresem plánu na jedné stránce (na šířku nebo na výšku podle tvaru plánu): drobný čitelný text a malé šipky. Nezávisí na aktuálním přiblížení; velikost písma lze změnit posuvníkem v plánu."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg>PDF</button>
   <button class="wi" id="sdxf" disabled title="Zkratka Shift+S. Uloží výkres do DXF pro CAD: kružnice pilot, body projektu, vypočtené středy, měřené body, odchylky a popisy v samostatných vrstvách."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg>DXF</button>
 </div></div></div>
 <div class="xzone rz" id="rzone"><div class="rzh"><div class="xzl"><b>5. VÝSLEDKY</b></div><div class="xzm"><div id="fbar"><label title="Filtr pilot: určuje, které piloty se zobrazí v tabulce, v plánu (včetně PDF a DXF) a které se uloží do všech exportů (STX, CSV, kopírování). Zaškrtávátka „použít pilotu“ a ruční výběr bodů fungují dál, odškrtnuté piloty se nepoužijí nikdy.">Filtr pilot <select id="flt"><option value="all">všechny piloty</option><option value="in">jen v mezi odchylky od PD</option><option value="over">jen nad mezí odchylky od PD</option><option value="sus">jen podezřelé (body nad mezí od kružnice)</option><option value="inv">jen neplatné</option><option value="prob">jen problémové (nad mezí, podezřelé i neplatné)</option></select></label><span id="fcnt" aria-live="polite"></span></div>
+<div id="xr">
   <button class="wi io" id="roff" type="button" disabled aria-label="Obnovit výchozí výběr" title="Obnovit výchozí výběr: vrátí výchozí stav, znovu zapne všechny ručně vypnuté body i odškrtnuté (nepoužité) piloty. Parametry zůstanou (ty vrací tlačítko Výchozí hodnoty). Je aktivní, jen když něco vypnuto je."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></button>
   <button class="wi io" id="cp" type="button" disabled aria-label="Kopírovat do schránky" title="Kopírovat do schránky: zkopíruje tabulku, aby šla vložit přímo do Excelu nebo jiného programu."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></button>
-<div id="xr">
-  <button class="wi io" id="gb" disabled aria-label="Zobrazit plán" title="Otevře plán pilot na celé obrazovce: kruhy pilot, středy, měřené body a šipky odchylek. PDF a DXF lze uložit i z plánu."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2.5v19M16 2.5v19M2.5 8h19M2.5 16h19" stroke-width="1.4" stroke-opacity=".55"/><g fill="currentColor" stroke="none"><circle cx="8" cy="8" r="3.2"/><circle cx="16" cy="8" r="3.2"/><circle cx="8" cy="16" r="3.2"/><circle cx="16" cy="16" r="3.2"/></g><path class="kos" d="M6.8 6.8l2.4 2.4m0-2.4l-2.4 2.4M14.8 6.8l2.4 2.4m0-2.4l-2.4 2.4M6.8 14.8l2.4 2.4m0-2.4l-2.4 2.4M14.8 14.8l2.4 2.4m0-2.4l-2.4 2.4" stroke-width="1.1"/></svg></button>
   <button class="wi io" id="gbs" disabled aria-label="Plán v rozdělené obrazovce" title="Otevře plán v rozdělené obrazovce: nahoře tabulka, dole plán (každý zhruba polovinu výšky). Klik na řádek tabulky označí pilotu v plánu a klik na pilotu v plánu označí její řádek v tabulce."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3.5" width="18" height="17" rx="2" stroke-width="1.8"/><path d="M3 12h18" stroke-width="1.8"/><rect x="5.5" y="14.2" width="13" height="4" rx=".6" fill="currentColor" stroke="none" opacity=".55"/></svg></button>
+  <button class="wi io" id="gb" disabled aria-label="Zobrazit plán" title="Otevře plán pilot na celé obrazovce: kruhy pilot, středy, měřené body a šipky odchylek. PDF a DXF lze uložit i z plánu."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2.5v19M16 2.5v19M2.5 8h19M2.5 16h19" stroke-width="1.4" stroke-opacity=".55"/><g fill="currentColor" stroke="none"><circle cx="8" cy="8" r="3.2"/><circle cx="16" cy="8" r="3.2"/><circle cx="8" cy="16" r="3.2"/><circle cx="16" cy="16" r="3.2"/></g><path class="kos" d="M6.8 6.8l2.4 2.4m0-2.4l-2.4 2.4M14.8 6.8l2.4 2.4m0-2.4l-2.4 2.4M6.8 14.8l2.4 2.4m0-2.4l-2.4 2.4M14.8 14.8l2.4 2.4m0-2.4l-2.4 2.4" stroke-width="1.1"/></svg></button>
 </div></div></div>
 <div class="rzb">
 <div class="tw" id="tw"><table><thead><tr>
@@ -275,7 +275,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
 <li>Použijí se body s kódem nebo s předponou názvu <b>ZSS</b>, <b>PIL</b> nebo <b>ZSSPIL</b> (lze vypnout). Ve skupině „Body a kontrola“ lze přidat až 8 vlastních kódů (písmena A–Z a číslice bez diakritiky, 1 až 8 znaků; Enter nebo tlačítko „Přidat“): body s takovým kódem nebo předponou názvu se použijí také. Devátý kód přepíše nejstarší vložený, kód odebereš křížkem. Vlastní kódy se pamatují v prohlížeči a „Výchozí hodnoty“ je smažou; při vypnuté volbě „Jen kódy …“ se nepoužívají (použijí se všechny body).</li></ul>
 <p>Tlačítka „Načíst SS“ (v zóně Měření s ikonou zaměření, v zóně Projekt s ikonou listu) jsou vybarvená, jen když je příslušný soubor načtený; tlačítka „Zobrazit plán“, ikona rozdělené obrazovky, ukládání a kopírování jsou zašedlé, dokud není co zobrazit nebo uložit (tooltip říká proč); po odemčení přes tlačítko Plán (ikona mřížky s kružnicemi) jednou přejede světelný pruh, ikona rozdělené obrazovky je zelená, když je plán otevřený, a ukládání a kopírování mají jen obrys; „Výchozí hodnoty“ jsou zašedlé, když jsou všechny parametry na výchozích hodnotách (není co vracet), jinak mají jen obrys; ostatní tlačítka mají pouze obrys.</p>
 <h3>2. Hledání středů pilot</h3>
-<p>Parametry jsou rozdělené do skupin; méně používané (odchylka průměru, tolerance bodů, dopočet mimo pořadí) jsou v rozbalovací sekci „Pokročilé hledání“. Tlačítko „Výchozí hodnoty“ vrátí všechny parametry na původní hodnoty. Hodnoty parametrů, volba „CSV s des. čárkou“, řazení a filtr tabulky, rozbalení „Pokročilého hledání“, volby a velikosti v plánu i poměr rozdělené obrazovky se pamatují v prohlížeči. Po novém otevření nebo obnovení stránky (F5) se znovu načte i poslední měření a projekt, obnoví se ruční výběr (vypnuté body a piloty), režim zobrazení (jen tabulka, rozdělená obrazovka nebo plán), posun tabulky, rozbalení a posun logu a přiblížení a posun plánu (tlačítko „Celý výkres“ v plánu je zapomene; po načtení nového souboru se plán otevře jako celý výkres); „Výchozí hodnoty“ vrátí jen parametry a načtené soubory ani ruční výběr nemění.</p>
+<p>Parametry jsou rozdělené do skupin; méně používané (odchylka průměru, tolerance bodů, dopočet mimo pořadí a CSV s desetinnou čárkou) jsou v rozbalovací sekci „Pokročilé nastavení“. Tlačítko „Výchozí hodnoty“ vrátí všechny parametry na původní hodnoty. Hodnoty parametrů, volba „CSV s des. čárkou“, řazení a filtr tabulky, rozbalení „Pokročilého nastavení“, volby a velikosti v plánu i poměr rozdělené obrazovky se pamatují v prohlížeči. Po novém otevření nebo obnovení stránky (F5) se znovu načte i poslední měření a projekt, obnoví se ruční výběr (vypnuté body a piloty), režim zobrazení (jen tabulka, rozdělená obrazovka nebo plán), posun tabulky, rozbalení a posun logu a přiblížení a posun plánu (tlačítko „Celý výkres“ v plánu je zapomene; po načtení nového souboru se plán otevře jako celý výkres); „Výchozí hodnoty“ vrátí jen parametry a načtené soubory ani ruční výběr nemění.</p>
 <p><b>Reset</b> (červené tlačítko vpravo nahoře vedle názvu): po potvrzení smaže načtené měření i projekt, ruční výběr a všechna uložená nastavení a vrátí parametry, volby plánu, filtr, řazení i poměr rozdělení na výchozí hodnoty.</p>
 <ul><li>Měření lze načíst z až 10 souborů, jednotlivě i víc najednou: každé další načtení soubory přidá (soubor se stejným názvem nahradí původní). Každý načtený soubor je v zelené zóně štítek s křížkem, kterým ho odebereš; ruční výběr pilot a bodů se přitom zachová. Tlačítko „Zrušit SS“ s ikonou zaměření odebere všechny soubory najednou. Tři po sobě jdoucí body a body navazující na kružnici se hledají vždy jen v rámci jednoho souboru: poslední bod jednoho souboru se nespojí s prvním bodem dalšího. Volba „Dopočítat body mimo pořadí“, připojení později doměřených bodů a sloučení pilot se stejným středem naopak pracují se všemi soubory dohromady.</li>
 <li>Vždy tři po sobě jdoucí body určí kružnici. Platný průměr je výchozně <span data-d="rmin">0,25</span> až <span data-d="rmax">1,5</span> m (zadat lze <span data-d="rmin" data-attr="min">0,01</span> až <span data-d="rmax" data-attr="max">9,999</span> m) a musí odpovídat typickému průměru v souboru (zadanému nebo odhadnutému z dat): lišit se od něj smí nejvýš o „povolenou odchylku průměru“ (výchozí <span data-d="dv">40</span> %). Typických průměrů může být víc (až 5): při odhadu z dat program další průměr kromě hlavního uzná jen s aspoň 3 pilotami o 4 a více bodech a v rozmezí 0,5× až 2× hlavního; jiné průměry zadáš ručně do pole „Typický průměr“ oddělené středníkem (např. 0,6; 0,9; 1,2). Kružnice mimo typické průměry projde jen s dalším bodem na kružnici (4 a více dobře rozložených bodů). Tím se odfiltrují kružnice vzniklé z bodů, které nepatří k jedné pilotě.</li>
@@ -314,8 +314,10 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
 <div id="gm" hidden>
   <div id="gsplit" title="Tažením myší změníš poměr tabulky a plánu. Dvojklik vrátí rozdělení na polovinu."></div>
   <div id="gtop"><div class="xzl"><b>6. PLÁN</b></div><div id="gleft">
+    <div id="gexp">
     <button class="wi" id="gpdf" title="Zkratka Shift+P. Uloží PDF A3 s celým výkresem na jedné stránce (na šířku nebo na výšku podle tvaru plánu): drobný čitelný text a malé šipky, aby se vešlo co nejvíc informací. Nezávisí na aktuálním přiblížení; velikost písma lze změnit posuvníkem."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg>PDF</button>
     <button class="wi" id="gdxf" title="Zkratka Shift+S. Uloží výkres do DXF pro CAD (kružnice pilot, body, středy, odchylky a popisy ve vrstvách). Texty mají velikost podle posuvníku velikosti písma."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg>DXF</button>
+    </div>
     <div class="gsl">
     <label title="Velikost popisků v plánu a v exportech (PDF, DXF). Dvojklik na posuvník vrátí výchozí velikost."><span style="min-width:3.4em">Písmo</span> <small style="color:var(--mut)">25 %</small> <input type="range" id="gt" min="0" max="100" step="any" value="50" style="width:160px" title="Velikost písma popisků. Dvojklik = výchozí velikost (střed)."> <small style="color:var(--mut)">300 %</small> <input type="number" id="gtn" min="25" max="300" step="5" value="100" style="width:68px" title="Velikost písma v procentech. Lze zadat číslem, posuvník se přizpůsobí. Klik na „%“ vrátí 100 %."> <span id="gtp" class="pctr" role="button" tabindex="0" title="Klik vrátí velikost na výchozích 100 %.">%</span></label>
     <label title="Velikost šipek odchylek v plánu a v exportech (PDF, DXF). Dvojklik na posuvník vrátí výchozí velikost."><span style="min-width:3.4em">Šipky</span> <small style="color:var(--mut)">25 %</small> <input type="range" id="ga" min="0" max="100" step="any" value="50" style="width:160px" title="Velikost šipek. Dvojklik = výchozí velikost (střed)."> <small style="color:var(--mut)">300 %</small> <input type="number" id="gan" min="25" max="300" step="5" value="100" style="width:68px" title="Velikost šipek v procentech. Lze zadat číslem, posuvník se přizpůsobí. Klik na „%“ vrátí 100 %."> <span id="gap" class="pctr" role="button" tabindex="0" title="Klik vrátí velikost na výchozích 100 %.">%</span></label>
@@ -343,14 +345,14 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:
     <button class="wi io" id="gdef" type="button" aria-label="Výchozí hodnoty voleb plánu" title="Vrátí volby zobrazení v plánu na výchozí hodnoty (odhad piloty, PD bez piloty a legenda zapnuty; vypočtené středy, hlavička, měřená kružnice, popis bodů a průměry vypnuty; měřené body = žádné). Vrátí také velikost písma a šipek (100 %)."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></button>
     <button class="wi io" id="gfit" aria-label="Celý výkres" title="Celý výkres: vrátí zobrazení tak, aby byly vidět všechny piloty (zruší přiblížení a posun)."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3" stroke-width="2"/><circle cx="12" cy="12" r="3.4" fill="currentColor" stroke="none"/></svg></button>
     <button class="wi io" id="gsp" type="button" aria-label="Rozdělená obrazovka" title=""><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3.5" width="18" height="17" rx="2" stroke-width="1.8"/><path d="M3 12h18" stroke-width="1.8"/><rect x="5.5" y="14.2" width="13" height="4" rx=".6" fill="currentColor" stroke="none" opacity=".55"/></svg></button>
-    <button class="wi io" id="gx" aria-label="Zavřít" title="Zavře plán a vrátí se do tabulky (stejně jako klávesa Esc)."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 5.5l13 13M18.5 5.5l-13 13" stroke-width="2.4"/></svg></button>
+    <button class="wi io" id="gx" aria-label="Zobrazit tabulku" title="Zavře plán a vrátí se do tabulky (stejně jako klávesa Esc)."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2"/><path d="M3 10h18M3 14.9h18M9 10v9.5M15 10v9.5" stroke-width="1.5"/><path d="M3 6.5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2V10H3z" fill="currentColor" fill-opacity=".22" stroke="none"/></svg></button>
     </div></div>
   <div id="gsvg"></div>
   <div id="gtip" hidden></div>
 </div>
 <script>
 "use strict";
-const APP_VERSION="1.099", APP_DATE="2. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
+const APP_VERSION="1.104", APP_DATE="2. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
 const RD_MIN=0.01, RD_MAX=1;   // meze pole „do vzdálenosti“ [m]
 const R_MIN_IN=0.01, R_MAX_IN=9.999;   // nejmenší a největší průměr [m], který jde zadat (výpočet uvnitř pracuje s poloměrem = průměr / 2)
 const VALID = new Set(["ZSS","PIL","ZSSPIL"]);
@@ -1128,7 +1130,7 @@ const LSK="zsspilot.nastaveni.v1";
 function saveSet(){ if(RESTORING) return; try{ const o={n:{},c:{},sc:sortCol,sd:sortDir,g:{}};
   DEF_NUM.forEach(id=>o.n[id]=$(id).value); DEF_CHK.forEach(id=>o.c[id]=$(id).checked);
   PLAN_IDS.forEach(id=>{ const e=$(id); o.g[id]=e.type==="checkbox"?e.checked:e.value; });   // volby a velikosti v plánu
-  o.fl=$("flt").value; o.adv=$("adv").open; o.sy=$("tw").scrollTop; o.sx=$("tw").scrollLeft; o.lg={o:$("logd").open,t:$("logd").open?$("log").scrollTop:0};   // filtr tabulky, rozbalené „Pokročilé hledání“
+  o.fl=$("flt").value; o.adv=$("adv").open; o.sy=$("tw").scrollTop; o.sx=$("tw").scrollLeft; o.lg={o:$("logd").open,t:$("logd").open?$("log").scrollTop:0};   // filtr tabulky, rozbalené „Pokročilé nastavení“
   o.cc=[...customCodes];
   o.off=[...off]; o.skip=[...skip].map(k=>[k,skipSig.get(k)||""]); o.exp=[...expanded];   // ruční výběr: vypnuté body, nepoužité piloty, rozbalené řádky
   localStorage.setItem(LSK,JSON.stringify(o)); }catch(e){} }
@@ -1757,7 +1759,7 @@ $("rm").addEventListener("click",e=>{ if(e.target===$("rm")) rmClose(); });
 document.addEventListener("keydown",e=>{ if($("rm").hidden) return;
   if(e.key==="Escape"){ e.stopImmediatePropagation(); e.preventDefault(); rmClose(); }
   else if(e.key==="Tab"){ e.preventDefault(); ($("rmn")===document.activeElement?$("rmy"):$("rmn")).focus(); } },true);
-// po F5: vrátí uložené volby plánu, filtr, „Pokročilé hledání“, a pak projekt a měření s ručním výběrem (vše je uloženo v localStorage)
+// po F5: vrátí uložené volby plánu, filtr, „Pokročilé nastavení“, a pak projekt a měření s ručním výběrem (vše je uloženo v localStorage)
 renderTable=(o=>function(){ const r=o.apply(this,arguments); saveSet(); return r; })(renderTable);   // každé překreslení tabulky uloží i její stav
 try{ const o=JSON.parse(localStorage.getItem(LSK)||"null"); if(o){ RST=o;
   PLAN_IDS.forEach(id=>{ const e=$(id), v=o.g&&o.g[id]; if(e.type==="checkbox"){ if(typeof v==="boolean") e.checked=v; } else if(typeof v==="string"&&(e.tagName!=="SELECT"||[...e.options].some(x=>x.value===v))) e.value=v; });

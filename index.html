@@ -9,6 +9,7 @@
 :root{--r-zone:8px;--r-bar:6px;--r-btn:4px;--r-field:3px;--r-pill:6px;--r-circle:4px;--bg:#f6f7f9;--fg:#1d2330;--card:#fff;--bd:#d5d9e0;--ac:#2f855a;--acfg:#fff;--mer:#2f855a;--merfg:#fff;--mert:#eef7f1;--pro:#2563c9;--profg:#fff;--prot:#eef4fd;--grn:#1b7a3a;--red:#d92d20;--mut:#6b7280;--wrn:#b45309}
 @media (prefers-color-scheme:dark){:root{--bg:#14171c;--fg:#e6e8ec;--card:#1d2128;--bd:#343a45;--ac:#48bb78;--acfg:#0b2415;--mer:#48bb78;--merfg:#0b2415;--mert:#17261d;--pro:#6aa6ff;--profg:#0a1a33;--prot:#16202f;--grn:#4cc38a;--red:#ff6b5b;--mut:#9aa3b2;--wrn:#f5a524}}
 *{box-sizing:border-box}
+.storage-warning{margin:10px 0;padding:12px 16px;border:2px solid var(--wrn);border-radius:var(--r-bar);background:var(--card);color:var(--wrn);font-weight:600}.storage-warning[hidden]{display:none}
 #toasts{position:fixed;top:14px;right:14px;z-index:99999;display:flex;flex-direction:column;gap:8px;max-width:min(420px,calc(100vw - 28px));pointer-events:none}
 .toast{pointer-events:auto;cursor:pointer;background:var(--card);color:var(--fg);border:1px solid var(--wrn);border-left:5px solid var(--wrn);border-radius:var(--r-bar);padding:9px 12px;box-shadow:0 4px 16px rgba(0,0,0,.22);font-size:13px;line-height:1.4;white-space:pre-line}
 .toast b{color:var(--wrn)}
@@ -264,6 +265,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 #imc2{color:var(--mut);font-size:12.5px;white-space:nowrap}
 #im2 h2{margin:0 0 4px;font-size:18px}#im2 h3{margin:16px 0 4px;font-size:14px;color:var(--ac)}
 #im2 p,#im2 li{margin:3px 0;font-size:13.5px}#im2 ul{margin:4px 0;padding-left:20px}
+#im .info-title,#im2 .info-title{display:flex;align-items:center;gap:.4em;min-width:0}#im .app-favicon,#im2 .app-favicon{width:1em;height:1em;flex:0 0 1em;object-fit:contain}
 </style>
 </head>
 <body>
@@ -339,7 +341,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 </div></div></div>
 <div class="rzb">
 <div class="tw" id="tw"><table><thead><tr>
-<th><input type="checkbox" id="usall" checked title="Zaškrtnout / odškrtnout všechny piloty najednou. Odškrtnutá pilota zůstane v tabulce zašedlá, ale nebude v plánu, PDF, DXF ani v uložených souborech."> #</th><th title="Název piloty: číslo nejbližšího bodu projektu, bez projektu S001, S002 … Název S… s načteným projektem znamená, že pilota není do meze „Do vzdálenosti od PD“ u žádného volného bodu PD; důvod (nejbližší bod PD a jeho vzdálenost) je v poznámce. Zelený do meze odchylky od projektu, červený nad ní.">Střed ZSS</th><th title="Počet bodů, ze kterých je střed piloty vypočten (ručně vypnuté body se nepočítají).">Bodů</th><th title="Čísla bodů použitých pro výpočet středu. Šipka ▸ před seznamem rozbalí body piloty, kde lze jednotlivé body odškrtnout a vyřadit z výpočtu.">Použité body</th><th class="r" title="Vypočtená souřadnice Y středu piloty [m].">Y</th><th class="r" title="Vypočtená souřadnice X středu piloty [m].">X</th><th class="r" title="Výška Z středu piloty [m]: průměr Z použitých bodů.">Z</th><th class="r" title="Průměr piloty [m] = 2 × poloměr.">Průměr</th><th class="r" title="Průměr piloty zaokrouhlený [mm]: menší piloty po menším kroku, větší piloty po větším (přesné hranice jsou v popisu aplikace).">Ø zaokr.</th><th class="r" title="Nejhorší bod piloty [mm]: největší vzdálenost použitého bodu od vypočtené kružnice. Červeně nad nastavenou mezí. „–“ = pilota je určena jen třemi body (nebo je střed zaměřen přímo), takže kružnice jimi projde vždy přesně a kontrola není možná.">max.Δ</th><th title="Číslo projektovaného bodu (PD), ke kterému byla pilota přiřazena. Jen s načteným projektovaným SS.">Bod PD</th><th title="Vzdálenost vypočteného středu od projektovaného středu [mm] se šipkou směru od projektu ke skutečnosti. Zeleně v toleranci, červeně nad ní.">Odchylka od PD</th><th class="r" title="Rozdíl souřadnic Y: skutečnost − projekt [mm].">ΔY [mm]</th><th class="r" title="Rozdíl souřadnic X: skutečnost − projekt [mm].">ΔX [mm]</th><th title="Upozornění k pilotě, např. ručně vypnuté body, vyřazené body, sloučené měření nebo důvod, proč je pilota neplatná.">Poznámka</th>
+<th><input type="checkbox" id="usall" checked title="Zaškrtnout / odškrtnout všechny piloty najednou. Odškrtnutá pilota zůstane v tabulce zašedlá, ale nebude v plánu, PDF, DXF ani v uložených souborech."> #</th><th title="Název piloty: číslo nejbližšího bodu projektu, bez projektu S001, S002 … Název S… s načteným projektem znamená, že pilota není do meze „Do vzdálenosti od PD“ u žádného volného bodu PD; důvod (nejbližší bod PD a jeho vzdálenost) je v poznámce. Zelený do meze odchylky od projektu, červený nad ní.">Střed ZSS</th><th title="Počet bodů, ze kterých je střed piloty vypočten (ručně vypnuté body se nepočítají).">Bodů</th><th title="Čísla bodů použitých pro výpočet středu. Šipka ▸ před seznamem rozbalí body piloty, kde lze jednotlivé body odškrtnout a vyřadit z výpočtu.">Použité body</th><th class="r" title="Vypočtená souřadnice Y středu piloty [m].">Y</th><th class="r" title="Vypočtená souřadnice X středu piloty [m].">X</th><th class="r" title="Výška Z středu piloty [m]: průměr Z použitých bodů.">Z</th><th class="r" title="Průměr piloty [m] = 2 × poloměr.">Průměr</th><th class="r" title="Průměr piloty zaokrouhlený [mm]: menší piloty po menším kroku, větší piloty po větším (přesné hranice jsou v popisu aplikace).">Ø zaokr.</th><th class="r" title="Nejhorší bod piloty [mm]: největší vzdálenost použitého bodu od vypočtené kružnice. Červeně nad nastavenou mezí. „–“ = pilota je určena jen třemi body (nebo je střed zaměřen přímo), takže kružnice jimi projde vždy přesně a kontrola není možná.">max.Δ</th><th title="Číslo projektovaného bodu (PD), ke kterému byla pilota přiřazena. Jen s načteným projektovaným SS.">Bod PD</th><th title="Vzdálenost vypočteného středu od projektovaného středu [mm] se šipkou směru od projektu ke skutečnosti. Zeleně v toleranci, červeně nad ní.">Odchylka od PD</th><th class="r" title="Rozdíl souřadnic Y: skutečnost − projekt [mm].">ΔY [mm]</th><th class="r" title="Rozdíl souřadnic X: skutečnost − projekt [mm].">ΔX [mm]</th><th id="dzth" class="r" hidden title="Rozdíl výšek: Z skutečnosti − Z projektu [mm]. Kladná hodnota znamená střed nad projektovanou výškou, záporná pod ní. Zobrazí se, když projekt obsahuje alespoň jednu výšku, včetně 0. Bez přiřazené projektované výšky je pomlčka.">ΔZ [mm]</th><th title="Upozornění k pilotě, např. ručně vypnuté body, vyřazené body, sloučené měření nebo důvod, proč je pilota neplatná.">Poznámka</th>
 </tr></thead><tbody id="tb"></tbody></table></div>
 <div id="sum" aria-live="polite"></div>
 <div id="st">Čekám na soubor.</div>
@@ -399,7 +401,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
   </details>
   <details class="pg grp" open><summary>Odchylky</summary>
     <div class="pf">
-      <div class="fld"><div class="rvunr"><span title="Jednotky, ve kterých se zobrazují odchylky ΔZ v tabulce, souhrnu i kopírování do schránky a zadává tolerance. Tolerance je pro obě jednotky stejná (výchozí 10 mm = 0,010 m), přepnutím jednotek se jen přepočte.">Jednotky odchylek</span><div class="rvseg rvsegs" role="radiogroup" aria-label="Jednotky odchylek" style="--zc:var(--ac);--zfg:var(--acfg)"><label title="Milimetry: odchylky ΔZ v tabulce, souhrnu i kopírování do schránky v milimetrech (např. +12; počet desetinných míst určuje Přesnost). Výchozí tolerance 10 mm. Výchozí volba."><input type="radio" name="rvunit" value="mm" checked>mm</label><label title="Metry: odchylky ΔZ v tabulce, souhrnu i kopírování do schránky v metrech (např. +0,012; počet desetinných míst určuje Přesnost). Výchozí tolerance 0,010 m (= 10 mm)."><input type="radio" name="rvunit" value="m">m</label></div></div></div>
+      <div class="fld"><div class="rvunr"><span title="Jednotky, ve kterých se zobrazují odchylky ΔZ v tabulce, souhrnu i kopírování do schránky a zadává tolerance. Přepnutí jednotek převádí zápis stejné tolerance (výchozí 10 mm = 0,010 m).">Jednotky odchylek</span><div class="rvseg rvsegs" role="radiogroup" aria-label="Jednotky odchylek" style="--zc:var(--ac);--zfg:var(--acfg)"><label title="Milimetry: odchylky ΔZ v tabulce, souhrnu i kopírování do schránky v milimetrech (např. +12; počet desetinných míst určuje Přesnost). Výchozí tolerance 10 mm. Výchozí volba."><input type="radio" name="rvunit" value="mm" checked>mm</label><label title="Metry: odchylky ΔZ v tabulce, souhrnu i kopírování do schránky v metrech (např. +0,012; počet desetinných míst určuje Přesnost). Výchozí tolerance 0,010 m (10 mm)."><input type="radio" name="rvunit" value="m">m</label></div></div></div>
       <div class="fld"><div class="rvunr"><span title="Přesnost, na kterou se zaokrouhlují odchylky ΔZ v tabulce, souhrnu i kopírování do schránky. Podle zaokrouhlené hodnoty se vyhodnocuje i tolerance a filtr (barva tak vždy odpovídá zobrazenému číslu).">Přesnost</span><div class="rvseg rvsegs" role="radiogroup" aria-label="Přesnost odchylek" style="--zc:var(--ac);--zfg:var(--acfg)"><label title="Na desetiny milimetru: v mm např. +12,3, v m např. +0,0123."><input type="radio" name="rvprec" value="0.1">0,1 mm</label><label title="Na celé milimetry: v mm např. +12, v m např. +0,012. Výchozí volba (nejčastější)."><input type="radio" name="rvprec" value="1" checked>1 mm</label><label title="Na centimetry: v mm např. +10, v m např. +0,01."><input type="radio" name="rvprec" value="10">1 cm</label></div></div></div>
       <div class="fld"><label title="Tolerance odchylky: body s odchylkou do této hodnoty včetně jsou v tabulce zelené, s větší odchylkou červeně (stejně jako odchylky od PD v ZSS pilot). Zadává se ve zvolených jednotkách; je jedna pro mm i m (výchozí 10 mm = 0,010 m), přepnutím jednotek se jen přepočte. Tolerance se zadává a zobrazuje v přesnosti zvolené výše: při 0,1 mm / 1 mm / 1 cm v metrech na 4 / 3 / 2 desetinná místa (např. 0,0100 / 0,010 / 0,01 m), v milimetrech na 1 / 0 / 0 desetinných míst; jemnější zadání se na tuto přesnost zaokrouhlí. Povoleno od jednoho kroku přesnosti (0,1 mm / 1 mm / 1 cm) do 9999 mm, resp. 9,999 m (při 1 cm 9,99 m)."><span>Tolerance [<span id="rvtolu">mm</span>]</span> <input type="number" id="rvtol" value="10" step="1" min="0.1" max="9999"></label><small class="hp">do tolerance včetně zeleně, nad ní červeně, nad 150 % i podbarvení</small></div>
       <div class="fld"><label title="Odlišit kladné a záporné odchylky odstínem. Zapnuto (výchozí): kladná odchylka (nad rovinou, u latě hrb) světlejším a záporná (pod rovinou, prohlubeň) tmavším odstínem zelené i červené – v tabulce, souhrnu i plánu (PDF, DXF). Vypnuto: jeden základní odstín zelené (v toleranci) a červené (nad tolerancí), znaménko ukazuje jen číslo. Pamatuje se v prohlížeči."><input type="checkbox" id="rvpn" checked> Odlišit + / − odstínem</label><small class="hp">kladné světlejší, záporné tmavší; vypnuto = jeden odstín</small></div>
@@ -413,6 +415,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
   <div class="fld"><button type="button" id="rvpdef" aria-label="Výchozí hodnoty" class="wi io" title="Vrátí nastavení (vyhodnocení Odchylky od roviny, jednotky mm, přesnost 1 mm, tolerance 10 mm, odlišené odstíny + / −, CSV s des. čárkou a parametry latě: 2 m, rozpětí 1,6 m, pás ±0,1 m, tolerance 2 mm, varianta ±) na výchozí hodnoty a přepočítá tabulku. Načtené soubory, zadaná rovina a volby robustní filtrace zůstanou."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></button></div>
 </div></div></div>
 <div class="xzone" id="rvxzone" hidden><div class="xzl"><b>4. EXPORT</b></div><div class="xzm"><div id="rvxl">
+  <button class="wi" id="rvstx" type="button" disabled title="Zkratka Shift+T. Uloží použité měřené body podle aktuálního filtru a řazení: název, Y, X, ΔZ místo Z a původní kód, je-li uveden. Y, X i ΔZ jsou vždy v metrech, odchylka podle zvolené přesnosti. Soubor má příponu _rovinnost_dZ.stx."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>STX</button>
   <button class="wi" id="rvcsv" type="button" disabled title="Zkratka Shift+C. Uloží tabulku odchylek jako CSV pro Excel: výška roviny a tolerance v záhlaví, pak zaškrtnuté body podle filtru v zobrazeném pořadí (Y, X, Z, ΔZ ve zvolených jednotkách a přesnosti, vyhodnocení vůči toleranci, kód). Desetinný oddělovač určuje volba „CSV s des. čárkou“ v Nastavení Rovinnosti (skupina Výstup)."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2"/><path d="M3 10h18M3 14.9h18M9 10v9.5M15 10v9.5" stroke-width="1.5"/><path d="M3 6.5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2V10H3z" fill="currentColor" fill-opacity=".22" stroke="none"/></svg>CSV</button>
   <button class="wi" id="rvpdf" type="button" disabled title="Zkratka Shift+P. Uloží PDF A3 s celým výkresem plánu na jedné stránce (na šířku nebo na výšku podle tvaru plánu): půdorys bodů obarvených podle odchylky ΔZ s popisky. Nezávisí na aktuálním přiblížení; velikost písma lze změnit posuvníkem v plánu. Stejné tlačítko je i v liště plánu."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg>PDF</button>
   <button class="wi" id="rvdxf" type="button" disabled title="Zkratka Shift+S. Uloží výkres do DXF pro CAD: měřené body (křížky jako bodové prvky – blok KRIZEK), odchylky ΔZ a názvy bodů v samostatných vrstvách. Texty mají velikost podle posuvníku velikosti písma. Stejné tlačítko je i v liště plánu."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg>DXF</button>
@@ -456,7 +459,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
     </div>
     <div id="rgbtn">
     <button class="wi io" id="rgdef" type="button" aria-label="Výchozí hodnoty voleb plánu" title="Vrátí volby zobrazení v plánu na výchozí hodnoty (značky křížky; odchylky ΔZ, mřížka a legenda zapnuty; názvy bodů, odškrtnuté a odlehlé body a hlavička vypnuty; mapa ve třídách podle tolerance se sytostí 60 %, vrstevnice s automatickým krokem, bez sítě, max. hrana auto) a velikost písma na 100 %."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></button>
-    <button class="wi io" id="rgfit" type="button" aria-label="Celý výkres" title="Celý výkres: vrátí zobrazení tak, aby byly vidět všechny body (zruší přiblížení a posun). Zkratka: F."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3" stroke-width="2"/><circle cx="12" cy="12" r="3.4" fill="currentColor" stroke="none"/></svg></button>
+    <button class="wi io" id="rgfit" type="button" aria-label="Celý výkres" title="Zkratka F. Celý výkres: vrátí zobrazení tak, aby byly vidět všechny body (zruší přiblížení a posun). Zkratka: F."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3" stroke-width="2"/><circle cx="12" cy="12" r="3.4" fill="currentColor" stroke="none"/></svg></button>
     <button class="wi io" id="rgsp" type="button" aria-label="Rozdělená obrazovka" title=""><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3" width="17" height="18" rx="2" stroke-width="1.8"/><path d="M12 3v18" stroke-width="1.8"/><rect x="14.2" y="5.5" width="4" height="13" rx=".6" fill="currentColor" stroke="none" opacity=".55"/></svg></button>
     <button class="wi io" id="rgx" type="button" aria-label="Zobrazit tabulku" title="Zavře plán a vrátí se do tabulky (stejně jako klávesa Esc)."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2"/><path d="M3 10h18M3 14.9h18M9 10v9.5M15 10v9.5" stroke-width="1.5"/><path d="M3 6.5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2V10H3z" fill="currentColor" fill-opacity=".22" stroke="none"/></svg></button>
     </div></div>
@@ -469,7 +472,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 <div class="rmb"><button type="button" id="rmn" title="Zavře okno bez změny (stejně jako klávesa Esc).">Zrušit</button><button type="button" id="rmy" title="Smaže načtená data i uložená nastavení a vrátí výchozí hodnoty.">Resetovat</button></div>
 </div></div>
 <div id="im" hidden><div class="card">
-<div id="imh"><div class="row" style="margin:0"><h2>ZSS pilot – co aplikace dělá</h2><button id="ix" style="margin-left:auto" title="Zavře popis aplikace (stejně jako klávesa Esc).">Zavřít</button></div>
+<div id="imh"><div class="row" style="margin:0"><h2 class="info-title"><img class="app-favicon" src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Crect%20width=%2224%22%20height=%2224%22%20rx=%225%22%20fill=%22%23fff%22/%3E%3Cg%20fill=%22none%22%20stroke=%22%232f855a%22%20stroke-width=%222.08%22%20stroke-linecap=%22round%22%3E%3Ccircle%20cx=%2212%22%20cy=%2212%22%20r=%225.2%22/%3E%3Cpath%20d=%22M12%204v4.8M12%2015.2V20M4%2012h4.8M15.2%2012H20%22/%3E%3C/g%3E%3C/svg%3E" alt="GeoMat" title="GeoMat" width="18" height="18"><span>ZSS pilot – co aplikace dělá</span></h2><button id="ix" style="margin-left:auto" title="Zavře popis aplikace (stejně jako klávesa Esc).">Zavřít</button></div>
 <div class="row" style="margin:8px 0 0"><input type="search" id="ims" placeholder="Hledat v popisu…" autocomplete="off" aria-label="Hledat v popisu" title="Hledá bez ohledu na diakritiku a velikost písmen, nalezené zvýrazní zeleně. Enter nebo Tab = další nález, Shift+Enter nebo Shift+Tab = předchozí, Esc = smaže hledání."><span id="imc" aria-live="polite"></span></div></div>
 <div id="imb">
 <p style="color:var(--mut)">Verze <span class="ver"></span> · Autor: Jan Bartůněk · všechno se počítá lokálně v prohlížeči, data se nikam neodesílají.</p>
@@ -486,7 +489,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 <ul><li>Měření lze načíst z až 50 souborů, jednotlivě i víc najednou: každé další načtení soubory přidá (soubor se stejným názvem nahradí původní). Každý načtený soubor je v zelené zóně štítek s křížkem, kterým ho odebereš; ruční výběr pilot a bodů se přitom zachová. Tlačítko „Zrušit SS“ s ikonou zaměření odebere všechny soubory najednou. Tři po sobě jdoucí body a body navazující na kružnici se hledají vždy jen v rámci jednoho souboru: poslední bod jednoho souboru se nespojí s prvním bodem dalšího. Volba „Dopočítat body mimo pořadí“, připojení později doměřených bodů a sloučení pilot se stejným středem naopak pracují se všemi soubory dohromady. Pilota zaměřená ve více souborech se podle volby „Opakované měření piloty“ (Pokročilé nastavení) buď sloučí – vyrovná se ze všech bodů, poznámka uvádí rozdíl středů a výšek mezi soubory a rozdíl středů nad 5 cm nebo body mimo jednu kružnici jsou ve varování – nebo platí jen měření z novějšího (později načteného) souboru a starší body se nepoužijí.</li>
 <li>Vždy tři po sobě jdoucí body určí kružnici. Platný průměr je výchozně <span data-d="rmin">0,25</span> až <span data-d="rmax">1,5</span> m (zadat lze <span data-d="rmin" data-attr="min">0,01</span> až <span data-d="rmax" data-attr="max">9,999</span> m) a musí odpovídat typickému průměru v souboru (zadanému nebo odhadnutému z dat): lišit se od něj smí nejvýš o „povolenou odchylku průměru“ (výchozí <span data-d="dv">40</span> %). Typických průměrů může být víc (až 5): při odhadu z dat program další průměr kromě hlavního uzná, jen když je potvrzen aspoň 8 pilotami o 3 bodech nebo 2 pilotami o 4 a více bodech a 4 pilotami o 3 bodech, a v rozmezí 0,4× až 2,5× hlavního (v souboru neřazeném po pilotách se uzná jen část „2 piloty o 4 a více bodech“ – piloty o 3 bodech se nedají rozpoznat); jiné průměry zadáš ručně do pole „Typický průměr“ oddělené středníkem (např. 0,6; 0,9; 1,2). Kružnice mimo typické průměry projde jen s dalším bodem na kružnici (4 a více dobře rozložených bodů). Tím se odfiltrují kružnice vzniklé z bodů, které nepatří k jedné pilotě.</li>
 <li>Zřejmě špatný bod program umí vynechat (až dva uvnitř trojice). Nejlepší rozdělení celého souboru se hledá najednou, ne jen odshora.</li>
-<li>Pilota může být zaměřena vícekrát: další body ležící na stejné kružnici (do zadané tolerance, výchozí <span data-d="tol" data-k="1000">50</span> mm) se k ní přidají a střed se vyrovná ze všech bodů (4, 5, 6, 7 … bodů). Piloty se (téměř) stejným středem, i zaměřené na různých místech souboru, se sloučí do jedné. Piloty vrtané těsně vedle sebe se nesloučí. Body zaměřené jinde v souboru (např. později doměřené) se připojí k pilotě, na jejíž kružnici leží do zadané tolerance, bez ohledu na pořadí; pilota ale musí mít aspoň 3 body (dva body samy kružnici neurčí a pozdější jeden bod se k nim nepřipojí), jinak se takové body vyřadí. Body, které i tak zůstanou nepoužité, se nakonec zkusí poskládat do nových kružnic bez ohledu na pořadí (volba „Dopočítat body mimo pořadí“): kružnice musí mít průměr v povolené odchylce od typického (stejné nastavení jako u hlavního hledání), body rozložené aspoň po 120° oblouku a při „jen dle PD“ střed u bodu projektu; takové piloty mají v poznámce „dopočteno mimo pořadí“.</li>
+<li>Pilota může být zaměřena vícekrát: další body ležící na stejné kružnici (do zadané tolerance, výchozí <span data-d="tol" data-k="1000">50</span> mm) se k ní přidají a střed se vyrovná ze všech bodů (4, 5, 6, 7 … bodů). Piloty se (téměř) stejným středem, i zaměřené na různých místech souboru, se sloučí do jedné. Piloty vrtané těsně vedle sebe se nesloučí. Body zaměřené jinde v souboru (např. později doměřené) se připojí k pilotě, na jejíž kružnici leží do zadané tolerance, bez ohledu na pořadí; pilota ale musí mít aspoň 3 body (dva body samy kružnici neurčí a pozdější jeden bod se k nim nepřipojí), jinak se takové body vyřadí. Body, které i tak zůstanou nepoužité, se nakonec zkusí poskládat do nových kružnic bez ohledu na pořadí (volba „Dopočítat body mimo pořadí“): kružnice musí mít průměr v povolené odchylce od typického (stejné nastavení jako u hlavního hledání), body rozložené aspoň po 120° oblouku a při „jen dle PD“ střed u bodu projektu; takové piloty mají v poznámce „dopočteno mimo pořadí“. Po vyrovnání se znovu kontrolují všechny body. Nejhorší bod nad tolerancí se z této kružnice vyřadí a kružnice se přepočítá; musí zůstat nejméně tři body a znovu vyhovět průměr, úhlové rozložení i případný dosah PD. Vyřazené body a důvody zamítnutých kombinací jsou uvedeny v logu.</li>
 <li>U piloty s více než třemi body klikni v tabulce na řádek (šipka ▸ před sloupcem „Použité body“): rozbalí se seznam bodů, kde můžeš jednotlivé body odškrtnout a z výpočtu vyřadit. Střed, poloměr i odchylka od projektu se hned přepočtou. Nejméně 3 body musí zůstat, jinak je pilota označena červeně a vyřazena z výstupů. Vypnuté body jsou v plánu světlé v kroužku, v DXF ve vrstvě BODY_vyrazeno, v poznámce je uvedeno „ručně vypnuto“. Každý řádek má na začátku zaškrtávátko „použít pilotu“: odškrtnutá pilota zůstane v tabulce (zašedlá), ale nebude v plánu, PDF, DXF ani v uložených souborech; zaškrtávátko v záhlaví přepíná všechny najednou. Střed ZSS (název piloty) je zelený do meze odchylky od projektu a červený nad ní. Tlačítko „Obnovit výchozí výběr“ vrátí vypnuté body i nepoužité piloty a zároveň nastaví filtr na „všechny piloty“, zruší řazení a hledání a sbalí rozbalené řádky.</li>
 <li>Nepoužité body ZSS/PIL, které jsou zaměřené přímo jako střed piloty a leží do vzdálenosti „Přímý střed do“ (výchozí auto = 40 % typického poloměru, tj. 20 % průměru, např. 0,12 m u Ø 0,6 m; nejvýš „do vzdálenosti“; lze zadat ručně v metrech) od projektovaného středu bez piloty, se použijí jako střed. Střed zaměřený vícekrát (body do 25 % poloměru od sebe, nejvýš 2 × tolerance bodů na kružnici) se zprůměruje a v poznámce je počet měření a rozptyl. Střed se nezaloží, leží-li v okolí další nepoužitý bod ve vzdálenosti poloměru (jde spíš o neúplně zaměřený plášť). Přímý střed dál než 30 % poloměru od PD je v poznámce a ve varování označený ke kontrole (dva blízké body pláště se od dvakrát zaměřeného středu nedají odlišit). Osamocený bod dál než mez, ale blíž než 70 % poloměru, se ukáže ve varování jako nejasný přímý střed. Když se z dat nedá odhadnout průměr (žádná kružnice), program upozorní, ať zadáš typický průměr. Je-li pilota zaměřená body na plášti i středem (jednou i vícekrát), body ve středu (do 30 % poloměru od středu kružnice, u kružnice s body jen na části obvodu i dál, odpovídá-li to nejistotě jejího středu) se do žádné jiné kružnice nezapočtou a střed piloty určuje volba „Střed se zaměřeným středem“ v Pokročilém nastavení: auto (výchozí) zkombinuje střed kružnice a zaměřený střed s vahou podle rozložení bodů na plášti a přesnosti obou měření (body kolem celého obvodu → rozhoduje kružnice, body jen na lících pilotové stěny → větší váha zaměřeného středu); přesnost bodů na plášti se odhadne z odchylek bodů od kružnic (nebo z rozptylu průměrů), přesnost zaměřeného středu z pilot s dobrou kružnicí, nebo ji zadáš ručně. Zaměřený střed, který s kružnicí nesouhlasí (víc než 3,7 σ), se nepoužije a pilota je ve varování. „Vždy kružnice“ = zaměřený střed jen kontrola, „vždy zaměřený střed“ = použije se zaměřený střed. Poznámka uvádí vzdálenost zaměřeného středu od středu kružnice a váhu zaměřeného středu. Kružnice se nikdy neskládá ze dvou a více bodů ležících přímo u bodů PD (do meze přímého středu) – to jsou zaměřené středy, ne plášť. Hodnota 0 přímé středy vypne.</li>
 <li>Kontrola kvality: sloupec „max.Δ“ ukazuje, jak daleko od vypočtené kružnice leží nejhorší použitý bod. Nad nastavenou mezí je červený – takový bod zkontroluj, případně ho v rozbaleném seznamu vyřaď. Pilota určená jen třemi body se takto ověřit nedá („–“).</li>
@@ -498,7 +501,9 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 <li>Odchylka = skutečnost − projekt, v mm, se směrem šipky. Do meze (výchozí <span data-d="lim">100</span> mm) včetně zeleně, nad ní červeně; nad 150 % meze (výchozně nad <span data-d="lim" data-k="1.5">150</span> mm) je červeně vybarvená i buňka.</li>
 <li>Jeden bod projektu dostane nejvýš jednu pilotu (přiřazuje se od nejmenší vzdálenosti). Další pilota u téhož bodu zůstane bez názvu z PD a v poznámce je upozornění, že jde možná o duplicitní měření.</li>
 <li>Když žádný bod projektu nemá v dosahu měření, zobrazí se nahoře červené varování (záměna Y a X, opačné znaménko, jiný souřadnicový systém).</li></ul>
+<p>Obsahuje-li projekt alespoň jednu výšku Z (i 0), přibude v tabulce sloupec <b>ΔZ [mm]</b>: výška skutečnosti minus projektovaná výška. Kladná hodnota znamená nad projektem, záporná pod projektem. U pilot bez přiřazené výšky projektu je pomlčka. Sloupec lze řadit a je také v CSV a kopírování tabulky; bez výšek projektu se nezobrazuje.</p>
 <h3>4. Výstupy</h3>
+<p>V plánu ZSS lze u zobrazených měřených bodů nezávisle zapnout <b>Čísla</b> a <b>Výšky</b>. Výšky jsou v metrech, např. „Z 100.123“, ve výchozím stavu vypnuté. Při zapnutí obou voleb má popisek podobu „PIL1 / Z 100.123“. Volby platí také pro PDF a DXF a pamatují se po obnovení stránky.</p>
 <p>Stavový řádek pod tabulkou shrnuje výsledek: počet pilot, kolik jich je nad mezí od projektu a kolik je podezřelých. Nad ním je souhrn odchylek od projektu: počet pilot do meze, nad mezí a nad 150 % meze (nulový počet není zvýrazněn červeně), největší odchylka s názvem piloty a průměrná odchylka; počítá se z pilot, které jdou do plánu a exportů. Varování jsou pod ním zvlášť (červeně důležitá, oranžově informativní). Podrobný log je pod tabulkou sbalený, otevře ho odkaz „zobrazit log“.</p>
 <ul><li><b>Tabulka</b> s polohami, průměry a zaokrouhleným průměrem (do Ø 400 mm včetně po 50 mm, větší piloty po 100 mm) a odchylkami od projektu. Kliknutím na záhlaví sloupce ji seřadíš (podruhé sestupně, potřetí zpět do původního pořadí; prázdné hodnoty jsou vždy na konci). „Filtr pilot“ nad tabulkou omezí piloty na ty v mezi odchylky od PD, nad mezí, podezřelé (body nad mezí od kružnice), neplatné nebo všechny problémové dohromady; platí pro tabulku, plán (i PDF a DXF) a všechny exporty (STX, CSV, kopírování). Body PD, ke kterým patří pilota skrytá filtrem, se v plánu nekreslí ani jako „PD bez piloty“. Šipku ▸ i záhlaví sloupců lze ovládat klávesnicí (<kbd>Tab</kbd>, <kbd>Enter</kbd>, <kbd>mezerník</kbd>). <b>Hledání v tabulce</b> (pole vedle filtru pilot): hledá bez ohledu na diakritiku a velikost písmen v zobrazených řádcích (včetně rozbalených seznamů bodů), nalezené zvýrazní zeleně a ukáže počet nálezů. <kbd>Enter</kbd> nebo <kbd>Tab</kbd> skočí na další nález, <kbd>Shift</kbd>+<kbd>Enter</kbd> nebo <kbd>Shift</kbd>+<kbd>Tab</kbd> na předchozí, <kbd>Esc</kbd> hledání smaže. Řádky se neskrývají (k tomu slouží filtr pilot) a hledání se po každé změně tabulky použije znovu.</li>
 <li><b>STX</b> (uložení středů): název, Y, X, Z, kód PIL (mezera nebo středník v názvu se při uložení nahradí podtržítkem).<b>CSV</b> (uložení tabulky): podrobná tabulka pro Excel. <b>Kopírovat do schránky</b>.</li>
@@ -511,10 +516,10 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 <ul><li><kbd>Shift</kbd> + <kbd>1</kbd> / <kbd>Shift</kbd> + <kbd>2</kbd>: přepne na první / druhý modul v hlavní nabídce (ZSS pilot / Rovinnost), stejně jako klik na jeho tlačítko vlevo nahoře; otevřený popis se zavře. Nefunguje při psaní do textového políčka.</li>
 <li><kbd>I</kbd>: otevře a zavře tento popis (zavře ho i <kbd>Esc</kbd> nebo klik mimo okno).</li>
 <li><kbd>V</kbd>: přepíná dokola zobrazení jen tabulka, rozdělená obrazovka a plán na celou obrazovku (stejně jako tlačítko s ikonou rozdělené obrazovky); bez načtených pilot nic neudělá.</li>
+<li><kbd>F</kbd>: při otevřeném plánu zobrazí celý výkres (zruší přiblížení a posun), stejně jako tlačítko „Celý výkres“.</li>
 <li><kbd>Shift</kbd> + <kbd>P</kbd>: uloží plán do PDF A3 (stejně jako tlačítko PDF v zóně Export a v plánu, funguje i při zavřeném plánu); bez načtených pilot nic neudělá.</li>
 <li><kbd>Shift</kbd> + <kbd>S</kbd>: uloží výkres do DXF (stejně jako tlačítko DXF v zóně Export a v plánu, funguje i při zavřeném plánu); bez načtených pilot nic neudělá.</li>
 <li><kbd>Shift</kbd> + <kbd>C</kbd>: uloží tabulku do CSV (stejně jako tlačítko CSV). <kbd>Shift</kbd> + <kbd>T</kbd>: uloží vypočtené středy do STX (stejně jako tlačítko STX). Obě jsou použitelné jen při načtených pilotách.</li>
-<li><kbd>F</kbd>: celý výkres – při otevřeném plánu (rozdělená obrazovka i celá obrazovka) zruší přiblížení a posun, stejně jako tlačítko „Celý výkres“.</li>
 <li><kbd>Esc</kbd>: zavře plán. <kbd>↑</kbd> <kbd>↓</kbd> (šipky nahoru a dolů): při otevřeném plánu posouvají označení po řádcích tabulky.</li>
 <li><kbd>Enter</kbd> nebo <kbd>Tab</kbd> v poli hledání (nahoře v tomto okně): další nález, s Shiftem předchozí; po posledním nálezu se skočí zpět na první. <kbd>Esc</kbd> smaže hledání.</li>
 <li>Zkratky nefungují při psaní do textového políčka nebo při výběru v rozbalovacím seznamu, s klávesami <kbd>Ctrl</kbd>, <kbd>Alt</kbd> a <kbd>Cmd</kbd> ani při otevřeném popisu (kromě <kbd>I</kbd>).</li></ul>
@@ -522,7 +527,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 </div>
 </div></div>
 <div id="im2" hidden><div class="card" role="dialog" aria-modal="true" aria-labelledby="im2t">
-<div id="imh2"><div class="row" style="margin:0"><h2 id="im2t">Rovinnost – co modul dělá</h2><button id="ix2" style="margin-left:auto" title="Zavře popis modulu (stejně jako klávesa Esc).">Zavřít</button></div>
+<div id="imh2"><div class="row" style="margin:0"><h2 id="im2t" class="info-title"><img class="app-favicon" src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Crect%20width=%2224%22%20height=%2224%22%20rx=%225%22%20fill=%22%23fff%22/%3E%3Cg%20fill=%22none%22%20stroke=%22%232f855a%22%20stroke-width=%222.08%22%20stroke-linecap=%22round%22%3E%3Ccircle%20cx=%2212%22%20cy=%2212%22%20r=%225.2%22/%3E%3Cpath%20d=%22M12%204v4.8M12%2015.2V20M4%2012h4.8M15.2%2012H20%22/%3E%3C/g%3E%3C/svg%3E" alt="GeoMat" title="GeoMat" width="18" height="18"><span>Rovinnost – co modul dělá</span></h2><button id="ix2" style="margin-left:auto" title="Zavře popis modulu (stejně jako klávesa Esc).">Zavřít</button></div>
 <div class="row" style="margin:8px 0 0"><input type="search" id="ims2" placeholder="Hledat v popisu…" autocomplete="off" aria-label="Hledat v popisu" title="Hledá bez ohledu na diakritiku a velikost písmen, nalezené zvýrazní zeleně. Enter nebo Tab = další nález, Shift+Enter nebo Shift+Tab = předchozí, Esc = smaže hledání."><span id="imc2" aria-live="polite"></span></div></div>
 <div id="imb2">
 <p style="color:var(--mut)">Verze <span class="ver"></span> · Autor: Jan Bartůněk · všechno se počítá lokálně v prohlížeči, data se nikam neodesílají.</p>
@@ -544,7 +549,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 <ul><li><b>Vyhodnocení</b> (první skupina): <b>Odchylky od roviny</b> (výchozí, ΔZ od zadané roviny a Tolerance ve skupině Odchylky) nebo <b>Rovinnost latí</b> (místní rovinnost podle ČSN 74 4505, viz kapitola Rovinnost latí níže). Volba je nezávislá na typu roviny, pamatuje se v prohlížeči a tlačítko Výchozí hodnoty ji vrátí na Odchylky od roviny. V režimu latě se zobrazí parametry latě: Délka latě, Min. rozpětí, Pás ±, Tolerance latě (výběr podle ČSN 74 4505 nebo vlastní hodnota) a Varianta (± / jen prohlubeň).</li>
 <li><b>Jednotky odchylek</b>: tlačítka <b>mm</b> (milimetry, výchozí, např. +12) a <b>m</b> (metry, např. +0,012). Volba platí pro tabulku, souhrn i kopírování do schránky a pamatuje se v prohlížeči.</li>
 <li><b>Přesnost</b>: na kolik se zaokrouhlují odchylky ΔZ v tabulce, souhrnu i kopírování: <b>0,1 mm</b>, <b>1 mm</b> (výchozí) nebo <b>1 cm</b> (v metrech tedy na 4, 3 nebo 2 desetinná místa). Tolerance, barvy a filtr se vyhodnocují podle zaokrouhlené hodnoty, takže barva vždy odpovídá zobrazenému číslu. Pamatuje se v prohlížeči.</li>
-<li><b>Tolerance</b>: body s odchylkou do této hodnoty včetně jsou v tabulce zelené, s větší odchylkou červeně (stejně jako odchylky od PD v ZSS pilot). Zadává se ve zvolených jednotkách; je jedna pro mm i m, výchozí <b>10 mm</b> (0,010 m), a přepnutím jednotek se jen přepočte (zadáš-li 25 mm a přepneš na m, ukáže se 0,025 m). Pole tolerance respektuje zvolenou <b>Přesnost</b>: při 0,1 mm / 1 mm / 1 cm se tolerance zadává i zobrazuje v metrech na 4 / 3 / 2 desetinná místa (např. 0,0100 / 0,010 / 0,01 m), v milimetrech na 1 / 0 / 0 míst, a krok šipek je jeden krok přesnosti. Jemnější hodnota se zaokrouhlí; po přepnutí na hrubší přesnost se tolerance jen zobrazí a vyhodnotí zaokrouhleně a po návratu k jemnější se ukáže původní zadaná hodnota. Kladné odchylky (bod nad rovinou) mají světlejší odstín zelené i červené, záporné (bod pod rovinou) tmavší: ve světlém režimu jsou kladné v základní barvě a záporné ztmavené, v tmavém režimu kladné zesvětlené a záporné v základní barvě. Nad 150 % tolerance (výchozně nad 15 mm, resp. 0,15 m) je červeně podbarvená i buňka, stejně jako u odchylek od PD v ZSS pilot.</li>
+<li><b>Tolerance</b>: body s odchylkou do této hodnoty včetně jsou v tabulce zelené, s větší odchylkou červeně (stejně jako odchylky od PD v ZSS pilot). Zadává se ve zvolených jednotkách; je jedna pro mm i m, výchozí <b>10 mm</b> (0,010 m), a přepnutím jednotek se jen přepočte (zadáš-li 25 mm a přepneš na m, ukáže se 0,025 m). Pole tolerance respektuje zvolenou <b>Přesnost</b>: při 0,1 mm / 1 mm / 1 cm se tolerance zadává i zobrazuje v metrech na 4 / 3 / 2 desetinná místa (např. 0,0100 / 0,010 / 0,01 m), v milimetrech na 1 / 0 / 0 míst, a krok šipek je jeden krok přesnosti. Jemnější hodnota se zaokrouhlí; po přepnutí na hrubší přesnost se tolerance jen zobrazí a vyhodnotí zaokrouhleně a po návratu k jemnější se ukáže původní zadaná hodnota. Kladné odchylky (bod nad rovinou) mají světlejší odstín zelené i červené, záporné (bod pod rovinou) tmavší: ve světlém režimu jsou kladné v základní barvě a záporné ztmavené, v tmavém režimu kladné zesvětlené a záporné v základní barvě. Nad 150 % tolerance (výchozně nad 15 mm, resp. 0,015 m) je červeně podbarvená i buňka, stejně jako u odchylek od PD v ZSS pilot.</li>
 <li><b>Výchozí hodnoty</b> (šipka vpravo v sekci): vrátí jednotky (mm), přesnost (1 mm), toleranci (10 mm), odlišení odstínů + / −, desetinnou čárku v CSV i vyhodnocení na Odchylky od roviny a parametry latě (2 m, rozpětí 1,6 m, pás ±0,1 m, tolerance 2 mm, varianta ±) na výchozí hodnoty a přepočítá tabulku. Je zašedlé, když je vše na výchozích hodnotách; načtené soubory, zadaná rovina ani volby robustní filtrace se nemění (ty vrací tlačítko u roviny a Reset).</li>
 <li><b>Odlišit + / − odstínem</b> (skupina Odchylky, výchozí zapnuto): kladné odchylky (nad rovinou, u latě hrb) světlejším a záporné (pod rovinou, prohlubeň) tmavším odstínem zelené i červené v tabulce, plánu, PDF i DXF; v legendě plánu je u každé skupiny dvojice značek. Vypnuto: jeden základní odstín zelené a červené, v legendě jedna značka, znaménko ukazuje jen číslo. Pamatuje se v prohlížeči a vrací ji „Výchozí hodnoty“.</li>
 <li><b>CSV s des. čárkou</b> (skupina Výstup, výchozí zapnuto): desetinná čárka v uloženém CSV i v tabulce zkopírované do schránky; vypnuto = desetinná tečka. Volba patří jen Rovinnosti, nastavení v ZSS pilot ji neovlivní, pamatuje se v prohlížeči a vrací ji i tlačítko „Výchozí hodnoty“.</li></ul>
@@ -556,6 +561,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 <li><b>Řazení</b>: klik na záhlaví sloupce seřadí vzestupně, další klik sestupně, třetí vrátí původní pořadí.</li>
 <li><b>Obnovit výchozí výběr</b> (šipka vpravo): znovu zaškrtne všechny body, filtr vrátí na všechny body, zruší řazení a hledání.</li>
 <li><b>Kopírovat do schránky</b>: zkopíruje zaškrtnuté body podle filtru v zobrazeném pořadí (tabulátor jako oddělovač, pro vložení do Excelu); v záhlaví je výška roviny a tolerance, u bodů i vyhodnocení vůči toleranci. Desetinnou čárku řídí volba „CSV s des. čárkou“ v Nastavení Rovinnosti (skupina Výstup), stejně jako u CSV.</li>
+<li><b>STX</b> (první tlačítko v sekci 4. Export, zkratka <kbd>Shift</kbd>+<kbd>T</kbd>): uloží použité měřené body podle aktuálního filtru a pořadí jako „název Y X ΔZ [kód]“. Místo absolutní výšky Z obsahuje čtvrtý sloupec odchylku od vodorovné roviny. Y, X i ΔZ jsou vždy v metrech, s desetinnou tečkou; přesnost ΔZ odpovídá nastavení. Název souboru končí _rovinnost_dZ.stx. Odškrtnuté a automaticky vyřazené nevrácené body se neexportují.</li>
 <li><b>CSV</b> (sekce 4. Export, zkratka <kbd>Shift</kbd>+<kbd>C</kbd>): uloží stejnou tabulku jako soubor CSV pro Excel (oddělovač středník, název podle načteného souboru s příponou _rovinnost.csv). V záhlaví je výška roviny a tolerance, u každého bodu ΔZ ve zvolených jednotkách a přesnosti a vyhodnocení (v toleranci / nad tolerancí / nad 150 % tolerance). Stejné sloupce má i kopírování do schránky.</li>
 <li><b>PDF</b> (sekce 4. Export, zkratka <kbd>Shift</kbd>+<kbd>P</kbd>): uloží plán bodů jako jednostránkové <b>PDF A3</b> (na šířku nebo na výšku podle tvaru výkresu): půdorys bodů obarvených podle odchylky ΔZ s popisky, mřížkou, legendou a volitelnou hlavičkou podle voleb plánu. Nezávisí na aktuálním přiblížení; velikost písma určuje posuvník Písmo v plánu. Stejné tlačítko je i v liště plánu.</li>
 <li><b>DXF</b> (sekce 4. Export, zkratka <kbd>Shift</kbd>+<kbd>S</kbd>): uloží výkres ve skutečných souřadnicích pro CAD: měřené body jako křížky (bodové prvky – blok KRIZEK; vrstvy BODY_mereno v toleranci, BODY_nad nad tolerancí, BODY_vyrazeno odškrtnuté, BODY_odlehle odlehlé, v režimu latě BODY_bezlate body bez latě), odchylky ΔZ (ODCHYLKY_ok / ODCHYLKY_nad), názvy bodů (BODY_popis), nadpis, hlavičku a legendu v samostatných vrstvách. Texty mají velikost podle posuvníku Písmo.</li>
@@ -581,11 +587,12 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 <h3>Klávesové zkratky</h3>
 <ul><li><kbd>Shift</kbd> + <kbd>1</kbd> / <kbd>Shift</kbd> + <kbd>2</kbd>: přepne na první / druhý modul v hlavní nabídce (ZSS pilot / Rovinnost), stejně jako klik na jeho tlačítko vlevo nahoře; otevřený popis se zavře. Nefunguje při psaní do textového políčka.</li>
 <li><kbd>I</kbd>: otevře a zavře tento popis (zavře ho i <kbd>Esc</kbd> nebo klik mimo okno). Nefunguje při psaní do textového políčka.</li>
+<li><kbd>F</kbd>: při otevřeném plánu zobrazí celý výkres (zruší přiblížení a posun), stejně jako tlačítko „Celý výkres“.</li>
+<li><kbd>Shift</kbd>+<kbd>T</kbd>: uloží měřené body do STX s ΔZ místo Z, vždy v metrech (jen když je co uložit).</li>
 <li><kbd>Shift</kbd>+<kbd>C</kbd>: uloží CSV s tabulkou odchylek (jen když je co uložit).</li>
 <li><kbd>Shift</kbd>+<kbd>P</kbd>: uloží plán bodů do PDF A3 (jen když je co uložit).</li>
 <li><kbd>Shift</kbd>+<kbd>S</kbd>: uloží výkres plánu do DXF (jen když je co uložit).</li>
 <li><kbd>V</kbd>: přepíná zobrazení jen tabulka / rozdělená obrazovka (tabulka vlevo, plán vpravo) / plán na celou obrazovku. <kbd>Esc</kbd> plán zavře, šipky nahoru a dolů posouvají označení bodu.</li>
-<li><kbd>F</kbd>: celý výkres – při otevřeném plánu zruší přiblížení a posun (stejně jako tlačítko „Celý výkres“).</li>
 <li><kbd>Enter</kbd> nebo <kbd>Tab</kbd> v poli hledání (nahoře v tomto okně i nad tabulkou): další nález, s Shiftem předchozí. <kbd>Esc</kbd> smaže hledání.</li></ul>
 </div>
 </div></div>
@@ -605,14 +612,14 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
     <span id="gopt">
     <span class="gk" title="Kružnice pilot v plánu">Kružnice</span><span class="gi"><label title="Zobrazí / skryje v plánu odhad piloty: modrý kruh se zaokrouhleným průměrem a středem v bodě PD (bez projektu ve vypočteném středu). Platí i pro exporty."><input type="checkbox" id="gc" checked> <svg class="gic" viewBox="-8 -8 16 16" aria-hidden="true"><circle r="6" stroke="#2b5ea7" stroke-width="1.6" fill="none"/></svg>Odhad</label><label title="Zobrazí / skryje v plánu decentní fialovou čárkovanou kružnici vypočtenou z měřených bodů: se skutečným (vypočteným) středem a skutečným poloměrem, bez zaokrouhlení. Platí i pro PDF a DXF (vrstva PILOTY_mereno). U pilot se středem zaměřeným přímo se nekreslí (kružnice se nepočítala)."><input type="checkbox" id="gr"> <svg class="gic" viewBox="-8 -8 16 16" aria-hidden="true"><circle r="6" stroke="#7c3aed" stroke-width="1.4" stroke-dasharray="2.6 1.8" fill="none"/></svg>Měřená</label><label title="Zobrazí / skryje u každé piloty její zaokrouhlený průměr „Ø…“ [mm] uvnitř kruhu (na straně odvrácené od šipky). Výchozí vypnuto. Platí i pro PDF a DXF (vrstva PILOTY_prumer)."><input type="checkbox" id="gd"> Ø</label></span>
     <span class="gk" title="Body projektu a vypočtené středy">Středy</span><span class="gi"><label title="Zobrazí / skryje v plánu body PD, ke kterým nebyla nalezena zaměřená pilota (šedý křížek s názvem). Výchozí zapnuto. Platí i pro PDF a DXF (vrstva BODY_PD_bez_piloty); při vypnutí zmizí i z legendy a z rozsahu výkresu."><input type="checkbox" id="gn" checked> <svg class="gic" viewBox="-8 -8 16 16" aria-hidden="true"><path d="M-4.5-4.5L4.5 4.5M-4.5 4.5L4.5-4.5" stroke="#8a8f98" stroke-width="1.8" fill="none"/></svg>PD bez piloty</label><label title="Zobrazí / skryje v plánu body vypočtených středů pilot (modrý křížek ×). Výchozí vypnuto. Platí i pro PDF a DXF (vrstva BODY_vypocteno)."><input type="checkbox" id="gs"> <svg class="gic" viewBox="-8 -8 16 16" aria-hidden="true"><path d="M-4.5-4.5L4.5 4.5M-4.5 4.5L4.5-4.5" stroke="#2b5ea7" stroke-width="1.8" fill="none"/></svg>Vypočtené</label></span>
-    <span class="gk" title="Zaměřené body z měření">Měřené body</span><span class="gi"><label title="Které měřené body se v plánu zobrazí. Žádné: žádné body. Použité: jen body, ze kterých jsou středy vypočteny (fialové ×; vypnuté body v kroužku). Všechny: navíc i body, které nejsou součástí žádné kružnice ani středu piloty (oranžové ×; vypnuté piloty a body mimo kód ZSS/PIL také). Platí i pro PDF a DXF (vrstva BODY_mereno, u všech i BODY_nepouzito)."><svg class="gic" viewBox="-8 -8 16 16" aria-hidden="true"><path d="M-4.5-4.5L4.5 4.5M-4.5 4.5L4.5-4.5" stroke="#7c3aed" stroke-width="1.8" fill="none"/></svg><select id="gpm" aria-label="Měřené body"><option value="none" selected>žádné</option><option value="used">použité</option><option value="all">všechny</option></select></label><label title="Zobrazí / skryje u měřených bodů jejich čísla (popis vedle fialového křížku). Je dostupný jen při zobrazených měřených bodech (jinak je šedý). Platí i pro PDF a DXF (vrstva BODY_popis)."><input type="checkbox" id="gl"> Čísla</label></span>
+    <span class="gk" title="Zaměřené body z měření">Měřené body</span><span class="gi"><label title="Které měřené body se v plánu zobrazí. Žádné: žádné body. Použité: jen body, ze kterých jsou středy vypočteny (fialové ×; vypnuté body v kroužku). Všechny: navíc i body, které nejsou součástí žádné kružnice ani středu piloty (oranžové ×; vypnuté piloty a body mimo kód ZSS/PIL také). Platí i pro PDF a DXF (vrstva BODY_mereno, u všech i BODY_nepouzito)."><svg class="gic" viewBox="-8 -8 16 16" aria-hidden="true"><path d="M-4.5-4.5L4.5 4.5M-4.5 4.5L4.5-4.5" stroke="#7c3aed" stroke-width="1.8" fill="none"/></svg><select id="gpm" aria-label="Měřené body"><option value="none" selected>žádné</option><option value="used">použité</option><option value="all">všechny</option></select></label><label title="Zobrazí / skryje u měřených bodů jejich čísla (popis vedle fialového křížku). Je dostupný jen při zobrazených měřených bodech (jinak je šedý). Platí i pro PDF a DXF (vrstva BODY_popis)."><input type="checkbox" id="gl"> Čísla</label><label title="Zobrazí výšky Z měřených bodů v metrech na tři desetinná místa. Lze kombinovat s čísly bodů. Výchozí vypnuto; dostupné při zobrazených měřených bodech. Platí i pro PDF a DXF."><input type="checkbox" id="gz"> Výšky</label></span>
     <span class="gk" title="Části výkresu mimo piloty">Výkres</span><span class="gi"><label title="Zobrazí / skryje údaje o měření vpravo nahoře, poznámku o šipce vlevo dole a autora dole vpravo. Po odškrtnutí zůstane mimo rám jen nadpis vlevo nahoře. Výchozí vypnuto. Platí i pro PDF a DXF (vrstva HLAVICKA)."><input type="checkbox" id="gh"> Hlavička</label><label title="Zobrazí / skryje legendu pod rámem výkresu (barevné značky s popisky a poznámku o šipce). V legendě jsou jen prvky, které jsou v plánu zapnuté. Platí i pro PDF a DXF (vrstva LEGENDA)."><input type="checkbox" id="gg" checked> Legenda</label></span>
     </span>
     </span>
     </div>
     <div id="gbtn">
     <button class="wi io" id="gdef" type="button" aria-label="Výchozí hodnoty voleb plánu" title="Vrátí volby zobrazení v plánu na výchozí hodnoty (odhad piloty, PD bez piloty a legenda zapnuty; vypočtené středy, hlavička, měřená kružnice, popis bodů a průměry vypnuty; měřené body = žádné). Vrátí také velikost písma a šipek (100 %)."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></button>
-    <button class="wi io" id="gfit" aria-label="Celý výkres" title="Celý výkres: vrátí zobrazení tak, aby byly vidět všechny piloty (zruší přiblížení a posun). Zkratka: F."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3" stroke-width="2"/><circle cx="12" cy="12" r="3.4" fill="currentColor" stroke="none"/></svg></button>
+    <button class="wi io" id="gfit" aria-label="Celý výkres" title="Zkratka F. Celý výkres: vrátí zobrazení tak, aby byly vidět všechny piloty (zruší přiblížení a posun). Zkratka: F."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3" stroke-width="2"/><circle cx="12" cy="12" r="3.4" fill="currentColor" stroke="none"/></svg></button>
     <button class="wi io" id="gsp" type="button" aria-label="Rozdělená obrazovka" title=""><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3.5" width="18" height="17" rx="2" stroke-width="1.8"/><path d="M3 12h18" stroke-width="1.8"/><rect x="5.5" y="14.2" width="13" height="4" rx=".6" fill="currentColor" stroke="none" opacity=".55"/></svg></button>
     <button class="wi io" id="gx" aria-label="Zobrazit tabulku" title="Zavře plán a vrátí se do tabulky (stejně jako klávesa Esc)."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2"/><path d="M3 10h18M3 14.9h18M9 10v9.5M15 10v9.5" stroke-width="1.5"/><path d="M3 6.5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2V10H3z" fill="currentColor" fill-opacity=".22" stroke="none"/></svg></button>
     </div></div>
@@ -624,7 +631,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 </script>
 <script>
 "use strict";
-const APP_VERSION="1.127", APP_DATE="4. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
+const APP_VERSION="1.129", APP_DATE="5. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
 const RD_MIN=0.01, RD_MAX=1;   // meze pole „do vzdálenosti“ [m]
 const RD_K_LIM=3, RD_K_SP=0.45, DD_K=0.4;   // auto: „do vzdálenosti“ = větší z (3 × mez odchylky, typický poloměr), u každého bodu PD nejvýš 45 % rozteče k sousednímu bodu; „přímý střed“ = 40 % typického poloměru
 function minSpacing(refs){   // nejmenší vzdálenost dvou různých bodů PD [m] (shodné body do 20 mm = duplicity se přeskočí); Infinity, když nejsou aspoň 2
@@ -654,6 +661,24 @@ let parseLog = [], refLog = [], points = [], piles = [], unusedPts = [], fname =
 const MAX_FILES=20;   // nejvýš tolik souborů projektu najednou
 const MAX_FILES_M=50;   // nejvýš tolik souborů měření najednou (modul ZSS pilot i Rovinnost)
 const $ = id => document.getElementById(id);
+// Zápis jedné hodnoty je atomický: při neúspěchu zůstane předchozí hodnota zachovaná.
+// Trvalé upozornění nezmizí při přepočtu ani při úspěšném zápisu jiného klíče.
+const storageErrors=new Set();
+function storageNotice(){
+  let box=$("savewarn");
+  if(!box){ if(!storageErrors.size) return; box=document.createElement("div"); box.id="savewarn"; box.setAttribute("role","alert"); box.className="storage-warning"; $("mods").insertAdjacentElement("afterend",box); }
+  box.hidden=!storageErrors.size;
+  box.textContent=storageErrors.size?"Aktuální data nebo nastavení se nepodařilo uložit v prohlížeči. Při obnovení či zavření stránky se může vrátit starší stav nebo se data neobnoví. Ponechte stránku otevřenou a uschovejte zdrojové soubory. Neuložené položky: "+[...new Set([...storageErrors].map(k=>k.startsWith("zsspilot.rovinnost")||k.startsWith("zsspilot.rovina")?"Rovinnost":"ZSS pilot"))].join(", ")+".":"";
+}
+function writeStorage(k,value){
+  try{ localStorage.setItem(k,value); storageErrors.delete(k); storageNotice(); return true; }
+  catch(e){ storageErrors.add(k); storageNotice(); return false; }
+}
+function removeStorage(k){
+  try{ localStorage.removeItem(k); storageErrors.delete(k); storageNotice(); return true; }
+  catch(e){ storageErrors.add(k); storageNotice(); return false; }
+}
+
 // vybarvené (plné) je jen tlačítko, jehož seznam je načtený; ostatní tlačítka mají jen obrys
 const syncBtns=()=>{ $("bl").classList.toggle("p",points.length>0); $("br").classList.toggle("p",refs.length>0); renderChips(); };
 // načtené soubory jako štítky (pilulky) s křížkem pro odebrání
@@ -667,14 +692,14 @@ function renderChips(){
 
 const PLK="zsspilot.plan";   // uložený pohled plánu: přiblížení vůči „celému výkresu“ a střed
 let GVZ=null; try{ const v=JSON.parse(localStorage.getItem(PLK)||"null"); if(v&&v.z>0&&isFinite(v.cy)&&isFinite(v.cx)) GVZ=v; }catch(e){}
-function clearView(){ GVZ=null; try{ localStorage.removeItem(PLK); }catch(e){} }   // zapomene přiblížení a posun plánu (plán se příště otevře jako celý výkres)
+function clearView(){ GVZ=null; try{ removeStorage(PLK); }catch(e){} }   // zapomene přiblížení a posun plánu (plán se příště otevře jako celý výkres)
 let gvT=0;
 function saveView(){ clearTimeout(gvT); gvT=setTimeout(()=>{ if(!GV||$("gm").hidden) return; try{
   const box=$("gsvg"), W=box.clientWidth, H=box.clientHeight; if(!(W>0&&H>0)) return;
   const f=fitView(W,H,0,gOpts(1)); if(!(f.s>0)) return;
-  GVZ={z:GV.s/f.s,cy:GV.cy,cx:GV.cx}; localStorage.setItem(PLK,JSON.stringify(GVZ)); }catch(e){} },250); }
+  GVZ={z:GV.s/f.s,cy:GV.cy,cx:GV.cx}; writeStorage(PLK,JSON.stringify(GVZ)); }catch(e){} },250); }
 let RESTORING=true, RST=null;   // RESTORING: při startu se nic neukládá, dokud se neobnoví uložený stav; RST = uložený stav tabulky pro obnovení
-const PLAN_IDS=["gt","ga","gpm","gc","gs","gn","gr","gh","gg","gl","gd"];   // volby plánu, které se pamatují
+const PLAN_IDS=["gt","ga","gpm","gc","gs","gn","gr","gh","gg","gl","gz","gd"];   // volby plánu, které se pamatují
 const FK_M="zsspilot.mereni", FK_R="zsspilot.projekt";   // uložený text posledního měření a projektu (po F5 se znovu načtou)
 /* ---------- načtení ---------- */
 function decode(buf){
@@ -1056,6 +1081,24 @@ function evaluate(all,rmin,rmax,only,tol,r0user,devFrac,refs,rdist,refOnly,off,d
         for(let a=-1;a<=1;a++) for(let b=-1;b<=1;b++){ const L=grid.get((iy+a)+","+(ix+b)); if(L) for(const q of L) if(!taken.has(q)&&Math.hypot(cand[q].y-y,cand[q].x-x)<=R) fn(q); } };
       const gapOk=(c,idx)=>{ const an=idx.map(q=>Math.atan2(cand[q].x-c.x,cand[q].y-c.y)).sort((a,b)=>a-b); let g=an[0]+2*Math.PI-an[an.length-1];
         for(let i=1;i<an.length;i++) g=Math.max(g,an[i]-an[i-1]); return g<=4*Math.PI/3+1e-9; };   // největší mezera mezi body na kružnici nejvýš 240°
+      const rejectStats=new Map();
+      const refine=indices=>{ const idx=indices.slice(), pruned=[];
+        for(;;){
+          const c=idx.length===3?circle3(cand[idx[0]],cand[idx[1]],cand[idx[2]]):circleLsq(idx.map(q=>cand[q]));
+          if(!c||![c.y,c.x,c.r].every(Number.isFinite)) return {why:"neurčitelná kružnice"};
+          const res=idx.map(q=>Math.abs(Math.hypot(cand[q].y-c.y,cand[q].x-c.x)-c.r));
+          let worst=0; for(let i=1;i<res.length;i++) if(res[i]>res[worst]) worst=i;
+          if(res[worst]>tpi+1e-8){
+            if(idx.length<=3) return {why:"body nad tolerancí i při třech bodech"};
+            pruned.push(idx[worst]); idx.splice(worst,1); continue;
+          }
+          if(c.r<rmin||c.r>rmax||(dvT>0&&devR(c.r)>dvT)) return {why:"průměr mimo povolené meze"};
+          if(!gapOk(c,idx)) return {why:"nedostatečné rozložení bodů"};
+          if(refOnly&&!nearRef(c.y,c.x)) return {why:"střed mimo dosah PD"};
+          if(ctrLike(idx)) return {why:"body odpovídají zaměřeným středům"};
+          return {idx,c,pruned,ss:res.reduce((a,b)=>a+b,0)};
+        }
+      };
       let made=0;
       for(;;){
         let best=null;
@@ -1069,19 +1112,19 @@ function evaluate(all,rmin,rmax,only,tol,r0user,devFrac,refs,rdist,refOnly,off,d
             if(!gapOk(cc,[j,nbs[a],nbs[b]])) continue;
             const idx=[j,nbs[a],nbs[b]]; if(ctrLike(idx)) continue;
             if(tpi>0) around(cc.y,cc.x,cc.r+tpi,q=>{ if(!idx.includes(q)&&Math.abs(Math.hypot(cand[q].y-cc.y,cand[q].x-cc.x)-cc.r)<=tpi) idx.push(q); });
-            const fc=idx.length>3?circleLsq(idx.map(q=>cand[q])):cc;
-            if(!fc||fc.r<rmin||fc.r>rmax) continue;
-            if(ctrLike(idx)) continue;
-            const ss=idx.reduce((s2,q)=>s2+Math.abs(Math.hypot(cand[q].y-fc.y,cand[q].x-fc.x)-fc.r),0);
+            const fitted=refine(idx);
+            if(fitted.why){ rejectStats.set(fitted.why,(rejectStats.get(fitted.why)||0)+1); continue; }
+            const fc=fitted.c, finalIdx=fitted.idx, ss=fitted.ss;
             // při stejném počtu bodů vyhrává kružnice se středem blíž bodu PD, s poloměrem blíž typickému a s menšími odchylkami bodů
-            const nq=refs.length?nearest(fc.y,fc.x):null, pen=(nq&&nq.ref?nq.d/Math.max(rdl(nq.ref),1e-9):0)+(dvT>0?devR(fc.r)/dvT:0)+ss/idx.length/Math.max(tpi,0.01);
-            if(!best||idx.length>best.idx.length||(idx.length===best.idx.length&&pen<best.pen)) best={idx,c:fc,ss,pen};
+            const nq=refs.length?nearest(fc.y,fc.x):null, pen=(nq&&nq.ref?nq.d/Math.max(rdl(nq.ref),1e-9):0)+(dvT>0?devR(fc.r)/dvT:0)+ss/finalIdx.length/Math.max(tpi,0.01);
+            if(!best||finalIdx.length>best.idx.length||(finalIdx.length===best.idx.length&&pen<best.pen)) best={idx:finalIdx,c:fc,ss,pen,pruned:fitted.pruned};
           } }
         if(!best) break;
         best.idx.sort((a,b)=>a-b); best.idx.forEach(q=>taken.add(q));
-        P.push({used:best.idx,c:best.c,merged:0,oo:true}); made++;
+        P.push({used:best.idx,c:best.c,merged:0,oo:true,pruned:best.pruned}); made++;
       }
       if(made){ P.sort((a2,b2)=>a2.used[0]-b2.used[0]); log.push(`Dopočteno pilot mimo pořadí: ${made}`); }
+      if(rejectStats.size) log.push("Dopočet mimo pořadí – zamítnuté kombinace po vyrovnání: "+[...rejectStats].map(([why,n])=>`${why}: ${n}`).join("; "));
     }
   }
   const usedAll=new Set(), bad=[], badIdx=new Set(), key=j=>cand[j].id+"@"+cand[j].line+(cand[j].src>0?"#"+cand[j].src:""), isOff=j=>off.has(key(j));
@@ -1109,6 +1152,7 @@ function evaluate(all,rmin,rmax,only,tol,r0user,devFrac,refs,rdist,refOnly,off,d
       for(let j=near[0];j<=near[near.length-1];j++) if(!members.includes(j)) skipped.push(j);
       if(skipped.length){ note="vynechány body: "+skipped.map(j=>cand[j].id).join(", "); log.push(`Pilota ${pu[0].id}: ${note}`); } }
     if(p.far&&p.far.length){ const m=`doplněno body mimo pořadí: ${p.far.map(j=>cand[j].id).join(", ")}`; note+=(note?"; ":"")+m; log.push(`Pilota ${pu[0].id}: ${m}`); }
+    if(p.pruned&&p.pruned.length){ const m="z této kružnice vyřazeny po vyrovnání: "+p.pruned.map(j=>cand[j].id).join(", "); note+=(note?"; ":"")+m; log.push(`Pilota ${pu[0].id}: ${m}`); }
     if(offNote){ note+=(note?"; ":"")+offNote; log.push(`Pilota ${pu[0].id}: ${offNote}`); }
     if(p.rep&&p.rep.old){ const m=`použito novější měření (soubor ${p.rep.newer+1}), starší nepoužito: ${p.rep.old.map(j=>cand[j].id).join(", ")}`; note+=(note?"; ":"")+m; log.push(`Pilota ${pu[0].id}: ${m}`); }
     if(p.rep&&p.rep.cmp){ repS.push(p.rep); const m=`měřeno v ${p.rep.n} souborech: středy se liší o ${Math.round(p.rep.dc*1000)} mm, výška o ${Math.round(p.rep.dz*1000)} mm`+(p.rep.misfit?", body neleží na jedné kružnici":"")+(p.rep.warn?" – zkontroluj, možná změna stavu piloty (zvaž „Opakované měření: novější soubor“)":"");
@@ -1240,6 +1284,15 @@ function evaluate(all,rmin,rmax,only,tol,r0user,devFrac,refs,rdist,refOnly,off,d
           p.note+=(p.note?"; ":"")+m; log.push(`Pilota ${p.id}: ${m}`); } }
     });
   }
+  // „Jen dle PD“ platí i po váženém posunu / převzetí přímo zaměřeného středu.
+  if(refOnly){
+    for(let i=out.length-1;i>=0;i--){ const p=out[i]; if(nearRef(p.y,p.x)) continue;
+      const keys=new Set((p.mem||[]).map(m=>m.key)), extra=(p.pts||[]).concat(p.offPts||[],p.ctrPts||[],p.oldPts||[]);
+      for(let j=0;j<n;j++) if(keys.has(key(j))||extra.some(q=>q.id===cand[j].id&&(q.src||0)===(cand[j].src||0)&&q.y===cand[j].y&&q.x===cand[j].x&&q.z===cand[j].z)) usedAll.delete(j);
+      log.push(`Pilota ${p.id}: po konečném určení středu mimo dosah všech bodů PD, nepoužita (volba „jen dle PD“).`);
+      out.splice(i,1);
+    }
+  }
   const unused=[]; for(let j=0;j<n;j++) if(!usedAll.has(j)) unused.push(j);
   if(refOnly) log.push(`Nepoužito bodů: ${unused.length} (mimo PD nebo nevyhovují kružnici)`);
   else { unused.slice(0,100).forEach(j=>log.push(`Bod ${cand[j].id} (${measFiles.length>1&&cand[j].file?cand[j].file+", ":""}ř. ${cand[j].line}): nepoužit (nevyhovuje žádná kružnice)`));
@@ -1266,17 +1319,25 @@ function evaluate(all,rmin,rmax,only,tol,r0user,devFrac,refs,rdist,refOnly,off,d
 /* ---------- UI ---------- */
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 const mmv=v=>Math.round(v*1000);
+// Rezerva 0,0001 mm potlačí jen numerický šum velkých souřadnic, nikoli měřitelnou odchylku.
+const PD_EPS_MM=0.0001;
+const pdOver=(mm,limit)=>mm>limit+PD_EPS_MM;
 // odchylka od projektu: do meze včetně zeleně (text), nad mezí červeně (text); nad 150 % meze je červeně vybarvená i buňka
-function heat(v,l){ return (l>0&&isFinite(v)&&v>1.5*l) ? " heat" : ""; }   // podbarvení buňky odchylky nad 150 % meze (barva a síla jsou přímo v CSS td.heat)
-function refCells(p,lim){
-  if(!p.ref) return "<td>–</td>".repeat(4);
-  const over=p.rd*1000>lim;
+function heat(v,l){ return (l>0&&isFinite(v)&&pdOver(v,1.5*l)) ? " heat" : ""; }   // podbarvení buňky odchylky nad 150 % meze (barva a síla jsou přímo v CSS td.heat)
+const hasRefHeights=()=>refs.some(r=>Number.isFinite(r.z));
+const zDelta=p=>p.ref&&Number.isFinite(p.ref.z)&&Number.isFinite(p.z)?p.z-p.ref.z:null;
+function syncDzColumn(){ const show=hasRefHeights(); $("dzth").hidden=!show;
+  if(!show&&sortCol===14){ sortCol=null; sortDir=1; } return show; }
+function refCells(p,lim,showZ=hasRefHeights()){
+  if(!p.ref) return "<td>–</td>".repeat(4+(showZ?1:0));
+  const over=pdOver(p.rd*1000,lim);
   const sx=-p.dy, sy=p.dx;   // obrazovka: x doprava, y dolů
   const arrow = Math.hypot(sx,sy)<0.0005
     ? '<svg width="24" height="24" viewBox="-13 -13 26 26"><circle r="2.5" fill="currentColor"/></svg>'
     : `<svg width="24" height="24" viewBox="-13 -13 26 26"><g transform="rotate(${(Math.atan2(sy,sx)*180/Math.PI).toFixed(1)})" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M-10 0H10M4 -6L10 0L4 6"/></g></svg>`;
   return `<td>${esc(p.ref.id)}</td><td class="${over?"bad":"ok"}${heat(p.rd*1000,lim)}"><span class="dv">${arrow}<b>${mmv(p.rd)} mm</b></span></td>`+
-    `<td class="n">${mmv(p.dy)}</td><td class="n">${mmv(p.dx)}</td>`;
+    `<td class="n">${mmv(p.dy)}</td><td class="n">${mmv(p.dx)}</td>`+
+    (showZ?`<td class="n">${zDelta(p)===null?"–":mmv(zDelta(p))}</td>`:"");
 }
 let allRows=[], lastExtra="", lastWarn="", lastInfo="";
 // řazení tabulky: sortCol = index sloupce (0 = původní pořadí), sortDir 1 vzestupně / -1 sestupně; prázdné hodnoty jdou vždy na konec
@@ -1285,7 +1346,7 @@ let GSEL=null;   // pilota označená v tabulce / plánu (jen když je plán ote
 const SORTS={0:(p,no)=>no, 1:p=>p.invalid?null:p.name, 2:p=>p.n, 4:p=>p.invalid?null:p.y, 5:p=>p.invalid?null:p.x, 6:p=>p.invalid?null:p.z,
   7:p=>p.invalid?null:p.r, 8:p=>p.invalid?null:p.d, 9:p=>(p.invalid||p.n<=3)?null:p.dev,
   10:p=>(p.invalid||!p.ref)?null:p.ref.id, 11:p=>(p.invalid||!p.ref)?null:p.rd, 12:p=>(p.invalid||!p.ref)?null:p.dy,
-  13:p=>(p.invalid||!p.ref)?null:p.dx};
+  13:p=>(p.invalid||!p.ref)?null:p.dx, 14:p=>p.invalid?null:zDelta(p)};
 function cmpVals(a,b){ if(a===null&&b===null) return 0; if(a===null) return 1; if(b===null) return -1;
   const c=(typeof a==="string"||typeof b==="string")?String(a).localeCompare(String(b),"cs",{numeric:true}):a-b; return c*sortDir; }
 const off=new Set(), skip=new Set(), expanded=new Set(), skipSig=new Map();   // off = vypnuté body, skip = pilotu nepoužít ve výstupech
@@ -1307,7 +1368,7 @@ function needPiles(){
   return true;
 }
 const fltPass=(p,fv,lim,rlim)=>{   // filtr pilot (tabulka, plán i exporty)
-  const ov=!p.invalid&&!!p.ref&&p.rd*1000>lim, inn=!p.invalid&&!!p.ref&&p.rd*1000<=lim, sus=!p.invalid&&rlim>0&&p.n>3&&mmv(p.dev)>rlim;
+  const ov=!p.invalid&&!!p.ref&&pdOver(p.rd*1000,lim), inn=!p.invalid&&!!p.ref&&!pdOver(p.rd*1000,lim), sus=!p.invalid&&rlim>0&&p.n>3&&mmv(p.dev)>rlim;
   return fv==="in"?inn:fv==="over"?ov:fv==="sus"?sus:fv==="inv"?!!p.invalid:fv==="prob"?(!!p.invalid||ov||sus):true; };
 let fltRefs=new Set();   // body PD pilot, které filtr skryl (nekreslí se jako „PD bez piloty“)
 function recalc(extra=""){
@@ -1365,6 +1426,7 @@ function recalc(extra=""){
 }
 // automatická hodnota v prázdném poli: šedý text „auto 0,30“ a v tooltipu řádek „Aktuálně (auto): …“ s odvozením
 function showAuto(a){
+  syncDzColumn();
   const NO={r0:"",rd:"bez projektu se nepoužije",dd:"bez projektu se nepoužije"};
   ["rdist","ddist"].forEach(id=>{ const el=$(id); if(el) el.disabled=!refs.length; });   // meze vůči projektu: bez projektu zašedlé
   [["r0","r0"],["rdist","rd"],["ddist","dd"]].forEach(([id,k])=>{ const el=$(id); if(!el) return; const lb=el.closest("label");
@@ -1386,7 +1448,7 @@ function renderSum(lim){
   const el=$("sum"), rs=piles.filter(p=>!p.invalid&&p.ref).map(p=>({p,v:p.rd*1000}));
   if(!rs.length||!(lim>0)){ el.innerHTML=""; return; }
   const pil=n=>n===1?"pilota":(n>=2&&n<=4?"piloty":"pilot"), c=(cl,n,t,tt)=>`<span class="sc ${cl}" title="${tt}"><b>${n}</b> ${t}</span>`;
-  const ok=rs.filter(r=>r.v<=lim).length, mid=rs.filter(r=>r.v>lim&&r.v<=1.5*lim).length, hi=rs.filter(r=>r.v>1.5*lim).length;
+  const ok=rs.filter(r=>!pdOver(r.v,lim)).length, mid=rs.filter(r=>pdOver(r.v,lim)&&!pdOver(r.v,1.5*lim)).length, hi=rs.filter(r=>pdOver(r.v,1.5*lim)).length;
   const mx=rs.reduce((a,r)=>r.v>a.v?r:a,rs[0]), avg=rs.reduce((a,r)=>a+r.v,0)/rs.length;
   el.innerHTML=`<span class="sl">Odchylka od projektu (${rs.length} ${pil(rs.length)} s PD):</span>`
     +c("ok",ok,`do meze (${lim} mm)`,`Odchylka od projektu do meze včetně.`)
@@ -1396,12 +1458,13 @@ function renderSum(lim){
     +c("",`${Math.round(avg)} mm`,`průměrná`,`Průměrná odchylka od projektu.`);
 }
 function renderTable(){
+  const showZ=syncDzColumn(), ncols=15+(showZ?1:0);
   const lim=parseFloat($("lim").value)||0, rlim=parseFloat($("rlim").value)||0, tw=$("tw"), st=tw.scrollTop, sl=tw.scrollLeft, rows=[];
   // poloha fokusu v tabulce (po překreslení se vrátí, aby šlo ovládat klávesnicí)
   const ae=document.activeElement; let fk=null;
   if(ae&&$("tb").contains(ae)){ for(const t of ["use","pt","chev"]) if(ae.dataset&&ae.dataset[t]!==undefined){ fk=[t,ae.dataset[t]]; break; } }
   // filtr pilot platí pro tabulku, plán i exporty; řazení jen pro tabulku (číslo # zůstává původní)
-  const fv=$("flt").value, isOver=p=>!p.invalid&&p.ref&&p.rd*1000>lim, isIn=p=>!p.invalid&&p.ref&&p.rd*1000<=lim, isSus=p=>!p.invalid&&rlim>0&&p.n>3&&mmv(p.dev)>rlim;
+  const fv=$("flt").value, isOver=p=>!p.invalid&&p.ref&&pdOver(p.rd*1000,lim), isIn=p=>!p.invalid&&p.ref&&!pdOver(p.rd*1000,lim), isSus=p=>!p.invalid&&rlim>0&&p.n>3&&mmv(p.dev)>rlim;
   const view=allRows.map((p,k)=>({p,no:k+1}));
   const vw=view.filter(({p})=>fltPass(p,fv,lim,rlim));
   const FP={all:()=>true,in:isIn,over:isOver,sus:isSus,inv:p=>!!p.invalid,prob:p=>!!p.invalid||isOver(p)||isSus(p)};   // počty pilot v závorce u voleb filtru
@@ -1410,21 +1473,21 @@ function renderTable(){
   $("fcnt").textContent=fv==="all"?"":`Zobrazeno ${vw.length} z ${view.length} ${zpilot(view.length)} (filtr platí i pro plán a exporty)`;
   document.querySelectorAll("#tw thead th").forEach((th,i)=>{ const b=th.querySelector("button.sb"); if(!b) return; const on=sortCol===i;
     th.setAttribute("aria-sort",on?(sortDir===1?"ascending":"descending"):"none"); b.querySelector(".si").textContent=on?(sortDir===1?"▲":"▼"):""; });
-  if(view.length&&!vw.length) rows.push('<tr><td colspan="15" style="color:var(--mut)">Žádná pilota nevyhovuje zvolenému filtru.</td></tr>');
+  if(view.length&&!vw.length) rows.push(`<tr><td colspan="${ncols}" style="color:var(--mut)">Žádná pilota nevyhovuje zvolenému filtru.</td></tr>`);
   vw.forEach(({p,no})=>{
     const tog=p.canToggle||p.invalid, open=tog&&expanded.has(p.first), sk=!p.invalid&&skip.has(p.first);
     const use=p.invalid?'<input type="checkbox" disabled title="Neplatná pilota (méně než 3 použité body) se do výstupů nepoužije.">':`<input type="checkbox" data-use="${esc(p.first)}"${sk?"":" checked"} title="Použít pilotu v plánu a exportech. Odškrtnutá pilota zůstane v tabulce zašedlá, ale nebude v plánu, PDF, DXF ani v uložených souborech.">`;
     const head=`<td class="hd">${use} ${no}</td>`;
     const chev=tog?`<button type="button" class="chev" data-chev="${esc(p.first)}" aria-expanded="${open}" aria-label="${open?"Sbalit":"Rozbalit"} body piloty ${esc(p.invalid?p.id:p.name)}" title="Rozbalit / sbalit seznam bodů piloty. V něm lze jednotlivé body odškrtnout a vyřadit z výpočtu (nejméně 3 musí zůstat).">${open?"▾":"▸"}</button>`:'<span class="chev"></span>';
     const attrs=`class="pile${p.invalid?" bad":""}${tog?" has":""}${sk?" skip":""}${p.first===GSEL?" sel":""}" data-k="${esc(p.first)}"`;
-    const nc=p.ref?(p.rd*1000>lim?"bad":"ok"):"";   // střed ZSS je barevný podle odchylky od projektu
-    if(p.invalid) rows.push(`<tr ${attrs}>${head}<td>${esc(p.id)}</td><td>${p.n}</td><td${idsTitle(p)}>${chev}${esc(idsShort(p))}</td>`+"<td>–</td>".repeat(10)+`<td>${esc(p.note)}</td></tr>`);
+    const nc=p.ref?(pdOver(p.rd*1000,lim)?"bad":"ok"):"";   // střed ZSS je barevný podle odchylky od projektu
+    if(p.invalid) rows.push(`<tr ${attrs}>${head}<td>${esc(p.id)}</td><td>${p.n}</td><td${idsTitle(p)}>${chev}${esc(idsShort(p))}</td>`+"<td>–</td>".repeat(10+(showZ?1:0))+`<td>${esc(p.note)}</td></tr>`);
     else rows.push(`<tr ${attrs}>${head}<td class="${nc}"><b>${esc(p.name)}</b></td><td>${p.n}</td><td${idsTitle(p)}>${chev}${esc(idsShort(p))}</td>`+
       `<td class="n">${p.y.toFixed(3)}</td><td class="n">${p.x.toFixed(3)}</td><td class="n">${p.z.toFixed(3)}</td>`+
-      `<td class="n">${(2*p.r).toFixed(3)}</td><td class="n">${Math.round(p.d*1000)}</td>${devCell(p,rlim)}${refCells(p,lim)}<td>${esc(p.note)}</td></tr>`);
+      `<td class="n">${(2*p.r).toFixed(3)}</td><td class="n">${Math.round(p.d*1000)}</td>${devCell(p,rlim)}${refCells(p,lim,showZ)}<td>${esc(p.note)}</td></tr>`);
     if(open){
       const on=p.mem.filter(m=>m.on), worst=on.length>3?on.reduce((a2,m)=>m.res>a2.res?m:a2,on[0]).key:null;
-      rows.push(`<tr class="sub"><td colspan="15"><div class="hint">Body piloty – odškrtnutím bod vyřadíš z výpočtu (nejméně 3 musí zůstat zapnuté). Číslo = vzdálenost bodu od kružnice, nejhorší bod je červený.</div>`+
+      rows.push(`<tr class="sub"><td colspan="${ncols}"><div class="hint">Body piloty – odškrtnutím bod vyřadíš z výpočtu (nejméně 3 musí zůstat zapnuté). Číslo = vzdálenost bodu od kružnice, nejhorší bod je červený.</div>`+
         p.mem.map(m=>`<label class="chip${m.on?"":" off"}${m.key===worst?" worst":""}" title="${m.on?"Bod se používá pro výpočet středu. Odškrtnutím ho z výpočtu vyřadíš.":"Bod je ručně vyřazen z výpočtu. Zaškrtnutím ho vrátíš."}${m.on&&m.res!=null?" Číslo = vzdálenost bodu od vypočtené kružnice.":""}${m.key===worst?" Nejhorší bod (nejdál od kružnice).":""}"><input type="checkbox" data-pt="${esc(m.key)}"${m.on?" checked":""}> ${esc(m.id)}${m.on&&m.res!=null?` <small>${m.res} mm</small>`:""}</label>`).join("")+`</td></tr>`);
     }
   });
@@ -1437,7 +1500,7 @@ function renderTable(){
   const devBad=rlim>0?piles.filter(p=>p.n>3&&mmv(p.dev)>rlim).length:0;
   renderSum(lim);
   $("legend").hidden=!piles.length;   // legenda k tabulce se zobrazí až s načtenými daty
-  const refd=piles.filter(p=>!p.invalid&&p.ref).length, overPD=piles.filter(p=>!p.invalid&&p.ref&&p.rd*1000>lim).length;
+  const refd=piles.filter(p=>!p.invalid&&p.ref).length, overPD=piles.filter(p=>!p.invalid&&p.ref&&pdOver(p.rd*1000,lim)).length;
   const logN=$("log").textContent?$("log").textContent.split("\n").length:0;
   const seg=[`${esc(fname)} – pilot: <b>${piles.length}</b>`];
   if(lastExtra) seg.push(esc(lastExtra));
@@ -1550,14 +1613,14 @@ $("tw").querySelector("thead").addEventListener("click",e=>{
   renderTable();
 });
 $("flt").addEventListener("change",()=>{ if(points.length) recalc(lastExtra); else renderTable(); });
-function clearMeasurement(){ if(!RESTORING) clearView();   // úplné odebrání měření: data, odškrtnutí, tabulka, log i stavy
-  try{ localStorage.removeItem(FK_M); }catch(e){}
+function clearMeasurement(preserveSaved){ if(!RESTORING) clearView();   // úplné odebrání měření: data, odškrtnutí, tabulka, log i stavy
+  if(preserveSaved!==true){ try{ removeStorage(FK_M); }catch(e){} }
   points=[]; piles=[]; unusedPts=[]; allRows=[]; lastExtra=""; lastWarn=""; lastInfo=""; parseLog=[]; fname=""; measFiles=[];
   off.clear(); skipClear(); expanded.clear();
   for(const o of $("flt").options) if(o.dataset.l!==undefined) o.textContent=o.dataset.l; $("tb").innerHTML=""; $("sum").innerHTML=""; $("fcnt").textContent=""; $("log").textContent=""; $("st").textContent="Čekám na soubor."; $("st").style.color=""; $("stf").textContent="";
   $("mst").textContent="Přetáhni sem soubory, jednotlivě i víc najednou, celkem nejvýš "+MAX_FILES_M+" (název bodu, Y, X, Z, [kód])"; $("mst").style.color="";
   $("mclr").hidden=true; $("roff").disabled=true; $("usall").checked=true; $("gm").hidden=true;
-  syncBtns(); syncExp(); saveSet();
+  syncBtns(); syncExp(); if(preserveSaved!==true) saveSet();
 }
 $("mclr").onclick=clearMeasurement;
 $("roff").onclick=()=>{ off.clear(); skipClear(); expanded.clear(); $("flt").value="all"; sortCol=null; sortDir=1; $("tsr").value=""; $("tw").scrollTop=0; $("tw").scrollLeft=0; if(typeof saveSet==="function") saveSet(); recalc(lastExtra); };   // výchozí stav sekce 5: ruční výběr, filtr, řazení, hledání, rozbalené řádky
@@ -1593,21 +1656,22 @@ function readFiles(list,cb,max){
 }
 const rejNote=(rej,over,max)=>{ max=max||MAX_FILES; const m=[]; if(rej.length) m.push(`Tyto soubory neobsahují žádný použitelný řádek, nebyly přidány: ${rej.map(n=>"„"+n+"“").join(", ")}.`);
   if(over.length) m.push(`Celkem lze načíst nejvýš ${max} souborů, nepřidáno: ${over.map(n=>"„"+n+"“").join(", ")}.`); if(m.length) alert(m.join("\n\n")); };
-// přidá soubory k už načteným (stejný název = nahradí původní soubor); soubory bez použitelného řádku se nepřidají
+// přidá soubory k už načteným; stejný název nahradí původní soubor a přesune ho na konec jako nejnověji načtený
 function mergeFiles(cur,fs,usable,max){ max=max||MAX_FILES; cur=cur.map(f=>({n:f.n,t:f.t})); const rej=[], over=[]; let ch=false;
   fs.forEach(f=>{ if(!usable(f.t)){ rej.push(f.n); return; } const i=cur.findIndex(q=>q.n===f.n);
-    if(i>=0){ cur[i]=f; ch=true; } else if(cur.length<max){ cur.push(f); ch=true; } else over.push(f.n); });
+    if(i>=0){ cur.splice(i,1); cur.push(f); ch=true; } else if(cur.length<max){ cur.push(f); ch=true; } else over.push(f.n); });
   rejNote(rej,over,max); return ch?cur:null; }
 function loadFile(list){ readFiles(list,fs=>{ const cur=mergeFiles(measFiles,fs,t=>parse(t).pts.length>0,MAX_FILES_M); if(cur) applyMeas(cur,false,{}); },MAX_FILES_M); }
 // po odebrání souboru se čísla zdrojů posunou: ruční výběr (vypnuté body, odškrtnuté piloty) se přepíše na nová čísla
-function remapKey(k,rm){ if(rm===undefined) return k; const m=/^(.*@\d+)(?:#(\d+))?$/.exec(k); if(!m) return k; const s=m[2]?+m[2]:0; if(s===rm) return null; const n=s>rm?s-1:s; return m[1]+(n>0?"#"+n:""); }
+function remapKey(k,rm,srcMap){ if(rm===undefined&&!srcMap) return k; const m=/^(.*@\d+)(?:#(\d+))?$/.exec(k); if(!m) return k; const s=m[2]?+m[2]:0; if(!srcMap&&s===rm) return null; const n=srcMap?srcMap[s]:(s>rm?s-1:s); if(n==null||n<0) return null; return m[1]+(n>0?"#"+n:""); }
 function removeMeasFile(i){ if(measFiles.length<=1){ clearMeasurement(); return; }
   applyMeas(measFiles.filter((_,k)=>k!==i),false,{rm:i}); }
 $("mchips").addEventListener("click",e=>{ const b=e.target.closest("button[data-i]"); if(b) removeMeasFile(+b.dataset.i); });
 function applyMeas(files,restore,keep){
     const sv=keep?{off:[...off],skip:[...skip].map(k=>[k,skipSig.get(k)]),exp:[...expanded]}:null;   // přidání / odebrání souboru zachová ruční výběr
-    clearMeasurement();   // celé měření se znovu vyhodnotí ze všech načtených souborů
-    if(sv){ const mk=k=>remapKey(k,keep.rm);
+    const srcMap=sv?measFiles.map(f=>files.findIndex(q=>q.n===f.n)):null;   // výběr se váže na název zdroje i po přesunu nahrazeného souboru
+    clearMeasurement(true);   // přepočet nesmí před novým zápisem smazat poslední úspěšně uložené měření
+    if(sv){ const mk=k=>remapKey(k,keep.rm,srcMap);
       sv.off.forEach(k=>{ const n=mk(k); if(n) off.add(n); });
       sv.skip.forEach(([k,sg])=>{ const n=mk(k); if(n){ skip.add(n); skipSig.set(n,String(sg||"").split(",").map(mk).filter(Boolean).join(",")); } });
       sv.exp.forEach(k=>{ const n=mk(k); if(n) expanded.add(n); }); }
@@ -1627,7 +1691,7 @@ function applyMeas(files,restore,keep){
       const m=`${fname} – nenašel se žádný použitelný řádek (očekává se: název bodu, Y, X, Z, [kód])`;
       $("log").textContent=parseLog.join("\n"); $("st").textContent=m; $("mst").textContent=m; $("mst").style.color="var(--red)"; return; }
     $("mclr").hidden=false; setStat($("mst"),`${points.length} ${bodu(points.length)}`+(multi?` z ${files.length} ${zsouboru(files.length)}`:""));
-    try{ localStorage.setItem(FK_M,JSON.stringify({f:files.map(q=>({n:q.n,t:q.t}))})); }catch(e){}   // uloží pro obnovení po F5
+    try{ writeStorage(FK_M,JSON.stringify({f:files.map(q=>({n:q.n,t:q.t}))})); }catch(e){}   // uloží pro obnovení po F5
     if(!refs.length&&!restore) nudge($("refrow"));   // měření načteno, projekt ještě ne: lesk přes blok 2. PROJEKT
     recalc(bad?`(přeskočených řádků: ${bad}, viz log)`:""); }
 function download(name,text,bom,mime){
@@ -1636,10 +1700,11 @@ function download(name,text,bom,mime){
   setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);
 }
 function csvLines(sep){
+  const showZ=hasRefHeights();
   const comma=$("comma").checked, f=v=>{ const s=v.toFixed(3); return comma?s.replace(".",","):s; };
   const q=v=>{ const s=String(v); return (/["\r\n\t;]/.test(s)||s.includes(sep))?'"'+s.replace(/"/g,'""')+'"':s; };   // pole s oddělovačem, uvozovkou nebo koncem řádku se uvozují
-  const rows=[["StredZSS","Y","X","Z","Polomer","Prumer","PrumerZaokr_mm","PocetBodu","MaxOdchBodu_mm","BodPD","Odchylka_mm","dY_mm","dX_mm","ZPD","Body","Poznamka"]];
-  piles.forEach(p=>rows.push([p.name,f(p.y),f(p.x),f(p.z),f(p.r),f(2*p.r),mmv(p.d),p.n,p.n>3?mmv(p.dev):"",p.ref?p.ref.id:"",p.ref?mmv(p.rd):"",p.ref?mmv(p.dy):"",p.ref?mmv(p.dx):"",p.ref&&p.ref.z!=null?f(p.ref.z):"",p.ids.join(" "),p.note]));
+  const rows=[["StredZSS","Y","X","Z","Polomer","Prumer","PrumerZaokr_mm","PocetBodu","MaxOdchBodu_mm","BodPD","Odchylka_mm","dY_mm","dX_mm",...(showZ?["dZ_mm"]:[]),"ZPD","Body","Poznamka"]];
+  piles.forEach(p=>rows.push([p.name,f(p.y),f(p.x),f(p.z),f(p.r),f(2*p.r),mmv(p.d),p.n,p.n>3?mmv(p.dev):"",p.ref?p.ref.id:"",p.ref?mmv(p.rd):"",p.ref?mmv(p.dy):"",p.ref?mmv(p.dx):"",...(showZ?[zDelta(p)===null?"":mmv(zDelta(p))]:[]),p.ref&&p.ref.z!=null?f(p.ref.z):"",p.ids.join(" "),p.note]));
   return rows.map(r=>r.map(q).join(sep)).join("\r\n")+"\r\n";
 }
 const base=()=>{ const n=measFiles.length?measFiles[0].n:""; return (n.replace(/\.[^.]+$/,"")||"piloty")+(measFiles.length>1?"_a_dalsi":""); };
@@ -1680,7 +1745,7 @@ function saveSet(){ if(RESTORING) return; try{ const o={n:{},c:{},sc:sortCol,sd:
   o.fl=$("flt").value; o.adv=$("adv").open; o.sy=$("tw").scrollTop; o.sx=$("tw").scrollLeft; o.lg={o:$("logd").open,t:$("logd").open?$("log").scrollTop:0};   // filtr tabulky, rozbalené „Pokročilé nastavení“
   o.cc=[...customCodes]; o.fold=foldMode;
   o.off=[...off]; o.skip=[...skip].map(k=>[k,skipSig.get(k)||""]); o.exp=[...expanded];   // ruční výběr: vypnuté body, nepoužité piloty, rozbalené řádky
-  localStorage.setItem(LSK,JSON.stringify(o)); }catch(e){} }
+  writeStorage(LSK,JSON.stringify(o)); }catch(e){} }
 function loadSet(){ try{ const o=JSON.parse(localStorage.getItem(LSK)||"null"); if(!o) return;
   if(!o.am&&o.n){ if(o.n.rdist==="0.3") o.n.rdist=""; if(o.n.ddist==="0.2") o.n.ddist=""; }   // starší uložené výchozí hodnoty (0,3 / 0,2 m) se převedou na auto
   DEF_NUM.forEach(id=>{ if(typeof o.n?.[id]==="string") $(id).value=o.n[id]; });
@@ -1703,7 +1768,7 @@ document.querySelectorAll("details.grp>summary").forEach(sm=>sm.addEventListener
 $("foldb").onclick=()=>{ foldMode=(foldMode+1)%3; applyFold(); saveSet(); };
 loadSet(); applyFold(); renderCC();
 [...DEF_NUM,...DEF_CHK,...DEF_SEL].forEach(id=>{ $(id).addEventListener("input",()=>{ syncDef(); saveSet(); }); $(id).addEventListener("change",()=>{ syncDef(); saveSet(); }); });
-[...PLAN_IDS,"flt"].forEach(id=>{ $(id).addEventListener("input",saveSet); $(id).addEventListener("change",saveSet); }); $("adv").addEventListener("toggle",saveSet);
+["flt"].forEach(id=>{ $(id).addEventListener("input",saveSet); $(id).addEventListener("change",saveSet); }); $("adv").addEventListener("toggle",saveSet);
 syncDef();
 ["rmin","rmax","tol","rlim","allp","oo","r0","dv","ronly","rdist","ddist","lim","csig","cmode","rmode"].forEach(id=>$(id).addEventListener("change",()=>recalc()));   // hotová změna (Enter, opuštění pole, přepínače): přepočet hned
 // číselná pole se přepočítají i při psaní, ale až 1 s po poslední změně (nepřepočítává se po každé číslici)
@@ -1763,12 +1828,12 @@ function applyRef(files){ if(!RESTORING) clearView();
     if(dup.size>30) refLog.push(`… ${dalsi(dup.size-30,"duplicitní název","duplicitní názvy","duplicitních názvů")} v projektu`);
     setStat($("refst"),`PD: ${refs.length} ${bodu(refs.length)} ${refs.some(q=>q.z!=null)?"(se Z)":"(bez Z)"}`+(multi?` z ${files.length} ${zsouboru(files.length)}`:"")+(bad?` · přeskočeno řádků: ${bad} (viz log)`:"")+(dup.size?` · duplicitních názvů: ${dup.size} (viz log)`:""));
     if(!points.length) $("log").textContent=refLog.join("\n");
-    try{ localStorage.setItem(FK_R,JSON.stringify({f:files.map(q=>({n:q.n,t:q.t}))})); }catch(e){}   // uloží pro obnovení po F5
+    try{ writeStorage(FK_R,JSON.stringify({f:files.map(q=>({n:q.n,t:q.t}))})); }catch(e){}   // uloží pro obnovení po F5
     $("ronly").disabled=false; $("rclr").hidden=false; syncBtns(); recalc();
     if(!RESTORING&&points.length&&piles.length) nudge($("gb")); }   // měření už je načtené: lesk přes tlačítko Plán i po nahrání projektu
 $("br").onclick=()=>$("fr").click();
 $("fr").onchange=e=>{ if(e.target.files.length) loadRef(e.target.files); e.target.value=""; };
-$("rclr").onclick=()=>{ try{ localStorage.removeItem(FK_R); }catch(e){} refs=[]; refFiles=[]; refLog=[]; if(!points.length) $("log").textContent=""; $("refst").style.color=""; $("ronly").disabled=true; $("rclr").hidden=true; syncBtns();
+$("rclr").onclick=()=>{ try{ removeStorage(FK_R); }catch(e){} refs=[]; refFiles=[]; refLog=[]; if(!points.length) $("log").textContent=""; $("refst").style.color=""; $("ronly").disabled=true; $("rclr").hidden=true; syncBtns();
   $("refst").textContent="Přetáhni sem soubory, jednotlivě i víc najednou, celkem nejvýš "+MAX_FILES+" (název bodu, Y, X, [Z], [kód])."; recalc(); };
 function wireDrop(el,fn){
   ["dragenter","dragover"].forEach(ev=>el.addEventListener(ev,e=>{e.preventDefault();e.stopPropagation();el.classList.add("over");}));
@@ -1797,7 +1862,7 @@ function niceStep(raw){ const e=Math.pow(10,Math.floor(Math.log10(raw))), m=raw/
 function gBounds(gl,o){
   const b=[1e18,-1e18,1e18,-1e18];
   const add=(y,x,r)=>{ b[0]=Math.min(b[0],y-r); b[1]=Math.max(b[1],y+r); b[2]=Math.min(b[2],x-r); b[3]=Math.max(b[3],x+r); };
-  piles.forEach(p=>{ add(p.y,p.x,0); if(p.ref) add(p.ref.y,p.ref.x,p.d/2); else add(p.y,p.x,p.d/2); (p.pts||[]).forEach(q=>add(q.y,q.x,0)); });
+  piles.forEach(p=>{ add(p.y,p.x,0); if(o&&o.real&&!p.direct&&p.r>0) add(p.cy??p.y,p.cx??p.x,p.r); if(p.ref) add(p.ref.y,p.ref.x,p.d/2); else add(p.y,p.x,p.d/2); (p.pts||[]).forEach(q=>add(q.y,q.x,0)); });
   // body PD bez piloty (šedé křížky s názvem) se kreslí také, proto patří do rozsahu výkresu
   if(refs.length&&(!o||o.nop!==false)){ const matched=new Set(piles.map(p=>p.ref).filter(Boolean)); refs.forEach(r=>{ if(!matched.has(r)&&!fltRefs.has(r)) add(r.y,r.x,0); }); }
   if(o&&o.allp) unusedPts.forEach(q=>add(q.y,q.x,0));
@@ -1873,7 +1938,7 @@ function buildScene(W,H,v,o){
   piles.forEach((p,i)=>{
     const px=SX(p.ref?p.ref.y:p.y), py=SY(p.ref?p.ref.x:p.x);
     if(!near(px,py,AL+80)) return;
-    const tx=SX(p.y), ty=SY(p.x), rr=p.d/2*s, bad=p.ref&&p.rd*1000>o.lim;
+    const tx=SX(p.y), ty=SY(p.x), rr=p.d/2*s, bad=p.ref&&pdOver(p.rd*1000,o.lim);
     const col=p.ref?(bad?GC.bad:GC.ok):GC.txt, v={p,id:i+1,px,py,rr,col,ux:0,uy:0,arrow:false};
     if(o.pts||o.allp) (p.pts||[]).forEach(q=>{ const qx=SX(q.y), qy=SY(q.x);
       it.push({t:"line",x1:qx-cd,y1:qy-cd,x2:qx+cd,y2:qy+cd,c:pc(q),sw:1*fs,z:q.z});
@@ -1885,7 +1950,7 @@ function buildScene(W,H,v,o){
       it.push({t:"line",x1:qx-cd,y1:qy-cd,x2:qx+cd,y2:qy+cd,c:GC.off,sw:1*fs,z:q.z});
       it.push({t:"line",x1:qx-cd,y1:qy+cd,x2:qx+cd,y2:qy-cd,c:GC.off,sw:1*fs,z:q.z});
       it.push({t:"circ",x:qx,y:qy,r:ch*0.9,c:GC.off,sw:1*fs,z:q.z}); });
-    if(o.real&&!p.direct&&p.r>0) it.push({t:"circ",x:tx,y:ty,r:p.r*s,c:FC?pileCol(p):GC.real,sw:(FC?1:0.8)*fs,dash:[4*fs,3*fs],k:"real"});   // při více souborech v barvě souboru (stejně jako jeho měřené body)   // reálná kružnice z měřených bodů: vypočtený střed a poloměr, čárkovaně fialově
+    if(o.real&&!p.direct&&p.r>0) it.push({t:"circ",x:SX(p.cy??p.y),y:SY(p.cx??p.x),r:p.r*s,c:FC?pileCol(p):GC.real,sw:(FC?1:0.8)*fs,dash:[4*fs,3*fs],k:"real"});   // při více souborech v barvě souboru (stejně jako jeho měřené body)   // reálná kružnice z měřených bodů: vypočtený střed a poloměr, čárkovaně fialově
     if(o.circ!==false) it.push({t:"circ",x:px,y:py,r:rr,c:pileCol(p),sw:(FC?1.8:1.4)*fs});
     if(o.sel&&p.first===o.sel) it.push({t:"circ",x:px,y:py,r:Math.max(rr,9)+8*fs,c:"#f59e0b",sw:3*fs});   // označená pilota (jen na obrazovce, ne v PDF / DXF)
     if(o.ctr!==false){   // vypočtený střed: křížek × (volitelné)
@@ -1962,9 +2027,10 @@ function buildScene(W,H,v,o){
   });
   // popis měřených bodů (volitelný): číslo bodu vedle křížku, nejlépe na vnější straně od středu piloty, jinak nejbližší volné místo
   const lblPt=(q,off,px0,py0,col)=>{
-    if(!q.id) return;
+    const label=[o.lbl&&q.id?String(q.id):"",o.zlbl&&Number.isFinite(q.z)?"Z "+q.z.toFixed(3):""].filter(Boolean).join(" / ");
+    if(!label) return;
     const qx=SX(q.y), qy=SY(q.x); if(!near(qx,qy,20)) return;
-    const sz=9*fs, w=tw(String(q.id),sz), h=sz*1.1, base=Math.atan2(qy-py0,qx-px0);
+    const sz=9*fs, w=tw(label,sz), h=sz*1.1, base=Math.atan2(qy-py0,qx-px0);
     const angs=[0,Math.PI/4,-Math.PI/4,Math.PI/2,-Math.PI/2,3*Math.PI/4,-3*Math.PI/4,Math.PI].sort((a,b)=>Math.abs(Math.atan2(Math.sin(a-base),Math.cos(a-base)))-Math.abs(Math.atan2(Math.sin(b-base),Math.cos(b-base))));
     let best=null, n=0;
     outer: for(const R of [cd+2*fs,cd+2*fs+8*fs,cd+2*fs+16*fs]) for(const f of angs){
@@ -1974,15 +2040,15 @@ function buildScene(W,H,v,o){
       if(!best||sc<best.sc) best={sc,x:Px,y:bl,a,x0,y0};
       if(sc<=0.05) break outer;
     }
-    it.push({t:"text",x:best.x,y:best.y,s:String(q.id),size:sz,c:off?GC.off:col,a:best.a,k:"bodpopis"});
+    it.push({t:"text",x:best.x,y:best.y,s:label,size:sz,c:off?GC.off:col,a:best.a,k:"bodpopis"});
     addR(best.x0,best.y0,best.x0+w,best.y0+h,-3);
   };
-  if((o.pts||o.allp)&&o.lbl) vis.forEach(v=>{
+  if((o.pts||o.allp)&&(o.lbl||o.zlbl)) vis.forEach(v=>{
     (v.p.pts||[]).forEach(q=>lblPt(q,false,v.px,v.py,pc(q)));
     (v.p.offPts||[]).forEach(q=>lblPt(q,true,v.px,v.py,GC.pt));
     (v.p.ctrPts||[]).forEach(q=>lblPt(q,false,v.px,v.py,pc(q)));
   });
-  if(o.allp&&o.lbl) unusedPts.forEach(q=>lblPt(q,false,SX(q.y)-1,SY(q.x),GC.unp));   // bez piloty: popis přednostně vpravo
+  if(o.allp&&(o.lbl||o.zlbl)) unusedPts.forEach(q=>lblPt(q,false,SX(q.y)-1,SY(q.x),GC.unp));   // bez piloty: popis přednostně vpravo
   // průměry pilot (volitelné, vlastní vrstva v DXF): uvnitř kruhu, na straně odvrácené od šipky
   if(o.dia) vis.forEach(v=>{
     const sz=10*fs, dy=(v.arrow&&v.uy>0)?-0.5*v.rr:0.5*v.rr+0.6*sz;
@@ -2206,7 +2272,15 @@ const pct=id=>{ const v=parseFloat($(id).value), t=isFinite(v)?v:50; return t<=5
 const lvl=id=>pct(id)/150;   // skutečný činitel velikosti: zobrazených 150 % = dřívější základní velikost, takže výchozích 100 % je menších (0,67×)
 const axOf=()=>lvl("ga");
 const txOf=()=>lvl("gt");
-const gOpts=fs=>({tx:txOf(),ax:axOf(),pts:$("gpm").value!=="none",allp:$("gpm").value==="all",circ:$("gc").checked,ctr:$("gs").checked,nop:$("gn").checked,real:$("gr").checked,hd:$("gh").checked,leg:$("gg").checked,lbl:$("gl").checked,dia:$("gd").checked,lim:parseFloat($("lim").value)||0,fs});
+const gOpts=fs=>({tx:txOf(),ax:axOf(),pts:$("gpm").value!=="none",allp:$("gpm").value==="all",circ:$("gc").checked,ctr:$("gs").checked,nop:$("gn").checked,real:$("gr").checked,hd:$("gh").checked,leg:$("gg").checked,lbl:$("gl").checked,zlbl:$("gz").checked,dia:$("gd").checked,lim:parseFloat($("lim").value)||0,fs});
+// Jedna čekající kresba na snímek; vykresluje se až nejnovější stav pohledu.
+function planFrame(draw,visible){
+  let pending=null;
+  const request=()=>{ if(pending!==null) return; pending=requestAnimationFrame(()=>{ pending=null; if(visible()) draw(); }); };
+  request.flush=()=>{ if(pending===null) return; cancelAnimationFrame(pending); pending=null; if(visible()) draw(); };
+  return request;
+}
+const gRequestRender=planFrame(()=>gRender(),()=>!$("gm").hidden&&!document.body.classList.contains("mrov"));
 function gRender(){
   const box=$("gsvg"), W=box.clientWidth, H=box.clientHeight;
   if(!GV){ GV=fitView(W,H,0,gOpts(1)); if(GVZ){ GV.s*=GVZ.z; GV.cy=GVZ.cy; GV.cx=GVZ.cx; } }
@@ -2222,7 +2296,7 @@ const VWK="zsspilot.zobrazeni";   // uložený režim zobrazení: 0 jen tabulka,
 const VT=["Zobrazení: jen tabulka (bez plánu). Klik otevře rozdělenou obrazovku: nahoře tabulka, dole plán (další klik: plán na celou obrazovku, potom zpět bez plánu). Zkratka: V.",
   "Zobrazení: rozdělená obrazovka (tabulka nahoře, plán dole). Klik přepne plán na celou obrazovku (potom zpět bez plánu). Zkratka: V.",
   "Zobrazení: plán na celou obrazovku. Klik zavře plán (zpět jen tabulka). Zkratka: V."];
-function syncSplit(){ const st=viewState(), on=st===1; document.body.classList.toggle("split",on); if(!RESTORING){ try{ localStorage.setItem(VWK,st); }catch(e){} }
+function syncSplit(){ const st=viewState(), on=st===1; document.body.classList.toggle("split",on); if(!RESTORING){ try{ writeStorage(VWK,st); }catch(e){} }
   [$("gbs"),$("gsp")].forEach(b=>{ b.classList.toggle("p",st>0); b.firstElementChild.innerHTML=st===2?IC_FULL:IC_SPLIT; });
   $("gbs").dataset.t=VT[st]; if(!$("gbs").disabled) $("gbs").title=VT[st]; $("gsp").title=VT[st]; }
 function setView(n){
@@ -2232,10 +2306,10 @@ function setView(n){
 // táhlo na horním okraji plánu v rozdělené obrazovce: poměr tabulka : plán od 20 : 80 do 80 : 20 (podíl plánu v % výšky okna v proměnné --sp), dvojklik = 50 : 50
 const SPK="zsspilot.rozdeleni";
 const setSp=v=>{ v=Math.min(80,Math.max(20,Math.round(v*10)/10)); document.documentElement.style.setProperty("--sp",v); return v; };
-const saveSp=()=>{ try{ localStorage.setItem(SPK,parseFloat(document.documentElement.style.getPropertyValue("--sp"))||50); }catch(e){} };
+const saveSp=()=>{ try{ writeStorage(SPK,parseFloat(document.documentElement.style.getPropertyValue("--sp"))||50); }catch(e){} };
 try{ const v=parseFloat(localStorage.getItem(SPK)); if(v>=20&&v<=80) setSp(v); }catch(e){}
-{ const h=$("gsplit"); let drag=false, raf=0;
-  const redraw=()=>{ if(!raf) raf=requestAnimationFrame(()=>{ raf=0; if(!$("gm").hidden) gRender(); }); };
+{ const h=$("gsplit"); let drag=false;
+  const redraw=gRequestRender;
   h.addEventListener("pointerdown",e=>{ if(e.button!==0) return; e.preventDefault(); drag=true; h.classList.add("drag"); h.setPointerCapture(e.pointerId); document.body.style.userSelect="none"; });
   h.addEventListener("pointermove",e=>{ if(!drag) return; setSp((innerHeight-e.clientY)/innerHeight*100); redraw(); });
   const end=e=>{ if(!drag) return; drag=false; h.classList.remove("drag"); document.body.style.userSelect=""; try{ h.releasePointerCapture(e.pointerId); }catch(_){} saveSp(); redraw(); };
@@ -2273,23 +2347,24 @@ $("gfit").onclick=()=>{ GV=null; clearView(); gRender(); };
 const slv=p=>p<=100?(p-25)*50/75:50+(p-100)*50/200;   // opak k pct: zobrazená % -> poloha posuvníku
 const syncNum=()=>{ [["gt","gtn"],["ga","gan"]].forEach(([s,n])=>{ if(document.activeElement!==$(n)) $(n).value=Math.round(pct(s)); }); };
 // popis měřených bodů je bez zobrazených bodů nedostupný (šedý)
-const syncPts=()=>{ const on=$("gpm").value!=="none"; $("gl").disabled=!on; $("gl").parentElement.style.opacity=on?"":".5";
+const syncPts=()=>{ const on=$("gpm").value!=="none"; ["gl","gz"].forEach(id=>{ $(id).disabled=!on; $(id).parentElement.style.opacity=on?"":".5"; });
   // „Výchozí hodnoty“ v plánu jsou aktivní jen tehdy, když se něco liší od výchozího stavu (volby, měřené body, velikost písma a šipek)
   const g=$("gpm"), d=Math.max(0,[...g.options].findIndex(o=>o.defaultSelected)), b=$("gdef");
   const ok=[...$("gchk").querySelectorAll('input[type=checkbox]')].every(c=>c.checked===c.defaultChecked)&&g.selectedIndex===d&&parseFloat($("gt").value)===50&&parseFloat($("ga").value)===50;
   if(b.dataset.t===undefined) b.dataset.t=b.title;
   b.disabled=ok; b.title=ok?"Volby plánu, velikost písma i šipek už jsou na výchozích hodnotách, není co vracet.":b.dataset.t; };
-["gt","ga","gpm","gc","gs","gn","gr","gh","gg","gl","gd"].forEach(id=>$(id).addEventListener("input",()=>{ syncPts(); syncNum(); if(!$("gm").hidden) gRender(); }));
+function gOptChanged(){ syncPts(); syncNum(); saveSet(); if(!$("gm").hidden) gRender(); }
+["gt","ga","gpm","gc","gs","gn","gr","gh","gg","gl","gz","gd"].forEach(id=>{ $(id).addEventListener("input",gOptChanged); $(id).addEventListener("change",gOptChanged); });
 syncPts();
 // číselné zadání velikosti: platná hodnota 25–300 % se promítne do posuvníku hned při psaní, po opuštění pole se opraví do rozsahu
 [["gt","gtn"],["ga","gan"]].forEach(([s,n])=>{
   const val=()=>parseFloat($(n).value.replace(",","."));
-  $(n).addEventListener("input",()=>{ const v=val(); if(!isFinite(v)||v<25||v>300) return; $(s).value=slv(v); if(!$("gm").hidden) gRender(); });
-  $(n).addEventListener("change",()=>{ const v=val(), c=isFinite(v)?Math.min(300,Math.max(25,v)):pct(s); $(n).value=Math.round(c); $(s).value=slv(c); if(!$("gm").hidden) gRender(); });
+  $(n).addEventListener("input",()=>{ const v=val(); if(!isFinite(v)||v<25||v>300) return; $(s).value=slv(v); gOptChanged(); });
+  $(n).addEventListener("change",()=>{ const v=val(), c=isFinite(v)?Math.min(300,Math.max(25,v)):pct(s); $(n).value=Math.round(c); $(s).value=slv(c); gOptChanged(); });
 });
 // hromadné zaškrtnutí / odškrtnutí všech voleb zobrazení v plánu (bere všechna zaškrtávátka v #gchk, takže funguje i pro budoucí volby)
-$("gall").onclick=()=>{ const cbs=[...$("gchk").querySelectorAll('input[type=checkbox]')], all=cbs.every(c=>c.checked)&&$("gpm").value==="all"; cbs.forEach(c=>{ c.checked=!all; }); $("gpm").value=all?"none":"all"; syncPts(); if(!$("gm").hidden) gRender(); };
-$("gdef").onclick=()=>{ $("gchk").querySelectorAll('input[type=checkbox]').forEach(c=>{ c.checked=c.defaultChecked; }); const g=$("gpm"); g.selectedIndex=Math.max(0,[...g.options].findIndex(o=>o.defaultSelected)); [$("gt"),$("ga")].forEach(e=>{ e.value=50; }); syncPts(); syncNum(); if(!$("gm").hidden) gRender(); };   // volby plánu i velikost písma a šipek zpět na výchozí hodnoty
+$("gall").onclick=()=>{ const cbs=[...$("gchk").querySelectorAll('input[type=checkbox]')], all=cbs.every(c=>c.checked)&&$("gpm").value==="all"; cbs.forEach(c=>{ c.checked=!all; }); $("gpm").value=all?"none":"all"; gOptChanged(); };
+$("gdef").onclick=()=>{ $("gchk").querySelectorAll('input[type=checkbox]').forEach(c=>{ c.checked=c.defaultChecked; }); const g=$("gpm"); g.selectedIndex=Math.max(0,[...g.options].findIndex(o=>o.defaultSelected)); [$("gt"),$("ga")].forEach(e=>{ e.value=50; }); gOptChanged(); };   // volby plánu i velikost písma a šipek zpět na výchozí hodnoty
 $("gt").addEventListener("dblclick",()=>{ $("gt").value=50; $("gt").dispatchEvent(new Event("input")); });
 $("ga").addEventListener("dblclick",()=>{ $("ga").value=50; $("ga").dispatchEvent(new Event("input")); });
 // klik na znak „%“ vedle čísla vrátí posuvník na výchozích 100 % (střed)
@@ -2300,7 +2375,7 @@ const savePdf=()=>{ if(!needPiles()) return; download(base()+"_plan_A3.pdf",pdfO
 $("gpdf").onclick=savePdf; $("spdf").onclick=savePdf;
 const saveDxf=()=>{ if(!needPiles()) return; download(base()+"_plan.dxf",dxfOf(gOpts()),false); };
 $("gdxf").onclick=saveDxf; $("sdxf").onclick=saveDxf;
-window.addEventListener("resize",()=>{ if(!$("gm").hidden) gRender(); });
+window.addEventListener("resize",gRequestRender);
 document.addEventListener("keydown",e=>{ if(e.key==="Escape") $("gm").hidden=true; });
 (()=>{
   const box=$("gsvg"); let drag=null;
@@ -2309,11 +2384,11 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") $("gm").hidden=tru
     const r=box.getBoundingClientRect(), W=box.clientWidth, H=box.clientHeight, pl=plotRect(W,H,headTop(W,H,gOpts(1)));
     const mx=e.clientX-r.left, my=e.clientY-r.top, cx=pl.x+pl.w/2, cy=pl.y+pl.h/2;
     const wy=GV.cy-(mx-cx)/GV.s, wx=GV.cx+(my-cy)/GV.s, f=e.deltaY<0?1.25:1/1.25;
-    GV.s*=f; GV.cy=wy+(mx-cx)/GV.s; GV.cx=wx-(my-cy)/GV.s; gRender(); saveView();
+    GV.s*=f; GV.cy=wy+(mx-cx)/GV.s; GV.cx=wx-(my-cy)/GV.s; gRequestRender(); saveView();
   },{passive:false});
   box.addEventListener("pointerdown",e=>{ drag={x:e.clientX,y:e.clientY}; box.setPointerCapture(e.pointerId); box.style.cursor="grabbing"; });
   box.addEventListener("pointermove",e=>{ if(!drag||!GV) return;
-    GV.cy+=(e.clientX-drag.x)/GV.s; GV.cx-=(e.clientY-drag.y)/GV.s; drag={x:e.clientX,y:e.clientY}; gRender(); saveView(); });
+    GV.cy+=(e.clientX-drag.x)/GV.s; GV.cx-=(e.clientY-drag.y)/GV.s; drag={x:e.clientX,y:e.clientY}; gRequestRender(); saveView(); });
   // pilota pod kurzorem (nejbližší v okruhu jejího kruhu, nejméně 14 px)
   const pileAt=(cx,cy)=>{ if(!GV) return null; const r=box.getBoundingClientRect(), W=box.clientWidth, H=box.clientHeight, pl=plotRect(W,H,headTop(W,H,gOpts(1))), mx=cx-r.left, my=cy-r.top; let best=null, bd=1e9;
     piles.forEach(p=>{ const wy=p.ref?p.ref.y:p.y, wx=p.ref?p.ref.x:p.x, sx=pl.x+pl.w/2+(GV.cy-wy)*GV.s, sy=pl.y+pl.h/2+(wx-GV.cx)*GV.s,
@@ -2321,7 +2396,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") $("gm").hidden=tru
     return best; };
   // bublina při najetí myší na pilotu: název, průměr, počet bodů, odchylky
   const tip=$("gtip"), hideTip=()=>{ tip.hidden=true; if(!drag) box.style.cursor="grab"; };
-  const tipHtml=p=>{ const lim=parseFloat($("lim").value)||0, over=p.ref&&p.rd*1000>lim;
+  const tipHtml=p=>{ const lim=parseFloat($("lim").value)||0, over=p.ref&&pdOver(p.rd*1000,lim);
     return `<b>${esc(p.name)}</b>`+(p.ref?` <span class="m">(bod PD ${esc(p.ref.id)})</span>`:` <span class="m">(bez projektu)</span>`)
       +`<br>Ø ${(2*p.r).toFixed(3)} m (zaokr. ${Math.round(p.d*1000)} mm) · ${p.n} ${p.n===1?"bod":(p.n>=2&&p.n<=4?"body":"bodů")}`
       +(p.ref?`<br>Odchylka od PD: <span class="${over?"bad":"ok"}">${mmv(p.rd)} mm</span> <span class="m">(ΔY ${mmv(p.dy)}, ΔX ${mmv(p.dx)})</span>`:"")
@@ -2340,6 +2415,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") $("gm").hidden=tru
   box.addEventListener("pointerup",e=>{ drag=null; box.style.cursor="grab";
     // klik bez tažení: označí nejbližší pilotu (nebo výběr zruší) a v tabulce se přesune na její řádek
     if(!dn||!GV||Math.hypot(e.clientX-dn.x,e.clientY-dn.y)>4) return;
+    gRequestRender.flush();
     const best=pileAt(e.clientX,e.clientY);
     if(best) selPile(best.first,"plan"); else if(GSEL!==null){ GSEL=null; gRender(); renderTable(); } });
 })();
@@ -2353,7 +2429,7 @@ function doReset(){
   clearMeasurement(); $("rclr").onclick(); $("pdef").onclick(); $("gdef").onclick();
   [$("gt"),$("ga")].forEach(e=>{ e.value=50; e.dispatchEvent(new Event("input")); });
   foldMode=0; applyFold(); $("adv").open=false; $("flt").value="all"; sortCol=null; sortDir=1; GSEL=null; GV=null; clearView(); $("tw").scrollTop=0; $("tw").scrollLeft=0; $("logd").open=false; setSp(50);
-  try{ [LSK,FK_M,FK_R,SPK].forEach(k=>localStorage.removeItem(k)); }catch(e){}
+  try{ [LSK,FK_M,FK_R,SPK].forEach(k=>removeStorage(k)); }catch(e){}
   renderTable(); syncSplit(); }
 // vlastní okno pro potvrzení resetu (místo systémového confirm): výchozí fokus na „Zrušit“, Esc nebo klik mimo okno zavře
 const rmClose=()=>{ $("rm").hidden=true; $(typeof rmMode!=="undefined"&&rmMode==="rov"?"rall2":"rall").focus({preventScroll:true}); };
@@ -2382,15 +2458,15 @@ try{ if(RST){ const lg=RST.lg; if(lg&&lg.o===true) $("logd").open=true;
   setTimeout(()=>{ try{ if(isFinite(RST.sy)) $("tw").scrollTop=RST.sy; if(isFinite(RST.sx)) $("tw").scrollLeft=RST.sx; if(lg&&lg.o&&isFinite(lg.t)) $("log").scrollTop=lg.t; }catch(e){} },0); } }catch(e){}
 const saveSetD=(()=>{ let t=0; return ()=>{ clearTimeout(t); t=setTimeout(saveSet,300); }; })();
 ["tw","log"].forEach(id=>$(id).addEventListener("scroll",saveSetD)); $("logd").addEventListener("toggle",saveSetD);
-// klávesové zkratky (každá nová se musí doplnit i do popisu v okně „i“): I = popis aplikace, V = přepínání tabulka / split / plán, Shift+P = export plánu do PDF, Shift+S = export do DXF, Shift+C = CSV, Shift+T = STX
+// klávesové zkratky (každá nová se musí doplnit i do popisu v okně „i“): I = popis aplikace, V = přepínání tabulka / split / plán, F = celý výkres při otevřeném plánu, Shift+P = export plánu do PDF, Shift+S = export do DXF, Shift+C = CSV, Shift+T = STX
 document.addEventListener("keydown",e=>{
   if(document.body.classList.contains("mrov")) return;   // zkratky platí jen v modulu ZSS pilot
   if(e.ctrlKey||e.altKey||e.metaKey||e.repeat||!$("rm").hidden) return;
   const t=e.target, tag=t&&t.tagName; if((tag==="INPUT"&&!/^(checkbox|radio|range|button|file)$/.test(t.type))||tag==="TEXTAREA"||tag==="SELECT"||(t&&t.isContentEditable)) return;
   if(e.code==="KeyI"&&!e.shiftKey){ e.preventDefault(); $("im").hidden=!$("im").hidden; return; }
   if(!$("im").hidden) return;   // při otevřeném popisu ostatní zkratky nefungují
+  if(e.code==="KeyF"&&!e.shiftKey&&!$("gm").hidden){ e.preventDefault(); $("gfit").click(); return; }
   if(e.code==="KeyV"&&!e.shiftKey){ e.preventDefault(); if(viewState()===0&&!piles.length) return; cycleView(); return; }
-  if(e.code==="KeyF"&&!e.shiftKey){ if(!$("gm").hidden){ e.preventDefault(); $("gfit").onclick(); } return; }   // F: celý výkres (jen při otevřeném plánu)
   if(e.code==="KeyP"&&e.shiftKey){ e.preventDefault(); if(piles.length) $("gpdf").onclick(); }   // bez pilot se nic neděje (žádné okno s hláškou)
   if(e.code==="KeyS"&&e.shiftKey){ e.preventDefault(); if(piles.length) $("gdxf").onclick(); }
   if(e.code==="KeyC"&&e.shiftKey){ e.preventDefault(); if(piles.length) $("scsv").click(); }   // CSV (tlačítko je zašedlé, dokud není co uložit)
@@ -2444,15 +2520,15 @@ window.addEventListener("resize",fitTable); fitTable();
 
 
 /* ---------- Rovinnost: 1. MĚŘENÍ (načtení seznamu měřených bodů; stejný formát, kontrola a rozsah jako v ZSS pilot, vlastní oddělený stav) ---------- */
-const RV={files:[],pts:[],bad:0,log:[],robLog:[],keep:new Set(),set:{u:"mm",tmm:10,p:"1",rob:true,rk:null,c:true,pn:true,m:"pl",L:2,Lm:1.6,w:0.1,lt:2,lv:"pm"}}, FK_RV="zsspilot.rovinnost", FK_RVS="zsspilot.rovinnost.nastaveni";
+const RV={files:[],pts:[],bad:0,log:[],robLog:[],keep:new Set(),set:{u:"mm",t:10,p:"1",rob:true,rk:null,c:true,pn:true,m:"pl",L:2,Lm:1.6,w:0.1,lt:2,lv:"pm"}}, FK_RV="zsspilot.rovinnost", FK_RVS="zsspilot.rovinnost.nastaveni";
 const RV_LD={L:2,Lm:1.6,w:0.1,lt:2,lv:"pm"};   // rovinnost latí: výchozí lať 2 m, rozpětí od 1,6 m, pás ±0,1 m, tolerance 2 mm (ČSN 74 4505, pobyt osob), varianta ±
 function rvLatLoad(s){ const ok=(v,a,b)=>typeof v==="number"&&isFinite(v)&&v>=a&&v<=b;
   if(s.m==="lat") RV.set.m="lat"; if(ok(s.L,0.1,10)) RV.set.L=s.L; if(ok(s.Lm,0.1,10)) RV.set.Lm=s.Lm; if(ok(s.w,0.01,0.5)) RV.set.w=s.w; if(ok(s.lt,0.1,100)) RV.set.lt=s.lt; if(s.lv==="dn") RV.set.lv="dn";
   if(RV.set.Lm>RV.set.L) RV.set.Lm=RV.set.L; }
-const RV_TD={mm:10}, RV_PR={"0.1":{st:0.1,mm:1,m:4},"1":{st:1,mm:0,m:3},"10":{st:10,mm:0,m:2}};   // přesnost: krok v mm a počet desetinných míst v mm / m   // výchozí tolerance v mm: pro jednotky mm 10 mm, pro jednotky m 0,1 m
+const RV_TD=10, RV_PR={"0.1":{st:0.1,mm:1,m:4},"1":{st:1,mm:0,m:3},"10":{st:10,mm:0,m:2}};   // přesnost: krok v mm a počet desetinných míst v mm / m   // výchozí tolerance v mm: pro jednotky mm 10 mm, pro jednotky m 0,010 m
 const rvTc=v=>Math.min(9999,Math.max(0.1,Math.round(v*10)/10));
 try{ const s=JSON.parse(localStorage.getItem(FK_RVS)||"null"); if(s&&(s.u==="mm"||s.u==="m")){ RV.set.u=s.u;
-  if(isFinite(s.tmm)) RV.set.tmm=rvTc(s.tmm); if(RV_PR[s.p]) RV.set.p=s.p; RV.set.rob=s.rob!==false; RV.set.c=s.c!==false; RV.set.pn=s.pn!==false;   /* desetinná čárka v CSV: výchozí zapnuto */ rvLatLoad(s);   /* výchozí zapnuto; vypne se jen uloženou volbou */ if(s.rk!=null&&isFinite(s.rk)&&s.ra===false) RV.set.rk=Math.min(20,Math.max(1,+s.rk)); /* rk = null → auto (prázdné pole) */ } }catch(e){}   // jednotky (mm/m) a tolerance pro každé jednotky zvlášť (uložené v mm)
+  const savedT=Number.isFinite(s.t)?s.t:(s.u==="m"&&Number.isFinite(s.tm)?s.tm:s.tmm); if(Number.isFinite(savedT)) RV.set.t=rvTc(savedT); if(RV_PR[s.p]) RV.set.p=s.p; RV.set.rob=s.rob!==false; RV.set.c=s.c!==false; RV.set.pn=s.pn!==false; rvLatLoad(s);   /* výchozí zapnuto; vypne se jen uloženou volbou */ if(s.rk!=null&&isFinite(s.rk)&&s.ra===false) RV.set.rk=Math.min(20,Math.max(1,+s.rk)); /* rk = null → auto (prázdné pole) */ } }catch(e){}   // starší dvě tolerance se převedou podle naposledy používané jednotky; nově je jedna hodnota v mm
 const RVP={files:[],pts:[],bad:0,dup:0,log:[]}, FK_RVP="zsspilot.rovinnost.pd", MAX_FILES_RP=10;   // nejvýš 10 souborů PD v Rovinnosti   // 2. ROVINA: projektované body
 function rvRender(){
   const n=RV.pts.length, multi=RV.files.length>1;
@@ -2465,6 +2541,7 @@ function rvRender(){
   if(n){ setStat(st,`${n} ${bodu(n)}`+(multi?` z ${RV.files.length} ${zsouboru(RV.files.length)}`:"")+(RV.bad?` · přeskočeno řádků: ${RV.bad} (viz log)`:"")+(RV.dup&&RV.dup.n?` · duplicitních názvů: ${RV.dup.n} (viz log)`:"")+(RV.dup&&RV.dup.p?` · ${RV.dup.p} ${rvPl(RV.dup.p,"dvojice","dvojice","dvojic")} ve stejné poloze (viz log)`:"")); }
   else { st.textContent="Přetáhni sem soubory, jednotlivě i víc najednou, celkem nejvýš "+MAX_FILES_M+" (název bodu, Y, X, Z, [kód])"; st.style.color=""; }
 }
+function rvDataChanged(){ RV.dataVersion=(RV.dataVersion||0)+1; RV.robLog=[]; }
 const rvPl=(n,a,b,c)=>n===1?a:(n>=2&&n<=4?b:c);
 function rvDupes(pts,multi){   // upozornění na duplicity v měření (oba body se dál počítají): stejný název (i mezi soubory) a dva body ve stejné poloze Y, X do 1 mm (i s rozdílem Z)
   const loc=q=>multi?`${q.file}:${q.line}`:`řádek ${q.line}`, first=new Map(), dn=new Map(), log=[];
@@ -2479,6 +2556,7 @@ function rvDupes(pts,multi){   // upozornění na duplicity v měření (oba bod
   if(np>30) log.push(`… a dalších ${np-30} dvojic bodů ve stejné poloze`);
   return {log,n:dn.size,p:np}; }
 function rvApply(files,restore){
+  rvDataChanged();
   const multi=files.length>1; let pts=[], bad=0; const sk=[], rng=[], info=[];
   files.forEach((f,k)=>{ const r=parse(f.t);
     r.range.forEach(q=>rng.push({loc:(multi?f.n+":":"řádek ")+q.line,why:q.why}));
@@ -2490,12 +2568,12 @@ function rvApply(files,restore){
   const lg=info.concat(sk.slice(0,30)); if(sk.length>30) lg.push(`… a dalších ${sk.length-30} přeskočených řádků`);
   const dp=rvDupes(pts,multi); RV.dup=dp; dp.log.forEach(t=>lg.push(t));
   RV.log=lg; rvLogRender();
-  try{ if(files.length) localStorage.setItem(FK_RV,JSON.stringify({f:files.map(q=>({n:q.n,t:q.t}))})); else localStorage.removeItem(FK_RV); }catch(e){}
+  try{ if(files.length) writeStorage(FK_RV,JSON.stringify({f:files.map(q=>({n:q.n,t:q.t}))})); else removeStorage(FK_RV); }catch(e){}
   rvRender(); rvResRender(); }
 // log Rovinnosti: měření i projektované body dohromady
 function rvLogRender(){ const lg=(RV.log||[]).concat(RV.robLog||[],RVP.log||[]), bad=(RV.bad||0)+(RVP.bad||0);
   $("rvlog").textContent=lg.join("\n"); $("rvlogd").hidden=!lg.length; $("rvlogs").textContent="Log"+(bad?` (přeskočeno řádků: ${bad})`:""); }
-function rvClear(){ if(RV.off){ RV.off.clear(); rvOffSave(); } RV.files=[]; RV.pts=[]; RV.bad=0; RV.dup=null; RV.log=[]; rvLogRender(); try{ localStorage.removeItem(FK_RV); }catch(e){} rvRender(); rvResRender(); }
+function rvClear(){ rvDataChanged(); RV.keep.clear(); rvKeepSave(); if(RV.off){ RV.off.clear(); rvOffSave(); } RV.files=[]; RV.pts=[]; RV.bad=0; RV.dup=null; RV.log=[]; rvLogRender(); try{ removeStorage(FK_RV); }catch(e){} rvRender(); rvResRender(); }
 function rvLoad(list){ readFiles(list,fs=>{ const cur=mergeFiles(RV.files,fs,t=>parse(t).pts.length>0,MAX_FILES_M); if(cur) rvApply(cur,false); },MAX_FILES_M); }
 $("rvbl").onclick=()=>$("rvfi").click();
 $("rvfi").onchange=e=>{ if(e.target.files.length) rvLoad(e.target.files); e.target.value=""; };
@@ -2511,7 +2589,7 @@ function rvPlaneSet(v,save){ if(!RV_PLANES[v]) v="h"; RV.plane=v;
   const r=document.querySelector('input[name="rvplane"][value="'+v+'"]'); if(r) r.checked=true;
   $("rvpst").textContent="Zvolená rovina: "+RV_PLANES[v];
   if(RV.def) rvDefRender();   // pole zadání roviny se přestaví podle typu
-  if(save){ try{ localStorage.setItem(FK_RP,v); }catch(e){} } }
+  if(save){ try{ writeStorage(FK_RP,v); }catch(e){} } }
 document.querySelectorAll('input[name="rvplane"]').forEach(r=>r.addEventListener("change",()=>{ if(r.checked) rvPlaneSet(r.value,true); }));
 { let v="h"; try{ v=localStorage.getItem(FK_RP)||"h"; }catch(e){} rvPlaneSet(v,false); }
 
@@ -2521,7 +2599,7 @@ const RV_FLD={h:["z"],v:["y","x"],o:["y","x","z"]}, RV_LBL={y:"Y",x:"X",z:"Z"};
 const RV_HINT={h:"vodorovná: zadá se 1 výškou (Z)",v:"svislá: zadá se 2 různými body (Y, X)",o:"obecná: zadá se 3 body (Y, X, Z), ne v přímce"};
 RV.def={on:true,h:[{z:"",s:""}],v:[{y:"",x:""},{y:"",x:""}],o:[{y:"",x:"",z:""},{y:"",x:"",z:""},{y:"",x:"",z:""}]};
 const rvLab=(t,i)=>t==="h"?"Výška":`Bod ${i+1}`;
-function rvDefSave(){ try{ localStorage.setItem(FK_RD,JSON.stringify(RV.def)); }catch(e){} }
+function rvDefSave(){ try{ writeStorage(FK_RD,JSON.stringify(RV.def)); }catch(e){} }
 // načtená PD body relevantní pro typ roviny: kde je nutná výška (vodorovná, obecná), jen body s výškou
 const rvPdSel=t=>RVP.pts.filter(q=>(t==="h"||t==="o")?q.z!=null:true);
 // souřadnice bodů PD a statistiky výšek: jednotně aspoň 3 desetinná místa (9,990); víc míst ze souboru se nezaokrouhlí, aby se rovina nezměnila
@@ -2675,10 +2753,10 @@ function rvpApply(files,restore){
   [...dup].slice(0,30).forEach(([id,ln])=>lg.push(`Projekt: název bodu „${id}“ je v PD ${ln.length}× (řádky ${ln.slice(0,8).join(", ")}${ln.length>8?" …":""})`));
   if(dup.size>30) lg.push(`… ${dalsi(dup.size-30,"duplicitní název","duplicitní názvy","duplicitních názvů")} v PD`);
   RVP.dup=dup.size; RVP.log=lg; rvLogRender();
-  try{ if(files.length) localStorage.setItem(FK_RVP,JSON.stringify({f:files.map(q=>({n:q.n,t:q.t}))})); else localStorage.removeItem(FK_RVP); }catch(e){}
+  try{ if(files.length) writeStorage(FK_RVP,JSON.stringify({f:files.map(q=>({n:q.n,t:q.t}))})); else removeStorage(FK_RVP); }catch(e){}
   rvpRender(); rvDefRender(); }   // obnovení nabídky PD bodů v zadání roviny
 function rvpClear(){ if(RV.def&&RV.def.h[0].s){ RV.def.h[0].s=""; rvDefSave(); }   // bez PD zůstane výška jako ruční hodnota
-  RVP.files=[]; RVP.pts=[]; RVP.bad=0; RVP.dup=0; RVP.log=[]; rvLogRender(); try{ localStorage.removeItem(FK_RVP); }catch(e){} rvpRender(); rvDefRender(); }
+  RVP.files=[]; RVP.pts=[]; RVP.bad=0; RVP.dup=0; RVP.log=[]; rvLogRender(); try{ removeStorage(FK_RVP); }catch(e){} rvpRender(); rvDefRender(); }
 function rvpLoad(list){ readFiles(list,fs=>{ const cur=mergeFiles(RVP.files,fs,t=>parseRef(t).refs.length>0,MAX_FILES_RP); if(cur) rvpApply(cur,false); },MAX_FILES_RP); }
 $("rvpb").onclick=()=>$("rvpfi").click();
 $("rvpfi").onchange=e=>{ if(e.target.files.length) rvpLoad(e.target.files); e.target.value=""; };
@@ -2692,7 +2770,7 @@ rvpRender();
 /* ---------- Rovinnost: 2. ROVINA – výchozí hodnoty levé části (typ roviny, zadání roviny); načtené soubory PD i měření zůstávají ---------- */
 $("rvdflt").onclick=()=>{
   ["h","v","o"].forEach(t=>RV.def[t].forEach(pt=>RV_FLD[t].forEach(c=>pt[c]=""))); RV.def.h[0].s="";
-  try{ localStorage.removeItem(FK_RD); localStorage.removeItem(FK_RP); }catch(e){}
+  try{ removeStorage(FK_RD); removeStorage(FK_RP); }catch(e){}
   rvPlaneSet("h",false); rvDefRender();
   const r=document.querySelector('input[name="rvplane"][value="h"]'); if(r) r.focus({preventScroll:true});   // tlačítko je teď zakázané, fokus přejde na volbu typu roviny
   toast("Rovina je vrácena na výchozí hodnoty, načtené soubory zůstaly."); };
@@ -2707,8 +2785,8 @@ try{ const a=JSON.parse(localStorage.getItem(FK_RVOFF)||"[]"); if(Array.isArray(
 const rvKey=q=>`${q.file||""}|${q.line}|${q.id}`;
 const FK_RVKEEP="zsspilot.rovinnost.ponechane";   // odlehlé body, které uživatel zaškrtnutím vrátil do výpočtu
 try{ const a=JSON.parse(localStorage.getItem(FK_RVKEEP)||"[]"); if(Array.isArray(a)) a.forEach(k=>typeof k==="string"&&RV.keep.add(k)); }catch(e){}
-function rvKeepSave(){ try{ if(RV.keep.size) localStorage.setItem(FK_RVKEEP,JSON.stringify([...RV.keep])); else localStorage.removeItem(FK_RVKEEP); }catch(e){} }
-function rvOffSave(){ try{ if(RV.off.size) localStorage.setItem(FK_RVOFF,JSON.stringify([...RV.off])); else localStorage.removeItem(FK_RVOFF); }catch(e){} }
+function rvKeepSave(){ try{ if(RV.keep.size) writeStorage(FK_RVKEEP,JSON.stringify([...RV.keep])); else removeStorage(FK_RVKEEP); }catch(e){} }
+function rvOffSave(){ try{ if(RV.off.size) writeStorage(FK_RVOFF,JSON.stringify([...RV.off])); else removeStorage(FK_RVOFF); }catch(e){} }
 let rvHits=[], rvCur=-1;
 const rvMmS=d=>{ const v=Math.round(d*10000)/10;   // mm na 0,1; záporné s typografickým minusem, kladné s +
   return (v>0?"+":v<0?"\u2212":"")+fmtCz(Math.abs(v).toFixed(1)); };
@@ -2728,10 +2806,9 @@ Object.keys(RV_FP).forEach(k=>{ if(k==="all"||k==="aut") return; const f=RV_FP[k
    vždy jen nejhorší bod, pak se vše přepočte. Víc než 10 % odlehlých bodů = data se asi nehodí, nevyřadí se nic. */
 const RV_ROBMIN=6, RV_ROBCAP=0.1;
 const rvMed=a=>{ if(!a.length) return 0; const b=[...a].sort((x,y)=>x-y), h=b.length>>1; return b.length%2?b[h]:(b[h-1]+b[h])/2; };
-function rvRobFit(P,ini){   // P = body {y,x,z} v m; vrací odchylky od robustně vyrovnané roviny v mm (pole s vlastností pl = rovina pro navázání dalšího výpočtu)
+function rvRobFit(P){   // P = body {y,x,z} v m; vrací odchylky od robustně vyrovnané roviny v mm
   const n=P.length, y0=P.reduce((a,p)=>a+p.y,0)/n, x0=P.reduce((a,p)=>a+p.x,0)/n;
   let A=rvMed(P.map(p=>p.z)), B=0, C=0;   // start: vodorovná rovina ve výšce mediánu (hrubý omyl ji nevychýlí)
-  if(ini){ A=ini.A+ini.B*(y0-ini.y0)+ini.C*(x0-ini.x0); B=ini.B; C=ini.C; }   // po odebrání jednoho bodu se navazuje na předchozí rovinu (stačí 1–3 kroky místo až 20)
   const res=()=>P.map(p=>(p.z-(A+B*(p.y-y0)+C*(p.x-x0)))*1000);
   for(let it=0;it<20;it++){
     const r=res(), sc=Math.max(1.4826*rvMed(r.map(Math.abs)),0.5), cc=4.685*sc;   // měřítko z MAD, nejméně 0,5 mm
@@ -2742,27 +2819,13 @@ function rvRobFit(P,ini){   // P = body {y,x,z} v m; vrací odchylky od robustn�
     const D=det(s); if(!(Math.abs(D)>1e-12*Math.max(1,s[0]*s[4]*s[8]))) break;   // body v přímce: zůstane vodorovná rovina
     const col=k=>{ const m=[...s]; for(let a=0;a<3;a++) m[a*3+k]=t[a]; return det(m)/D; };
     const nA=col(0), nB=col(1), nC=col(2), ch=Math.abs(nA-A)+Math.abs(nB-B)*100+Math.abs(nC-C)*100; A=nA; B=nB; C=nC; if(ch<1e-7) break; }
-  const r=res(); r.pl={A,B,C,y0,x0}; return r; }
-// K nejbližších bodů v půdorysu pro každý bod (indexy od nejbližšího; při shodné vzdálenosti nižší index dřív).
-// Mřížka místo porovnání každého s každým: u desítek tisíc bodů zlomek sekundy místo desítek sekund, výsledek je stejný.
-function rvKnn(P,K){ const n=P.length; if(n<2||K<1) return P.map(()=>[]);
-  let y0=Infinity,y1=-Infinity,x0=Infinity,x1=-Infinity; P.forEach(p=>{ if(p.y<y0)y0=p.y; if(p.y>y1)y1=p.y; if(p.x<x0)x0=p.x; if(p.x>x1)x1=p.x; });
-  const W=Math.max(y1-y0,1e-6), H=Math.max(x1-x0,1e-6), D=Math.max(Math.sqrt(W*H*4/n),Math.max(W,H)/2048,1e-6);   // asi 4 body na buňku, nejvýš 2048 buněk na stranu
-  const ny=Math.floor(W/D)+1, nx=Math.floor(H/D)+1, cell=new Map(), ci=v=>Math.floor(v/D);
-  P.forEach((p,i)=>{ const k=ci(p.y-y0)*nx+ci(p.x-x0); const l=cell.get(k); if(l) l.push(i); else cell.set(k,[i]); });
-  return P.map((p,i)=>{ const cy=ci(p.y-y0), cx=ci(p.x-x0), best=[];
-    for(let r=0;;r++){
-      for(let a=cy-r;a<=cy+r;a++){ if(a<0||a>=ny) continue; const edge=a===cy-r||a===cy+r;
-        for(let b=cx-r;b<=cx+r;b+=(edge?1:2*r||1)){ if(b<0||b>=nx) continue; const l=cell.get(a*nx+b); if(!l) continue;
-          for(const j of l){ if(j===i) continue; best.push([(p.y-P[j].y)**2+(p.x-P[j].x)**2,j]); } } }
-      if(best.length>=K){ best.sort((u,v)=>u[0]-v[0]||u[1]-v[1]); if(best.length>K*4) best.length=K*4;
-        const lim=r*D; if(best[K-1][0]<=lim*lim) break; }   // všechny body blíž než r·D už jsou v prohledaných buňkách
-      if(r>ny+nx) break; }
-    best.sort((u,v)=>u[0]-v[0]||u[1]-v[1]); return best.slice(0,K).map(b=>b[1]); }); }
+  return res(); }
 function rvRob(rows,T){   // rows = body bez ručně odškrtnutých; T = tolerance v mm; vrací {out:Map(klíč → důvod), warn, log}
   const n=rows.length, out=new Map();
   if(n<RV_ROBMIN) return {out,k:null,why:"",warn:`Vyřazení odlehlých bodů potřebuje aspoň ${RV_ROBMIN} bodů, načteno ${n}.`,short:`málo bodů (potřeba aspoň ${RV_ROBMIN})`,log:[]};
-  const K=Math.min(12,n-1), nb=rvKnn(rows,K);   // 12 nejbližších bodů v půdorysu (ze zbylých se vezme 8)
+  const K=Math.min(12,n-1), nb=rows.map((p,i)=>{ const best=[];   // 12 nejbližších bodů v půdorysu (ze zbylých se vezme 8)
+    rows.forEach((q,j)=>{ if(j===i) return; const d=(p.y-q.y)**2+(p.x-q.x)**2; if(best.length<K||d<best[best.length-1][0]){ let k=best.length; best.push([d,j]); while(k>0&&best[k-1][0]>d){ best[k]=best[k-1]; k--; } best[k]=[d,j]; if(best.length>K) best.pop(); } });
+    return best.map(b=>b[1]); });
   let kf=RV.set.rk, why="zadáno";
   if(RV.set.rk==null){   // auto: mez z dat (odchylky bodů od mediánu 8 sousedů vůči robustně vyrovnané ploše)
     const g0=rvRobFit(rows), l=rows.map((p,i)=>Math.abs(g0[i]-rvMed(nb[i].slice(0,8).map(j=>g0[j]))));
@@ -2774,41 +2837,29 @@ function rvRob(rows,T){   // rows = body bez ručně odškrtnutých; T = toleran
     let M0; if(best){ M0=best.m; why="mezera v datech"; } else if(5*sig>3*T){ M0=Math.min(hi,5*sig); why="šum plochy"; } else { M0=3*T; why="výchozí, bez zřetelné mezery"; }
     kf=Math.min(10,Math.max(2,Math.round(M0/T*10)/10)); }
   const M=kf*T;
-  const act=Array(n).fill(true), rem=[], lim=Math.floor(n/2), cap=Math.max(1,Math.ceil(RV_ROBCAP*n));
-  let more=0;
-  { const g=rvRobFit(rows), Tg=Math.max(M,4*1.4826*rvMed(g.map(Math.abs))); let c=0;   // rychlý předběžný odhad: když je kandidátů zřetelně víc než 10 % (aspoň dvojnásobek), nic se neodebírá po jednom
-    rows.forEach((p,i)=>{ const loc=nb[i].length>=3?g[i]-rvMed(nb[i].slice(0,8).map(j=>g[j])):0; if(Math.abs(loc)>M+1e-9||Math.abs(g[i])>Tg+1e-9) c++; });
-    if(c>2*cap){ const ord=rows.map((p,i)=>[Math.abs(g[i]),i]).sort((x,y)=>y[0]-x[0]).slice(0,40); ord.forEach(([v,i])=>{ act[i]=false; rem.push([i,`o ${rvDS(g[i]/1000)} ${RV.set.u} mimo vyrovnanou plochu`]); }); more=Math.max(0,Math.min(c,lim)-rem.length); } }
-  let pl=null;
-  if(!more)   // po překročení 10 % se už body neodebírají po jednom (u tisíců bodů by to trvalo desítky sekund); zbylí kandidáti se jen dopočítají z poslední vyrovnané plochy
+  const act=Array(n).fill(true), rem=[], lim=Math.floor(n/2);
   while(rem.length<lim){
-    if(rem.length>cap){ const idx=[]; act.forEach((a,i)=>a&&idx.push(i)); const g=rvRobFit(idx.map(i=>rows[i]),pl), G=[]; idx.forEach((i,j)=>G[i]=g[j]);
-      const Tg=Math.max(M,4*1.4826*rvMed(g.map(Math.abs)));
-      idx.forEach(i=>{ const nn=nb[i].filter(j=>act[j]).slice(0,8), loc=nn.length>=3?G[i]-rvMed(nn.map(j=>G[j])):0; if(Math.abs(loc)>M+1e-9||Math.abs(G[i])>Tg+1e-9) more++; });
-      more=Math.min(more,lim-rem.length); break; }
-    const idx=[]; act.forEach((a,i)=>a&&idx.push(i)); const g=rvRobFit(idx.map(i=>rows[i]),pl), G=[]; pl=g.pl; idx.forEach((i,j)=>G[i]=g[j]);
+    const idx=[]; act.forEach((a,i)=>a&&idx.push(i)); const g=rvRobFit(idx.map(i=>rows[i])), G=[]; idx.forEach((i,j)=>G[i]=g[j]);
     const Tg=Math.max(M,4*1.4826*rvMed(g.map(Math.abs)));
-    const cand=[];   // kandidáti nad mezí, od nejhoršího
+    let w=-1, ws=1, wd="";
     idx.forEach(i=>{ const nn=nb[i].filter(j=>act[j]).slice(0,8), loc=nn.length>=3?G[i]-rvMed(nn.map(j=>G[j])):0, sl=Math.abs(loc)/M, sg=Math.abs(G[i])/Tg;
-      const sc=Math.max(sl,sg); if(sc>1+1e-9) cand.push([sc,i,sl>1?`o ${rvDS(loc/1000)} ${RV.set.u} proti okolním bodům`:`o ${rvDS(G[i]/1000)} ${RV.set.u} mimo vyrovnanou plochu`]); });
-    if(!cand.length) break;
-    // v jednom kroku se odebere nejhorší bod a s ním i další kandidáti, kteří nejsou jeho (ani navzájem) sousedy: výsledek je stejný jako po jednom, ale u tisíců bodů je to mnohem rychlejší
-    cand.sort((p,q)=>q[0]-p[0]); const blk=new Set(), pk=new Set();
-    for(const [,i,wd] of cand){ if(rem.length>=lim||rem.length>cap) break; if(blk.has(i)||nb[i].some(j=>pk.has(j))) continue;
-      act[i]=false; rem.push([i,wd]); pk.add(i); nb[i].forEach(j=>blk.add(j)); } }
-  const mt=`${fmtCz(String(kf))}× tolerance = ${rvTolTxt(kf)}`+(RV.set.rk==null?`, auto: ${why}`:"");
-  if(rem.length+more>cap){   // pojistka 10 %: nevyřadí se nic, ale uživatel se to musí dozvědět (zadává se jedna rovina, body na jiných plochách tam nepatří)
-    const ids=rem.map(([i])=>rows[i].id), uq=[...new Set(ids)], ex=uq.slice(0,6).join(", ")+(uq.length>6?" …":""), nc=rem.length+more, pc=Math.round(nc/n*100), ca=more?"asi ":"";
-    return {out,k:kf,why,short:`nic nevyřazeno: ${ca}${nc} z ${n} ${bodu(n)} (${pc} %) leží mimo plochu`,
-      warn:`Odlehlé body nevyřazeny: mimo plochu by bylo ${ca}${nc} z ${n} ${bodu(n)} (${pc} %, víc než 10 %), např. ${ex}. Rovina je jedna, takže soubor asi obsahuje body z jiných ploch (stanoviska, jiné podlaží, piloty, výztuž). Načti jen body zaměřené roviny, nebo ostatní body odškrtni v tabulce; pak vyřazení odlehlých bodů zafunguje.`,
-      log:[`Odlehlé body: nevyřazeno nic, kandidátů ${ca}${nc} z ${n} (víc než 10 %), mez ${mt}.`,`Kandidáti (nevyřazeni, protože jich je víc než 10 %)${more?", prvních "+rem.length:""}:`].concat(rem.slice(0,40).map(([i,wd])=>`  ${rows[i].id}: ${wd}`),nc>40?[`  … a dalších ${ca}${nc-Math.min(40,rem.length)}`]:[])}; }
+      const sc=Math.max(sl,sg); if(sc>ws+1e-9){ ws=sc; w=i; wd=sl>1?`o ${rvDS(loc/1000)} ${RV.set.u} proti okolním bodům`:`o ${rvDS(G[i]/1000)} ${RV.set.u} mimo vyrovnanou plochu`; } });
+    if(w<0) break; act[w]=false; rem.push([w,wd]); }
+  const cap=Math.max(1,Math.ceil(RV_ROBCAP*n)), mt=`${fmtCz(String(kf))}× tolerance = ${rvTolTxt(kf)}`+(RV.set.rk==null?`, auto: ${why}`:"");
+  if(rem.length>cap){   // pojistka 10 %: nevyřadí se nic, ale uživatel se to musí dozvědět (zadává se jedna rovina, body na jiných plochách tam nepatří)
+    const ids=rem.map(([i])=>rows[i].id), uq=[...new Set(ids)], ex=uq.slice(0,6).join(", ")+(uq.length>6?" …":""), pc=Math.round(rem.length/n*100);
+    return {out,k:kf,why,short:`nic nevyřazeno: ${rem.length} z ${n} ${bodu(n)} (${pc} %) leží mimo plochu`,
+      warn:`Odlehlé body nevyřazeny: mimo plochu by bylo ${rem.length} z ${n} ${bodu(n)} (${pc} %, víc než 10 %), např. ${ex}. Rovina je jedna, takže soubor asi obsahuje body z jiných ploch (stanoviska, jiné podlaží, piloty, výztuž). Načti jen body zaměřené roviny, nebo ostatní body odškrtni v tabulce; pak vyřazení odlehlých bodů zafunguje.`,
+      log:[`Odlehlé body: nevyřazeno nic, kandidátů ${rem.length} z ${n} (víc než 10 %), mez ${mt}.`,`Kandidáti (nevyřazeni, protože jich je víc než 10 %):`].concat(rem.slice(0,40).map(([i,wd])=>`  ${rows[i].id}: ${wd}`),rem.length>40?[`  … a dalších ${rem.length-40}`]:[])}; }
   rem.forEach(([i,wd])=>out.set(rows[i].key,wd));
   return {out,k:kf,why,warn:"",log:rem.length?[`Odlehlé body (mez ${mt}): vyřazeno ${rem.length}`].concat(rem.map(([i,wd])=>`  ${rows[i].id}: ${wd}`)):[`Odlehlé body (mez ${mt}): žádné`]};
 }
 let rvRobC={k:null,r:null};   // výsledek se přepočítá jen po změně bodů, tolerance nebo ručního výběru (ne při filtru či řazení)
 function rvRobGet(rows){
   if(!RV.set.rob) { if(RV.robLog.length){ RV.robLog=[]; rvLogRender(); } rvRobC={k:null,r:null}; rvRobHint(); return {out:new Map(),warn:""}; }
-  const T=rvT(), cand=rows.filter(r=>!RV.off.has(r.key)), k=T+"|"+(RV.set.rk==null?"a":RV.set.rk)+"|"+RV.set.u+"|"+RV.set.p+"|"+cand.map(r=>r.key+":"+r.z).join(";");
+  const T=rvT(), cand=rows.filter(r=>!RV.off.has(r.key));
+  // Závisí i na půdorysu (sousedé a vyrovnání); filtr/řazení tabulky verzi dat nemění.
+  const k=JSON.stringify([RV.dataVersion||0,T,RV.set.rk,RV.set.u,RV.set.p,cand.map(r=>[r.key,r.y,r.x,r.z])]);
   if(rvRobC.k!==k){ rvRobC={k,r:rvRob(cand,T)}; RV.robLog=rvRobC.r.log; rvLogRender(); }
   rvRobHint(); return rvRobC.r; }
 function rvRobHint(){   // jako „Typický [m]“ v ZSS: prázdné pole = auto, šedě „auto 3,6“, v tooltipu odvození; vedle přepočet a počet odlehlých
@@ -2851,7 +2902,7 @@ function rvRoffUpd(){ $("rvroff").disabled=!(RV.rows.length&&(RV.rows.some(r=>RV
 function rvResRender(){
   const box=$("rvrzone"); if(!box||!RV.def||!RV.sort) return;   // při startu se volá dřív, než je sekce připravená
   const zr=RV.plane==="h"&&RV.defOk?rvDefParse("z",RV.def.h[0].z).v:null;
-  const show=zr!==null&&isFinite(zr); box.hidden=!show; $("rvszone").hidden=!show; $("rvxzone").hidden=!show; if(!show){ RV.rows=[]; RV.view=[]; return; }
+  const show=zr!==null&&isFinite(zr); box.hidden=!show; $("rvszone").hidden=!show; $("rvxzone").hidden=!show; if(!show){ RV.rows=[]; RV.view=[]; $("rvstx").disabled=true; return; }
   const pts=RV.pts, n=pts.length, tb=$("rvtb"), sum=$("rvsum"), st=$("rvst");
   $("rvtw").classList.toggle("one",RV.files.length<2);
   const stl=RV.def.h[0].s&&RV_ST[RV.def.h[0].s]?` (${RV_STL[RV.def.h[0].s]} PD)`:"";
@@ -2860,7 +2911,7 @@ function rvResRender(){
     o.dataset.l=(lat&&RV_FLL[o.value])||o.dataset.l0; o.hidden=(o.value==="nol"&&!lat)||(o.value==="oup"&&ldn); }
   if(flt.selectedOptions[0]&&flt.selectedOptions[0].hidden) flt.value="all";
   $("rvtw").classList.toggle("lat",lat); const lg=document.querySelector("#rvrzone .rvleg"); if(lg){ if(lg.dataset.t0===undefined) lg.dataset.t0=lg.textContent; lg.textContent=lat?RV_LLEG():RV.set.pn===false?lg.dataset.t0.replace(" (světlejší odstín)","").replace(" (tmavší odstín)",""):lg.dataset.t0; }
-  if(!n){ RV.rows=[]; RV.view=[]; tb.innerHTML=""; $("rvtw").hidden=true; $("rvcp").disabled=true; $("rvcsv").disabled=true; $("rvfcnt").textContent=""; $("rvstf").textContent="";
+  if(!n){ RV.rows=[]; RV.view=[]; tb.innerHTML=""; $("rvtw").hidden=true; $("rvcp").disabled=true; $("rvcsv").disabled=$("rvstx").disabled=true; $("rvfcnt").textContent=""; $("rvstf").textContent="";
     for(const o of flt.options) if(o.dataset.l!==undefined) o.textContent=o.dataset.l;
     sum.innerHTML=`<span class="sl">Rovina Z = ${rvPtFmt(zr)} m${esc(stl)}</span>`;
     st.textContent="Načti zaměřené body v sekci 1. MĚŘENÍ, odchylky od roviny se zobrazí tady."; st.className="stw warn"; rvRoffUpd(); rvSearch(false); return; }
@@ -2910,7 +2961,7 @@ function rvResRender(){
   $("rvfcnt").textContent=fv==="all"?"":`Zobrazeno ${vw.length} z ${n} ${bodu(n)} (filtr platí i pro kopírování)`;
   tb.innerHTML=vw.length?vw.map(r=>`<tr data-rk="${esc(r.key)}" class="${r.ext?"ext":""}${r.use?"":" skip"}${RV.selk===r.key?" sel":""}"><td class="hd"><input type="checkbox" data-use="${esc(r.key)}"${r.use?" checked":""} aria-label="Použít bod ${esc(r.id)}" title="${r.auto?(r.kept?`Odlehlý bod (${esc(r.auto)}), vrácený do výpočtu. Odškrtnutím ho znovu vyřadíš.`:`Automaticky vyřazený odlehlý bod (${esc(r.auto)}). Zaškrtnutím ho vrátíš do výpočtu.`):"Použít bod v souhrnu a kopírování. Odškrtnutý bod zůstane v tabulce zašedlý."}"> ${r.i}</td><td>${esc(r.id)}${r.auto?`<span class="rvol${r.kept?" kp":""}" title="${r.kept?"Odlehlý bod vrácený do výpočtu":"Automaticky vyřazený odlehlý bod"}: ${esc(r.auto)}, mez ${rvRobC.r&&rvRobC.r.k!=null?`${fmtCz(String(rvRobC.r.k))}× tolerance = ${rvTolTxt(rvRobC.r.k)}`:rvTolTxt(RV.set.rk)}.">odlehlý</span>`:""}</td><td class="n">${rvPtFmt(r.y)}</td><td class="n">${rvPtFmt(r.x)}</td><td class="n">${rvPtFmt(r.z)}</td><td class="n${lat?"":" "+rvCls(r.d)}" title="Přesně: ${rvExact(r.d)}">${rvDS(r.d)}</td>${lat?rvLatTd(r):'<td class="rvlc"></td>'}<td>${esc(r.code)}</td><td class="rvfc">${esc(r.file)}</td><td class="fill"></td></tr>`).join("")
     :'<tr><td colspan="10" style="color:var(--mut)">Žádný bod nevyhovuje zvolenému filtru.</td></tr>';
-  $("rvcp").disabled=$("rvcsv").disabled=!vw.some(r=>r.use);
+  $("rvcp").disabled=$("rvcsv").disabled=$("rvstx").disabled=!vw.some(r=>r.use);
   document.querySelectorAll("#rvtw thead th").forEach(th=>{ const b=th.querySelector("button.sb"); if(!b) return; const on=b.dataset.k===k;
     th.setAttribute("aria-sort",on?(dir>0?"ascending":"descending"):"none"); b.querySelector(".si").textContent=on?(dir>0?"▲":"▼"):""; });
   rvSearch(false);   // po překreslení se zvýraznění obnoví, tabulka se neposouvá
@@ -2961,9 +3012,9 @@ document.querySelector("#rvtw thead").addEventListener("click",e=>{ const b=e.ta
   rvResRender(); });
 
 /* ---------- Rovinnost: 3. NASTAVENÍ (jednotky odchylek mm/m a tolerance: do ní včetně zeleně, nad ní červeně; kladné odchylky světlejším, záporné tmavším odstínem – analogie ZSS) ---------- */
-function rvSetSave(){ try{ localStorage.setItem(FK_RVS,JSON.stringify({u:RV.set.u,tmm:RV.set.tmm,p:RV.set.p,rob:RV.set.rob,c:RV.set.c,pn:RV.set.pn,m:RV.set.m,L:RV.set.L,Lm:RV.set.Lm,w:RV.set.w,lt:RV.set.lt,lv:RV.set.lv,rk:RV.set.rk,ra:RV.set.rk==null?undefined:false})); }catch(e){} }   // t je vždy v mm
+function rvSetSave(){ try{ writeStorage(FK_RVS,JSON.stringify({u:RV.set.u,t:RV.set.t,p:RV.set.p,rob:RV.set.rob,c:RV.set.c,pn:RV.set.pn,m:RV.set.m,L:RV.set.L,Lm:RV.set.Lm,w:RV.set.w,lt:RV.set.lt,lv:RV.set.lv,rk:RV.set.rk,ra:RV.set.rk==null?undefined:false})); }catch(e){} }   // t je vždy v mm
 function rvTq(t){ const st=RV_PR[RV.set.p].st, mx=Math.floor(9999/st+1e-9)*st; return Number(Math.min(mx,Math.max(st,Math.round(t/st+1e-9)*st)).toFixed(1)); }   // tolerance v mm zaokrouhlená na zvolenou přesnost (0,1 mm / 1 mm / 1 cm), nejméně jeden krok přesnosti
-function rvT(){ return rvTq(RV.set.tmm); }   // tolerance zvolených jednotek, v mm, zaokrouhlená na zvolenou přesnost (uložená hodnota se nepřepisuje, po návratu k jemnější přesnosti se ukáže původní)
+function rvT(){ return rvTq(RV.set.t); }   // společná tolerance v mm, zaokrouhlená na zvolenou přesnost (uložená hodnota se nepřepisuje, po návratu k jemnější přesnosti se ukáže původní)
 function rvTolNum(){ const pr=RV_PR[RV.set.p], t=rvT(); return RV.set.u==="m"?(t/1000).toFixed(pr.m):t.toFixed(pr.mm); }   // tolerance jako číslo ve zvolených jednotkách s pevným počtem desetinných míst podle přesnosti (m: 4 / 3 / 2, mm: 1 / 0 / 0)
 function rvTolM(){ return rvT()/1000; }   // tolerance v metrech
 function rvTolTxt(k){ if(!k||k===1) return fmtCz(rvTolNum())+" "+RV.set.u; const t=rvT()*k; return RV.set.u==="m"?fmtCz(String(+(t/1000).toFixed(4)))+" m":fmtCz(String(Math.round(t*10)/10))+" mm"; }   // k = násobek tolerance (1,5 = 150 %)
@@ -2994,7 +3045,7 @@ function rvLatUi(){ const S=RV.set, lat=S.m==="lat";
   const hb=$("rvlath"), coarse=lat&&RV_PR[S.p].st>=10;
   hb.classList.toggle("rvw",coarse); hb.textContent=coarse?"⚠ Přesnost 1 cm je pro lať příliš hrubá, zvol 1 mm nebo 0,1 mm.":"h = Z bodu − výška latě v místě bodu; + hrb, − prohlubeň. Tolerance ve skupině Odchylky dál platí pro ΔZ a robustní filtraci.";
   rvSetSync(); }
-function rvTolUpd(){ const i=$("rvtol"), u=RV.set.u;   // zadání tolerance se mění podle zvolených jednotek (každé jednotky mají vlastní hodnotu)
+function rvTolUpd(){ const i=$("rvtol"), u=RV.set.u;   // zadání tolerance se mění podle zvolených jednotek (jedna společná hodnota v mm)
   const pr=RV_PR[RV.set.p], st=pr.st, mx=Math.floor(9999/st+1e-9)*st;   // krok, minimum a maximum podle přesnosti (0,1 mm / 1 mm / 1 cm)
   i.min=u==="m"?(st/1000).toFixed(pr.m):st.toFixed(pr.mm); i.max=u==="m"?(mx/1000).toFixed(pr.m):mx.toFixed(pr.mm); i.step=i.min;
   i.value=rvTolNum(); $("rvtolu").textContent=u; rvSetSync(); }
@@ -3005,17 +3056,17 @@ function rvUnitApply(){ const u=RV.set.u;   // přepínač jednotek, jednotka v 
   const hu=$("rvdhu"); if(hu) hu.textContent=u; const hh=$("rvhhu"); if(hh) hh.textContent=u; }
 document.querySelectorAll('input[name="rvunit"]').forEach(r=>r.addEventListener("change",()=>{ if(!r.checked) return;
   RV.set.u=r.value; rvTolUpd(); rvSetSave(); rvUnitApply(); rvRobHint(); rvResRender(); }));
-$("rvtol").addEventListener("change",()=>{ const u=RV.set.u, v=num(String($("rvtol").value).replace(",","."));   // zadání v číslech zvolených jednotek; prázdné nebo nečíselné = výchozí (10 mm, resp. 0,1 m)
-  const t=u==="m"?v*1000:v; RV.set.tmm=rvTc(rvTq(isFinite(t)?t:RV_TD.mm));   // jedna tolerance (uložená v mm) pro obě jednotky
+$("rvtol").addEventListener("change",()=>{ const u=RV.set.u, v=num(String($("rvtol").value).replace(",","."));   // zadání v číslech zvolených jednotek; prázdné nebo nečíselné = výchozí 10 mm = 0,010 m
+  const t=u==="m"?v*1000:v; RV.set.t=rvTc(rvTq(isFinite(t)?t:RV_TD));
   rvTolUpd(); rvSetSave(); rvRobHint(); rvResRender(); });
 rvTolUpd(); rvUnitApply();
 function rvPrecApply(){ const r=document.querySelector(`input[name="rvprec"][value="${RV.set.p}"]`); if(r) r.checked=true; }
 document.querySelectorAll('input[name="rvprec"]').forEach(r=>r.addEventListener("change",()=>{ if(!r.checked) return; RV.set.p=r.value; rvTolUpd(); rvSetSave(); rvRobHint(); rvLatUi(); rvResRender(); }));
 rvPrecApply(); rvResRender();
 // tlačítko „Výchozí hodnoty“ v Nastavení Rovinnosti: vrátí jednotky (mm), přesnost (1 mm) a toleranci (10 mm); je zašedlé, když není co vracet (jako v ZSS pilot)
-function rvSetSync(){ const b=$("rvpdef"); if(!b) return; const S=RV.set, d=S.u==="mm"&&S.p==="1"&&S.tmm===RV_TD.mm&&S.c!==false&&S.pn!==false&&S.m==="pl"&&S.L===RV_LD.L&&S.Lm===RV_LD.Lm&&S.w===RV_LD.w&&S.lt===RV_LD.lt&&S.lv===RV_LD.lv;
+function rvSetSync(){ const b=$("rvpdef"); if(!b) return; const S=RV.set, d=S.u==="mm"&&S.p==="1"&&S.t===RV_TD&&S.c!==false&&S.pn!==false&&S.m==="pl"&&S.L===RV_LD.L&&S.Lm===RV_LD.Lm&&S.w===RV_LD.w&&S.lt===RV_LD.lt&&S.lv===RV_LD.lv;
   b.disabled=d; b.title=d?"Nastavení už je na výchozích hodnotách (odchylky od roviny, mm, 1 mm, 10 mm, odstíny + / −, CSV s des. čárkou, lať 2 m / 1,6 m / ±0,1 m, tolerance latě 2 mm, varianta ±), není co vracet.":"Vrátí nastavení (vyhodnocení Odchylky od roviny, jednotky mm, přesnost 1 mm, tolerance 10 mm, odlišené odstíny + / −, CSV s des. čárkou a parametry latě: 2 m, rozpětí 1,6 m, pás ±0,1 m, tolerance 2 mm, varianta ±) na výchozí hodnoty a přepočítá tabulku. Načtené soubory, zadaná rovina a volby robustní filtrace zůstanou."; }
-$("rvpdef").onclick=()=>{ RV.set.u="mm"; RV.set.p="1"; RV.set.tmm=RV_TD.mm; RV.set.c=true; $("rvcomma").checked=true; RV.set.pn=true; $("rvpn").checked=true; Object.assign(RV.set,RV_LD); RV.set.m="pl"; $("rvstf").textContent=""; rvLatUi(); rvTolUpd(); rvUnitApply(); rvPrecApply(); rvSetSave(); rvRobHint(); rvResRender(); rvSetSync(); };   // vše zpět na výchozí hodnoty
+$("rvpdef").onclick=()=>{ RV.set.u="mm"; RV.set.p="1"; RV.set.t=RV_TD; RV.set.c=true; $("rvcomma").checked=true; RV.set.pn=true; $("rvpn").checked=true; Object.assign(RV.set,RV_LD); RV.set.m="pl"; $("rvstf").textContent=""; rvLatUi(); rvTolUpd(); rvUnitApply(); rvPrecApply(); rvSetSave(); rvRobHint(); rvResRender(); rvSetSync(); };   // vše zpět na výchozí hodnoty
 $("rvtb").addEventListener("change",e=>{ const c=e.target.closest("input[data-use]"); if(!c) return; const k=c.dataset.use;
   const rw=RV.rows.find(r=>r.key===k);
   if(rw&&rw.auto&&!RV.off.has(k)){ if(c.checked) RV.keep.add(k); else RV.keep.delete(k); rvKeepSave(); }   // odlehlý bod: zaškrtnutí ho vrátí, odškrtnutí znovu vyřadí
@@ -3047,9 +3098,10 @@ $("rvroff").onclick=()=>{ RV.off.clear(); rvOffSave(); RV.keep.clear(); rvKeepSa
 // tabulka pro kopírování i CSV: body podle filtru v zobrazeném pořadí; sep = oddělovač sloupců (tabulátor / středník)
 function rvExpRows(sep){ const cv=RV.view.filter(r=>r.use);
   const comma=RV.set.c!==false, f=(v,d)=>{ const s=v.toFixed(d); return comma?s.replace(".",","):s; };
+  const coord=v=>{ const raw=String(v), t=/e/i.test(raw)||(raw.split(".")[1]||"").length>3?raw:v.toFixed(3); return comma?t.replace(".",","):t; };
   const q=v=>{ const s=String(v); return (/["\r\n\t;]/.test(s)||s.includes(sep))?'"'+s.replace(/"/g,'""')+'"':s; };
   const zr=rvDefParse("z",RV.def.h[0].z).v, multi=RV.files.length>1, m=RV.set.u==="m", pr=RV_PR[RV.set.p];
-  const fp=v=>{ const t=String(v), d=/e/i.test(t)?3:Math.max(3,(t.split(".")[1]||"").length); return f(v,d); };   // souřadnice jako v tabulce: aspoň 3 desetinná místa, víc míst ze souboru se nezaokrouhlí (ΔZ z nich sedí)
+  const fp=coord;   // souřadnice jako v tabulce: aspoň 3 desetinná místa, víc míst ze souboru se nezaokrouhlí (ΔZ z nich sedí)
   const tv=rvTolNum(), tol=comma?tv.replace(".",","):tv;   // tolerance s počtem desetinných míst podle přesnosti (stejně jako v poli Tolerance)
   if(rvLM()){ const S=RV.set, tl=m?f(rvTL()/1000,pr.m):f(rvTL(),pr.mm), dv=v=>m?f(rvR1(v)/1000,pr.m):f(rvR1(v),pr.mm);   // rovinnost latí: parametry latě v záhlaví, u bodu h, konce latě a vyhodnocení podle tolerance latě
     const rl=[["Rovina Z",fp(zr)],["Rovinnost lati"],["Delka_late_m",f(S.L,2)],["Min_rozpeti_m",f(Math.min(S.Lm,S.L),2)],["Pas_m",f(S.w,2)],["Varianta",S.lv==="dn"?"jen prohlubeň":"± hrb i prohlubeň"],[m?"Tolerance_late_m":"Tolerance_late_mm",tl],
@@ -3060,6 +3112,17 @@ function rvExpRows(sep){ const cv=RV.view.filter(r=>r.use);
   cv.forEach(r=>rows.push([r.i,r.id,fp(r.y),fp(r.x),fp(r.z),m?f(rvR1(r.d)/1000,pr.m):f(rvR1(r.d),pr.mm),(r.kept?"odlehlý (vrácen), ":"")+(rvHi(r.d)?"nad 150 % tolerance":rvOver(r.d)?"nad tolerancí":"v toleranci"),r.code].concat(multi?[r.file]:[])));
   return {n:cv.length,t:rows.map(r=>r.map(q).join(sep)).join("\r\n")+"\r\n"}; }
 const rvBase=()=>{ const n=RV.files.length?RV.files[0].n:""; return (n.replace(/\.[^.]+$/,"")||"body")+(RV.files.length>1?"_a_dalsi":""); };
+function rvStxRows(){
+  const rows=(RV.view||[]).filter(r=>r.use), pr=RV_PR[RV.set.p]; let changed=0;
+  const coord=v=>{ const raw=String(v); return /e/i.test(raw)||(raw.split(".")[1]||"").length>3?raw:v.toFixed(3); };
+  const lines=rows.map(r=>{ const id=stxName(r.id), code=r.code?stxName(r.code):"";
+    if(id!==r.id||code!==(r.code||"")) changed++;
+    return [id,coord(r.y),coord(r.x),(rvR1(r.d)/1000).toFixed(pr.m)].concat(code?[code]:[]).join(" "); });
+  return {n:rows.length,changed,t:lines.length?lines.join("\r\n")+"\r\n":""};
+}
+$("rvstx").onclick=()=>{ const x=rvStxRows(); if(!x.n) return;
+  download(rvBase()+"_rovinnost_dZ.stx",x.t,false);
+  $("rvstf").textContent=`Uloženo STX: ${x.n} ${bodu(x.n)} (Y, X a ΔZ v metrech).`+(x.changed?` U ${x.changed} bodů byly mezery nebo středníky v názvu či kódu nahrazeny podtržítkem.`:""); };
 $("rvcsv").onclick=()=>{ const x=rvExpRows(";"); if(!x.n) return; download(rvBase()+"_rovinnost.csv",x.t,true);
   $("rvstf").textContent=`Uloženo CSV: ${x.n} ${bodu(x.n)}.`; };
 $("rvcp").onclick=async()=>{ const x=rvExpRows("\t"); if(!x.n) return; const t=x.t, cv={length:x.n};
@@ -3082,15 +3145,20 @@ try{ const o=JSON.parse(localStorage.getItem(ROK)||"null"); if(o){ [["rgnm","nm"
   [["rgct","ct"],["rgtn","tn"]].forEach(([id,k])=>{ if(typeof o[k]==="boolean") $(id).checked=o[k]; });
   [["rgmp","mp"],["rgcs","cs"],["rgop","op"]].forEach(([id,k])=>{ if(typeof o[k]==="string"&&[...$(id).options].some(q=>q.value===o[k])) $(id).value=o[k]; });
   if(typeof o.em==="string") $("rgem").value=o.em; } }catch(e){}
-function rgOptSave(){ try{ localStorage.setItem(ROK,JSON.stringify({nm:$("rgnm").checked,zv:$("rgzv").checked,dz:$("rgdz").checked,us:$("rgus").checked,ll:$("rgll").checked,gr:$("rggr").checked,hd:$("rghd").checked,fs:rgPct(),mk:$("rgmk").value,mp:$("rgmp").value,ct:$("rgct").checked,cs:$("rgcs").value,op:$("rgop").value,tn:$("rgtn").checked,em:$("rgem").value})); }catch(e){} }
+function rgOptSave(){ try{ writeStorage(ROK,JSON.stringify({nm:$("rgnm").checked,zv:$("rgzv").checked,dz:$("rgdz").checked,us:$("rgus").checked,ll:$("rgll").checked,gr:$("rggr").checked,hd:$("rghd").checked,fs:rgPct(),mk:$("rgmk").value,mp:$("rgmp").value,ct:$("rgct").checked,cs:$("rgcs").value,op:$("rgop").value,tn:$("rgtn").checked,em:$("rgem").value})); }catch(e){} }
 const rgState=()=>$("rgm").hidden?0:($("rgm").classList.contains("split")?1:2);
-const rgCan=()=>!!(RV.rows&&RV.rows.length);
+function rgRows(){
+  const visible=new Set((RV.view||[]).map(r=>r.key)), showUn=$("rgus").checked;
+  return (RV.rows||[]).filter(r=>visible.has(r.key)&&Number.isFinite(r.y)&&Number.isFinite(r.x)&&(r.use||showUn));
+}
+const rgCan=()=>!!(RV.rows&&RV.rows.length);   // plán lze otevřít i kvůli zapnutí odškrtnutých bodů
+const rgExportCan=()=>rgRows().length>0;
 const setRsp=v=>{ v=Math.min(80,Math.max(20,Math.round(v*10)/10)); document.documentElement.style.setProperty("--rsp",v); return v; };
-const saveRsp=()=>{ try{ localStorage.setItem(RSK,parseFloat(document.documentElement.style.getPropertyValue("--rsp"))||50); }catch(e){} };
+const saveRsp=()=>{ try{ writeStorage(RSK,parseFloat(document.documentElement.style.getPropertyValue("--rsp"))||50); }catch(e){} };
 try{ const v=parseFloat(localStorage.getItem(RSK)); if(v>=20&&v<=80) setRsp(v); }catch(e){}
 function rgSync(){ const st=rgState();
   document.body.classList.toggle("rsplit",st===1);
-  if(!rgPend){ try{ localStorage.setItem(RGK,st); }catch(e){} }
+  if(!rgPend){ try{ writeStorage(RGK,st); }catch(e){} }
   [$("rvgbs"),$("rgsp")].forEach(b=>{ b.classList.toggle("p",st>0); b.firstElementChild.innerHTML=st===2?IC_FULL:RG_IC_SPLIT; });
   const b=$("rvgbs"); b.title=b.disabled?b.dataset.t0:RG_VT[st]; $("rgsp").title=RG_VT[st]; }
 function rgSetView(n){ const m=$("rgm");
@@ -3106,9 +3174,7 @@ const rgHead2=()=>listName((RV.files||[]).map(f=>({n:noExt(f.n)})),70);
 const rgPlot=(W,H,fs)=>{ const f=fs||rgFs(W,H), hs=rgHs(W,H), l=Math.round(Math.max(58,8*10.5*f*0.56+12)), t=Math.round(Math.max(24,10.5*f+12,(36*hs+4)+9+7.9*f+6)), ls=Math.min(13,11*f), mr=$("rgll").checked&&rgMapOn()?rgLegMapRows(ls,Math.max(10,W-l-14)).length:0, lg=$("rgll").checked?Math.round(Math.max(34,ls*2.4+8)+mr*ls*1.6):($("rghd").checked?Math.round(8*hs+8):0);   // okraje rostou s písmem (popisy souřadnic a legenda se nevejdou do pevných okrajů); fs = činitel písma (exporty PDF a DXF si ho zadávají)
   return {x:l,y:t,w:Math.max(10,W-l-14),h:Math.max(10,H-t-12-lg)}; };
 function rgFit(W,H,fs){
-  const rows=RV.rows||[], pl=rgPlot(W,H,fs); let b=[1e18,-1e18,1e18,-1e18];
-  rows.forEach(r=>{ if(!isFinite(r.y)||!isFinite(r.x)) return; b[0]=Math.min(b[0],r.y); b[1]=Math.max(b[1],r.y); b[2]=Math.min(b[2],r.x); b[3]=Math.max(b[3],r.x); });
-  if(b[0]>b[1]) b=[0,1,0,1];
+  const rows=rgRows(), pl=rgPlot(W,H,fs), b=rgBounds(rows);
   const m=0.08, wy=Math.max((b[1]-b[0])*(1+2*m),0.5), wx=Math.max((b[3]-b[2])*(1+2*m),0.5);
   return {cy:(b[0]+b[1])/2,cx:(b[2]+b[3])/2,s:Math.min(pl.w/wy,pl.h/wx),sig:rows.length+"|"+b.map(v=>v.toFixed(3)).join(",")}; }
 function rgKeep(){ if(!RGV) return; const box=$("rgsvg"), f=rgFit(box.clientWidth,box.clientHeight); if(f.s>0) RGZ={z:RGV.s/f.s,cy:RGV.cy,cx:RGV.cx}; }
@@ -3126,6 +3192,16 @@ function rgMarkItems(x,y,rad,ov,pos,hi,mk,k,z){ mk=mk||$("rgmk").value; const kk
     return [{t:"circ",x,y,r:rad,fill:fl,c:st,sw:hi?2.4:1.4,k,z}]; }
   const col=RG_MC.x[kk][pos?"p":"n"], a=rad*0.85;
   return [{t:"line",x1:x-a,y1:y-a,x2:x+a,y2:y+a,c:col,sw:hi?3.2:1.8,k,z},{t:"line",x1:x-a,y1:y+a,x2:x+a,y2:y-a,c:col,sw:hi?3.2:1.8,k,z}];
+}
+// Prostorový index obdélníků v obrazových souřadnicích; dotyk hran není překryv.
+function labelGrid(size=48){
+  const cells=new Map(), key=(x,y)=>x+","+y;
+  const visit=(a,fn)=>{ const x0=Math.floor(a.x/size), x1=Math.floor((a.x+a.w)/size), y0=Math.floor(a.y/size), y1=Math.floor((a.y+a.h)/size);
+    for(let x=x0;x<=x1;x++) for(let y=y0;y<=y1;y++) if(fn(key(x,y))) return true; return false; };
+  return {
+    add(a){ visit(a,k=>{ let items=cells.get(k); if(!items){ items=[]; cells.set(k,items); } items.push(a); return false; }); },
+    hit(a){ return visit(a,k=>{ const items=cells.get(k); return !!items&&items.some(b=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y); }); }
+  };
 }
 /* ---------- Rovinnost: plocha z bodů (TIN), barevná mapa odchylek a vrstevnice ---------- */
 // plocha = Delaunayova triangulace zaškrtnutých bodů v půdorysu (bez odškrtnutých a odlehlých; v režimu latě jen body s latí)
@@ -3255,7 +3331,7 @@ function rgLegMapRows(ls,wmax){ const en=rgLegMapEntries(), rows=[]; let x=0;
   en.forEach(e=>{ const w=rgLegW(e,ls); if(!rows.length||(x>0&&x+w>wmax)){ rows.push([]); x=0; } rows[rows.length-1].push(e); x+=w; }); return rows; }
 function rgScene(W,H,v,o){   // plán Rovinnosti jako scéna (jako buildScene v ZSS pilot): kreslí se z ní SVG na obrazovce i exporty PDF a DXF
   o=o||{};
-  const fs=o.fsFixed||rgFs(W,H), pl=rgPlot(W,H,fs), rows=RV.rows||[], s=v.s, ccx=pl.x+pl.w/2, ccy=pl.y+pl.h/2;
+  const fs=o.fsFixed||rgFs(W,H), pl=rgPlot(W,H,fs), rows=rgRows(), s=v.s, ccx=pl.x+pl.w/2, ccy=pl.y+pl.h/2;
   const SX=y=>ccx-(y-v.cy)*s, SY=x=>ccy+(x-v.cx)*s;   // jako v plánu pilot: Y roste doleva (západ), X dolů (jih)
   const it=[], fr=[];
   const gon=$("rggr").checked;
@@ -3280,8 +3356,8 @@ function rgScene(W,H,v,o){   // plán Rovinnosti jako scéna (jako buildScene v 
       C.lv.forEach(q=>{ const c=RG_CTC[q.kind], sw=(q.kind==="z"?1.8:q.kind==="t"?1.4:0.7)*Math.max(0.8,Math.min(1.4,fs)), ly=q.kind==="z"?"VRSTEVNICE_0":q.kind==="t"?"VRSTEVNICE_tol":"VRSTEVNICE";
         q.lines.forEach(R=>{ const p=scr(R); if(!p) return; const it2={t:"pl",p,c,sw,k:ly,z:isFinite(zr)&&zr!=null?zr+q.l/1000:0}; if(q.kind==="t") it2.dash=[6*fs,3.5*fs]; ctl.push(it2); if(q.lab) ctc.push({p,q}); }); }); } }
   // body: podle filtru tabulky; nepoužité (odškrtnuté, odlehlé) jen s volbou „Odškrtnuté a odlehlé“
-  const vis=new Set((RV.view||[]).map(r=>r.key)), showUn=$("rgus").checked, rad=5*fs, sel=(o.sel!==undefined?o.sel:null);
-  const pts=[]; rows.forEach(r=>{ if(!vis.has(r.key)||!isFinite(r.y)||!isFinite(r.x)||(!r.use&&!showUn)) return; pts.push({r,px:SX(r.y),py:SY(r.x),rad}); });
+  const rad=5*fs, sel=(o.sel!==undefined?o.sel:null);
+  const pts=rows.map(r=>({r,px:SX(r.y),py:SY(r.x),rad}));
   const cnt={ok:0,ov:0,hi:0,off:0,aut:0,nl:0}, lat=rvLM(), av=r=>Math.abs(rvEv(r)||0);
   const mk=p=>{ const r=p.r;
     if(!r.use){ const au=r.auto&&!r.kept; cnt[au?"aut":"off"]++;
@@ -3290,20 +3366,21 @@ function rgScene(W,H,v,o){   // plán Rovinnosti jako scéna (jako buildScene v 
     const ov=rvOvE(r), hi=rvHiE(r), pos=RV.set.pn===false?null:rvPos(rvEv(r)); cnt[hi?"hi":ov?"ov":"ok"]++;
     return rgMarkItems(p.px,p.py,rad,ov,pos,hi,null,(hi||ov)?"BODY_nad":"BODY_mereno",r.z); };
   const ord=pts.slice().sort((a,b)=>(a.r.use-b.r.use)||(av(a.r)-av(b.r)));   // nepoužité dole, nejhorší body navrch
-  let marks=[]; ord.forEach(p=>{ marks=marks.concat(mk(p)); });
+  const marks=[]; ord.forEach(p=>{ marks.push(...mk(p)); });
   const sp=sel&&pts.find(p=>p.r.key===sel);
   if(sp&&lat&&sp.r.lat){ const q=sp.r.lat, ax=SX(q.ay), ay=SY(q.ax), bx=SX(q.by), by=SY(q.bx);   // rozhodující lať označeného bodu (jen na obrazovce)
     marks.push({t:"line",x1:ax,y1:ay,x2:bx,y2:by,c:"#f59e0b",sw:3.2,k:"sel"},{t:"circ",x:ax,y:ay,r:rad*0.7,fill:"#f59e0b",c:"#b45309",sw:1,k:"sel"},{t:"circ",x:bx,y:by,r:rad*0.7,fill:"#f59e0b",c:"#b45309",sw:1,k:"sel"}); }
   if(sp) marks.push({t:"circ",x:sp.px,y:sp.py,r:rad+5,c:"#f59e0b",sw:2.6,k:"sel"});   // označení bodu: jen na obrazovce, do PDF a DXF se nekreslí (jako v ZSS pilot)
   // popisky bez překryvu: ΔZ primárně nad značkou na střed (v barvě křížku), název bodu primárně vpravo; při kolizi další volné místo, jinak se popisek vynechá
-  let labels=[]; const nm=$("rgnm").checked, zv=$("rgzv").checked, dz=$("rgdz").checked, sz=10*fs, hh=sz*1.15, placed=pts.map(p=>({x:p.px-rad,y:p.py-rad,w:2*rad,h:2*rad}));
-  const hit=a=>placed.some(b=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y);
+  let labels=[]; const nm=$("rgnm").checked, zv=$("rgzv").checked, dz=$("rgdz").checked, sz=10*fs, hh=sz*1.15, occupied=labelGrid(Math.max(32,48*fs));
+  pts.forEach(p=>occupied.add({x:p.px-rad,y:p.py-rad,w:2*rad,h:2*rad}));
+  const hit=a=>occupied.hit(a);
   if(nm||dz||zv){
     const put=(p,t,col,order,k)=>{ const w=t.length*sz*0.56+2, g=3;
       const C={t:[p.px-w/2,p.py-rad-g-hh],b:[p.px-w/2,p.py+rad+g],r:[p.px+rad+g,p.py-hh/2],l:[p.px-rad-g-w,p.py-hh/2],
         tr:[p.px+rad*0.4,p.py-rad-g-hh],tl:[p.px-rad*0.4-w,p.py-rad-g-hh],br:[p.px+rad*0.4,p.py+rad+g],bl:[p.px-rad*0.4-w,p.py+rad+g]};
       for(const kk of order){ const [x,y]=C[kk], a={x,y,w,h:hh}; if(x<pl.x||y<pl.y||x+w>pl.x+pl.w||y+hh>pl.y+pl.h||hit(a)) continue;
-        placed.push(a); labels.push({t:"text",x:x+w/2,y:y+hh*0.78,s:t,size:sz,c:col,a:"middle",halo:true,k}); return; } };
+        occupied.add(a); labels.push({t:"text",x:x+w/2,y:y+hh*0.78,s:t,size:sz,c:col,a:"middle",halo:true,k}); return; } };
     pts.filter(p=>p.px>=pl.x&&p.px<=pl.x+pl.w&&p.py>=pl.y&&p.py<=pl.y+pl.h).sort((a,b)=>((b.r.key===sel)-(a.r.key===sel))||(av(b.r)-av(a.r))).forEach(p=>{
       const r=p.r;
       const ev=rvEv(r); if(dz&&ev!=null) put(p,rvDS(ev),r.use?(RV.set.pn===false?RG_MC.o[rvOvE(r)?"ov":"ok"].s:RG_MC.x[rvOvE(r)?"ov":"ok"][rvPos(ev)?"p":"n"]):GC.gray,["t","tr","tl","b","br","bl","r","l"],"dz");   // u latě h (bod bez latě bez popisku hodnoty)   // barva jako křížek (kladná základní, záporná tmavší)
@@ -3318,7 +3395,7 @@ function rgScene(W,H,v,o){   // plán Rovinnosti jako scéna (jako buildScene v 
           const x1=o2.p[2*i-2], y1=o2.p[2*i-1], x2=o2.p[2*i], y2=o2.p[2*i+1], sl=o2.L[i]-o2.L[i-1]||1, f=(want-o2.L[i-1])/sl, cx=x1+f*(x2-x1), cy=y1+f*(y2-y1);
           let an=Math.atan2(y2-y1,x2-x1)*180/Math.PI; if(an>90) an-=180; if(an<-90) an+=180;
           const ra=an*Math.PI/180, bw=Math.abs(w*Math.cos(ra))+Math.abs(ch*Math.sin(ra)), bh=Math.abs(w*Math.sin(ra))+Math.abs(ch*Math.cos(ra)), a={x:cx-bw/2,y:cy-bh/2,w:bw,h:bh};
-          if(a.x<pl.x||a.y<pl.y||a.x+bw>pl.x+pl.w||a.y+bh>pl.y+pl.h||hit(a)) continue; placed.push(a);
+          if(a.x<pl.x||a.y<pl.y||a.x+bw>pl.x+pl.w||a.y+bh>pl.y+pl.h||hit(a)) continue; occupied.add(a);
           labels.push({t:"text",x:cx-Math.sin(ra)*cs*0.35,y:cy+Math.cos(ra)*cs*0.35,s:t,size:cs,c:o2.c.q.kind==="t"?RG_CTC.t:RG_CTC.z,a:"middle",halo:true,rot:Math.abs(an)<0.5?0:an,k:"VRSTEVNICE_popis"}); } }); }
   // legenda: jen značky, které se v plánu vyskytují
   let leg=[];
@@ -3349,6 +3426,7 @@ function rgScene(W,H,v,o){   // plán Rovinnosti jako scéna (jako buildScene v 
   fr.push({t:"rect",x:pl.x,y:pl.y,w:pl.w,h:pl.h,c:GC.frame,sw:1});
   return {W,H,pl,items:it.concat(mp,tnl,ctl,marks,labels),frame:fr.concat(leg),pts};   // mřížka pod mapou (v ploše ji mapa zakryje, souřadnice zůstanou na okraji)
 }
+const rgRequestRender=planFrame(()=>{ rgKeep(); rgRender(); },()=>!$("rgm").hidden&&document.body.classList.contains("mrov"));
 function rgEmHint(){ const T=RGTIN, e=$("rgem"); if(e) e.placeholder=T&&T.nn>0?"auto "+fmtCz((2.5*T.nn).toFixed(2)):"auto"; }
 function rgCsHint(){ const o=$("rgcs")&&$("rgcs").querySelector('option[value="a"]'); if(!o) return; let t="krok auto";   // auto krok vrstevnic: v nabídce i vypočtená hodnota
   try{ const T=rgTin(), tol=rvTE(); if(T&&T.V&&T.V.length&&isFinite(tol)&&tol>0){ const st=rgStep(T,tol,"a"); if(isFinite(st)&&st>0) t+=" ("+fmtCz(String(+st.toFixed(3)))+" mm)"; } }catch(e){}
@@ -3356,6 +3434,7 @@ function rgCsHint(){ const o=$("rgcs")&&$("rgcs").querySelector('option[value="a
 function rgRender(){
   const box=$("rgsvg"); if(!box||$("rgm").hidden) return;
   const W=box.clientWidth, H=box.clientHeight; if(!(W>0&&H>0)) return;
+  if(!rgExportCan()){ RGP=[]; RGV=null; RGZ=null; RGSIG=""; box.innerHTML='<div style="padding:20px;color:var(--mut)">Žádný bod nevyhovuje zobrazení plánu. Změňte filtr nebo zapněte volbu „Odškrtnuté a odlehlé“.</div>'; return; }
   const f=rgFit(W,H);
   if(f.sig!==RGSIG){ RGSIG=f.sig; RGV=null; RGZ=null; }   // jiné body: pohled se znovu přizpůsobí
   if(!RGV){ RGV={cy:f.cy,cx:f.cx,s:f.s}; if(RGZ){ RGV.s*=RGZ.z; RGV.cy=RGZ.cy; RGV.cx=RGZ.cx; } }
@@ -3381,7 +3460,8 @@ function rgSelect(k,from){
 // po každém překreslení tabulky: tlačítka plánu, uložený režim zobrazení po F5, zrušení výběru zmizelého bodu a překreslení plánu
 function rvPlanSync(){
   const has=rgCan(); $("rvgbs").disabled=$("rvgb").disabled=!has;
-  $("rvpdf").disabled=$("rvdxf").disabled=!has;   // exporty PDF a DXF v sekci 4 (tlačítka v liště plánu fungují, když je plán otevřený)
+  const canExport=rgExportCan();
+  ["rvpdf","rvdxf","rgpdf","rgdxf"].forEach(id=>{ const b=$(id); if(b.dataset.t0===undefined) b.dataset.t0=b.title; b.disabled=!canExport; b.title=canExport?b.dataset.t0:"V aktuálním výběru není žádný zobrazený bod pro export. Změňte filtr nebo zapněte odškrtnuté a odlehlé body."; });
   if(has&&rgPend){ rgPend=false; if(rgWant) { rgSetView(rgWant); return; } }
   if(!has){ if(!rgPend&&rgState()) rgSetView(0); rgSync(); return; }
   if(RV.selk&&!RV.rows.some(r=>r.key===RV.selk)) RV.selk=null;
@@ -3394,7 +3474,7 @@ $("rvgb").onclick=()=>{ if(rgCan()) rgSetView(2); };
 $("rgx").onclick=()=>rgSetView(0);
 $("rgfit").onclick=()=>{ RGV=null; RGZ=null; rgRender(); };
 // exporty plánu Rovinnosti jako v ZSS pilot: PDF A3 a DXF (tlačítka v sekci 4. Export i v liště plánu, zkratky Shift+P a Shift+S)
-function rgBounds(){ const rows=RV.rows||[]; let b=[1e18,-1e18,1e18,-1e18];   // rozsah bodů [Ymin, Ymax, Xmin, Xmax]
+function rgBounds(rows=rgRows()){ let b=[1e18,-1e18,1e18,-1e18];   // rozsah bodů [Ymin, Ymax, Xmin, Xmax]
   rows.forEach(r=>{ if(!isFinite(r.y)||!isFinite(r.x)) return; b[0]=Math.min(b[0],r.y); b[1]=Math.max(b[1],r.y); b[2]=Math.min(b[2],r.x); b[3]=Math.max(b[3],r.x); });
   if(b[0]>b[1]) b=[0,1,0,1]; return b; }
 function rgPdfA3(){   // vždy celý výkres na jednu stránku A3 (na šířku nebo na výšku podle tvaru plánu), drobné ale čitelné popisky jako v ZSS pilot
@@ -3403,7 +3483,7 @@ function rgPdfA3(){   // vždy celý výkres na jednu stránku A3 (na šířku n
   return rgScene(W,H,rgFit(W,H,o2.fsFixed),o2);
 }
 function rgDxfOf(){   // rozvržení stejné jako v grafu (stejné popisky bez překrývání), ve čitelném měřítku, přepočtené do metrů
-  const rows=(RV.rows||[]).filter(r=>isFinite(r.y)&&isFinite(r.x)), b=rgBounds();
+  const rows=rgRows(), b=rgBounds(rows);
   let nm=1;   // typický rozestup bodů (medián vzdálenosti k nejbližšímu sousedovi) pro čitelné měřítko textů
   { const sm=rows.length>1200?rows.filter((_,i)=>i%Math.ceil(rows.length/400)===0):rows;
     const nn=sm.map(r=>{ let m=Infinity; for(const q of rows){ if(q===r) continue; const d=Math.hypot(q.y-r.y,q.x-r.x); if(d<m) m=d; } return m; }).filter(Number.isFinite).sort((a,c)=>a-c);
@@ -3470,9 +3550,9 @@ function rgDxfOf(){   // rozvržení stejné jako v grafu (stejné popisky bez p
   h(0,"SECTION"); h(2,"ENTITIES");
   return hd.join("\n")+"\n"+e.join("\n")+"\n0\nENDSEC\n0\nEOF\n";
 }
-const rvSavePdf=()=>{ if(!rgCan()) return; download(rvBase()+"_rovinnost_plan_A3.pdf",pdfOf([rgPdfA3()]),false,"application/pdf");
+const rvSavePdf=()=>{ if(!rgExportCan()) return; download(rvBase()+"_rovinnost_plan_A3.pdf",pdfOf([rgPdfA3()]),false,"application/pdf");
   $("rvstf").textContent="Uloženo PDF: plán bodů A3."; };
-const rvSaveDxf=()=>{ if(!rgCan()) return; download(rvBase()+"_rovinnost_plan.dxf",rgDxfOf(),false);
+const rvSaveDxf=()=>{ if(!rgExportCan()) return; download(rvBase()+"_rovinnost_plan.dxf",rgDxfOf(),false);
   $("rvstf").textContent="Uloženo DXF: plán bodů."; };
 $("rgpdf").onclick=rvSavePdf; $("rvpdf").onclick=rvSavePdf;
 $("rgdxf").onclick=rvSaveDxf; $("rvdxf").onclick=rvSaveDxf;
@@ -3485,7 +3565,7 @@ function rgOptSync(){ if(document.activeElement!==$("rgfs")) $("rgfs").value=Mat
   const ok=Object.entries(RG_DEF).every(([id,v])=>typeof v==="boolean"?$(id).checked===v:$(id).value===v)&&Math.round(rgPct())===100, b=$("rgdef");
   if(b.dataset.t===undefined) b.dataset.t=b.title;
   b.disabled=ok; b.title=ok?"Volby plánu i velikost písma už jsou na výchozích hodnotách, není co vracet.":b.dataset.t; }
-const rgOptCh=()=>{ rgOptSave(); rgOptSync(); rgRender(); };
+const rgOptCh=()=>{ rgOptSave(); rgOptSync(); rvPlanSync(); };
 ["rgnm","rgzv","rgdz","rgus","rgll","rggr","rghd","rgmk","rgmp","rgct","rgcs","rgop","rgtn"].forEach(id=>$(id).addEventListener("change",rgOptCh));
 { const em=$("rgem"); em.addEventListener("keydown",e=>{ if(!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.key.length===1&&!/[0-9.,]/.test(e.key)) e.preventDefault(); });
   em.addEventListener("input",()=>{ const t=em.value.trim(); em.classList.toggle("bad",t!==""&&rgEmIn()==null); rgOptCh(); }); }
@@ -3501,10 +3581,10 @@ $("rgall").onclick=()=>{ const cbs=rgChk(), all=cbs.every(c=>c.checked); cbs.for
 $("rgdef").onclick=()=>{ Object.entries(RG_DEF).forEach(([id,v])=>{ if(typeof v==="boolean") $(id).checked=v; else $(id).value=v; }); $("rgfs").value=100; rgOptCh(); };
 rgOptSync();
 $("rvtb").addEventListener("click",e=>{ if($("rgm").hidden||e.target.closest("input,button,a,label,mark")) return; const tr=e.target.closest("tr[data-rk]"); if(!tr) return; rgSelect(RV.selk===tr.dataset.rk?null:tr.dataset.rk,"table"); });
-window.addEventListener("resize",()=>{ if(!$("rgm").hidden) rgRender(); });
+window.addEventListener("resize",rgRequestRender);
 // táhlo poměru tabulky a plánu (svislé): podíl plánu 20 až 80 % šířky okna v proměnné --rsp, dvojklik = 50 : 50
-{ const h=$("rgsplit"); let drag=false, raf=0;
-  const redraw=()=>{ if(!raf) raf=requestAnimationFrame(()=>{ raf=0; if(!$("rgm").hidden) rgRender(); }); };
+{ const h=$("rgsplit"); let drag=false;
+  const redraw=rgRequestRender;
   h.addEventListener("pointerdown",e=>{ if(e.button!==0) return; e.preventDefault(); drag=true; h.classList.add("drag"); h.setPointerCapture(e.pointerId); document.body.style.userSelect="none"; });
   h.addEventListener("pointermove",e=>{ if(!drag) return; setRsp((innerWidth-e.clientX)/innerWidth*100); redraw(); });
   const end=e=>{ if(!drag) return; drag=false; h.classList.remove("drag"); document.body.style.userSelect=""; try{ h.releasePointerCapture(e.pointerId); }catch(_){} saveRsp(); redraw(); };
@@ -3532,10 +3612,10 @@ window.addEventListener("resize",()=>{ if(!$("rgm").hidden) rgRender(); });
   box.addEventListener("wheel",e=>{ e.preventDefault(); tip.hidden=true; if(!RGV) return;
     const r=box.getBoundingClientRect(), pl=rgPlot(box.clientWidth,box.clientHeight), mx=e.clientX-r.left, my=e.clientY-r.top, cx=pl.x+pl.w/2, cy=pl.y+pl.h/2;
     const wy=RGV.cy-(mx-cx)/RGV.s, wx=RGV.cx+(my-cy)/RGV.s, f=e.deltaY<0?1.25:1/1.25;
-    RGV.s*=f; RGV.cy=wy+(mx-cx)/RGV.s; RGV.cx=wx-(my-cy)/RGV.s; rgKeep(); rgRender(); },{passive:false});
+    RGV.s*=f; RGV.cy=wy+(mx-cx)/RGV.s; RGV.cx=wx-(my-cy)/RGV.s; rgRequestRender(); },{passive:false});
   box.addEventListener("pointerdown",e=>{ if(e.button!==0) return; drag={x:e.clientX,y:e.clientY}; dn={x:e.clientX,y:e.clientY}; box.setPointerCapture(e.pointerId); box.style.cursor="grabbing"; tip.hidden=true; });
   box.addEventListener("pointermove",e=>{
-    if(drag){ if(RGV){ RGV.cy+=(e.clientX-drag.x)/RGV.s; RGV.cx-=(e.clientY-drag.y)/RGV.s; drag={x:e.clientX,y:e.clientY}; rgKeep(); rgRender(); } return; }
+    if(drag){ if(RGV){ RGV.cy+=(e.clientX-drag.x)/RGV.s; RGV.cx-=(e.clientY-drag.y)/RGV.s; drag={x:e.clientX,y:e.clientY}; rgRequestRender(); } return; }
     if(e.pointerType==="touch"){ tip.hidden=true; return; }
     const p=hitAt(e.clientX,e.clientY); if(!p){ const h=mapTip(e.clientX,e.clientY); if(!h){ hideTip(); return; } box.style.cursor="grab"; tip.innerHTML=h; tip.hidden=false;
       const w=tip.offsetWidth, hh=tip.offsetHeight; tip.style.left=Math.max(4,Math.min(innerWidth-w-4,e.clientX+14))+"px"; tip.style.top=Math.max(4,(e.clientY+16+hh>innerHeight?e.clientY-hh-12:e.clientY+16))+"px"; return; }
@@ -3544,6 +3624,7 @@ window.addEventListener("resize",()=>{ if(!$("rgm").hidden) rgRender(); });
   box.addEventListener("pointerleave",hideTip);
   box.addEventListener("pointerup",e=>{ drag=null; box.style.cursor="grab";
     if(!dn||Math.hypot(e.clientX-dn.x,e.clientY-dn.y)>4){ dn=null; return; } dn=null;   // klik bez tažení: označí nejbližší bod (nebo výběr zruší)
+    rgRequestRender.flush();
     const p=hitAt(e.clientX,e.clientY); if(p) rgSelect(p.r.key,"plan"); else if(RV.selk!==null) rgSelect(null,"plan"); });
 })();
 // Esc zavře plán (zachycení ve fázi capture, aby Esc zavírající okno popisu nebo hledání plán nezavřel zároveň)
@@ -3560,7 +3641,7 @@ document.addEventListener("keydown",e=>{
 // Reset modulu: zavře plán a vrátí jeho volby a poměr rozdělení na výchozí hodnoty
 function rgReset(){ rgPend=false; rgSetView(0); RGV=null; RGZ=null; RGSIG=""; setRsp(50);
   $("rgnm").checked=false; $("rgzv").checked=false; $("rgdz").checked=true; $("rgus").checked=false; $("rgll").checked=true; $("rggr").checked=true; $("rghd").checked=false; $("rgfs").value=100; $("rgmk").value="x"; $("rgmp").value="off"; $("rgct").checked=false; $("rgcs").value="a"; $("rgop").value="60"; $("rgtn").checked=false; $("rgem").value=""; rgOptSync();
-  try{ [RGK,RSK,ROK].forEach(k=>localStorage.removeItem(k)); }catch(e){} }
+  try{ [RGK,RSK,ROK].forEach(k=>removeStorage(k)); }catch(e){} }
 
 /* ---------- Rovinnost: „i“ (popis modulu) a Reset v hlavičce – stejné chování jako v ZSS pilot ---------- */
 let im2Hits=[], im2Cur=-1;
@@ -3595,8 +3676,9 @@ document.addEventListener("keydown",e=>{
   const t=e.target, tag=t&&t.tagName; if((tag==="INPUT"&&!/^(checkbox|radio|range|button|file)$/.test(t.type))||tag==="TEXTAREA"||tag==="SELECT"||(t&&t.isContentEditable)) return;
   if(e.code==="KeyI"&&!e.shiftKey){ e.preventDefault(); $("im2").hidden=!$("im2").hidden; return; }
   if(!$("im2").hidden) return;   // při otevřeném popisu ostatní zkratky nefungují
-  if(e.code==="KeyV"&&!e.shiftKey){ e.preventDefault(); rgCycle(); return; }
-  if(e.code==="KeyF"&&!e.shiftKey){ if(rgState()){ e.preventDefault(); $("rgfit").onclick(); } return; }   // F: celý výkres (jen při otevřeném plánu, jako v ZSS pilot)   // V: jen tabulka / rozdělená obrazovka / plán na celou obrazovku (jako v ZSS pilot)
+  if(e.code==="KeyF"&&!e.shiftKey&&!$("rgm").hidden){ e.preventDefault(); $("rgfit").click(); return; }
+  if(e.code==="KeyV"&&!e.shiftKey){ e.preventDefault(); rgCycle(); return; }   // V: jen tabulka / rozdělená obrazovka / plán na celou obrazovku (jako v ZSS pilot)
+  if(e.code==="KeyT"&&e.shiftKey){ e.preventDefault(); if(!$("rvstx").disabled) $("rvstx").click(); }   // STX s ΔZ místo Z
   if(e.code==="KeyC"&&e.shiftKey){ e.preventDefault(); if(!$("rvcsv").disabled) $("rvcsv").click(); }   // CSV (stejně jako v ZSS pilot)
   if(e.code==="KeyP"&&e.shiftKey){ e.preventDefault(); if(rgCan()) rvSavePdf(); }   // PDF plánu (stejně jako v ZSS pilot)
   if(e.code==="KeyS"&&e.shiftKey){ e.preventDefault(); if(rgCan()) rvSaveDxf(); } });   // DXF plánu (stejně jako v ZSS pilot)
@@ -3605,8 +3687,8 @@ function rvReset(){
   rgReset(); rvClear(); rvpClear();
   ["h","v","o"].forEach(t=>RV.def[t].forEach(pt=>RV_FLD[t].forEach(c=>pt[c]=""))); RV.def.h[0].s="";
   RV.off.clear(); RV.sort.k=""; RV.sort.dir=1; $("rvflt").value="all"; $("rvtsr").value=""; $("rvstf").textContent=""; $("rvlogd").open=false;
-  RV.set=Object.assign({u:"mm",tmm:RV_TD.mm,p:"1",rob:true,rk:null,c:true,pn:true,m:"pl"},RV_LD); $("rvcomma").checked=true; $("rvpn").checked=true; rvLatUi(); RV.keep.clear(); rvKeepSave(); $("rvrob").checked=true; $("rvrobk").value=""; rvRobHint(); rvTolUpd(); rvUnitApply(); rvPrecApply();   // nastavení odchylek: výchozí jednotky mm, přesnost 1 mm, tolerance 10 mm a 0,1 m
-  try{ [FK_RV,FK_RVP,FK_RD,FK_RP,FK_RVOFF,FK_RVS,FK_RVKEEP].forEach(k=>localStorage.removeItem(k)); }catch(e){}
+  RV.set=Object.assign({u:"mm",t:RV_TD,p:"1",rob:true,rk:null,c:true,pn:true,m:"pl"},RV_LD); $("rvcomma").checked=true; $("rvpn").checked=true; rvLatUi(); RV.keep.clear(); rvKeepSave(); $("rvrob").checked=true; $("rvrobk").value=""; rvRobHint(); rvTolUpd(); rvUnitApply(); rvPrecApply();   // nastavení odchylek: výchozí jednotky mm, přesnost 1 mm, tolerance 10 mm = 0,010 m
+  try{ [FK_RV,FK_RVP,FK_RD,FK_RP,FK_RVOFF,FK_RVS,FK_RVKEEP].forEach(k=>removeStorage(k)); }catch(e){}
   rvPlaneSet("h",false); rvDefRender(); rvResRender();
   toast("Modul Rovinnost je resetován na výchozí hodnoty."); }
 // potvrzovací okno je společné s ZSS pilot, text a akce se nastaví podle modulu
@@ -3630,7 +3712,7 @@ $("rm").addEventListener("click",e=>{ if(e.target===$("rm")) $("rmn").onclick();
     ["zss","rov"].forEach(k=>{ const el=document.getElementById("mod-"+k); if(el) el.hidden=(k!==m); });
     document.body.classList.toggle("mrov",m==="rov");
     document.title=TT[m];
-    if(save){ try{ localStorage.setItem(MK,m); }catch(e){} if(m==="rov"&&!RV.pts.length) setTimeout(()=>nudge($("rvdrop")),200); }
+    if(save){ try{ writeStorage(MK,m); }catch(e){} if(m==="rov"&&!RV.pts.length) setTimeout(()=>nudge($("rvdrop")),200); }
     if(m==="zss") window.dispatchEvent(new Event("resize"));
     if(m==="rov"&&typeof rgRefresh==="function") rgRefresh();   // plán bodů v Rovinnosti se přepočítá na skutečnou velikost
     if(typeof syncBw==="function") syncBw();   // tlačítka vpravo v zónách a v hlavičce: stejná šířka v obou modulech   // po návratu se plán a tabulka přepočítají na aktuální velikost

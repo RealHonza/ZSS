@@ -297,6 +297,41 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 #im2 h2{margin:0 0 4px;font-size:18px}#im2 h3{margin:16px 0 4px;font-size:14px;color:var(--ac)}
 #im2 p,#im2 li{margin:3px 0;font-size:13.5px}#im2 ul{margin:4px 0;padding-left:20px}
 #im .info-title,#im2 .info-title{display:flex;align-items:center;gap:.4em;min-width:0}#im .app-favicon,#im2 .app-favicon{width:1em;height:1em;flex:0 0 1em;object-fit:contain}
+
+/* Shared compact navigation: upright cube, neighbour arrows and quarter-turn roll. */
+#rgcubeui,#pgcubeui{right:22px;width:144px;gap:7px;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;overscroll-behavior:contain}
+#rgcubeui::-webkit-scrollbar,#pgcubeui::-webkit-scrollbar{display:none}
+#rgcubeui>*,#pgcubeui>*{flex-shrink:0}
+#rgcubecontrol,#pgcubecontrol{width:144px;height:144px}
+#rgcubespace,#pgcubespace{position:absolute;left:18px;top:18px;transform:scale(1.12)}
+#rgcube button,#pgcube button{border-color:color-mix(in srgb,var(--mut) 65%,var(--card));border-radius:2px;background:color-mix(in srgb,var(--mut) 7%,var(--card));box-shadow:inset 0 0 8px #00000006}
+#rgcube .ct,#pgcube .ct{background:color-mix(in srgb,var(--ac) 14%,var(--card))}
+#rgcubelabels span,#pgcubelabels span{background:transparent;text-shadow:0 1px 2px var(--card);font-weight:600}
+#rgcubenav button,#pgcubenav button{width:26px;height:26px;min-height:0;border:1px solid color-mix(in srgb,var(--bd) 65%,transparent);border-radius:8px;background:color-mix(in srgb,var(--card) 95%,transparent);box-shadow:0 1px 3px #00000008;color:var(--mut)}
+#rgcubenav button:hover,#pgcubenav button:hover{color:var(--ac);border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--card))}
+#rgcubenav button:focus-visible,#pgcubenav button:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+#rgcubenav button:disabled,#pgcubenav button:disabled{opacity:.35;cursor:default}
+#rgcubenav svg,#pgcubenav svg{width:15px;height:15px;stroke-width:1.8}
+#rgcubenav [data-dir=up],#pgcubenav [data-dir=up]{left:59px;top:0}
+#rgcubenav [data-dir=down],#pgcubenav [data-dir=down]{left:59px;bottom:0}
+#rgcubenav [data-dir=left],#pgcubenav [data-dir=left]{left:0;top:59px}
+#rgcubenav [data-dir=right],#pgcubenav [data-dir=right]{right:0;top:59px}
+#rgcubenav [data-roll=left],#pgcubenav [data-roll=left]{left:17.28px;top:17.28px}
+#rgcubenav [data-roll=right],#pgcubenav [data-roll=right]{right:17.28px;top:17.28px}
+#rg3front,#pg3front{position:absolute;right:94px;transform:translateX(50%);top:12px;z-index:4;min-height:28px;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:500;background:var(--card);border:1px solid var(--bd)}
+#rg3front[hidden],#pg3front[hidden]{display:none}
+@media(pointer:coarse){
+ #rg3front,#pg3front{right:108px}
+ #rgcubeui,#pgcubeui,#rgcubecontrol,#pgcubecontrol{width:172px}#rgcubecontrol,#pgcubecontrol{height:172px}
+ #rgcubespace,#pgcubespace{left:32px;top:32px}
+ #rgcubenav button,#pgcubenav button{width:44px;height:44px}
+ #rgcubenav [data-dir=up],#pgcubenav [data-dir=up],#rgcubenav [data-dir=down],#pgcubenav [data-dir=down]{left:64px}
+ #rgcubenav [data-dir=left],#pgcubenav [data-dir=left],#rgcubenav [data-dir=right],#pgcubenav [data-dir=right]{top:64px}
+ #rgcubenav [data-roll=left],#pgcubenav [data-roll=left]{left:18.745px;top:18.745px}
+ #rgcubenav [data-roll=right],#pgcubenav [data-roll=right]{right:18.745px;top:18.745px}
+}
+#rvtw:not(.general) .rvoc{display:none}#rvoreverse{min-height:26px;padding:3px 8px;font-size:12px}#rvoreverse[hidden]{display:none}#rvoreverse[aria-pressed=true]{border-color:var(--ac);color:var(--ac)}
+#rgexp[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -414,6 +449,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
       <div class="rvv-panel">
         <div class="rvv-shiftrow"><label for="rvvoffset">Posun [mm]</label><input id="rvvoffset" type="text" inputmode="decimal" autocomplete="off" value="0" aria-label="Vlastní kolmý posun roviny v milimetrech" title="Kladná hodnota posune rovinu doprava od směru 1 → 2 při pohledu shora, záporná doleva. Desetinná čárka i tečka. Změnu potvrď Enterem nebo opuštěním pole."></div>
         <div class="rvv-shiftrow"><label for="rvvstat" title="Statistika kolmých odchylek všech načtených PD; výšky PD nejsou potřeba.">Podle bodů PD</label><span class="rv-selectwrap"><select id="rvvstat"><option value="" selected disabled>Vybrat…</option><option value="restore" disabled>Vrátit zadané body</option><option value="min">min</option><option value="max">max</option><option value="avg">průměr</option><option value="med">medián</option></select><span class="rv-select-arrow" aria-hidden="true"><svg viewBox="0 0 16 16" focusable="false"><path d="m4 6 4 4 4-4"/></svg></span></span></div>
+        <button type="button" id="rvoreverse" hidden aria-pressed="false" title="Obrátí kladnou stranu d a osu y′; x′ zůstává od bodu 1 k bodu 2. Pořadí ani souřadnice bodů se nemění.">Obrátit stranu +</button>
       </div>
       <small class="hp" id="rvvstatinfo" aria-live="polite"></small>
     </div>
@@ -472,7 +508,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
   <button class="wi io" id="rvgb" type="button" disabled aria-label="Zobrazit plán" title="Otevře plán bodů na celé obrazovce: půdorys měřených bodů obarvených podle odchylky od roviny (zeleně v toleranci, červeně nad ní). Klik na bod označí jeho řádek v tabulce a naopak. Zkratka: V přepíná zobrazení. PDF a DXF lze uložit i z plánu."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2.5v19M16 2.5v19M2.5 8h19M2.5 16h19" stroke-width="1.4" stroke-opacity=".55"/><g fill="currentColor" stroke="none"><circle cx="8" cy="8" r="3.2"/><circle cx="16" cy="8" r="3.2"/><circle cx="8" cy="16" r="3.2"/><circle cx="16" cy="16" r="3.2"/></g></svg></button>
 </div></div></div>
 <div class="rzb">
-<div class="tw" id="rvtw"><table><thead><tr><th data-k="i" title="Pořadí bodu v načteném měření."><input type="checkbox" id="rvusall" checked title="Zaškrtnout / odškrtnout všechny body najednou. Odškrtnutý bod zůstane v tabulce zašedlý, ale nezapočítá se do souhrnu ani do kopírování. Automaticky vyřazené odlehlé body zůstanou při zaškrtnutí všech vyřazené; do výpočtu je vrátíš zaškrtnutím jednotlivě."> #</th><th data-k="id" title="Název měřeného bodu.">Bod</th><th data-k="y" class="r" title="Souřadnice Y měřeného bodu [m].">Y</th><th data-k="x" class="r" title="Souřadnice X měřeného bodu [m].">X</th><th data-k="z" class="r" title="Výška Z měřeného bodu [m].">Z</th><th data-k="s" class="r rvvc" title="Staničení s [m] na tři desetinná místa (mm): vodorovná vzdálenost průmětu bodu po stopě svislé roviny od bodu 1 ve směru k bodu 2. Před bodem 1 záporné, za bodem 2 větší než délka základny.">s [m]</th><th data-k="d" class="r" title="Odchylka od zvolené vodorovné roviny: ΔZ = Z bodu − výška roviny, v milimetrech. Kladná = bod je nad rovinou, záporná = pod rovinou. Do tolerance včetně zeleně, nad ní červeně, nad 150 % tolerance je buňka podbarvená červeně; kladné odchylky světlejším, záporné tmavším odstínem.">ΔZ [mm]</th><th data-k="h" class="r rvlc" title="Rovinnost latí: h = Z bodu − výška latě v místě bodu (lať mezi dvěma zaměřenými body, bod uprostřed). Ze všech poloh latě se ukáže ta s největší odchylkou. Kladná = hrb, záporná = prohlubeň. Do tolerance latě včetně zeleně, nad ní červeně, nad 150 % i podbarvení; „—“ = bod bez latě (okraj plochy, řídké body). Tooltip buňky ukáže konce latě.">h [mm]</th><th data-k="code" title="Kód bodu ze souboru (5. sloupec), pokud je uveden.">Kód</th><th data-k="file" class="rvfc" title="Soubor, ze kterého bod pochází.">Soubor</th><th class="fill" aria-hidden="true"></th></tr></thead><tbody id="rvtb"></tbody></table></div>
+<div class="tw" id="rvtw"><table><thead><tr><th data-k="i" title="Pořadí bodu v načteném měření."><input type="checkbox" id="rvusall" checked title="Zaškrtnout / odškrtnout všechny body najednou. Odškrtnutý bod zůstane v tabulce zašedlý, ale nezapočítá se do souhrnu ani do kopírování. Automaticky vyřazené odlehlé body zůstanou při zaškrtnutí všech vyřazené; do výpočtu je vrátíš zaškrtnutím jednotlivě."> #</th><th data-k="id" title="Název měřeného bodu.">Bod</th><th data-k="y" class="r" title="Souřadnice Y měřeného bodu [m].">Y</th><th data-k="x" class="r" title="Souřadnice X měřeného bodu [m].">X</th><th data-k="z" class="r" title="Výška Z měřeného bodu [m].">Z</th><th data-k="s" class="r rvvc" title="Staničení s [m] na tři desetinná místa (mm): vodorovná vzdálenost průmětu bodu po stopě svislé roviny od bodu 1 ve směru k bodu 2. Před bodem 1 záporné, za bodem 2 větší než délka základny.">s [m]</th><th data-k="xp" class="r rvoc" title="Místní x′ [m] ve směru bod 1 → 2. Zobrazení na milimetry; výpočet a řazení používají plnou přesnost.">x′ [m]</th><th data-k="yp" class="r rvoc" title="Místní y′ [m] v rovině, kolmo k x′. Ve výchozí orientaci má bod 3 kladné y′. Z kladné strany d jde +x′ k +y′ po směru hodinových ručiček.">y′ [m]</th><th data-k="d" class="r" title="Odchylka od zvolené vodorovné roviny: ΔZ = Z bodu − výška roviny, v milimetrech. Kladná = bod je nad rovinou, záporná = pod rovinou. Do tolerance včetně zeleně, nad ní červeně, nad 150 % tolerance je buňka podbarvená červeně; kladné odchylky světlejším, záporné tmavším odstínem.">ΔZ [mm]</th><th data-k="h" class="r rvlc" title="Rovinnost latí: h = Z bodu − výška latě v místě bodu (lať mezi dvěma zaměřenými body, bod uprostřed). Ze všech poloh latě se ukáže ta s největší odchylkou. Kladná = hrb, záporná = prohlubeň. Do tolerance latě včetně zeleně, nad ní červeně, nad 150 % i podbarvení; „—“ = bod bez latě (okraj plochy, řídké body). Tooltip buňky ukáže konce latě.">h [mm]</th><th data-k="code" title="Kód bodu ze souboru (5. sloupec), pokud je uveden.">Kód</th><th data-k="file" class="rvfc" title="Soubor, ze kterého bod pochází.">Soubor</th><th class="fill" aria-hidden="true"></th></tr></thead><tbody id="rvtb"></tbody></table></div>
 <div id="rvsum" aria-live="polite"></div>
 <div id="rvst" class="stw"></div>
 <div id="rvstf" aria-live="polite"></div>
@@ -496,7 +532,8 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
     <span id="rgchk">
     <button class="wi io" id="rgall" type="button" aria-label="Zaškrtnout / odškrtnout vše" title="Hromadně zapne všechny volby zobrazení v plánu (odškrtnuté a odlehlé body, názvy bodů, odchylky ΔZ, vrstevnice, TIN, hlavička, mřížka, legenda a kubatury). Je-li vše zapnuté, vypne je. Volbu značek, mapy, kroku, sytosti, vyhlazení a max. hrany nemění."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3.5" width="5" height="5" rx="1" stroke-width="1.6"/><path d="M4.2 6l1.2 1.2L7.2 4.8" stroke-width="1.4"/><rect x="3" y="10" width="5" height="5" rx="1" stroke-width="1.6"/><path d="M4.2 12.5l1.2 1.2L7.2 11.3" stroke-width="1.4"/><rect x="3" y="16.5" width="5" height="5" rx="1" stroke-width="1.6"/><path d="M4.2 19l1.2 1.2L7.2 17.8" stroke-width="1.4"/><path d="M11 6h10M11 12.5h10M11 19h10" stroke-width="1.8"/></svg></button>
     <span id="rgopt">
-    <span class="gk" title="Měřené body v plánu">Body</span><span class="gi"><label title="Značky měřených bodů v plánu. Křížky (výchozí): kladná odchylka (bod nad rovinou) v základním odstínu, záporná (pod rovinou) v tmavším; nad 150 % tolerance silnější čára. Kolečka: kladná odchylka světlá výplň s barevným obrysem, záporná tmavá plná výplň; nad 150 % tolerance tmavý silný obrys."><svg class="gic" viewBox="-8 -8 16 16" aria-hidden="true"><path d="M-4.5-4.5L4.5 4.5M-4.5 4.5L4.5-4.5" stroke="#3b8d56" stroke-width="1.8" fill="none"/></svg><select id="rgmk" aria-label="Značky bodů"><option value="x" selected>křížky</option><option value="o">kolečka</option></select></label><label title="Zobrazí i body, které se do výpočtu nepočítají: ručně odškrtnuté (šedý prázdný kroužek) a automaticky vyřazené odlehlé (oranžový prázdný kroužek). Výchozí vypnuto."><input type="checkbox" id="rgus"> <svg class="gic" viewBox="-8 -8 16 16" aria-hidden="true"><circle r="5" fill="#fff" stroke="#8a8f98" stroke-width="1.5"/></svg>Odškrtnuté a odlehlé</label></span>
+    <span class="gk" title="Měřené body v plánu">Body</span><span class="gi"><label title="Značky měřených bodů v plánu. Křížky (výchozí): kladná odchylka (bod nad rovinou) v základním odstínu, záporná (pod rovinou) v tmavším; nad 150 % tolerance silnější čára. Kolečka: kladná odchylka světlá výplň s barevným obrysem, záporná tmavá plná výplň; nad 150 % tolerance tmavý silný obrys."><svg class="gic" viewBox="-8 -8 16 16" aria-hidden="true"><path d="M-4.5-4.5L4.5 4.5M-4.5 4.5L4.5-4.5" stroke="#3b8d56" stroke-width="1.8" fill="none"/></svg><select id="rgmk" aria-label="Značky bodů"><option value="x" selected>křížky</option><option value="o">kolečka</option></select></label><label title="Zobrazí i body, které se do výpočtu nepočítají: ručně odškrtnuté (šedý prázdný kroužek) a automaticky vyřazené odlehlé (oranžový prázdný kroužek). Výchozí vypnuto."><input type="checkbox" id="rgus"> <svg class="gic" viewBox="-8 -8 16 16" aria-hidden="true"><circle r="5" fill="#fff" stroke="#8a8f98" stroke-width="1.5"/></svg>Odškrtnuté a odlehlé</label>
+    <label hidden title="Tři definiční body a přerušovaný trojúhelník roviny. Jsou zahrnuté do Celého výkresu; při vzdálených definičních bodech je lze skrýt."><input type="checkbox" id="rgref" checked> Rovina 1–2–3</label></span>
     <span class="gk" title="Popisky u bodů">Popisky</span><span class="gi"><label title="Popíše body názvem. Popisky se nepřekrývají: když není místo, popisek se vynechá (přiblížením se zobrazí další). Výchozí vypnuto."><input type="checkbox" id="rgnm"> Názvy</label><label title="Popíše body odchylkou ΔZ se znaménkem ve zvolených jednotkách a přesnosti (Nastavení). Když není místo, popisek se vynechá (přiblížením se zobrazí další). Výchozí zapnuto."><input type="checkbox" id="rgdz" checked> <span id="rgmetric">ΔZ</span></label><label title="Popíše body absolutní výškou Z v metrech na 3 desetinná místa (primárně pod značkou). Když není místo, popisek se vynechá (přiblížením se zobrazí další). V DXF vrstva BODY_vyska. Výchozí vypnuto."><input type="checkbox" id="rgzv"> Výšky</label></span>
     <span id="rgSurfaceLabel" class="gk" title="Plocha mezi body: mapa odchylek a vrstevnice z trojúhelníkové sítě (TIN) zaškrtnutých bodů">Plocha</span><span id="rgSurfaceControls" class="gi"><label title="Barevná mapa odchylek mezi body (lineární interpolace v trojúhelnících mezi zaškrtnutými body; odškrtnuté a odlehlé body se nepoužijí, v režimu latě jen body s latí). Třídy podle tolerance (výchozí): zeleně v toleranci (0 až + světlejší, − až 0 tmavší), oranžově nad tolerancí a červeně nad 150 % (k odbourání), světle modře pod tolerancí a tmavě modře pod 150 % (k doplnění). Plynulá škála: modrá – bílá – červená do ±2× tolerance. Legenda ukáže plochu tříd v m² a v %. Výchozí bez mapy."><select id="rgmp" aria-label="Mapa odchylek"><option value="cls">mapa: třídy</option><option value="cont">mapa: plynulá</option><option value="off" selected>bez mapy</option></select></label><label title="Vrstevnice odchylek: čára 0 (rovina, u latě h = 0) tlustě, hranice ±tolerance čárkovaně tmavě červeně, ostatní tence. Popisky ve směru čáry, kde je místo. Výchozí vypnuto."><input type="checkbox" id="rgct"> Vrstevnice</label><label title="Krok vrstevnic. Auto: podle tolerance asi 2–3 vrstevnice v toleranci (tolerance 5 mm → po 2 mm), ale vždy tak, aby přes celé rozpětí odchylek vyšlo zhruba 4 až 25 vrstevnic; vypočtený krok je v nabídce v závorce. Nabízejí se jen kroky, které k rozpětí odchylek dávají smysl (nejvýš 40 vrstevnic, aspoň 2 a ne jemnější než nastavená Přesnost); ostatní jsou zašedlé. Zvolený krok, který se k datům přestane hodit, se nahradí krokem auto (je to vidět v nabídce). Hranice ±tolerance se kreslí vždy."><select id="rgcs" aria-label="Krok vrstevnic"><option value="a" selected>krok auto</option><option value="0.5">po 0,5 mm</option><option value="1">po 1 mm</option><option value="2">po 2 mm</option><option value="5">po 5 mm</option><option value="10">po 10 mm</option><option value="20">po 20 mm</option><option value="50">po 50 mm</option><option value="100">po 100 mm</option><option value="200">po 200 mm</option><option value="500">po 500 mm</option></select></label><label title="Sytost barev mapy (průhlednost vůči bílému podkladu). Výchozí 60 %."><select id="rgop" aria-label="Sytost mapy"><option value="100">sytost 100 %</option><option value="80">80 %</option><option value="60" selected>60 %</option><option value="40">40 %</option><option value="25">25 %</option></select></label><label title="Zobrazí trojúhelníkovou síť (TIN), ze které se mapa a vrstevnice počítají. Výchozí vypnuto."><input type="checkbox" id="rgtn"> TIN</label><label title="Vyhlazení plochy. Lineární TIN (výchozí): uvnitř trojúhelníku se odchylka dopočítá lineárně. Hladká plocha: každý trojúhelník se rozdělí na menší (2×, 4× nebo 8× na hraně, tj. 4, 16 nebo 64 dílčích) a výška se v nich dopočte hladkou kubickou plochou; sklon v každém bodě se určí z jeho sousedů. Mapa, vrstevnice, plochy tříd, údaj při najetí myší, PDF i DXF vycházejí ze stejné plochy. Výšky v zaměřených bodech zůstanou přesně zachované, plocha nepřestřelí za hodnoty vrcholů trojúhelníku (vrcholy a prohlubně zůstanou v zaměřených bodech). U velkých měření se stupeň automaticky sníží (nejvýš asi 80 000 dílčích trojúhelníků). Volba TIN ukazuje vždy původní síť z bodů."><select id="rgsm" aria-label="Vyhlazení plochy"><option value="1" selected>lineární TIN</option><option value="2">hladká 2×</option><option value="4">hladká 4×</option><option value="8">hladká 8×</option></select></label><label title="Nejdelší hrana trojúhelníku v m. Delší trojúhelníky se vynechají, takže šachty, výřezy a vnitřní rohy zůstanou prázdné. Prázdné pole = auto, šedě vypsaná: větší z hodnot 2,5× typická vzdálenost bodů k nejbližšímu sousedovi a 1,3× delší hrana sítě – 90. percentil)."><span>Max. hrana</span> <input type="text" id="rgem" inputmode="decimal" placeholder="auto" style="width:5.2em" aria-label="Max. hrana trojúhelníku v m"> m</label></span>
     <span class="gk" title="Části výkresu mimo body">Výkres</span><span class="gi"><label title="Zobrazí / skryje údaje o měření vpravo nahoře (soubor měření a datum) a autora s verzí dole vpravo. Po odškrtnutí zůstane mimo rám jen nadpis vlevo nahoře. Výchozí vypnuto."><input type="checkbox" id="rghd"> Hlavička</label><label title="Souřadnicová mřížka ve 2D i 3D, také v PDF. Ve 2D popisy souřadnic na okraji zůstanou; ve 3D leží mřížka v referenční rovině a lze ji zobrazit i bez výplně roviny. Výchozí zapnuto."><input type="checkbox" id="rggr" checked> Mřížka</label><label title="Zobrazí / skryje legendu pod plánem (jen značky, které se v plánu vyskytují). Výchozí zapnuto."><input type="checkbox" id="rgll" checked> Legenda</label><label title="Doplní do legendy plánu, PDF a DXF kubatury vůči rovině (odbourání, doplnění, bilance, nad / pod tolerancí) a vyrovnanou výšku. Počítá se vždy z lineárního TIN zaškrtnutých bodů, i bez zapnuté mapy. Jen s legendou. Výchozí zapnuto."><input type="checkbox" id="rgvl" checked> Kubatury</label></span>
@@ -511,12 +548,12 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
     </div></div>
   <div id="rgstage"><div id="rgsvg"></div>
     <canvas id="rg3canvas" hidden aria-label="Prostorový pohled na body svislé roviny"></canvas><div id="rg3overlay" hidden></div>
+    <button type="button" id="rg3front" hidden title="Vrátí Líc: čelní 2D pohled z kladné strany odchylek, včetně posledního přiblížení a posunu.">Čelní pohled</button>
     <div id="rgcubeui" hidden>
-      <div id="rgcubecontrol"><div id="rgcubespace" tabindex="-1" role="group" title="Tažením kostky nebo Shift + tažením výkresu natočíš stěnu. Kliknutím na stěnu kostky nastavíš standardní pohled. Dvojklik a tlačítko Líc (2D) vrátí 2D. Šipky při zaměření kostky natáčejí, Home vrátí Líc (2D)."><div id="rgcube">
+      <div id="rgcubecontrol"><div id="rgcubespace" tabindex="-1" role="group" title="Tažením kostky nebo Shift + tažením výkresu natočíš stěnu. Kliknutím na stěnu kostky nastavíš standardní pohled. Dvojklik a tlačítko Čelní pohled vrátí 2D. Šipky při zaměření kostky natáčejí, Home vrátí Čelní pohled."><div id="rgcube">
         <button type="button" class="cf" data-face="front" aria-label="Líc – návrat do 2D">LÍC</button><button type="button" class="cb" data-face="back" aria-label="Rub – pohled ze záporné strany d">RUB</button><button type="button" class="cl" data-face="left" aria-label="Pohled zleva">LEVÝ</button><button type="button" class="cr" data-face="right" aria-label="Pohled zprava">PRAVÝ</button><button type="button" class="ct" data-face="top" aria-label="Pohled shora">SHORA</button><button type="button" class="cd" data-face="bottom" aria-label="Pohled zdola">ZDOLA</button>
       </div><svg id="rgcubezones" viewBox="0 0 108 108" aria-label="Hrany a rohy: přesné šikmé pohledy"></svg><div id="rgcubelabels" aria-hidden="true" hidden><span data-label-face="front" data-face="front"></span><span data-label-face="back" data-face="back"></span><span data-label-face="left" data-face="left"></span><span data-label-face="right" data-face="right"></span><span data-label-face="top" data-face="top" class="cube-pole"></span><span data-label-face="bottom" data-face="bottom" class="cube-pole"></span></div></div>
-      <div id="rgcubenav" aria-label="Sousední standardní pohledy"><button type="button" data-dir="up" aria-label="Sousední pohled nahoru" title="Sousední pohled nahoru"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" data-dir="right" aria-label="Sousední pohled vpravo" title="Sousední pohled vpravo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" data-dir="down" aria-label="Sousední pohled dolů" title="Sousední pohled dolů"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" data-dir="left" aria-label="Sousední pohled vlevo" title="Sousední pohled vlevo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div></div>
-      <button type="button" id="rg3front" title="Vrátí Líc: čelní 2D pohled z kladné strany odchylek, včetně posledního přiblížení a posunu.">Líc (2D)</button>
+      <div id="rgcubenav" aria-label="Sousední standardní pohledy"><button type="button" data-roll="left" title="Otočit v rovině pohledu o 90° doleva" aria-label="Otočit v rovině pohledu o 90° doleva"><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(-90 12 12)"><path d="m9 14-5-5 5-5M20 20v-7a4 4 0 0 0-4-4H4"/></g></svg></button><button type="button" data-roll="right" title="Otočit v rovině pohledu o 90° doprava" aria-label="Otočit v rovině pohledu o 90° doprava"><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(90 12 12)"><path d="m15 14 5-5-5-5M4 20v-7a4 4 0 0 1 4-4h12"/></g></svg></button><button type="button" data-dir="up" aria-label="Sousední pohled nahoru" title="Sousední pohled nahoru"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" data-dir="right" aria-label="Sousední pohled vpravo" title="Sousední pohled vpravo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" data-dir="down" aria-label="Sousední pohled dolů" title="Sousední pohled dolů"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" data-dir="left" aria-label="Sousední pohled vlevo" title="Sousední pohled vlevo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div></div>
       <label id="rg3factorcontrol" hidden title="Zvětší pouze vykreslené kolmé odchylky od roviny. Výpočty, popisky a exporty zůstávají skutečné. V čelním 2D pohledu se zvětšení nepoužije."><span id="rg3factorlabel">Zvětšení d</span> <select id="rg3factor" aria-label="Zvětšení kolmých odchylek v prostoru"><option value="1">1×</option><option value="2">2×</option><option value="5">5×</option><option value="10">10×</option><option value="20">20×</option><option value="50">50×</option><option value="100">100×</option></select></label>
       <label id="rg3planecontrol" hidden title="Zobrazí průhlednou referenční rovinu d = 0."><input type="checkbox" id="rg3plane" checked> Rovina</label>
     </div>
@@ -534,12 +571,12 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 <div class="row" style="margin:8px 0 0"><input type="search" id="ims" placeholder="Hledat v popisu…" autocomplete="off" aria-label="Hledat v popisu" title="Hledá bez ohledu na diakritiku a velikost písmen, nalezené zvýrazní zeleně. Enter nebo Tab = další nález, Shift+Enter nebo Shift+Tab = předchozí, Esc = smaže hledání."><span id="imc" aria-live="polite"></span></div></div>
 <div id="imb">
 <p style="color:var(--mut)">GeoMAT verze <span class="ver"></span> · Autor: Jan Bartůněk · všechno se počítá lokálně v prohlížeči, data se nikam neodesílají.</p>
-<h3>Prostorový plán ZSS pilot</h3><p>Krychle N/E/S/W, stěny, hrany a rohy ovládají 3D pohled. Půdorys, dvojklik nebo Home vrátí původní 2D plán. Tažení krychle nebo Shift + tažení výkresu natáčí; běžné tažení posouvá, kolečko přibližuje, F přizpůsobí celý výkres. Zobrazují se skutečné výšky bez zvětšování. Vyhodnocené středy jsou ve 3D vždy označeny; měřené body, kružnice, PD bez piloty a popisky respektují volby plánu. Kružnice jsou vodorovné průřezy ve výšce příslušného středu, nikoli válce pilot.</p><p>PD s výškou 0 je skutečný prostorový bod. PD bez výšky je šedá projekce v popsané pomocné rovině, nepoužije se pro prostorovou spojnici ani ΔZ a v DXF 3D se vynechá. PDF 3D uloží aktuální pohled na A3; DXF 3D uloží skutečné souřadnice CAD X = −Y, CAD Y = −X, CAD Z = Z. Původní PDF a DXF zůstávají 2D a nemění se natočením. Kliknutí na bod se známou pilotou propojí pohled s tabulkou; tooltip ukazuje skutečné hodnoty.</p>
-<h3>Způsob zaměření</h3><p>V kartě Body a výstup jsou tři režimy. Automaticky zachovává současné vyhodnocení obvodových bodů i středů. Pouze středy bere každý vybraný bod jako samostatný přímo zaměřený střed, bez hledání kružnic, slučování souřadnic a průměrování. Platí filtr názvů/kódů, přiřazení k PD, mez odchylky, ΔZ a ruční výběr. Bez jediného ručně zadaného typického průměru se vykreslí pouze střed a průměr v tabulce i CSV zůstane neurčený. Opakované názvy a více bodů u stejného PD se označí k prověření. Pouze obvod určuje středy pouze z kružnic; zaměřené středy nepřebírá ani neváží. Nepoužitelné volby jsou zašedlé a zachovávají hodnoty pro návrat do jiného režimu. Režim se pamatuje; Výchozí hodnoty vrátí Automaticky.</p>
 <h3>K čemu slouží</h3>
-<p>Vyhodnotí zaměření skutečného stavu (ZSS) vrtaných pilot: ze změřených bodů na plášti pilot vypočte středy kružnic, porovná je s projektem a vytvoří tabulku, plán (PDF a DXF) a soubory se středy.</p>
+<p>Vyhodnotí zaměření skutečného stavu pilot: vypočte středy z obvodových bodů nebo použije přímo zaměřené středy, porovná je s projektem a zobrazí polohové odchylky a při známé výšce PD také ΔZ. Nabízí tabulku, půdorysný a prostorový plán, výstupy STX a CSV a exporty PDF a DXF. Výpočty i ukládání probíhají místně v prohlížeči.</p>
+<h3>Způsob zaměření</h3><p>V kartě Body a výstup jsou tři režimy. Automaticky zachovává současné vyhodnocení obvodových bodů i středů. Pouze středy bere každý vybraný bod jako samostatný přímo zaměřený střed, bez hledání kružnic, slučování souřadnic a průměrování. Platí filtr názvů/kódů, přiřazení k PD, mez odchylky, ΔZ a ruční výběr. Bez jediného ručně zadaného typického průměru se vykreslí pouze střed a průměr v tabulce i CSV zůstane neurčený. Opakované názvy a více bodů u stejného PD se označí k prověření. Pouze obvod určuje středy pouze z kružnic; zaměřené středy nepřebírá ani neváží. Nepoužitelné volby jsou zašedlé a zachovávají hodnoty pro návrat do jiného režimu. Režim se pamatuje; Výchozí hodnoty vrátí Automaticky.</p>
+<h3>Prostorový plán ZSS pilot</h3><p>Krychle N/E/S/W, stěny, hrany a rohy ovládají 3D pohled. Dvě zahnuté šipky otáčejí v rovině aktuálního pohledu po 90°, bez změny směru pohledu. Tlačítko Půdorys je v záhlaví vpravo nad kostkou. Světové strany označují směry souřadnicových os, nikoli zeměpisný sever; přesný směr je v tooltipu. Půdorys, dvojklik nebo Home vrátí původní 2D plán. Tažení krychle nebo Shift + tažení výkresu natáčí; běžné tažení posouvá, kolečko přibližuje, F přizpůsobí celý výkres. Zobrazují se skutečné výšky bez zvětšování. Vyhodnocené středy jsou ve 3D vždy označeny; měřené body, kružnice, PD bez piloty a popisky respektují volby plánu. Kružnice jsou vodorovné průřezy ve výšce příslušného středu, nikoli válce pilot.</p><p>PD s výškou 0 je skutečný prostorový bod. PD bez výšky je šedá projekce v popsané pomocné rovině, nepoužije se pro prostorovou spojnici ani ΔZ a v DXF 3D se vynechá. PDF 3D uloží aktuální pohled na A3; DXF 3D uloží skutečné souřadnice CAD X = −Y, CAD Y = −X, CAD Z = Z. Původní PDF a DXF zachovávají půdorys bez vlivu natočení. Bodové prvky půdorysného DXF si ponechávají výšky podle popisu exportu. DXF 3D obsahuje také hroty šipek od PD ke skutečnosti a popisky dp, dY, dX, dZ v mm. U PD bez Z se uvedou jen polohové odchylky u skutečného středu, bez prostorové šipky. Kliknutí na bod se známou pilotou propojí pohled s tabulkou; tooltip ukazuje skutečné hodnoty.</p>
 <h3>1. Měření</h3>
-<ul><li>Soubor STX přetáhni do zeleného okna nebo ho načti tlačítkem; tlačítkem „Zrušit SS“ s ikonou zaměření ho zase odebereš (u projektu „Zrušit SS“ s ikonou listu). Sloupce vždy v tomto pořadí: 1. název bodu, 2. Y, 3. X, 4. Z (povinné), 5. kód (volitelný). Souřadnice v metrech, JTSK i místní systém. Plán počítá s kladnými hodnotami Y a X (jako v běžné geodetické praxi: Y roste na západ, X na jih). U záporných souřadnic (EPSG:5514) je výkres otočený o 180° a popisky os „západ/jih“ neplatí.</li>
+<ul><li>Soubor STX přetáhni do zeleného okna nebo ho načti tlačítkem; tlačítkem „Zrušit SS“ s ikonou zaměření ho zase odebereš (u projektu „Zrušit SS“ s ikonou listu). Sloupce vždy v tomto pořadí: 1. název bodu, 2. Y, 3. X, 4. Z (povinné), 5. kód (volitelný). Souřadnice v metrech, JTSK i místní systém. Plán zachovává orientaci Y doleva a X dolů pro obvyklé kladné souřadnice JTSK; jde o souřadnicové směry. U místní soustavy platí její vlastní orientace. Záporné hodnoty EPSG:5514 se automaticky nepřevádějí na kladné Y, X JTSK.</li>
 <li>Povolené přípony souborů: STX, TXT, CSV. Oddělovač může být mezera, tabulátor nebo středník, desetinná tečka i čárka. Pozor: čárka jako oddělovač sloupců společně s desetinnou čárkou je nejednoznačné (řádek „A,1,5,2,3“ se chápe jako 5 sloupců) – u desetinné čárky proto radši použij středník nebo mezeru. Řádky s málo sloupci, nečíselnými souřadnicemi nebo bez Z se přeskočí, výpis je v logu pod tabulkou. Povolený rozsah souřadnic (měření i projekt): Y a X od −9 999 999,999 do 9 999 999,999 m, Z od −9 999,999 do 9 999,999 m; řádek mimo rozsah se přeskočí a vyskočí varovací toast. Název bodu s mezerou je možný jen při oddělovači středník nebo tabulátor.</li>
 <li>Výchozí: použijí se body s kódem nebo s předponou názvu <b>ZSS</b>, <b>PIL</b> nebo <b>ZSSPIL</b> (apriorní kódy, ve skupině „Body a výstup“ zobrazené jako pilulky bez křížku); zaškrtnutím volby „Všechny body“ (první ve skupině „Body a výstup“) se použijí všechny body v souboru bez omezení názvů. Ve skupině „Body a výstup“ lze přidat až 20 vlastních kódů (písmena A–Z a číslice bez diakritiky, 1 až 8 znaků; <kbd>Enter</kbd> nebo tlačítko „Přidat“): body s takovým kódem nebo předponou názvu se použijí také. Dvacátý první kód přepíše nejstarší vložený, kód odebereš křížkem. Vlastní kódy se pamatují v prohlížeči a „Výchozí hodnoty“ je smažou; při zapnuté volbě „Všechny body“ se nepoužívají (použijí se všechny body).</li></ul>
 <p>Tlačítka „Načíst SS“ (v zóně Měření s ikonou zaměření, v zóně Projekt s ikonou listu) jsou vybarvená, jen když je příslušný soubor načtený; tlačítka „Zobrazit plán“, ikona rozdělené obrazovky, ukládání a kopírování jsou zašedlé, dokud není co zobrazit nebo uložit (tooltip říká proč); po odemčení přes tlačítko Plán (ikona mřížky s kružnicemi) jednou přejede světelný pruh, ikona rozdělené obrazovky je zelená, když je plán otevřený, a ukládání a kopírování mají jen obrys; „Výchozí hodnoty“ jsou zašedlé, když jsou všechny parametry na výchozích hodnotách (není co vracet), jinak mají jen obrys; ostatní tlačítka mají pouze obrys.</p>
@@ -592,7 +629,8 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 <div id="imb2">
 <p style="color:var(--mut)">GeoMAT verze <span class="ver"></span> · Autor: Jan Bartůněk · všechno se počítá lokálně v prohlížeči, data se nikam neodesílají.</p>
 <h3>K čemu slouží</h3>
-<p>Porovná zaměřené body plochy (deska, podlaha, strop) se zadanou rovinou a ukáže odchylku každého bodu. Vodorovná rovina má úplné vyhodnocení. U svislé roviny je dostupná tabulka kolmých odchylek, staničení, pohled na stěnu, rovinnost latí, robustní filtrace, TIN, mapa, vrstevnice a kubatury; obecnou rovinu lze zatím jen zadat.</p>
+<p>Vyhodnotí vodorovné plochy a svislé stěny ze zaměřených bodů: odchylky od zadané roviny, rovinnost latí, tolerance, sklon či odklon, RMS vůči vyrovnané rovině a kubatury. Pro oba typy nabízí tabulku, 2D a 3D plán, TIN, mapu odchylek, vrstevnice a exporty STX, CSV, PDF a DXF. Obecnou rovinu lze zatím pouze zadat a zkontrolovat její definici.</p>
+<p>CSV a kopírování do schránky mají společné záhlaví s verzí GeoMAT, typem roviny, jednotkami, přesností a rozsahem použitých bodů. Výběr bodových řádků respektuje filtr; kubatury, sklon / odklon a RMS používají všechny zaškrtnuté body, což je v záhlaví výslovně uvedeno. Původní souřadnice bodů se zachovávají.</p>
 <h3>1. Měření</h3>
 <ul><li>Soubor STX, TXT nebo CSV přetáhni do zeleného okna, nebo ho načti tlačítkem <b>Načíst SS</b> s ikonou zaměření. Načíst lze jednotlivě i víc souborů najednou, celkem nejvýš 50. Každý soubor má štítek s křížkem pro odebrání, <b>Zrušit SS</b> odebere všechny.</li>
 <li>Sloupce vždy v pořadí: 1. název bodu, 2. Y, 3. X, 4. Z (povinné), 5. kód (volitelný). Souřadnice v metrech. Oddělovač mezera, tabulátor nebo středník, desetinná tečka i čárka – stejně jako v ZSS pilot. Duplicity v měření se jen ohlásí (stavový řádek a log), oba body se dál počítají: stejný název bodu (i mezi soubory) a dva body ve stejné poloze Y, X do 1 mm (i s rozdílem Z).</li>
@@ -628,16 +666,20 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 <li><b>Souhrn</b> pod tabulkou: min, max, průměr a směrodatná odchylka ΔZ a rozpětí max − min (u vodorovné roviny vlastně rovinnost vůči vodorovné) a počty bodů v toleranci, nad tolerancí a nad 150 % tolerance (nulový počet není zvýrazněn).</li>
 <li><b>Kubatury</b> (druhý řádek souhrnu): objem k <b>odbourání</b> (nad rovinou) a k <b>doplnění</b> (pod rovinou) v m³ a jejich <b>bilance</b> (kladná = přebytek, záporná = nedostatek). Počítá se z lineárního TIN zaškrtnutých bodů (stejná síť a Max. hrana jako mapa v plánu, ale vždy bez vyhlazení a vždy z ΔZ, i v režimu latě); trojúhelník přes rovinu se rozdělí přesně na čáře 0 a objem části je plocha × průměr odchylek ve vrcholech. Mimo síť (šachty, výřezy, za obrysem bodů) se nepočítá, proto se vypisuje i plocha. <b>Odbourat nad +tolerancí</b> a <b>doplnit pod −tolerancí</b>: jen objem za hranicí tolerance, tj. kolik je nutné odstranit nebo doplnit, aby plocha byla v toleranci. <b>Citlivost</b>: změna kubatury při posunu o 1 mm (plocha × 1 mm). Počítá se z nezaokrouhlených ΔZ.</li>
 <li><b>Vyrovnaná výška roviny</b> (třetí řádek souhrnu): výška, při které je bilance nulová – průměrná výška plochy vážená plochou trojúhelníků (nemusí se rovnat průměru výšek bodů), zaokrouhlená podle nastavené Přesnosti (0,1 mm / 1 mm / 1 cm). Ukáže se rozdíl proti zadané rovině a kubatury při ní; zbytek bilance vzniká jen zaokrouhlením. Tlačítko <b>Převzít</b> zapíše výšku do pole roviny, <b>Vrátit</b> obnoví původní výšku. Kubatury a vyrovnaná výška jsou i v záhlaví CSV a kopírování do schránky a s volbou <b>Kubatury</b> (skupina Výkres) v legendě plánu, PDF a DXF (vrstva LEGENDA).</li></ul>
+<h3>Obecná rovina — část 3/5</h3><p>Tři body Y, X, Z určují referenční rovinu. Tabulka zachovává původní souřadnice a přidává místní x′, y′ v metrech a kolmou odchylku d podle nastavených jednotek. Počátek je v bodě 1, +x′ vede k bodu 2; výchozí +y′ směřuje ke straně bodu 3. Při pohledu z +d jde +x′ k +y′ po směru hodinových ručiček, stejně jako +X k +Y v JTSK. Obrácení kladné strany obrátí d i y′, nikoli x′ nebo původní XYZ.</p><p>Posun v mm a min/max/průměr/medián kolmých odchylek všech PD se známou výškou posouvají všechny tři definiční body stejně, bez změny sklonu. Nabídka Podle bodů PD umožňuje vrátit původní body i orientaci před prvním posunem. Výběr z nabídky platí ihned; číselný posun se provede Enterem nebo opuštěním pole. Čelní 2D plán ukazuje průměty měřených bodů: x′ roste dolů, y′ doleva. Značka kruhu s tečkou a +d označuje směr k pozorovateli. Volitelná Rovina 1–2–3 zobrazí tři definiční body a přerušovaný trojúhelník; Celý výkres zahrne i tyto body. Názvy, skutečné výšky Z, odchylky d, mřížka, legenda, měřítko a propojení s tabulkou používají stejné ovládání jako ostatní plány. Kolečko přibližuje kolem kurzoru, tažení posouvá, F přizpůsobí celý výkres a V přepíná tabulku, rozdělenou obrazovku a celý plán. Lať i robustní filtrace pracují v místní soustavě x′, y′, d. Barvy, mapa a vrstevnice v režimu latě používají h; kubatury vždy skutečné d a lineární TIN, nezávisle na vyhlazení i filtru tabulky. Plocha se měří v referenční rovině x′, y′. Vyrovnaný posun vychází z plošně váženého průměru d; Převzít posune všechny tři definiční body kolmo, Vrátit posun obnoví předchozí zadání. Úhel vůči zadané rovině a RMS vycházejí z ortogonálního vyrovnání původních XYZ všech použitých bodů, nezávisle na filtru a hodnotách h. Body se stejným průmětem a různým d vyvolají upozornění a zablokují lať, mapu i kubatury, dokud neodškrtneš body dalších povrchů. V malém okně se legenda podle potřeby zkrátí: zachová barevné intervaly, podrobné kubatury zůstanou v souhrnu pod tabulkou. Část 4 doplní prostorový plán, část 5 exporty a závěrečnou kontrolu; tyto funkce zatím nejsou dostupné.</p>
 <h3>Svislá rovina</h3>
 <ul><li>Zadej dva různé body Y, X ručně nebo výběrem z PD. Otevření nabídky pole bodu zobrazí všechny možnosti, i když pole obsahuje zvolený bod. Teprve psaní nabídku filtruje podle názvu. Šipka u pole vždy znovu nabídne vše; výběr lze provést myší nebo šipkami a Enterem. Rovina je svislá a nekonečná, výšky definičních bodů nejsou potřeba.</li>
 <li><b>d</b> je kolmá vodorovná odchylka: kladná vpravo od směru 1 → 2 při pohledu shora (před rovinou, vystupuje), záporná vlevo (za rovinou, ustupuje). Přebývající materiál lze takto interpretovat, pokud kladná strana míří do volného prostoru.</li>
 <li><b>s [m]</b> je staničení průmětu bodu po stopě roviny od bodu 1 směrem k bodu 2. Body mimo úsek se také vyhodnotí. Tlačítko <b>Prohodit body 1 ↔ 2</b> obrátí znaménko d a změní staničení na L − s; absolutní odchylky a tolerance se nezmění.</li>
 <li><b>„Vrátit zadané body“ v nabídce „Podle bodů PD“</b>: výběrem po prvním posunu obnoví původní dva definiční body včetně pořadí a výběru z PD. Funguje i po více posunech a obnovení stránky. Po návratu se další posuny počítají jako nová série.</li>
+<li><b>Výběr bodu šipkou</b>: první kliknutí otevře úplnou nabídku, další kliknutí na tutéž šipku ji zavře. Psát lze přímo do pole; jen při psaní se seznam filtruje. Enter potvrdí volbu, Escape ji zavře bez převzetí rozepsaného názvu.</li>
 <li><b>Vlastní posun [mm]</b>: zadej kladnou nebo zápornou hodnotu (čárka i tečka) a potvrď Enterem nebo opuštěním pole. Během psaní se rovina neposouvá. Kladný posun míří vpravo od 1 → 2 při pohledu shora, záporný vlevo. Další změna hodnoty provede další posun. Enter následovaný opuštěním pole provede posun pouze jednou. Vypočtené souřadnice se v polích zobrazují na 3 desetinná místa v metrech; výpočet zachovává vyšší přesnost, dostupnou v tooltipu.</li>
 <li><b>Posun podle PD</b>: po zadání dvou různých bodů lze rovinu rovnoběžně posunout podle minima, maxima, průměru nebo mediánu kolmých odchylek všech načtených PD. Výšky PD nejsou potřeba. Min posune rovinu na nejmenší kolmou souřadnici PD, max na největší; průměr vynuluje průměrnou odchylku PD, medián jejich medián. Výběr statistiky provede posun ihned; nabídka se pak vrátí na „Vybrat…“, takže lze znovu vybrat i stejnou statistiku. Oba definiční body dostanou stejný kolmý posun; nové zadání se uloží. Další změny PD rovinu automaticky neposouvají.</li>
 <li>Fungují tabulka, řazení, filtry, zaškrtávání, jednotky, přesnost a statistiky. Definice se pamatuje po obnovení stránky. Krátká základna vůči rozsahu měření vyvolá upozornění.</li>
 <li><b>Pohled na stěnu</b>: zobrazí se z kladné strany roviny; staničení s roste doprava a výška Z nahoru. Barvy a popisky ukazují kolmou odchylku d. Kolečko přibližuje kolem kurzoru, tažení posouvá, F vrátí celý výkres. V přepíná tabulku, rozdělenou obrazovku a celý pohled. Kliknutí propojuje bod s tabulkou; šipky mění výběr. Názvy, výšky, odchylky, značky, písmo, mřížka a legenda jsou nastavitelné. Osy mají stejné měřítko, původní Y, X, Z se nemění. Ve 2D plánu i PDF je dole měřítková lišta v metrech, která se přizpůsobuje přiblížení; platí také pro půdorys vodorovné plochy. Mřížku lze zapnout samostatně ve 2D i 3D, ve 3D také při skryté výplni referenční roviny.</li>
 <li><b>Sklon a odklon zaměřené plochy</b>: pod souhrnem se zobrazuje výsledek ortogonálního vyrovnání roviny ze všech zaškrtnutých bodů, se stejnou vahou a ze skutečných Y, X, Z. Filtr tabulky ani režim latě rozsah výpočtu nemění; vyřazené body se nepoužijí, ručně vrácené ano. U vodorovné plochy je sklon v mm/m a stupních a směr největšího stoupání od osy −X směrem k −Y (0° = −X, 90° = −Y, 180° = +X, 270° = +Y); nejde o zeměpisný azimut a neuplatňuje se meridiánová konvergence. U svislé plochy je odklon od svislice, jeho směr k +d / −d a samostatné natočení vůči stopě 1 → 2; kladné natočení stáčí stopu ve směru 1 → 2 ke straně +d. Jde o informaci o celkovém náklonu; zadaná rovina, odchylky, tolerance a kubatury se nemění. Údaje jsou také v PDF 2D, PDF 3D a záhlaví CSV / kopírované tabulky; u exportů je uvedeno, že platí pro všechny zaškrtnuté body bez ohledu na filtr. Je potřeba alespoň 3 plošně rozmístěné body; téměř přímkové nebo prostorově nejednoznačné soubory se označí jako nespolehlivé. U vodorovné plochy bez sklonu se směr stoupání neurčuje.</li>
+<li><b>RMS od vyrovnané roviny</b>: odmocnina průměru čtverců kolmých vzdáleností všech použitých bodů od ortogonálně vyrovnané roviny, tedy √(Σd²/n). Má stejné jednotky a zobrazenou přesnost jako odchylky. Ukazuje, jak těsně body přiléhají k jedné rovině; nevyjadřuje přesnost měření a nenahrazuje kontrolu vůči zadané rovině ani vyhodnocení latí. Filtr tabulky výsledek nemění. Je v souhrnu, CSV / schránce a PDF 2D i 3D. Při neurčitelné vyrovnané rovině se RMS neuvádí.</li>
+<li><b>Opakovatelnost TIN</b>: před triangulací se body seřadí stálým pravidlem. Pokud čtyři body připouštějí obě úhlopříčky (leží na společné kružnici v mezích strojového zaokrouhlení), přednost dostane úhlopříčka podle stálého pořadí názvů bodů, nikoli pořadí řádků v souboru. Shodné názvy mají doplňkové řazení podle souřadnic. Souřadnice ani odchylky se nepřepisují. Téměř nulové okrajové trojúhelníky vzniklé pouze zaokrouhlením se vynechají. Stejné pravidlo používají mapa, vrstevnice, vyhlazení, kubatury i výstupy. U pravidelných sítí může mít volba úhlopříčky vliv na interpolovanou plochu; cílem pravidla je opakovatelné geometrické řešení.</li>
 <li><b>Lať na stěně</b>: výpočet probíhá v pohledu (s, Z) a výškovou veličinou je kolmá odchylka d. h je rozdíl d bodu a interpolované odchylky spojnice konců latě. Zůstávají délka, min. rozpětí, pás, tolerance a varianty ± / jen prohlubeň. Tolerance stěny je uživatelská; podlahové kategorie se pro ni nepoužívají. Vybráním bodu s latí se rozhodující spojnice vyznačí v pohledu.</li>
 <li><b>Robustní filtrace stěny</b>: sousedé se hledají v (s, Z), vůči skutečně zaměřené stěně se vyrovnávají kolmé odchylky d. Posunutá nebo mírně natočená stěna se tím nevyřadí. Platí dosavadní 10% pojistka, ruční vrácení odlehlých bodů a vynechání odškrtnutých bodů. Pokud body v pohledu leží v přímce, plošná filtrace se neprovede a program vysvětlí proč.</li>
 <li><b>Plocha stěny</b>: TIN, maximální hrana a vyhlazení se počítají v pohledu (s, Z). Mapa a vrstevnice zobrazují d, v režimu latě h (jen body s latí). Souřadnice měření se nemění. Mapa používá všechny zaškrtnuté a nevyřazené body, nezávisle na filtru tabulky.</li>
@@ -648,14 +690,14 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 <li><b>PDF A3</b>: celý pohled (s, Z), stejné volby značek, mapy, vyhlazení, vrstevnic a legendy jako na obrazovce; aktuální přiblížení se nepřebírá.</li>
 <li><b>DXF</b>: samostatné tlačítko <b>DXF 2D</b> uloží <b>pohled (s, Z)</b>, tlačítko <b>DXF 3D</b> uloží <b>3D JTSK</b>. Obě mají původní ikonu stahování a velikost tlačítka DXF; stejné volby jsou v sekci Export i v liště pohledu. Shift+S uloží 2D pohled. Pohled je čistě 2D: CAD X = s, CAD Y = výška Z, CAD Z = 0. Ve 3D je CAD X = −Y JTSK, CAD Y = −X JTSK a CAD Z = původní výška Z. Skutečná poloha bodů, jejich značek i popisků obsahuje d; h od latě se nikdy nepoužije místo skutečné souřadnice. Barevná mapa a vrstevnice ve 3D leží na interpolované stěně: v režimu roviny na zvolené ploše d, u latě na lineární ploše d s barvami podle h. Legenda a nadpis leží v referenční rovině. Soubor obsahuje oba definiční body, převod souřadnic a pravidlo znamének v komentářích záhlaví. Texty jsou kvůli kompatibilitě DXF bez diakritiky. PDF a DXF respektují zobrazení bodů včetně volby odškrtnutých a odlehlých; plocha používá všechny použité body.</li></ul>
 <h3>Ovládací krychle: stěny, hrany a rohy</h3>
-<ul><li>Popisky obou krychlí zůstávají vodorovně čitelné. Aktivní přesný pohled je zvýrazněn; při šikmém natočení není žádná stěna označena jako přesně zvolená. Najetí zvýrazní příslušnou stěnu i popisek.</li><li>Kliknutí na hranu nastaví šikmý pohled mezi dvěma stranami, kliknutí na roh mezi třemi. Hrany a rohy mají tooltip a jsou dostupné klávesou Tab a Enter nebo mezerníkem. Při jejich zaměření se zvýrazní související stěny.</li><li>Kliknutí na stěnu nebo šipku provede krátký plynulý přechod. Čtyři rychlá kliknutí na stejnou šipku stále znamenají čtyři otočení po 90°. Tažení, posun či zoom přechod přeruší v aktuální poloze. Systémové omezení animací se respektuje. Home a dvojklik obnoví 2D okamžitě; tlačítko Půdorys / Líc (2D) také umožňuje jednoznačný návrat.</li></ul>
+<ul><li>Dvě zahnuté šipky vedle horní šipky otáčejí obraz v rovině pohledu o 90° doleva nebo doprava, i při šikmém natočení. Návratové tlačítko Půdorys / Čelní pohled je v záhlaví nad kostkou. Popisky obou krychlí zůstávají vodorovně čitelné. Aktivní přesný pohled je zvýrazněn; při šikmém natočení není žádná stěna označena jako přesně zvolená. Najetí zvýrazní příslušnou stěnu i popisek.</li><li>Kliknutí na hranu nastaví šikmý pohled mezi dvěma stranami, kliknutí na roh mezi třemi. Hrany a rohy mají tooltip a jsou dostupné klávesou Tab a Enter nebo mezerníkem. Při jejich zaměření se zvýrazní související stěny.</li><li>Kliknutí na stěnu nebo šipku provede krátký plynulý přechod. Čtyři rychlá kliknutí na stejnou šipku stále znamenají čtyři otočení po 90°. Tažení, posun či zoom přechod přeruší v aktuální poloze. Systémové omezení animací se respektuje. Home a dvojklik obnoví 2D okamžitě; tlačítko Půdorys / Čelní pohled také umožňuje jednoznačný návrat.</li></ul>
 <h3>Prostorové natočení vodorovné roviny</h3>
 <ul><li>Vodorovná rovina má ovládací kostku se značkami N, E, S, W (sever, východ, jih, západ), nahoře Shora a dole Zdola. Popisky obou krychlí zůstávají vodorovně čitelné i při natočení; příliš úzké stěny popisek nezobrazují, aby se nepřekrýval. Směry vycházejí z os JTSK používaných v půdorysu: N = −X, E = −Y, S = +X, W = +Y. Značka N znamená pohled od severu k jihu; plný název i směr osy jsou v tooltipu a v nápovědě sousedních šipek. Výchozí je původní 2D půdorys; horní stěna kostky, tlačítko Půdorys, dvojklik a Home jej obnoví včetně posledního přiblížení. Čtyři šipky otáčejí po 90° a čtyři kliknutí stejným směrem vrátí výchozí orientaci. Tažení kostky nebo Shift + tažení výkresu plynule natáčí, běžné tažení posouvá, kolečko přibližuje a F přizpůsobí celý výkres.</li>
 <li>Prostorový pohled zobrazuje měřené body, TIN, barevnou mapu, vrstevnice a přepínatelnou referenční rovinu v zadané výšce Z. Zvětšení ΔZ 1–2–5–10–20–50–100× mění jen zobrazené výškové odchylky, kladně nad rovinou. Půdorysné polohy a všechny číselné hodnoty zůstávají skutečné; také v režimu latě poloha používá ΔZ, barvy a popisky h. Čísla bodů, výšky, odchylky, výběr a vazba na tabulku fungují i ve 3D.</li>
 <li>Mapa, TIN, vrstevnice, vyhlazení, Max. hrana a legenda včetně kubatur používají stejné nastavení jako 2D půdorys. Barvy vycházejí z ΔZ nebo h; prostorová geometrie je v režimu roviny ze zvolené interpolace ΔZ, v režimu latě z lineárního TIN skutečných ΔZ. Zakryté body se nezobrazují před plochou a nemají popisky ani přednost při výběru. Najetí na plochu ukáže skutečné interpolované hodnoty; při výběru bodu v režimu latě se vyznačí její měřené konce. Původní PDF, DXF 2D, CSV a STX nadále exportují dosavadní hodnoty a 2D výkres nezávisle na natočení. Samostatné tlačítko DXF 3D uloží skutečnou polohu bodů, mapy, TIN a vrstevnic v JTSK: CAD X = −Y, CAD Y = −X, CAD Z = výška Z. V režimu latě barvy a vrstevnice zobrazují h, ale geometrie používá skutečné ΔZ z lineárního TIN. Popisky bodů jsou ve výšce měřeného bodu, legenda a záhlaví v referenční rovině. Vrstva BODY_souradnice obsahuje měřené body jako POINT; referenční výška a převod souřadnic jsou v komentářích souboru. Natočení ani zvětšení ΔZ tento export neovlivňuje. Samostatné PDF 3D uloží aktuální natočení, přiblížení a zvětšení ΔZ na jednu stránku A3. Geometrie je statický obraz, popisky a legenda zůstávají textové; násobek zvětšení je v záhlaví. Původní PDF nadále ukládá celý 2D půdorys bez zvětšení odchylek. Při nedostupném WebGL zůstává funkční půdorys.</li></ul>
 <h3>Prostorové natočení svislé roviny</h3>
 <ul><li>U svislé roviny je v pravém horním rohu výkresu ovládací kostka. Výchozí zobrazení je dosavadní čelní 2D pohled. Tažení kostky nebo Shift + tažení výkresu otáčí skutečné polohy měřených bodů v souřadnicích (s, Z, d). Výchozí měřítko je skutečné 1×. Volba Zvětšení d zvětší jen vykreslené kolmé odchylky 2×, 5×, 10×, 20×, 50× nebo 100×; staničení a výšky se nezvětšují. V záhlaví je při zvětšení vždy výrazné upozornění. Číselné hodnoty, tolerance, statistiky, kubatury, čelní PDF a oba DXF zůstávají skutečné. Samostatné tlačítko PDF 3D uloží aktuální prostorový pohled včetně přiblížení a zvětšení d na A3; jde o statický pohled, nikoli o interaktivní 3D PDF. Původní PDF zůstává celým čelním 2D pohledem a oba DXF zachovávají skutečné rozměry. Zvolený násobek se pamatuje po obnovení stránky; v čelním 2D pohledu je neaktivní.</li>
-<li>Kliknutí na kteroukoli ze šesti stěn kostky nastaví přesně Líc, Rub, levý, pravý, horní nebo dolní pohled. Líc je pohled z kladné strany odchylek d a obnoví čelní 2D pohled; Rub je pohled ze záporné strany. Čtyři malé šipky kolem kostky otočí pohled o 90° ve zvoleném směru. Čtyři kliknutí na stejnou šipku obnoví výchozí orientaci, včetně horního a dolního pohledu. U šikmého natočení se nejprve použije nejbližší orientace kostky; tooltip šipky předem uvede cílový pohled. Tlačítko Líc (2D) i dvojklik kostky obnoví původní 2D výřez. Při zaměření kostky šipky natáčejí a Home vrátí Líc (2D). Běžné tažení posouvá; kolečko přibližuje kolem kurzoru. F přizpůsobí všechny zobrazené body i referenční rovinu a zachová natočení.</li>
+<li>Kliknutí na kteroukoli ze šesti stěn kostky nastaví přesně Líc, Rub, levý, pravý, horní nebo dolní pohled. Líc je pohled z kladné strany odchylek d a obnoví čelní 2D pohled; Rub je pohled ze záporné strany. Čtyři malé šipky kolem kostky otočí pohled o 90° ve zvoleném směru. Čtyři kliknutí na stejnou šipku obnoví výchozí orientaci, včetně horního a dolního pohledu. U šikmého natočení se nejprve použije nejbližší orientace kostky; tooltip šipky předem uvede cílový pohled. Tlačítko Čelní pohled i dvojklik kostky obnoví původní 2D výřez. Při zaměření kostky šipky natáčejí a Home vrátí Čelní pohled. Běžné tažení posouvá; kolečko přibližuje kolem kurzoru. F přizpůsobí všechny zobrazené body i referenční rovinu a zachová natočení.</li>
 <li>Prostorový pohled zobrazuje body, TIN, mapu, vrstevnice, popisky a přepínatelnou průhlednou referenční rovinu d = 0. Polohy vždy určuje d, také při barvení podle h od latě. Plocha používá stejné nastavení, Max. hranu a vyhlazení jako 2D. V režimu latě mapa a vrstevnice zobrazují h, ale prostorová poloha používá lineárně interpolované skutečné d. Výběr a popisky zohledňují zakrytí plochou a popisky se nepřekrývají. Kliknutí na bod jej propojí s tabulkou; najetí mimo bod ukáže skutečné interpolované hodnoty plochy. Výpočty, statistiky, čelní PDF a oba DXF se natočením nemění. PDF 3D zachytí aktuální prostorový pohled.</li>
 <li>Vykreslovač je přímo v souboru a nepotřebuje internet. Pro natočený pohled vyžaduje WebGL; při jeho nedostupnosti nebo přerušení zůstane čelní 2D pohled funkční. Natočení se uchovává během práce, po obnovení stránky se začíná čelním pohledem. Při natáčení, posunu a zoomu se podrobné popisky dočasně vynechají a po zastavení se automaticky doplní; geometrie a barvy zůstávají plné. V malém prostorovém výřezu nebo při velkém písmu se legenda zkrátí tak, aby nepřekrývala kresbu; podrobné hodnoty zůstávají v tabulce a v úplném čelním výkresu.</li></ul>
 <h3>Rovinnost latí na vodorovné ploše</h3>
@@ -717,12 +759,12 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
     <button class="wi io" id="gsp" type="button" aria-label="Rozdělená obrazovka" title=""><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3.5" width="18" height="17" rx="2" stroke-width="1.8"/><path d="M3 12h18" stroke-width="1.8"/><rect x="5.5" y="14.2" width="13" height="4" rx=".6" fill="currentColor" stroke="none" opacity=".55"/></svg></button>
     <button class="wi io" id="gx" aria-label="Zobrazit tabulku" title="Zavře plán a vrátí se do tabulky (stejně jako klávesa Esc)."><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2"/><path d="M3 10h18M3 14.9h18M9 10v9.5M15 10v9.5" stroke-width="1.5"/><path d="M3 6.5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2V10H3z" fill="currentColor" fill-opacity=".22" stroke="none"/></svg></button>
     </div></div>
-  <div id="gstage"><div id="gsvg"></div><canvas id="pg3canvas" hidden aria-label="Prostorový plán ZSS pilot"></canvas><div id="pg3overlay" hidden></div>    <div id="pgcubeui" hidden>
+  <div id="gstage"><div id="gsvg"></div><canvas id="pg3canvas" hidden aria-label="Prostorový plán ZSS pilot"></canvas><div id="pg3overlay" hidden></div>    <button type="button" id="pg3front" hidden title="Vrátí Líc: čelní 2D pohled z kladné strany odchylek, včetně posledního přiblížení a posunu.">Půdorys</button>
+    <div id="pgcubeui" hidden>
       <div id="pgcubecontrol"><div id="pgcubespace" tabindex="-1" role="group" title="Tažením kostky nebo Shift + tažením výkresu natočíš stěnu. Kliknutím na stěnu kostky nastavíš standardní pohled. Dvojklik a tlačítko Půdorys vrátí 2D. Šipky při zaměření kostky natáčejí, Home vrátí Půdorys."><div id="pgcube">
         <button type="button" class="cf" data-face="front" aria-label="Pohled od jihu">S</button><button type="button" class="cb" data-face="back" aria-label="Rub – pohled ze záporné strany d">N</button><button type="button" class="cl" data-face="left" aria-label="Pohled zleva">LEVÝ</button><button type="button" class="cr" data-face="right" aria-label="Pohled zprava">PRAVÝ</button><button type="button" class="ct" data-face="top" aria-label="Pohled shora">SHORA</button><button type="button" class="cd" data-face="bottom" aria-label="Pohled zdola">ZDOLA</button>
       </div><svg id="pgcubezones" viewBox="0 0 108 108" aria-label="Hrany a rohy: přesné šikmé pohledy"></svg><div id="pgcubelabels" aria-hidden="true" hidden><span data-label-face="front" data-face="front"></span><span data-label-face="back" data-face="back"></span><span data-label-face="left" data-face="left"></span><span data-label-face="right" data-face="right"></span><span data-label-face="top" data-face="top" class="cube-pole"></span><span data-label-face="bottom" data-face="bottom" class="cube-pole"></span></div></div>
-      <div id="pgcubenav" aria-label="Sousední standardní pohledy"><button type="button" data-dir="up" aria-label="Sousední pohled nahoru" title="Sousední pohled nahoru"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" data-dir="right" aria-label="Sousední pohled vpravo" title="Sousední pohled vpravo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" data-dir="down" aria-label="Sousední pohled dolů" title="Sousední pohled dolů"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" data-dir="left" aria-label="Sousední pohled vlevo" title="Sousední pohled vlevo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div></div>
-      <button type="button" id="pg3front" title="Vrátí Líc: čelní 2D pohled z kladné strany odchylek, včetně posledního přiblížení a posunu.">Půdorys</button>
+      <div id="pgcubenav" aria-label="Sousední standardní pohledy"><button type="button" data-roll="left" title="Otočit v rovině pohledu o 90° doleva" aria-label="Otočit v rovině pohledu o 90° doleva"><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(-90 12 12)"><path d="m9 14-5-5 5-5M20 20v-7a4 4 0 0 0-4-4H4"/></g></svg></button><button type="button" data-roll="right" title="Otočit v rovině pohledu o 90° doprava" aria-label="Otočit v rovině pohledu o 90° doprava"><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(90 12 12)"><path d="m15 14 5-5-5-5M4 20v-7a4 4 0 0 1 4-4h12"/></g></svg></button><button type="button" data-dir="up" aria-label="Sousední pohled nahoru" title="Sousední pohled nahoru"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" data-dir="right" aria-label="Sousední pohled vpravo" title="Sousední pohled vpravo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" data-dir="down" aria-label="Sousední pohled dolů" title="Sousední pohled dolů"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" data-dir="left" aria-label="Sousední pohled vlevo" title="Sousední pohled vlevo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div></div>
     </div></div><div id="pgtip" hidden></div>
   <div id="gtip" hidden></div>
 </div>
@@ -731,7 +773,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 </script>
 <script>
 "use strict";
-const APP_VERSION="1.175", APP_DATE="11. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
+const APP_VERSION="1.181", APP_DATE="12. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
 const RD_MIN=0.01, RD_MAX=1;   // meze pole „do vzdálenosti“ [m]
 const RD_K_LIM=3, RD_K_SP=0.45, DD_K=0.4;   // auto: „do vzdálenosti“ = větší z (3 × mez odchylky, typický poloměr), u každého bodu PD nejvýš 45 % rozteče k sousednímu bodu; „přímý střed“ = 40 % typického poloměru
 function minSpacing(refs){   // nejmenší vzdálenost dvou různých bodů PD [m] (shodné body do 20 mm = duplicity se přeskočí); Infinity, když nejsou aspoň 2
@@ -2278,6 +2320,23 @@ function buildScene(W,H,v,o){
 }
 const xe=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 const f1=v=>(Math.round(v*100)/100);
+// Only the live SVG header adapts to the return button; exports retain full text.
+function planNavWidth(){return window.matchMedia&&window.matchMedia("(pointer:coarse)").matches?172:144;}
+function planScreenScene(sc,prefix){
+  const button=$(prefix+"3front"),general=prefix==="rg"&&RV.plane==="o";if((!button||button.hidden)&&!general)return sc;
+  const nav=planNavWidth(),width=Math.min(nav,button.offsetWidth||110),right=general?sc.W-82:sc.W-22-(nav+width)/2-8;
+  return {...sc,frame:sc.frame.map(i=>{
+    if(i.t!=="text"||i.a!=="start"||i.y>=sc.pl.y||i.x<sc.pl.x-1)return i;
+    const end=i.y>12&&i.y-i.size<42?right:sc.W-12,available=Math.max(0,end-i.x),text=String(i.s);
+    if(pdfWidth(pdfTxt(text),i.size)<=available)return i;
+    let n=text.length;while(n>0&&pdfWidth(pdfTxt(text.slice(0,n)+"…"),i.size)>available)n--;
+    return {...i,s:n?text.slice(0,n)+"…":"",title:text};
+  })};
+}
+function planNavFit(prefix,box,plot){
+  const ui=$(prefix+"cubeui"),top=plot.y+6;
+  ui.style.top=top+"px";ui.style.maxHeight=Math.max(0,Math.min(plot.h-6,box.clientHeight-top-10))+"px";
+}
 function svgOf(sc,cid){
   const one=i=>{
     if(i.t==="poly") return `<path d="${i.rs.map(R=>{ let d="M"+f1(R[0])+" "+f1(R[1]); for(let k=2;k<R.length;k+=2) d+="L"+f1(R[k])+" "+f1(R[k+1]); return d+"Z"; }).join("")}" fill="${i.fill}" stroke="${i.c||i.fill}" stroke-width="${i.c?0.6:0.5}" stroke-linejoin="round"/>`;   // plochy mapy: obrys ve stejné barvě zakryje švy mezi trojúhelníky
@@ -2285,7 +2344,7 @@ function svgOf(sc,cid){
     if(i.t==="line") return `<line x1="${f1(i.x1)}" y1="${f1(i.y1)}" x2="${f1(i.x2)}" y2="${f1(i.y2)}" stroke="${i.c}" stroke-width="${i.sw}"/>`;
     if(i.t==="rect") return `<rect x="${i.x}" y="${i.y}" width="${i.w}" height="${i.h}" fill="none" stroke="${i.c}" stroke-width="${i.sw}"/>`;
     if(i.t==="circ") return `<circle cx="${f1(i.x)}" cy="${f1(i.y)}" r="${Math.max(0,f1(i.r))}" fill="${i.fill||"none"}" ${i.c?`stroke="${i.c}" stroke-width="${i.sw}"${i.dash?` stroke-dasharray="${i.dash.map(f1).join(" ")}"`:""}`:""}/>`;
-    return `<text x="${f1(i.x)}" y="${f1(i.y)}" font-size="${i.size}" fill="${i.c}" text-anchor="${i.a}"${i.halo?' paint-order="stroke" stroke="#fff" stroke-width="2.5"':""}${i.rot?` transform="rotate(${f1(i.rot)} ${f1(i.x)} ${f1(i.y)})"`:""}>${xe(i.s)}</text>`;
+    return `<text x="${f1(i.x)}" y="${f1(i.y)}" font-size="${i.size}" fill="${i.c}" text-anchor="${i.a}"${i.title?' pointer-events="auto"':""}${i.halo?' paint-order="stroke" stroke="#fff" stroke-width="2.5"':""}${i.rot?` transform="rotate(${f1(i.rot)} ${f1(i.x)} ${f1(i.y)})"`:""}>${i.title?`<title>${xe(i.title)}</title>`:""}${xe(i.s)}</text>`;
   };
   const p=sc.pl, cp=cid||"gclip";
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${sc.W}" height="${sc.H}" viewBox="0 0 ${sc.W} ${sc.H}" font-family="Arial,Helvetica,sans-serif">`+
@@ -2328,7 +2387,7 @@ function pdfContent(sc){
   };
   const p=sc.pl;
   const c=`1 1 1 rg 0 0 ${sc.W} ${H} re f\n${sc.image?`q ${sc.W} 0 0 ${sc.image.sceneHeight||H} 0 ${H-(sc.image.sceneHeight||H)} cm /Im3D Do Q\n`:""}q ${N(p.x)} ${Y(p.y+p.h)} ${N(p.w)} ${N(p.h)} re W n\n${sc.items.map(one).join("")}Q\n${sc.frame.map(one).join("")}`;
-  if(sc.page){const {W,H}=sc.page,k=Math.min(W/sc.W,H/sc.H),x=(W-sc.W*k)/2,y=(H-sc.H*k)/2;return `1 1 1 rg 0 0 ${W} ${H} re f\nq ${k} 0 0 ${k} ${x} ${y} cm\n${c}Q\n`;}
+  if(sc.page){const {W,H}=sc.page,k=Math.min(W/sc.W,H/sc.H),x=(W-sc.W*k)/2,y=(H-sc.H*k)/2;return `1 1 1 rg 0 0 ${W} ${H} re f\nq ${k.toFixed(10)} 0 0 ${k.toFixed(10)} ${N(x)} ${N(y)} cm\n${c}Q\n`;}
   return c;
 }
 function pdfOf(scs){
@@ -2448,7 +2507,7 @@ function gRender(){
   const box=$("gsvg"), W=box.clientWidth, H=box.clientHeight;
   if(PG3){pg3Ui();if(pg3Active()&&pg3Render(W,H))return;}
   if(!GV){ GV=fitView(W,H,0,gOpts(1)); if(GVZ){ GV.s*=GVZ.z; GV.cy=GVZ.cy; GV.cx=GVZ.cx; } }
-  box.innerHTML=svgOf(buildScene(W,H,GV,Object.assign(gOpts(1),{sel:GSEL,fcol:true})));
+  box.innerHTML=svgOf(planScreenScene(buildScene(W,H,GV,Object.assign(gOpts(1),{sel:GSEL,fcol:true})),"pg"));
 }
 $("gb").onclick=()=>{ if(!needPiles()) return; $("gm").classList.remove("split"); $("gm").hidden=false; syncSplit(); GV=null; gRender(); };
 // rozdělená obrazovka: dole plán (50 % výšky), nahoře tabulka; plán na celou obrazovku zůstává beze změny
@@ -2749,7 +2808,7 @@ $("rvchips").addEventListener("click",e=>{ const b=e.target.closest("button[data
 wireDrop($("rvdrop"),rvLoad);
 try{ const o=JSON.parse(localStorage.getItem(FK_RV)||"null"); const a=storedFiles(o,"měření",MAX_FILES_M); if(a&&a.length) rvApply(a,true); }catch(e){}   // po F5 se znovu načte poslední měření
 
-/* ---------- Rovinnost: 2. ROVINA (výběr typu roviny: vodorovná / svislá / obecná; zatím jen výběr, pamatuje se v prohlížeči) ---------- */
+/* ---------- Rovinnost: 2. ROVINA (vodorovná / svislá / obecná; volba se pamatuje v prohlížeči) ---------- */
 const FK_RP="zsspilot.rovina", RV_PLANES={h:"vodorovná",v:"svislá",o:"obecná"};
 function rvPlaneSet(v,save){ if(!RV_PLANES[v]) v="h"; RV.plane=v;
   const r=document.querySelector('input[name="rvplane"][value="'+v+'"]'); if(r) r.checked=true;
@@ -2759,7 +2818,7 @@ function rvPlaneSet(v,save){ if(!RV_PLANES[v]) v="h"; RV.plane=v;
 document.querySelectorAll('input[name="rvplane"]').forEach(r=>r.addEventListener("change",()=>{ if(r.checked) rvPlaneSet(r.value,true); }));
 { let v="h"; try{ v=localStorage.getItem(FK_RP)||"h"; }catch(e){} rvPlaneSet(v,false); }
 
-/* ---------- Rovinnost: 2. ROVINA – zadání roviny (vodorovná 1 výškou Z, svislá 2 body Y+X, obecná 3 body Y+X+Z); zatím jen zadání a kontrola ---------- */
+/* ---------- Rovinnost: 2. ROVINA – zadání, geometrie a kolmé posuny ---------- */
 const FK_RD="zsspilot.rovina.zadani";
 const RV_FLD={h:["z"],v:["y","x"],o:["y","x","z"]}, RV_LBL={y:"Y",x:"X",z:"Z"};
 const RV_HINT={h:"vodorovná: zadá se 1 výškou (Z)",v:"svislá: zadá se 2 různými body (Y, X)",o:"obecná: zadá se 3 body (Y, X, Z), ne v přímce"};
@@ -2798,7 +2857,81 @@ function rvDfltSync(){ const b=$("rvdflt"); if(!b) return; const d=rvIsDflt(); b
 const RV_TOL=0.001, RV_WEAK=0.01;   // body blíž než 1 mm = shodné / v přímce; výška trojúhelníku pod 1 % nejdelší strany = jen upozornění (slabá geometrie)
 const rvMm=d=>fmtCz((d*1000).toFixed(1))+" mm";
 // Místní souřadnice roviny; původní Y, X, Z měření se nikdy nepřepisují.
+// General plane: geodetic x', y' in the plane. Viewed from +d: +x' down, +y' left.
+// Thus +x' -> +y' is clockwise, and n = ey cross ex in world (Y, X, Z).
+function rvGeneralFrame(points=RV.def.o,reverse=RV.def.oReverse===true){
+  if(!Array.isArray(points)||points.length!==3)return null;
+  const P=points.map(p=>['y','x','z'].map(c=>p?rvDefParse(c,p[c]).v:null));
+  if(P.some(p=>p.some(v=>!Number.isFinite(v))))return null;
+  const sub=(a,b)=>a.map((v,i)=>v-b[i]),dot=(a,b)=>a.reduce((s,v,i)=>s+v*b[i],0),cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],norm=a=>Math.hypot(...a);
+  const a=sub(P[1],P[0]),b=sub(P[2],P[0]),L=norm(a),l13=norm(b),l23=norm(sub(P[2],P[1])),area=cross(a,b),A=norm(area);
+  if(Math.min(L,l13,l23)<RV_TOL||A/Math.max(L,l13,l23)<RV_TOL)return null;
+  const ex=a.map(v=>v/L),baseN=area.map(v=>-v/A),n=baseN.map(v=>reverse?-v:v),ey=cross(ex,n),origin=P[0];
+  return {kind:'o',origin,points:P,ex,ey,n,L,height:A/Math.max(L,l13,l23),reverse,
+    at:q=>{const w=sub([q.y,q.x,q.z],origin),xp=dot(w,ex),yp=dot(w,ey);return {xp,yp,u:xp,v:yp,d:dot(w,n)};},
+    from:(xp,yp,d=0)=>{const q=origin.map((v,i)=>v+xp*ex[i]+yp*ey[i]+d*n[i]);return {y:q[0],x:q[1],z:q[2]};}};
+}
+function rvGeneralOriginal(value){
+  if(!value||!Array.isArray(value.points))return null;
+  const points=value.points.map(pt=>{if(!pt)return null;const p={};for(const c of ['y','x','z']){if(typeof pt[c]!=='string')return null;p[c]=pt[c];}if(typeof pt.pid==='string')p.pid=pt.pid;if(pt._displayMM)p._displayMM=Object.fromEntries(['y','x','z'].filter(c=>pt._displayMM[c]===true).map(c=>[c,true]));return p;});
+  return rvGeneralFrame(points,value.reverse===true)?{points,reverse:value.reverse===true}:null;
+}
+function rvGeneralStats(){
+  if(RV.plane!=='o'||!RV.defOk)return null;const frame=rvGeneralFrame();if(!frame)return null;
+  const values=rvPdSel('o').filter(q=>[q.y,q.x,q.z].every(Number.isFinite)).map(q=>frame.at(q).d).sort((a,b)=>a-b),n=values.length;if(!n)return null;
+  return {frame,n,min:values[0],max:values[n-1],avg:values.reduce((s,v)=>s+v,0)/n,med:n%2?values[n>>1]:(values[n/2-1]+values[n/2])/2};
+}
+function rvGeneralStatUi(){
+  const r=rvGeneralStats(),sel=$('rvvstat'),info=$('rvvstatinfo'),original=!!rvGeneralOriginal(RV.def.oOriginal),labels={min:'min',max:'max',avg:'průměr',med:'medián'};
+  sel.disabled=!r&&!original;
+  for(const o of sel.options){o.disabled=o.value===''?true:o.value==='restore'?!original:!r;if(r&&labels[o.value])o.textContent=labels[o.value]+' '+rvMm(r[o.value]);else if(labels[o.value])o.textContent=labels[o.value];}
+  info.textContent=r?`Ze všech ${r.n} bodů PD se známou výškou; výběr rovinu ihned posune kolmo, bez změny sklonu.`:original?'Pro návrat vyber „Vrátit zadané body“.':RV.defOk?'Načti body PD se známými Y, X, Z pro určení posunu.':'Nejprve zadej tři různé body roviny, které neleží v přímce.';
+  if(RV.defOk)info.textContent+=' '+(RV.def.oReverse===true?'Strana +d je obrácená; obrácené je i y′.':'Strana +d odpovídá výchozímu pořadí 1 → 2 → 3.');
+}
+function rvRestoreGeneral(){
+  RV_O0U=null;
+  if(RV.plane!=='o')return;const original=rvGeneralOriginal(RV.def.oOriginal);if(!original)return;
+  RV.def.o=original.points;RV.def.oReverse=original.reverse;delete RV.def.oOriginal;$('rvvstat').value='';$('rvvoffset').value='0';$('rvvoffset').dataset.pending='0';$('rvstf').textContent='';rvDefSave();rvDefRender();toast('Obnoveny tři zadané body i kladná strana před prvním posunem.');
+}
+function rvMoveGeneral(d,description){
+  if(RV.plane!=='o'||!RV.defOk||!Number.isFinite(d))return false;const f=rvGeneralFrame();if(!f)return false;
+  const delta=f.n.map(v=>v*d),keys=['y','x','z'];
+  const points=RV.def.o.map(pt=>Object.fromEntries(keys.map((c,i)=>[c,String(Number((rvDefParse(c,pt[c]).v+delta[i]).toFixed(9)))])));
+  if(points.some(pt=>keys.some(c=>{const q=rvDefParse(c,pt[c]);return q.v===null||!!q.err;}))||!rvGeneralFrame(points,RV.def.oReverse===true)){toast('Posun by vytvořil neplatné souřadnice; rovina zůstala beze změny.');return false;}
+  if(points.every((pt,i)=>keys.every(c=>num(pt[c])===num(RV.def.o[i][c])))){toast('Posun je menší než rozlišení souřadnic; rovina zůstala beze změny.');return false;}
+  if(!rvGeneralOriginal(RV.def.oOriginal))RV.def.oOriginal={points:JSON.parse(JSON.stringify(RV.def.o)),reverse:RV.def.oReverse===true};
+  for(const pt of points)pt._displayMM={y:true,x:true,z:true};
+  RV.def.o=points;rvDefSave();rvDefRender();toast('Obecná rovina posunuta '+description+' o '+rvMm(d)+'. Sklon zůstal zachovaný.');return true;
+}
+function rvReverseGeneral(){
+  if(RV.plane!=='o'||!RV.defOk)return;RV.def.oReverse=RV.def.oReverse!==true;$('rvvstat').value='';$('rvvoffset').dataset.pending='0';$('rvstf').textContent='';rvDefSave();rvDefRender();
+}
+function rvGeneralUi(){
+  const on=RV.plane==='o',button=$('rvoreverse');button.hidden=!on;button.disabled=!on||!RV.defOk;button.setAttribute('aria-pressed',on&&RV.def.oReverse===true?'true':'false');
+  $('rvtw').classList.toggle('general',on);
+  const offset=$('rvvoffset'),pdLabel=$('rvvstat').closest('.rvv-shiftrow').querySelector('label');
+  if(offset.dataset.baseTitle===undefined)offset.dataset.baseTitle=offset.title;if(pdLabel&&pdLabel.dataset.baseTitle===undefined)pdLabel.dataset.baseTitle=pdLabel.title;
+  offset.title=on?'Kolmý posun v mm: kladně ve směru +d, záporně proti němu. Všechny tři definiční body se posunou stejně; sklon se nemění. Potvrď Enterem nebo opuštěním pole.':offset.dataset.baseTitle;
+  if(pdLabel)pdLabel.title=on?'Min, max, průměr nebo medián kolmých odchylek všech PD se známými Y, X, Z určí rovnoběžný posun roviny.':pdLabel.dataset.baseTitle;
+  const stage=$('rvstage');if(stage.dataset.baseText===undefined){stage.dataset.baseText=stage.textContent;stage.dataset.baseTitle=stage.title;}if(!on){stage.textContent=stage.dataset.baseText;stage.title=stage.dataset.baseTitle;const hth=document.querySelector('#rvtw th[data-k="h"]');if(hth&&hth.dataset.generalBase!==undefined)hth.title=hth.dataset.generalBase;return;}
+  $('rvvtools').hidden=false;offset.disabled=!RV.defOk;rvGeneralStatUi();
+  $('rvstage').hidden=false;$('rvstage').textContent='Obecná rovina — část 3/5: výpočet, lať, filtrace, 2D plocha a kubatury. Zbývá 3D plán a exporty.';$('rvstage').title='x′: bod 1 → 2. Ve výchozí orientaci má bod 3 kladné y′. Z kladné strany d jde +x′ k +y′ po směru hodinových ručiček. Obrácení strany obrátí d i y′; x′ se nemění.';
+  const active=RV.set.m==='lat',pl=document.querySelector('input[name="rvmode"][value="pl"]'),lat=document.querySelector('input[name="rvmode"][value="lat"]');
+  if(pl){pl.checked=!active;pl.closest('label').title='Kolmá vzdálenost d od obecné roviny určené třemi body; nejde o rozdíl výšek Z.';}
+  if(lat){lat.checked=active;lat.disabled=false;lat.closest('label').title='Lať v rovině x′, y′; h je odchylka od spojnice konců latě ve směru d.';}
+  $('rvlatf').hidden=!active;$('rvrob').disabled=false;$('rvrob').checked=RV.set.rob;$('rvrobk').disabled=!RV.set.rob;
+  const robLabel=$('rvrob').closest('label');if(robLabel)robLabel.title='Filtruje jednotlivé odlehlé body v soustavě x′, y′, d vůči skutečně zaměřené ploše a okolí; posun ani mírný sklon celé plochy se nevyřazují.';
+  for(const [id,text] of Object.entries({rvlL:'Délka latě v místní rovině x′, y′ v metrech.',rvlLm:'Nejmenší rozpětí konců latě v rovině x′, y′ v metrech.',rvlw:'Pás kolem osy latě v rovině x′, y′ v metrech.',rvlt:'Tolerance odchylky h od latě v milimetrech.'})){const l=$(id).closest('label');if(l)l.title=text;}
+  $('rvltp').setAttribute('aria-label','Tolerance latě obecné roviny');for(const o of $('rvltp').options)o.textContent=o.value==='c'?'vlastní':o.value+' mm';
+  if(!(active&&RV_PR[RV.set.p].st>=10))$('rvlath').textContent=rvGeneralLathNote();
+  const hth=document.querySelector('#rvtw th[data-k="h"]');if(hth){if(hth.dataset.generalBase===undefined)hth.dataset.generalBase=hth.title;hth.title='Odchylka h od latě ve směru d; polohy a délka latě v x′, y′. Kladně hrb k pozorovateli, záporně prohlubeň. Pomlčka = bez latě.';}
+  if($('rvdname'))$('rvdname').textContent='d';const th=document.querySelector('#rvtw th[data-k="d"]');if(th)th.title=`Kolmá odchylka d od obecné roviny; + na kladné straně, − na záporné. Jednotky: ${RV.set.u}. Tolerance podle zvolené přesnosti.`;
+  for(const id of ['rvtol','rvpn']){const label=$(id).closest('label');if(label)label.title=label.title.replace(/ΔZ/g,'d').replace(/nad rovinou/g,'na kladné straně roviny').replace(/pod rovinou/g,'na záporné straně roviny');}
+}
+$('rvoreverse').onclick=rvReverseGeneral;
+
 function rvPlaneFrame(){
+  if(RV.plane==="o")return rvGeneralFrame();
   if(RV.plane==="h"){ const z=rvDefParse("z",RV.def.h[0].z).v; return Number.isFinite(z)?{kind:"h",z,at:q=>({u:q.y,v:q.x,d:q.z-z})}:null; }
   if(RV.plane!=="v") return null;
   const a=RV.def.v[0], b=RV.def.v[1], y=rvDefParse("y",a.y).v, x=rvDefParse("x",a.x).v,
@@ -2816,6 +2949,7 @@ function rvVerticalStats(){
   return {frame,n,min:values[0],max:values[n-1],avg:values.reduce((sum,v)=>sum+v,0)/n,med:n%2?values[n>>1]:(values[n/2-1]+values[n/2])/2};
 }
 function rvVerticalStatUi(){
+  if(RV.plane==="o")return rvGeneralStatUi();
   const r=RV.plane==="v"?rvVerticalStats():null, sel=$("rvvstat"), info=$("rvvstatinfo"), original=RV.plane==="v"&&!!rvVerticalOriginal(RV.def.vOriginal);
   sel.disabled=!r&&!original;
   const labels={min:"min",max:"max",avg:"průměr",med:"medián"};
@@ -2835,6 +2969,7 @@ function rvVerticalOriginal(value){
   return Math.hypot(num(pts[1].y)-num(pts[0].y),num(pts[1].x)-num(pts[0].x))>=RV_TOL?pts:null;
 }
 function rvRestoreVertical(){
+  if(RV.plane==="o")return rvRestoreGeneral();
   if(RV.plane!=="v") return; const pts=rvVerticalOriginal(RV.def.vOriginal); if(!pts) return;
   RV.def.v=pts; delete RV.def.vOriginal; $("rvvstat").value=""; $("rvvoffset").value="0"; $("rvvoffset").dataset.pending="0"; $("rvstf").textContent="";
   rvDefSave(); rvDefRender(); toast("Obnoveny zadané body před prvním posunem roviny.");
@@ -2855,14 +2990,14 @@ function rvManualShiftUi(){
   const value=rvManualShiftValue(), input=$("rvvoffset"), valid=Number.isFinite(value), hasPlane=RV.plane==="v"&&RV.defOk&&!!rvPlaneFrame();
   input.disabled=!hasPlane; input.classList.toggle("bad",input.value.trim()!==""&&!valid);
 }
-function rvManualShift(){ const mm=rvManualShiftValue(); if(Number.isFinite(mm)&&mm!==0) rvMoveVertical(mm/1000,"o zadanou hodnotu"); }
+function rvManualShift(){ const mm=rvManualShiftValue(); if(Number.isFinite(mm)&&mm!==0)(RV.plane==="o"?rvMoveGeneral:rvMoveVertical)(mm/1000,"o zadanou hodnotu"); }
 function rvManualShiftCommit(){ const input=$("rvvoffset"); if(input.dataset.pending!=="1") return; input.dataset.pending="0"; rvManualShift(); }
 $("rvvoffset").addEventListener("input",()=>{ $("rvvoffset").dataset.pending="1"; rvManualShiftUi(); });
 $("rvvoffset").addEventListener("change",rvManualShiftCommit);
 $("rvvoffset").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); rvManualShiftCommit(); } });
 function rvVerticalShift(){
-  const r=rvVerticalStats(), key=$("rvvstat").value; if(!r||!["min","max","avg","med"].includes(key)) return;
-  rvMoveVertical(r[key],"podle "+({min:"minima",max:"maxima",avg:"průměru",med:"mediánu"}[key])+" kolmých odchylek "+r.n+" bodů PD");
+  const r=RV.plane==="o"?rvGeneralStats():rvVerticalStats(), key=$("rvvstat").value; if(!r||!["min","max","avg","med"].includes(key)) return;
+  (RV.plane==="o"?rvMoveGeneral:rvMoveVertical)(r[key],"podle "+({min:"minima",max:"maxima",avg:"průměru",med:"mediánu"}[key])+" kolmých odchylek "+r.n+" bodů PD");
 }
 $("rvvstat").addEventListener("change",()=>{ const sel=$("rvvstat"); if(sel.value==="restore") rvRestoreVertical(); else rvVerticalShift(); sel.value=""; rvVerticalStatUi(); });
 function rvVerticalUi(){
@@ -2885,6 +3020,7 @@ function rvVerticalUi(){
   const th=document.querySelector('#rvtw th[data-k="d"]'); if(th) th.title=(v?"Kolmá odchylka d od svislé roviny: + vpravo od směru 1 → 2 shora (před rovinou), − vlevo (za rovinou).":"Odchylka ΔZ od vodorovné roviny: Z bodu − výška roviny; + nad rovinou, − pod rovinou.")+` Jednotky: ${RV.set.u}. Barva a tolerance se řídí zvolenou přesností; kliknutím na záhlaví seřadíš tabulku.`;
   const fl=$("rvflt").closest("label"); if(fl){ if(fl.dataset.t0===undefined) fl.dataset.t0=fl.title; fl.title=v&&RV.set.m==="lat"?"Filtry podle tolerance používají h od latě. Polohové filtry před / za zadanou rovinou používají d. Souhrn platí pro všechny použité body.":v?"Filtr bodů podle kolmé odchylky d: před rovinou (+), za rovinou (−), v toleranci nebo nad ní. Polohové filtry i tolerance se řídí zvolenou přesností. Souhrn platí pro všechny zaškrtnuté body.":fl.dataset.t0; }
   for(const id of ["rvtol","rvpn"]){ const label=$(id).closest("label"); if(label){ if(label.dataset.t0===undefined) label.dataset.t0=label.title; label.title=v?label.dataset.t0.replace(/ΔZ/g,"d").replace(/nad rovinou/g,"před rovinou").replace(/pod rovinou/g,"za rovinou"):label.dataset.t0; } }
+  rvGeneralUi();
 }
 function rvSwapVertical(){ if(RV.plane!=="v") return; const a=RV.def.v[0]; RV.def.v[0]=RV.def.v[1]; RV.def.v[1]=a; $("rvstf").textContent=""; rvDefSave(); rvDefRender(); }
 $("rvpin").addEventListener("click",e=>{ if(e.target.closest&&e.target.closest("#rvvswap")){ e.preventDefault(); rvSwapVertical(); } });
@@ -3060,6 +3196,7 @@ try{ const o=JSON.parse(localStorage.getItem(FK_RD)||"null");
     ["h","v","o"].forEach(t=>{ if(Array.isArray(o[t])) RV.def[t].forEach((pt,i)=>RV_FLD[t].forEach(c=>{ const q=o[t][i]; if(q&&typeof q[c]==="string") pt[c]=q[c].slice(0,24); })); });
     ["h","v","o"].forEach(t=>RV.def[t].forEach((pt,i)=>{ const q=Array.isArray(o[t])&&o[t][i]; if(q&&typeof q.pid==="string") pt.pid=q.pid; if(q&&q._displayMM) pt._displayMM=Object.fromEntries(RV_FLD[t].filter(c=>q._displayMM[c]===true).map(c=>[c,true])); }));
     const original=rvVerticalOriginal(o.vOriginal); if(original) RV.def.vOriginal=original;
+    RV.def.oReverse=o.oReverse===true;const generalOriginal=rvGeneralOriginal(o.oOriginal);if(generalOriginal)RV.def.oOriginal=generalOriginal;
     const hs=Array.isArray(o.h)&&o.h[0]&&o.h[0].s; if(RV_ST[hs]) RV.def.h[0].s=hs; } }catch(e){}
 rvDefRender();
 
@@ -3106,7 +3243,7 @@ rvpRender();
 
 /* ---------- Rovinnost: 2. ROVINA – výchozí hodnoty levé části (typ roviny, zadání roviny); načtené soubory PD i měření zůstávají ---------- */
 $("rvdflt").onclick=()=>{
-  delete RV.def.vOriginal;
+  delete RV.def.vOriginal;delete RV.def.oOriginal;delete RV.def.oReverse;RV_O0U=null;RV_GENERAL_PROJECTION_CACHE=null;
   ["h","v","o"].forEach(t=>RV.def[t].forEach(pt=>RV_FLD[t].forEach(c=>pt[c]=""))); RV.def.h[0].s="";
   try{ removeStorage(FK_RD); removeStorage(FK_RP); }catch(e){}
   rvPlaneSet("h",false); rvDefRender();
@@ -3193,7 +3330,54 @@ function rvRob(rows,T){   // rows = body bez ručně odškrtnutých; T = toleran
   return {out,k:kf,why,warn:"",log:rem.length?[`Odlehlé body (mez ${mt}): vyřazeno ${rem.length}`].concat(rem.map(([i,wd])=>`  ${rows[i].id}: ${wd}`)):[`Odlehlé body (mez ${mt}): žádné`]};
 }
 let rvRobC={k:null,r:null};   // výsledek se přepočítá jen po změně bodů, tolerance nebo ručního výběru (ne při filtru či řazení)
-function rvSurfaceRows(rows){ return RV.plane==="v"?rows.map(r=>({...r,y:r.s,x:r.z,z:r.d})):rows; }
+// A height-field over the reference plane must have one d per projected location.
+// Cell scale reflects floating-point uncertainty of the original JTSK coordinates, not the tolerance.
+let RV_GENERAL_PROJECTION_CACHE=null;
+function rvGeneralProjection(rows=RV.rows){
+  if(RV.plane!=='o')return {ok:true};
+  if(RV_GENERAL_PROJECTION_CACHE&&RV_GENERAL_PROJECTION_CACHE.rows===rows)return RV_GENERAL_PROJECTION_CACHE.result;
+  const pts=rows.filter(r=>r.use!==false&&[r.xp,r.yp,r.d].every(Number.isFinite));let magnitude=1;
+  for(const r of pts)magnitude=Math.max(magnitude,Math.abs(r.y),Math.abs(r.x),Math.abs(r.z));
+  const eps=Math.max(1e-8,64*Number.EPSILON*magnitude),cells=new Map(),ids=new Set();let conflicts=0;
+  for(const r of pts){const i=Math.floor(r.yp/eps),j=Math.floor(r.xp/eps);
+    for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++){const q=cells.get((i+a)+','+(j+b));if(q&&Math.hypot(r.yp-q.y,r.xp-q.x)<=2*eps&&Math.max(Math.abs(r.d-q.min),Math.abs(r.d-q.max))>2*eps){conflicts++;if(ids.size<8){ids.add(q.id);ids.add(r.id);}}}
+    const key=i+','+j,q=cells.get(key);if(q){q.min=Math.min(q.min,r.d);q.max=Math.max(q.max,r.d);}else cells.set(key,{y:r.yp,x:r.xp,min:r.d,max:r.d,id:r.id});
+  }
+  const result={ok:conflicts===0,conflicts,ids:[...ids],eps,why:conflicts?'Body '+[...ids].join(', ')+' mají stejný průmět v x′, y′, ale různé d. Zřejmě jde o více povrchů. Pro lať, mapu a kubatury ponech jen jednu plochu; ostatní body odškrtni. Body ani jejich odchylky se automaticky neslučují.':''};
+  RV_GENERAL_PROJECTION_CACHE={rows,result};return result;
+}
+function rvGeneralLathNote(){return `h je odchylka bodu od latě ve směru d; polohy latě se hledají v rovině x′, y′. + hrb k pozorovateli, − prohlubeň za lať${RV.set.lv==='dn'?' (jen prohlubeň)':''}. Délka ${fmtCz(RV.set.L.toFixed(2))} m, bod v prostřední třetině a v pásu ±${fmtCz(RV.set.w.toFixed(2))} m od osy latě. Tolerance, barvy a filtr používají h; d zůstává informativní odchylkou od zadané roviny.`;}
+var RV_O0U=null;
+function rvGeneralVolSum(sum,pc){
+  const R=rgVol(0),tl=rvTolTxt();if(!R.ok){const check=rvGeneralProjection();sum.insertAdjacentHTML('beforeend','<span class="vbr"></span><span class="sl">Kubatury obecné roviny: '+esc(check.ok?'nevznikla plocha v x′, y′. Potřeba alespoň 3 použité body, které v průmětu neleží v přímce; zkontroluj také Max. hranu.':check.why)+'</span>');return;}
+  const same=Math.abs(R.z0r)<1e-9,undo=RV_O0U&&RV_O0U.to===JSON.stringify([RV.def.o,RV.def.oReverse===true]);
+  sum.insertAdjacentHTML('beforeend','<span class="vbr"></span><span class="sl">Kubatury vůči obecné rovině'+(rvLM()?' (z d, nikoli h latě)':'')+' (lineární TIN v x′, y′, '+rgM2(R.A)+'):</span>'
+    +pc('odbourání',rgM3(R.up),'Objem na kladné straně +d; plocha je měřena v referenční rovině x′, y′.','')
+    +pc('doplnění',rgM3(R.dn),'Objem za referenční rovinou (−d).','')+pc('bilance',rgM3(R.up-R.dn,true),'Odbourání − doplnění.','')
+    +pc('nad +'+tl,rgM3(R.upT),'Pouze objem přesahující kladnou toleranci d.',+R.upT.toFixed(3)>0?'bad':'ok')+pc('pod −'+tl,rgM3(R.dnT),'Pouze objem přesahující zápornou toleranci d.',+R.dnT.toFixed(3)>0?'bad':'ok')
+    +pc('citlivost','1 mm ≈ '+rgM3(R.A/1000),'Plocha x′, y′ × kolmý posun 1 mm.','')
+    +'<span class="vbr"></span><span class="sl">Vyrovnaný kolmý posun (bilance 0):</span>'
+    +pc('posun',rvDS(R.z0r)+' '+RV.set.u,'Přesně '+fmtCz(R.mean.toFixed(5))+' mm; plošně vážený průměr d, zaokrouhlený podle Přesnosti.','')
+    +(same?pc('','= zadaná rovina','Zadaná rovina je vyrovnaná v rámci zvolené přesnosti.','ok'):'')
+    +pc('po posunu','odbourání '+rgM3(R.upB)+', doplnění '+rgM3(R.dnB)+', zbytek '+rgM3(R.balB,true),'Zbytek bilance vzniká zaokrouhlením kolmého posunu.','')
+    +(same?'':'<button type="button" class="vbt" data-obalance="apply" title="Posune všechny tři definiční body kolmo o '+esc(rvDS(R.z0r)+' '+RV.set.u)+' bez změny sklonu.">Převzít</button>')
+    +(undo?'<button type="button" class="vbt" data-obalance="undo" title="Vrátí všechny tři body a původní možnost návratu v nabídce PD před posledním převzetím.">Vrátit posun</button>':''));
+}
+function rvGeneralBalanceSet(undo){
+  if(RV.plane!=='o'||!RV.defOk)return;
+  if(undo){if(!RV_O0U||RV_O0U.to!==JSON.stringify([RV.def.o,RV.def.oReverse===true]))return;RV.def.o=JSON.parse(JSON.stringify(RV_O0U.from));if(RV_O0U.original)RV.def.oOriginal=JSON.parse(JSON.stringify(RV_O0U.original));else delete RV.def.oOriginal;RV_O0U=null;rvDefSave();rvDefRender();return;}
+  const R=rgVol(0);if(!R.ok||Math.abs(R.z0r)<1e-9)return;
+  const from=JSON.parse(JSON.stringify(RV.def.o)),original=RV.def.oOriginal?JSON.parse(JSON.stringify(RV.def.oOriginal)):null;
+  if(rvMoveGeneral(R.z0r,'na vyrovnanou bilanci')){RV_O0U={from,original,to:JSON.stringify([RV.def.o,RV.def.oReverse===true])};rvResRender();}
+}
+function rgGeneralPointTip(r){
+  const lat=rvLM(),u=RV.set.u;
+  return `<b>${esc(r.id)}</b>`+(r.code?` <span class="m">(${esc(r.code)})</span>`:'')+`<br>Y ${rvPtFmt(r.y)}, X ${rvPtFmt(r.x)}, Z ${rvPtFmt(r.z)} m<br>x′ ${rvStationFmt(r.xp)}, y′ ${rvStationFmt(r.yp)} m<br>d${lat?' (informativně)':''}: <span class="${lat?'':rvOver(r.d)?'bad':'ok'}">${rvDS(r.d)} ${u}</span>`
+   +(lat?(r.lat?`<br>h (lať ${esc(r.lat.aid)} – ${esc(r.lat.bid)}): <span class="${rvOvE(r)?'bad':'ok'}">${rvDS(r.h)} ${u}</span>`:'<br><span class="m">Bez latě</span>'):'')
+   +(!r.use?'<br><span class="m">Bod není použit ve výpočtu.</span>':'')+(r.auto?'<br><span class="'+(r.kept?'m':'bad')+'">'+(r.kept?'Odlehlý bod vrácený do výpočtu: ':'Odlehlý bod, vyřazen: ')+esc(r.auto)+'</span>':'')+(RV.files.length>1?'<br><span class="m">Soubor: '+esc(r.file)+'</span>':'');
+}
+
+function rvSurfaceRows(rows){ return RV.plane==="o"?rows.map(r=>({...r,y:r.yp,x:r.xp,z:r.d})):RV.plane==="v"?rows.map(r=>({...r,y:r.s,x:r.z,z:r.d})):rows; }
 function rvWallFilterRank(rows){
   if(rows.length<RV_ROBMIN) return true;
   const sy=rows.reduce((s,r)=>s+r.y,0)/rows.length, sx=rows.reduce((s,r)=>s+r.x,0)/rows.length;
@@ -3201,12 +3385,15 @@ function rvWallFilterRank(rows){
   return a*b-c*c>1e-12*Math.max(1,a*b);
 }
 function rvRobGet(rows){
+  if(RV.plane==='o'){
+    const check=rvGeneralProjection(rows.filter(r=>!RV.off.has(r.key)));if(!check.ok){const result={out:new Map(),warn:check.why,short:'více povrchů ve stejném průmětu',log:[check.why]};rvRobC={k:null,r:result};RV.robLog=result.log;rvLogRender();rvRobHint();return result;}
+  }
   if(!RV.set.rob) { if(RV.robLog.length){ RV.robLog=[]; rvLogRender(); } rvRobC={k:null,r:null}; rvRobHint(); return {out:new Map(),warn:""}; }
   const T=rvT(), cand=rvSurfaceRows(rows.filter(r=>!RV.off.has(r.key)));
   // Závisí i na půdorysu (sousedé a vyrovnání); filtr/řazení tabulky verzi dat nemění.
   const k=JSON.stringify([RV.plane,RV.dataVersion||0,T,RV.set.rk,RV.set.u,RV.set.p,cand.map(r=>[r.key,r.y,r.x,r.z])]);
   if(rvRobC.k!==k){
-    const result=RV.plane==="v"&&!rvWallFilterRank(cand)?{out:new Map(),k:null,why:"",short:"body v pohledu leží v přímce",warn:"Robustní filtrace stěny potřebuje plošně rozmístěné body v souřadnicích s, Z. Body leží v přímce nebo jsou pro vyrovnání plochy příliš úzce rozmístěné; automaticky nebyl vyřazen žádný bod.",log:["Robustní filtrace stěny: body v pohledu s, Z netvoří plošnou síť; žádný bod automaticky nevyřazen."]}:rvRob(cand,T);
+    const result=RV.plane==='o'&&!rvWallFilterRank(cand)?{out:new Map(),k:null,why:'',short:'body v x′, y′ leží v přímce',warn:'Robustní filtrace obecné roviny potřebuje plošně rozmístěné body v x′, y′. Žádný bod automaticky nevyřazen.',log:['Robustní filtrace: body v x′, y′ netvoří plošnou síť.']}:RV.plane==="v"&&!rvWallFilterRank(cand)?{out:new Map(),k:null,why:"",short:"body v pohledu leží v přímce",warn:"Robustní filtrace stěny potřebuje plošně rozmístěné body v souřadnicích s, Z. Body leží v přímce nebo jsou pro vyrovnání plochy příliš úzce rozmístěné; automaticky nebyl vyřazen žádný bod.",log:["Robustní filtrace stěny: body v pohledu s, Z netvoří plošnou síť; žádný bod automaticky nevyřazen."]}:rvRob(cand,T);
     rvRobC={k,r:result}; RV.robLog=result.log; rvLogRender(); }
   rvRobHint(); return rvRobC.r; }
 function rvRobHint(){
@@ -3215,7 +3402,7 @@ function rvRobHint(){
   if(lb.dataset.t0===undefined) lb.dataset.t0=lb.title;
   el.disabled=!on; el.placeholder=k!=null&&au?"auto "+fmtCz(String(k)):"auto";
   if(!au&&document.activeElement!==el) el.value=fmtCz(String(RV.set.rk));
-  lb.title=lb.dataset.t0+(on&&au?`\n\nAktuálně (auto): ${k!=null?`${fmtCz(String(k))}× = ${rvTolTxt(k)} – ${r.why}`:"– (málo bodů)"}`:"");
+  lb.title=(RV.plane==='o'?'Robustní filtrace v místní soustavě x′, y′, d; plocha se vyrovnává nezávisle na referenční rovině. Stávající 10% pojistka zůstává zachovaná.':lb.dataset.t0)+(on&&au?`\n\nAktuálně (auto): ${k!=null?`${fmtCz(String(k))}× = ${rvTolTxt(k)} – ${r.why}`:"– (málo bodů)"}`:"");
   const hw=$("rvrobh"), wr=on&&r&&r.warn;   // varování přímo u volby (nic nevyřazeno / málo bodů); podrobnosti v řádku pod tabulkou a v logu
   hw.classList.toggle("rvw",!!wr); hw.title=wr?r.warn:"";
   hw.textContent=wr?`⚠ ${r.short||r.warn}`:on&&k!=null?`= ${rvTolTxt(k)}`+(r&&!r.warn?` · odlehlých ${r.out.size}`:""):(on?"":"prázdné = auto z dat"); }
@@ -3242,14 +3429,14 @@ function rvLatCalc(rows,sup){ const S=RV.set, L=S.L, Lm=Math.min(S.Lm,L), w=S.w,
       if(!best||(dn?h<best.h:Math.abs(h)>Math.abs(best.h))) best={h,a:A,b:B,d:Math.sqrt(d2)}; } }
     if(best){ const A=best.a, B=best.b; out.set(c.key,{h:dn&&best.h>0?0:best.h,hx:dn?0:Math.max(0,hx),hn:Math.min(0,hn),aid:A.id,bid:B.id,ay:A.y,ax:A.x,by:B.y,bx:B.x,d:best.d,n}); } });
   return out; }
-function rvLatGet(rows){ rows=rvSurfaceRows(rows); const S=RV.set, sup=rows.filter(r=>r.use&&isFinite(r.y)&&isFinite(r.x)&&isFinite(r.z));
+function rvLatGet(rows){ if(RV.plane==='o'&&!rvGeneralProjection(rows).ok)return new Map();rows=rvSurfaceRows(rows); const S=RV.set, sup=rows.filter(r=>r.use&&isFinite(r.y)&&isFinite(r.x)&&isFinite(r.z));
   const k=RV.plane+"|"+[S.L,S.Lm,S.w,S.lv].join("|")+"#"+rows.map(r=>r.key+":"+r.y+":"+r.x+":"+r.z+(r.use?"":"-")).join(";");
   if(rvLatC.k!==k) rvLatC={k,r:rvLatCalc(rows,sup)};
   return rvLatC.r; }
 function rvRoffUpd(){ $("rvroff").disabled=!(RV.rows.length&&(RV.rows.some(r=>RV.off.has(r.key)||r.kept)||$("rvflt").value!=="all"||RV.sort.k||$("rvtsr").value.trim()!=="")); }
 // souhrn kubatur pod souhrnem odchylek: odbourání / doplnění vůči rovině, nad tolerancí, bilance, citlivost a vyrovnaná výška s tlačítkem Převzít (Vrátit)
 var RV_Z0U=null, RV_V0U=null, RG_VOL_READY=false;   // poslední převzetí vyrovnané výšky {from, to} (jen v této relaci)
-function rvVolSum(zr,sum,pc){ if(RV.plane==="v") return rvWallVolSum(sum,pc); const R=rgVol(zr), tu=RV.set.u, tl=rvTolTxt();
+function rvVolSum(zr,sum,pc){ if(RV.plane==='o')return rvGeneralVolSum(sum,pc);if(RV.plane==="v") return rvWallVolSum(sum,pc); const R=rgVol(zr), tu=RV.set.u, tl=rvTolTxt();
   if(!R.ok){ sum.insertAdjacentHTML("beforeend",`<span class="vbr"></span><span class="sl">Kubatury: z bodů nevznikla žádná plocha (potřeba aspoň 3 zaškrtnuté body, které nejsou v přímce; trojúhelníky delší než Max. hrana v Plánu se vynechají).</span>`); return; }
   const cur=String(RV.def.h[0].z).trim(), fz=fmtCz(R.z0r.toFixed(RV_PR[RV.set.p].m)), same=Math.abs(R.z0r-zr)<1e-9, und=RV_Z0U&&RV_Z0U.to===cur&&same;
   const lat=rvLM();
@@ -3300,7 +3487,7 @@ function rvWallBalanceSet(undo){
 function rvZ0Set(v,undo){ const f=$("rvpin")&&$("rvpin").querySelector('input[data-i="0"][data-c="z"]'); if(!f||RV.plane!=="h") return;
   const from=String(RV.def.h[0].z).trim(); f.value=v; f.dispatchEvent(new Event("input",{bubbles:true}));
   RV_Z0U=undo?null:{from,to:String(v)}; rvResRender(); if(typeof rvPlanSync==="function") rvPlanSync(); }
-document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("#rvsum .vbt"); if(!b) return; if(b.dataset.vbalance!==undefined) rvWallBalanceSet(b.dataset.vbalance==="undo"); else rvZ0Set(b.dataset.z0,!!b.dataset.undo); });
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("#rvsum .vbt"); if(!b) return; if(b.dataset.obalance!==undefined)rvGeneralBalanceSet(b.dataset.obalance==='undo');else if(b.dataset.vbalance!==undefined) rvWallBalanceSet(b.dataset.vbalance==="undo"); else rvZ0Set(b.dataset.z0,!!b.dataset.undo); });
 // Orthogonal least-squares plane of actual XYZ, equal point weights; independent of reference plane and lath values.
 function rvTiltFit(rows){
  const pts=rows.filter(r=>r.use&&[r.y,r.x,r.z].every(Number.isFinite)),n=pts.length,fail=why=>({ok:false,n,why});if(n<3)return fail('potřeba alespoň 3 zaškrtnuté body');
@@ -3319,9 +3506,15 @@ function rvTiltFit(rows){
 }
 var RV_TILT_CACHE=null;
 function rvTiltGet(){
- if(!['h','v'].includes(RV.plane))return {ok:false,n:0,why:'typ roviny není podporován'};
+ if(!['h','v','o'].includes(RV.plane))return {ok:false,n:0,why:'typ roviny není podporován'};
  let fit;if(RV_TILT_CACHE&&RV_TILT_CACHE.rows===RV.rows)fit=RV_TILT_CACHE.fit;else{fit=rvTiltFit(RV.rows||[]);RV_TILT_CACHE={rows:RV.rows,fit};}if(!fit.ok)return fit;
  let normal=fit.normal.slice();const deg=180/Math.PI;
+ if(RV.plane==='o'){
+  const f=rvGeneralFrame();if(!f)return {ok:false,n:fit.n,why:'není zadána platná obecná rovina'};
+  const dot=(a,b)=>a.reduce((s,v,i)=>s+v*b[i],0);let c=dot(normal,f.n);if(c<0){normal=normal.map(v=>-v);c=-c;}
+  const cross=[normal[1]*f.n[2]-normal[2]*f.n[1],normal[2]*f.n[0]-normal[0]*f.n[2],normal[0]*f.n[1]-normal[1]*f.n[0]],sn=Math.hypot(...cross),den=Math.min(1,Math.max(0,c));
+  return {...fit,normal,angle:Math.atan2(sn,den)*deg,ratio:den>1e-10?sn/den*1000:null,slopeX:den>1e-10?-dot(normal,f.ex)/den*1000:null,slopeY:den>1e-10?-dot(normal,f.ey)/den*1000:null};
+ }
  if(RV.plane==='h'){
   if(normal[2]<0)normal=normal.map(x=>-x);const h=Math.hypot(normal[0],normal[1]),z=Math.abs(normal[2]),az=h<1e-10||z<1e-10?null:(Math.atan2(normal[0],normal[1])*deg+360)%360;
   return {...fit,normal,angle:Math.atan2(h,z)*deg,ratio:z>1e-10?h/z*1000:null,azimuth:az};
@@ -3332,19 +3525,25 @@ function rvTiltGet(){
 }
 const rvTiltFmt=(v,d=2,signed=false)=>v==null?'nelze vyjádřit':((signed&&Number(v.toFixed(d))>0?'+':'')+fmtCz((Math.abs(v)<.5*Math.pow(10,-d)?0:v).toFixed(d)));
 function rvTiltTexts(t=rvTiltGet()){
+ if(RV.plane==='o'){
+  const name='Odklon zaměřené plochy od zadané roviny';if(!t.ok)return [name+': '+t.why+'.'];
+  return [name+': '+(t.ratio==null?'':rvTiltFmt(t.ratio)+' mm/m · ')+rvTiltFmt(t.angle,3)+'°.',...(t.slopeX==null?[]:['Sklon d: ve směru +x′ '+rvTiltFmt(t.slopeX,2,true)+' mm/m; ve směru +y′ '+rvTiltFmt(t.slopeY,2,true)+' mm/m.']),'RMS od vyrovnané roviny: '+rvDS(t.rms).replace(/^\+/,'')+' '+RV.set.u+'.'];
+ }
  const vertical=RV.plane==='v',name=vertical?'Odklon zaměřené plochy od svislice':'Sklon zaměřené plochy';
  if(!t.ok)return [name+': '+t.why+'.'];
- return [name+': '+(t.ratio==null?'':rvTiltFmt(t.ratio)+' mm/m · ')+rvTiltFmt(t.angle,3)+'°'+(vertical?' · '+t.direction:t.azimuth==null?' · směr stoupání neurčen':(' · směr stoupání '+rvTiltFmt((Math.round(t.azimuth*10)%3600)/10,1)+'° od −X k −Y (souřadnicové osy)'))+'.',...(vertical?['Natočení vůči stopě 1 → 2: '+(t.yaw==null?'nelze určit':rvTiltFmt(t.yaw,3,true)+'°')+'; + ke straně +d, − ke straně −d ve směru 1 → 2.']:[])];
+ const lines=[name+': '+(t.ratio==null?'':rvTiltFmt(t.ratio)+' mm/m · ')+rvTiltFmt(t.angle,3)+'°'+(vertical?' · '+t.direction:t.azimuth==null?' · směr stoupání neurčen':(' · směr stoupání '+rvTiltFmt((Math.round(t.azimuth*10)%3600)/10,1)+'° od −X k −Y (souřadnicové osy)'))+'.',...(vertical?['Natočení vůči stopě 1 → 2: '+(t.yaw==null?'nelze určit':rvTiltFmt(t.yaw,3,true)+'°')+'; + ke straně +d, − ke straně −d ve směru 1 → 2.']:[])];
+ lines.push('RMS od vyrovnané roviny: '+rvDS(t.rms).replace(/^\+/, '')+' '+RV.set.u+'.');return lines;
 }
 function rvTiltSummary(sum){
  const t=rvTiltGet(),title='Ortogonální vyrovnání roviny ze všech '+t.n+' zaškrtnutých bodů, se stejnou vahou. Filtr tabulky ani hodnoty h od latě jej nemění. Jde o celkový náklon plochy, bez změny vyhodnocení vůči zadané rovině.';
- sum.insertAdjacentHTML('beforeend','<span class="vbr"></span>'+rvTiltTexts(t).map(text=>'<span class="sc" title="'+esc(title)+'">'+esc(text)+'</span>').join(''));
+ sum.insertAdjacentHTML('beforeend','<span class="vbr"></span>'+rvTiltTexts(t).map(text=>'<span class="sc" title="'+esc(title+(text.startsWith('RMS ')?' RMS = odmocnina průměru čtverců kolmých vzdáleností od vyrovnané roviny (dělení počtem bodů). Vyjadřuje rozptyl bodů kolem této roviny, nikoli přesnost měření ani odchylku od zadané roviny.':''))+'">'+esc(text)+'</span>').join(''));
 }
 function rvTiltCsv(f){
  const t=rvTiltGet(),rows=[['Odklon_metoda','ortogonalni vyrovnani roviny; stejne vahy'],['Odklon_rozsah','vsechny zaskrtnute body; nezavisle na filtru; puvodni XYZ'],['Odklon_pocet_bodu',t.n]];
  if(!t.ok)return rows.concat([['Odklon_stav',t.why]]);rows.push(['Odklon_stav','vypocteno'],[RV.plane==='v'?'Odklon_od_svislice_mm_na_m':'Sklon_mm_na_m',t.ratio==null?'':f(t.ratio,2)],[RV.plane==='v'?'Odklon_od_svislice_stupne':'Sklon_stupne',f(t.angle,3)]);
  if(RV.plane==='h')rows.push(['Smer_stoupani_stupne_od_minus_X_k_minus_Y',t.azimuth==null?'':f((Math.round(t.azimuth*10)%3600)/10,1)],['Smer_stoupani_vztah','0 = -X; 90 = -Y; 180 = +X; 270 = +Y; bez korekce meridianove konvergence']);
- else rows.push(['Odklon_smer',t.direction],['Natoceni_stopy_stupne',t.yaw==null?'':f(t.yaw,3)],['Natoceni_znamenko','+ ke strane +d; - ke strane -d ve smeru 1 -> 2']);return rows;
+ else rows.push(['Odklon_smer',t.direction],['Natoceni_stopy_stupne',t.yaw==null?'':f(t.yaw,3)],['Natoceni_znamenko','+ ke strane +d; - ke strane -d ve smeru 1 -> 2']);
+ const m=RV.set.u==='m',pr=RV_PR[RV.set.p];rows.push(['RMS_k_vyrovnane_rovine_'+RV.set.u,f(m?rvR1(t.rms)/1000:rvR1(t.rms),m?pr.m:pr.mm)],['RMS_metoda','sqrt(sum(kolma_vzdalenost^2)/n); stejne vahy; nejde o presnost mereni']);return rows;
 }
 function rvTiltPdf(sc){
  const size=Math.max(8,Math.min(11,sc.W/110)),texts=rvTiltTexts().concat(['Ortogonální vyrovnání; '+rvTiltGet().n+' zaškrtnutých bodů, všechny bez ohledu na filtr; původní XYZ.']),rows=texts.flatMap(t=>rgWrapText(t.replace(/→/g,'->'),sc.W-52,size*.56)),start=sc.H+10,lh=size*1.5;
@@ -3353,22 +3552,22 @@ function rvTiltPdf(sc){
 
 function rvResRender(){
   const box=$("rvrzone"); if(!box||!RV.def||!RV.sort) return;   // při startu se volá dřív, než je sekce připravená
-  const frame=RV.defOk?rvPlaneFrame():null, vertical=RV.plane==="v", zr=frame&&frame.kind==="h"?frame.z:null;
+  const frame=RV.defOk?rvPlaneFrame():null, vertical=RV.plane==="v", general=RV.plane==="o", zr=frame&&frame.kind==="h"?frame.z:null;
   rvVerticalUi();
-  if(!vertical&&RV.sort.k==="s"){ RV.sort.k=""; RV.sort.dir=1; }
-  const show=!!frame; box.hidden=!show; $("rvszone").hidden=!show; $("rvxzone").hidden=!show; if(!show){ RV.rows=[]; RV.view=[]; $("rvstx").disabled=true; return; }
+  if((!vertical&&RV.sort.k==="s")||(!general&&["xp","yp"].includes(RV.sort.k))){ RV.sort.k=""; RV.sort.dir=1; }
+  const show=!!frame; box.hidden=!show; $("rvszone").hidden=!show; $("rvxzone").hidden=!show||general; if(!show){ RV.rows=[]; RV.view=[]; $("rvstx").disabled=true; return; }
   const pts=RV.pts, n=pts.length, tb=$("rvtb"), sum=$("rvsum"), st=$("rvst");
   $("rvtw").classList.toggle("one",RV.files.length<2);
   const stl=!vertical&&RV.def.h[0].s&&RV_ST[RV.def.h[0].s]?` (${RV_STL[RV.def.h[0].s]} PD)`:"";
   const flt=$("rvflt"), lat=rvLM(), ldn=lat&&RV.set.lv==="dn";
   for(const o of flt.options){ if(o.dataset.l0===undefined) o.dataset.l0=o.dataset.l!==undefined?o.dataset.l:o.textContent;   // v režimu latě jiné popisky voleb podle tolerance
     const vl={up:"jen před rovinou (d > 0)",dn:"jen za rovinou (d < 0)",eq:"jen v rovině (d = 0)",ext:"jen nejvíce před a za rovinou",oup:"nad tolerancí před rovinou (k odbourání)",odn:"nad tolerancí za rovinou (k doplnění)"};
-    o.dataset.l=(lat&&RV_FLL[o.value])||(vertical&&vl[o.value])||o.dataset.l0; o.hidden=(o.value==="nol"&&!lat)||(o.value==="oup"&&ldn); }
+    o.dataset.l=(lat&&RV_FLL[o.value])||((vertical||general)&&vl[o.value])||o.dataset.l0; o.hidden=(o.value==="nol"&&!lat)||(o.value==="oup"&&ldn); }
   if(flt.selectedOptions[0]&&flt.selectedOptions[0].hidden) flt.value="all";
-  $("rvtw").classList.toggle("lat",lat); const lg=document.querySelector("#rvrzone .rvleg"); if(lg){ if(lg.dataset.t0===undefined) lg.dataset.t0=lg.textContent; lg.textContent=vertical&&lat?RV_LLEG():vertical?"d je kolmá odchylka od svislé roviny: + před rovinou (vpravo od 1 → 2 shora), − za rovinou. s je staničení od bodu 1. Tolerance a filtr se řídí zvolenou přesností. Odškrtnuté body se do souhrnu nepočítají.":lat?RV_LLEG():RV.set.pn===false?lg.dataset.t0.replace(" (světlejší odstín)","").replace(" (tmavší odstín)",""):lg.dataset.t0; }
+  $("rvtw").classList.toggle("lat",lat); const lg=document.querySelector("#rvrzone .rvleg"); if(lg){ if(lg.dataset.t0===undefined) lg.dataset.t0=lg.textContent; lg.textContent=general&&lat?RV_LLEG():general?"d je kolmá odchylka od zadané obecné roviny, nikoli rozdíl výšek Z. x′ začíná v bodě 1 a roste k bodu 2; y′ je v rovině kolmo k x′. Z kladné strany d jde +x′ k +y′ po směru hodinových ručiček. Ve výchozí orientaci má bod 3 kladné y′. Obrácení strany obrátí d i y′. Odškrtnuté body se do souhrnu nepočítají.":vertical&&lat?RV_LLEG():vertical?"d je kolmá odchylka od svislé roviny: + před rovinou (vpravo od 1 → 2 shora), − za rovinou. s je staničení od bodu 1. Tolerance a filtr se řídí zvolenou přesností. Odškrtnuté body se do souhrnu nepočítají.":lat?RV_LLEG():RV.set.pn===false?lg.dataset.t0.replace(" (světlejší odstín)","").replace(" (tmavší odstín)",""):lg.dataset.t0; }
   if(!n){ RV.rows=[]; RV.view=[]; tb.innerHTML=""; $("rvtw").hidden=true; $("rvcp").disabled=true; $("rvcsv").disabled=$("rvstx").disabled=true; $("rvfcnt").textContent=""; $("rvstf").textContent="";
     for(const o of flt.options) if(o.dataset.l!==undefined) o.textContent=o.dataset.l;
-    sum.innerHTML=vertical?`<span class="sl">Svislá rovina 1 → 2, délka základny ${rvStationFmt(frame.L)} m.</span>`:`<span class="sl">Rovina Z = ${rvPtFmt(zr)} m${esc(stl)}</span>`;
+    sum.innerHTML=general?`<span class="sl">Obecná rovina 1 → 2 → 3, základna x′ ${rvStationFmt(frame.L)} m.</span>`:vertical?`<span class="sl">Svislá rovina 1 → 2, délka základny ${rvStationFmt(frame.L)} m.</span>`:`<span class="sl">Rovina Z = ${rvPtFmt(zr)} m${esc(stl)}</span>`;
     st.textContent="Načti zaměřené body v sekci 1. MĚŘENÍ, odchylky od roviny se zobrazí tady."; st.className="stw warn"; rvRoffUpd(); rvSearch(false); return; }
   $("rvtw").hidden=false; st.textContent=""; st.className="stw";
   const rows=pts.map((q,i)=>({i:i+1,key:rvKey(q),id:q.id,y:q.y,x:q.x,z:q.z,...frame.at(q),code:q.code||"",file:q.file||""}));
@@ -3395,13 +3594,13 @@ function rvResRender(){
     +pc("rozpětí",`${rvDS((rvR1(mx)-rvR1(mn))/1000).replace(/^\+/,"")} ${tu}`,"Rozpětí max − min: rozdíl nejvyššího a nejnižšího bodu.")
     +pc("v toleranci",`${nok}`,`Body s odchylkou do ${rvTolTxt()} včetně.`,"ok")+pc("nad tolerancí",`${nov}`,`Body s odchylkou nad ${rvTolTxt()}, ale nejvýše 150 % tolerance (${rvTolTxt(1.5)}).`,nov?"bad":"")
     +pc(`nad 150 % (${rvTolTxt(1.5)})`,`${nhi}`,`Body s odchylkou nad 150 % tolerance (${rvTolTxt(1.5)}); v tabulce mají buňku podbarvenou červeně.`,nhi?"bad2":"");
-  if(vertical){
-    const heading=`Svislá rovina 1 → 2, základna ${rvStationFmt(frame.L)} m`;
+  if(vertical||general){
+    const heading=general?`Obecná rovina 1 → 2 → 3, základna x′ ${rvStationFmt(frame.L)} m`:`Svislá rovina 1 → 2, základna ${rvStationFmt(frame.L)} m`;
     sum.innerHTML=sum.innerHTML.replace(/Odchylka od roviny Z = [^<]*?(?= \(|: všechny)/,heading)
       .replace(/ΔZ/g,"d").replace(/Nejnižší bod: nejmenší d\./g,"Nejmenší kolmá odchylka: nejvíce za rovinou.")
       .replace(/Nejvyšší bod: největší d\./g,"Největší kolmá odchylka: nejvíce před rovinou.")
       .replace(/rozdíl nejvyššího a nejnižšího bodu/g,"rozdíl největší a nejmenší kolmé odchylky");
-    if(nu){ const ss=used.map(r=>r.s), span=Math.max(...ss)-Math.min(...ss);
+    if(vertical&&nu){ const ss=used.map(r=>r.s), span=Math.max(...ss)-Math.min(...ss);
       if(frame.L<span/3){ st.textContent="⚠ Krátká základna vůči rozsahu bodů: malé chyby zadání mohou výrazně natočit rovinu. Zvaž vzdálenější definiční body."; st.className="stw warn"; } }
   }
   if(lat&&nu){   // souhrn rovinnosti latí: body bez latě se počítají zvlášť, do procent ne
@@ -3423,11 +3622,11 @@ function rvResRender(){
     return (typeof u==="number"?u-v:String(u).localeCompare(String(v),"cs",{numeric:true}))*dir||a.i-b.i; });
   RV.rows=rows; RV.view=vw;
   rvTiltSummary(sum);
-  if(nu&&RG_VOL_READY) rvVolSum(vertical?0:zr,sum,pc);   // při startu se souhrn vykreslí dřív, než je kód plochy připravený; kubatury se doplní na konci skriptu
+  if(nu&&RG_VOL_READY) rvVolSum(vertical||general?0:zr,sum,pc);   // při startu se souhrn vykreslí dřív, než je kód plochy připravený; kubatury se doplní na konci skriptu
   $("rvfcnt").textContent=fv==="all"?"":`Zobrazeno ${vw.length} z ${n} ${bodu(n)} (filtr platí i pro kopírování)`;
-  tb.innerHTML=vw.length?vw.map(r=>`<tr data-rk="${esc(r.key)}" class="${r.ext?"ext":""}${r.use?"":" skip"}${RV.selk===r.key?" sel":""}"><td class="hd"><input type="checkbox" data-use="${esc(r.key)}"${r.use?" checked":""} aria-label="Použít bod ${esc(r.id)}" title="${r.auto?(r.kept?`Odlehlý bod (${esc(r.auto)}), vrácený do výpočtu. Odškrtnutím ho znovu vyřadíš.`:`Automaticky vyřazený odlehlý bod (${esc(r.auto)}). Zaškrtnutím ho vrátíš do výpočtu.`):"Použít bod v souhrnu a kopírování. Odškrtnutý bod zůstane v tabulce zašedlý."}"> ${r.i}</td><td>${esc(r.id)}${r.auto?`<span class="rvol${r.kept?" kp":""}" title="${r.kept?"Odlehlý bod vrácený do výpočtu":"Automaticky vyřazený odlehlý bod"}: ${esc(r.auto)}, mez ${rvRobC.r&&rvRobC.r.k!=null?`${fmtCz(String(rvRobC.r.k))}× tolerance = ${rvTolTxt(rvRobC.r.k)}`:rvTolTxt(RV.set.rk)}.">odlehlý</span>`:""}</td><td class="n">${rvPtFmt(r.y)}</td><td class="n">${rvPtFmt(r.x)}</td><td class="n">${rvPtFmt(r.z)}</td><td class="n rvvc">${vertical?rvStationFmt(r.s):""}</td><td class="n${lat?"":" "+rvCls(r.d)}" title="Přesně: ${rvExact(r.d)}">${rvDS(r.d)}</td>${lat?rvLatTd(r):'<td class="rvlc"></td>'}<td>${esc(r.code)}</td><td class="rvfc">${esc(r.file)}</td><td class="fill"></td></tr>`).join("")
-    :'<tr><td colspan="11" style="color:var(--mut)">Žádný bod nevyhovuje zvolenému filtru.</td></tr>';
-  $("rvcp").disabled=$("rvcsv").disabled=$("rvstx").disabled=!vw.some(r=>r.use);
+  tb.innerHTML=vw.length?vw.map(r=>`<tr data-rk="${esc(r.key)}" class="${r.ext?"ext":""}${r.use?"":" skip"}${RV.selk===r.key?" sel":""}"><td class="hd"><input type="checkbox" data-use="${esc(r.key)}"${r.use?" checked":""} aria-label="Použít bod ${esc(r.id)}" title="${r.auto?(r.kept?`Odlehlý bod (${esc(r.auto)}), vrácený do výpočtu. Odškrtnutím ho znovu vyřadíš.`:`Automaticky vyřazený odlehlý bod (${esc(r.auto)}). Zaškrtnutím ho vrátíš do výpočtu.`):"Použít bod v souhrnu a kopírování. Odškrtnutý bod zůstane v tabulce zašedlý."}"> ${r.i}</td><td>${esc(r.id)}${r.auto?`<span class="rvol${r.kept?" kp":""}" title="${r.kept?"Odlehlý bod vrácený do výpočtu":"Automaticky vyřazený odlehlý bod"}: ${esc(r.auto)}, mez ${rvRobC.r&&rvRobC.r.k!=null?`${fmtCz(String(rvRobC.r.k))}× tolerance = ${rvTolTxt(rvRobC.r.k)}`:rvTolTxt(RV.set.rk)}.">odlehlý</span>`:""}</td><td class="n">${rvPtFmt(r.y)}</td><td class="n">${rvPtFmt(r.x)}</td><td class="n">${rvPtFmt(r.z)}</td><td class="n rvvc">${vertical?rvStationFmt(r.s):""}</td><td class="n rvoc" title="${general?'Přesně: '+fmtCz(String(r.xp))+' m':''}">${general?rvStationFmt(r.xp):""}</td><td class="n rvoc" title="${general?'Přesně: '+fmtCz(String(r.yp))+' m':''}">${general?rvStationFmt(r.yp):""}</td><td class="n${lat?"":" "+rvCls(r.d)}" title="Přesně: ${rvExact(r.d)}">${rvDS(r.d)}</td>${lat?rvLatTd(r):'<td class="rvlc"></td>'}<td>${esc(r.code)}</td><td class="rvfc">${esc(r.file)}</td><td class="fill"></td></tr>`).join("")
+    :'<tr><td colspan="13" style="color:var(--mut)">Žádný bod nevyhovuje zvolenému filtru.</td></tr>';
+  $("rvcp").disabled=$("rvcsv").disabled=$("rvstx").disabled=general||!vw.some(r=>r.use);
   document.querySelectorAll("#rvtw thead th").forEach(th=>{ const b=th.querySelector("button.sb"); if(!b) return; const on=b.dataset.k===k;
     th.setAttribute("aria-sort",on?(dir>0?"ascending":"descending"):"none"); b.querySelector(".si").textContent=on?(dir>0?"▲":"▼"):""; });
   rvSearch(false);   // po překreslení se zvýraznění obnoví, tabulka se neposouvá
@@ -3490,7 +3689,7 @@ function rvOver(d){ return Math.abs(rvR1(d))>rvT()+1e-9; }   // nad tolerancí (
 function rvHi(d){ return Math.abs(rvR1(d))>1.5*rvT()+1e-9; }   // nad 150 % tolerance (jako ZSS: nad 150 % meze je vybarvená i buňka)
 function rvCls(d){ return (rvOver(d)?"ov":"ok")+rvPN(d)+(rvHi(d)?" heat":""); }   // ok/ov × kladná/záporná (0 se bere jako kladná); nad 150 % tolerance navíc červené podbarvení (td.heat jako v ZSS)
 // vyhodnocení podle režimu: odchylky od roviny (ΔZ, tolerance odchylek) nebo rovinnost latí (h, tolerance latě)
-const rvLM=()=>["h","v"].includes(RV.plane)&&RV.set.m==="lat";
+const rvLM=()=>["h","v","o"].includes(RV.plane)&&RV.set.m==="lat";
 const rvEv=r=>rvLM()?r.h:r.d;   // hodnocená odchylka v m (u latě null = bez latě)
 function rvTL(){ return rvTq(RV.set.lt); }   // tolerance latě v mm zaokrouhlená na zvolenou přesnost
 function rvTE(){ return rvLM()?rvTL():rvT(); }
@@ -3498,7 +3697,7 @@ const rvOvE=r=>{ const v=rvEv(r); return v!=null&&Math.abs(rvR1(v))>rvTE()+1e-9;
 const rvHiE=r=>{ const v=rvEv(r); return v!=null&&Math.abs(rvR1(v))>1.5*rvTE()+1e-9; };
 function rvTolTxtE(k){ if(!rvLM()) return rvTolTxt(k); const t=rvTL()*(k||1); return RV.set.u==="m"?fmtCz(String(+(t/1000).toFixed(4)))+" m":fmtCz(String(Math.round(t*10)/10))+" mm"; }
 const RV_FLL={in:"jen v toleranci latě",over:"jen nad tolerancí latě",hi:"jen nad 150 % tolerance latě",oup:"hrb nad tolerancí (k odbourání)",odn:"prohlubeň nad tolerancí (k doplnění)",ext:"jen největší hrb a prohlubeň"};
-const RV_LLEG=()=>RV.plane==="v"?`h = kolmá odchylka bodu od spojnice konců latě v jeho průmětu do pohledu s, Z. Kladné h = hrb před lať, záporné h = prohlubeň za lať. Lať ${fmtCz(RV.set.L.toFixed(2))} m, bod v prostřední třetině a v pásu ±${fmtCz(RV.set.w.toFixed(2))} m v pohledu. Do tolerance latě včetně zeleně, nad ní červeně. „—“ = bez latě. d je informativní odchylka od zadané roviny. Odškrtnuté a vyřazené body nejsou konci latě.`:`Odškrtnutý bod se nezapočítá do souhrnu ani do kopírování a není koncem latě. h = Z bodu − výška latě v místě bodu (lať ${fmtCz(RV.set.L.toFixed(2))} m mezi dvěma zaměřenými body, bod v její prostřední třetině, nejvýš ±${fmtCz(RV.set.w.toFixed(2))} m od osy). Kladná = hrb, záporná = prohlubeň${RV.set.lv==="dn"?" (varianta jen prohlubeň: hrby se neberou)":""}. Do tolerance latě včetně zeleně, nad ní červeně, nad 150 % i podbarvení. „—“ = bez latě. ΔZ je jen informativní. Tučně bod s největším hrbem a s největší prohlubní (podle h).`;
+const RV_LLEG=()=>RV.plane==="o"?rvGeneralLathNote():RV.plane==="v"?`h = kolmá odchylka bodu od spojnice konců latě v jeho průmětu do pohledu s, Z. Kladné h = hrb před lať, záporné h = prohlubeň za lať. Lať ${fmtCz(RV.set.L.toFixed(2))} m, bod v prostřední třetině a v pásu ±${fmtCz(RV.set.w.toFixed(2))} m v pohledu. Do tolerance latě včetně zeleně, nad ní červeně. „—“ = bez latě. d je informativní odchylka od zadané roviny. Odškrtnuté a vyřazené body nejsou konci latě.`:`Odškrtnutý bod se nezapočítá do souhrnu ani do kopírování a není koncem latě. h = Z bodu − výška latě v místě bodu (lať ${fmtCz(RV.set.L.toFixed(2))} m mezi dvěma zaměřenými body, bod v její prostřední třetině, nejvýš ±${fmtCz(RV.set.w.toFixed(2))} m od osy). Kladná = hrb, záporná = prohlubeň${RV.set.lv==="dn"?" (varianta jen prohlubeň: hrby se neberou)":""}. Do tolerance latě včetně zeleně, nad ní červeně, nad 150 % i podbarvení. „—“ = bez latě. ΔZ je jen informativní. Tučně bod s největším hrbem a s největší prohlubní (podle h).`;
 function rvLatTd(r){ const q=r.lat; if(!q) return '<td class="n rvlc na" title="Bez latě: v okolí bodu nejsou dva zaškrtnuté body, které by mohly být konci latě (okraj plochy nebo řídké body).">—</td>';
   const cls=(rvOvE(r)?"ov":"ok")+rvPN(r.h)+(rvHiE(r)?" heat":"");
   return `<td class="n rvlc ${cls}" title="Lať ${esc(q.aid)} – ${esc(q.bid)}, délka ${fmtCz(q.d.toFixed(2))} m; nalezených poloh latě: ${q.n}.${RV.set.lv==="dn"?"":` Ze všech poloh: hrb až ${rvDS(q.hx)}, prohlubeň až ${rvDS(q.hn)} ${RV.set.u}.`} Přesně: ${rvExact(r.h)}">${rvDS(r.h)}</td>`; }
@@ -3629,14 +3828,14 @@ let RGV=null, RGZ=null, RGSIG="", RGP=[], rgWant=0, rgPend=true; RV.selk=null;  
 try{ const v=+localStorage.getItem(RGK); if(v===1||v===2) rgWant=v; }catch(e){}
 let rg3Factor=1;
 const rgPct=()=>{ const v=parseFloat(String($("rgfs").value).replace(",",".")); return isFinite(v)?Math.min(300,Math.max(25,v)):100; };
-try{ const o=JSON.parse(localStorage.getItem(ROK)||"null"); if(o){ [["rgnm","nm"],["rgzv","zv"],["rgdz","dz"],["rgus","us"],["rgll","ll"],["rggr","gr"],["rghd","hd"]].forEach(([id,k])=>{ if(typeof o[k]==="boolean") $(id).checked=o[k]; }); if(isFinite(o.fs)) $("rgfs").value=Math.min(300,Math.max(25,+o.fs)); if(o.mk==="x"||o.mk==="o") $("rgmk").value=o.mk;
+try{ const o=JSON.parse(localStorage.getItem(ROK)||"null"); if(o){ [["rgref","ref"],["rgnm","nm"],["rgzv","zv"],["rgdz","dz"],["rgus","us"],["rgll","ll"],["rggr","gr"],["rghd","hd"]].forEach(([id,k])=>{ if(typeof o[k]==="boolean") $(id).checked=o[k]; }); if(isFinite(o.fs)) $("rgfs").value=Math.min(300,Math.max(25,+o.fs)); if(o.mk==="x"||o.mk==="o") $("rgmk").value=o.mk;
   [["rgct","ct"],["rgtn","tn"],["rgvl","vl"]].forEach(([id,k])=>{ if(typeof o[k]==="boolean") $(id).checked=o[k]; });
   [["rgmp","mp"],["rgcs","cs"],["rgop","op"],["rgsm","sm"]].forEach(([id,k])=>{ if(typeof o[k]==="string"&&[...$(id).options].some(q=>q.value===o[k])) $(id).value=o[k]; });
   if(typeof o.em==="string") $("rgem").value=o.em; if([1,2,5,10,20,50,100].includes(o.df)) rg3Factor=o.df; if(typeof o.dp==="boolean") $("rg3plane").checked=o.dp; } }catch(e){}
-function rgOptSave(){ try{ writeStorage(ROK,JSON.stringify({nm:$("rgnm").checked,zv:$("rgzv").checked,dz:$("rgdz").checked,us:$("rgus").checked,ll:$("rgll").checked,gr:$("rggr").checked,hd:$("rghd").checked,fs:rgPct(),mk:$("rgmk").value,mp:$("rgmp").value,ct:$("rgct").checked,cs:$("rgcs").value,op:$("rgop").value,sm:$("rgsm").value,tn:$("rgtn").checked,vl:$("rgvl").checked,em:$("rgem").value,df:rg3Factor,dp:$("rg3plane").checked})); }catch(e){} }
+function rgOptSave(){ try{ writeStorage(ROK,JSON.stringify({ref:$("rgref").checked,nm:$("rgnm").checked,zv:$("rgzv").checked,dz:$("rgdz").checked,us:$("rgus").checked,ll:$("rgll").checked,gr:$("rggr").checked,hd:$("rghd").checked,fs:rgPct(),mk:$("rgmk").value,mp:$("rgmp").value,ct:$("rgct").checked,cs:$("rgcs").value,op:$("rgop").value,sm:$("rgsm").value,tn:$("rgtn").checked,vl:$("rgvl").checked,em:$("rgem").value,df:rg3Factor,dp:$("rg3plane").checked})); }catch(e){} }
 const rgState=()=>$("rgm").hidden?0:($("rgm").classList.contains("split")?1:2);
 // Wall coordinates are reflected into the existing screen transform: s grows right, Z grows up.
-function rgPointCoords(r){ return RV.plane==="v"?{y:-r.s,x:-r.z}:r; }
+function rgPointCoords(r){ return RV.plane==='o'?{y:r.yp,x:r.xp}:RV.plane==="v"?{y:-r.s,x:-r.z}:r; }
 /* Svislá rovina: prostorová kamera a plocha, část 2/3. Zvětšení d je výhradně zobrazovací. */
 const RG3={plane:null,yaw:0,pitch:0,roll:0,view:null,model:null,gl:null,failed:false,surface:null,scene:null,visibility:null,layout:null,moving:false,settle:null,transition:null,pending:[],hoverFaces:[]};
 const rg3Active=()=>["h","v"].includes(RV.plane)&&(!!RG3.transition||Math.abs(RG3.yaw)>1e-9||Math.abs(RG3.pitch)>1e-9||Math.abs(RG3.roll)>1e-9);
@@ -3764,7 +3963,7 @@ function rg3LegendData(W,H){
   }
   RG3.legend={source:RV.rows,view:RV.view,key,data};return data;
 }
-function rg3Plot(W,H){const hs=rgHs(W,H),top=Math.max(105,Math.ceil(88*hs)),d=rg3LegendData(W,H),c=RG3.layout,hd=$("rghd").checked;if(c&&c.W===W&&c.H===H&&c.data===d&&c.hd===hd)return c.plot;const bottom=d?Math.ceil((d.horizontalRows?d.horizontalRows.length:d.compactRows?d.compactRows.length:d.maps.length+d.lines.length+d.notes.length)*d.lh+(hd?12*hs:0)+20):30,plot={x:34,y:top,w:Math.max(12,W-146),h:Math.max(12,H-top-bottom)};RG3.layout={W,H,data:d,hd,plot};return plot;}
+function rg3Plot(W,H){const hs=rgHs(W,H),top=Math.max(105,Math.ceil(88*hs)),d=rg3LegendData(W,H),c=RG3.layout,hd=$("rghd").checked,nav=planNavWidth();if(c&&c.W===W&&c.H===H&&c.data===d&&c.hd===hd&&c.nav===nav)return c.plot;const bottom=d?Math.ceil((d.horizontalRows?d.horizontalRows.length:d.compactRows?d.compactRows.length:d.maps.length+d.lines.length+d.notes.length)*d.lh+(hd?12*hs:0)+20):30,plot={x:34,y:top,w:Math.max(12,W-nav-64),h:Math.max(12,H-top-bottom)};RG3.layout={W,H,data:d,hd,nav,plot};return plot;}
 function rg3Fit(W,H,m){
   const pl=rg3Plot(W,H);let x0=Infinity,x1=-Infinity,y0=Infinity,y1=-Infinity,depth=0;
   for(const p of m.fitCorners.concat($("rg3plane").checked||$("rggr").checked?m.corners:[])){const q=rg3Rotate(p,m);x0=Math.min(x0,q.x);x1=Math.max(x1,q.x);y0=Math.min(y0,q.y);y1=Math.max(y1,q.y);depth=Math.max(depth,Math.abs(q.depth));}
@@ -3793,7 +3992,7 @@ function rg3Scene(W,H,m,v,preview=false){
     else items.push({t:"circ",x:p.px,y:p.py,r:rad,c:st.c,fill:st.shape===2?"#fff":st.c,sw:1.5});
     if(p.r.key===RV.selk)items.push({t:"circ",x:p.px,y:p.py,r:rad+4,c:"#f59e0b",sw:2});
   }
-  frame.push({t:"text",x:pl.x,y:20*hs,s:RV.plane==="h"?"Vodorovná rovina – prostorový pohled":"Svislá rovina – prostorový pohled",size:14*hs,c:GC.txt,a:"start"},{t:"text",x:pl.x,y:36*hs,s:rgHead2(),size:11*hs,c:GC.txt,a:"start"},{t:"text",x:pl.x,y:52*hs,s:`Odchylky jsou uvedeny v ${RV.set.u==="m"?"m":"mm"}.`,size:10*hs,c:GC.gray,a:"start"},{t:"text",x:pl.x,y:70*hs,s:rg3Factor>1?`Odchylky zvětšeny ${rg3Factor}× · číselné hodnoty jsou skutečné`:"Skutečné měřítko odchylek 1×",size:10*hs,c:rg3Factor>1?"#b45309":GC.gray,a:"start"});
+  frame.push({t:"text",x:pl.x,y:20*hs,s:RV.plane==="h"?"Vodorovná rovina – prostorový pohled":"Svislá rovina – prostorový pohled",size:14*hs,c:GC.txt,a:"start"},{t:"text",x:pl.x,y:36*hs,s:rgHead2(),size:11*hs,c:GC.txt,a:"start"},{t:"text",x:pl.x,y:52*hs,s:`Odchylky jsou uvedeny v ${RV.set.u==="m"?"m":"mm"}.`,size:10*hs,c:GC.gray,a:"start"},...(rg3Factor>1?[{t:"text",x:pl.x,y:70*hs,s:`Odchylky zvětšeny ${rg3Factor}× · číselné hodnoty jsou skutečné`,size:10*hs,c:"#b45309",a:"start"}]:[]));
   const a=m.corners[0],as={s:m.corners[1].s,z:a.z,d:0},az={s:a.s,z:m.corners[3].z,d:0},ad={s:a.s,z:a.z,d:Math.max(.08,Math.max(m.s1-m.s0,m.z1-m.z0)*.12)/rg3Factor};
   for(const [end,label] of [[as,RV.plane==="h"?"−Y [m]":"s [m]"],[az,RV.plane==="h"?"−X [m]":"Z [m]"],[ad,RV.plane==="h"?"+ΔZ":"+d"]]){const A=project(a),B=project(end);frame.push({t:"line",x1:A.x,y1:A.y,x2:B.x,y2:B.y,c:GC.gray,sw:1.2},{t:"text",x:B.x+8,y:B.y-8,s:label,size:10*fs,c:GC.txt,a:"start"});}
   if($("rgll").checked){const d=rg3LegendData(W,H);if(d.horizontalRows){const start=H-12-d.horizontalRows.length*d.lh+d.ls;d.horizontalRows.forEach((t,i)=>frame.push({t:"text",x:pl.x,y:start+i*d.lh,s:t,size:d.ls,c:GC.gray,a:"start"}));}else if(d.compactRows){const start=H-12-($("rghd").checked?12*hs:0)-d.compactRows.length*d.lh+d.ls;frame.push(...rgWallMapLegendScene(d.compactRows,pl.x,start,d.ls,d.lh));}else frame.push(...rgWallLegendScene(W,H,fs,{...pl,w:Math.max(10,W-68)},d));}else frame.push({t:"text",x:pl.x,y:H-12,s:"Kostka / Shift + tažení: natočení · F: celý výkres",size:9*fs,c:GC.gray,a:"start"});
@@ -3840,23 +4039,24 @@ function rg3Draw(sc,m,v){
 }
 function rg3Ui(){
   rg3PlaneSync();const vertical=RV.plane==="v",supported=["h","v"].includes(RV.plane),active=rg3Active();$("rgcubeui").hidden=!supported;
-  $("rg3front").textContent=vertical?"Líc (2D)":"Půdorys";$("rg3front").title=vertical?"Vrátí Líc: čelní 2D pohled z kladné strany odchylek, včetně posledního přiblížení a posunu.":"Vrátí původní 2D půdorys i jeho poslední přiblížení a posun.";
+  $("rg3front").textContent=vertical?"Čelní pohled":"Půdorys";$("rg3front").title=vertical?"Vrátí Líc: čelní 2D pohled z kladné strany odchylek, včetně posledního přiblížení a posunu.":"Vrátí původní 2D půdorys i jeho poslední přiblížení a posun.";
   $("rg3factorlabel").textContent=vertical?"Zvětšení d":"Zvětšení ΔZ";
   $("rg3planecontrol").title=vertical?"Zobrazí referenční rovinu d = 0.":"Zobrazí referenční rovinu ΔZ = 0, v zadané výšce Z.";
   $("rg3canvas").setAttribute("aria-label",vertical?"Prostorový pohled na body svislé roviny":"Prostorový pohled na body vodorovné roviny");
-  $("rgcubespace").title="Tažení kostky / Shift + tažení: natočení. Šipky kolem kostky: 90°. Kliknutí na stěnu: standardní pohled. Dvojklik / Home: "+(vertical?"Líc (2D)":"Půdorys")+" (2D).";
+  $("rgcubespace").title="Tažení kostky / Shift + tažení: natočení. Šipky kolem kostky: 90°. Kliknutí na stěnu: standardní pohled. Dvojklik / Home: "+(vertical?"Čelní pohled":"Půdorys")+" (2D).";
   $("rgcube").querySelector('[data-face="front"]').setAttribute("aria-label",vertical?"Líc – návrat do 2D":"Pohled zepředu");
   $("rgcube").querySelector('[data-face="top"]').setAttribute("aria-label",vertical?"Pohled shora":"Půdorys – návrat do 2D");
   $("rg3canvas").hidden=$("rg3overlay").hidden=!active;$("rg3planecontrol").hidden=!active;
   $("rgcube").style.transform=`rotateZ(${-RG3.roll*180/Math.PI}deg) rotateX(${-RG3.pitch*180/Math.PI}deg) rotateY(${RG3.yaw*180/Math.PI}deg)${vertical?"":" rotateX(-90deg)"}`;
   rg3CubeLabels(vertical);rg3CubeZones();rg3CubeHighlight();
+  $("rg3front").hidden=!supported;$("rg3front").disabled=!rgCan();for(const b of $("rgcubenav").querySelectorAll("[data-roll]"))b.disabled=!rgCan()||RG3.failed;
   for(const b of $("rgcube").querySelectorAll("button"))b.disabled=!rgCan()||RG3.failed&&b.dataset.face!==rg3Home();
-  const directions={left:"vlevo",right:"vpravo",up:"nahoru",down:"dolů"};for(const b of $("rgcubenav").querySelectorAll("button")){const face=rg3Neighbor(b.dataset.dir),label="Sousední pohled "+directions[b.dataset.dir]+": "+rg3FaceTitle(face);b.title=label;b.setAttribute("aria-label",label);b.disabled=!rgCan()||RG3.failed&&face!==rg3Home();}
+  const directions={left:"vlevo",right:"vpravo",up:"nahoru",down:"dolů"};for(const b of $("rgcubenav").querySelectorAll("[data-dir]")){const face=rg3Neighbor(b.dataset.dir),label="Sousední pohled "+directions[b.dataset.dir]+": "+rg3FaceTitle(face);b.title=label;b.setAttribute("aria-label",label);b.disabled=!rgCan()||RG3.failed&&face!==rg3Home();}
   for(const prefix of ["rv","rg"]){const b=$(prefix+"pdf3");b.hidden=!supported;b.disabled=!rgExportCan()||!active||!rgState()||RG3.failed||!!RG3.pdfBusy||!!RG3.transition;b.title="PDF 3D: aktuální natočení, přiblížení a zvětšení "+(vertical?"d":"ΔZ")+" na stránce A3. Pro export otevřete prostorový pohled "+(vertical?"svislé":"vodorovné")+" roviny. Výstup je statický obrázek s textovými popisky.";}
   $("rg3factorcontrol").hidden=!active;$("rg3factor").disabled=!active;$("rg3factor").value=String(rg3Factor);
   for(const id of ["rgmp","rgct","rgcs","rgop","rgsm","rgtn","rgem","rgvl","rgll","rgnm","rgzv","rgdz"]){const e=$(id);if(e.dataset.cameraTitle!==undefined){e.title=e.dataset.cameraTitle;delete e.dataset.cameraTitle;}e.disabled=false;}
 
-  const box=$("rgsvg"),top=active?rg3Plot(box.clientWidth,box.clientHeight).y:rgPlot(box.clientWidth,box.clientHeight).y;$("rgcubeui").style.top=(top+6)+"px";
+  const box=$("rgsvg");planNavFit("rg",box,active?rg3Plot(box.clientWidth,box.clientHeight):rgPlot(box.clientWidth,box.clientHeight));rgGeneralPlanUi();
 }
 const RG3_FACE_NAMES={front:"Líc",back:"Rub",left:"Zleva",right:"Zprava",top:"Shora",bottom:"Zdola"};
 const RG3_CARDINAL={front:{text:"S",title:"Pohled od +X JTSK (S označuje souřadnicový jih, nikoli zeměpisný)"},back:{text:"N",title:"Pohled od −X JTSK (N označuje souřadnicový sever, nikoli zeměpisný)"},left:{text:"W",title:"Pohled od +Y JTSK (W označuje souřadnicový západ, nikoli zeměpisný)"},right:{text:"E",title:"Pohled od −Y JTSK (E označuje souřadnicový východ, nikoli zeměpisný)"},top:{text:"SHORA",title:"Pohled shora – návrat do 2D půdorysu"},bottom:{text:"ZDOLA",title:"Pohled zdola"}};
@@ -3902,6 +4102,12 @@ function rg3Neighbor(direction){const p=rg3NextPose(direction);return p?rg3Physi
 function rg3Angles(a){
   const pitch=Math.asin(Math.max(-1,Math.min(1,a.n[1]))),yaw=Math.abs(Math.cos(pitch))<1e-9?0:Math.atan2(-a.n[0],a.n[2]),base=rg3Axes(yaw,pitch,0),roll=Math.atan2(-rg3Dot(a.r,base.u),rg3Dot(a.r,base.r));
   return {yaw:Math.abs(yaw)<1e-9?0:yaw,pitch:Math.abs(pitch)<1e-9?0:pitch,roll:Math.abs(roll)<1e-9?0:roll};
+}
+function rg3Roll(direction,animate=false){
+  if(!["h","v"].includes(RV.plane)||!rgCan())return;rg3PlaneSync();
+  const last=RG3.pending&&RG3.pending.length?RG3.pending[RG3.pending.length-1]:null,a=last?rg3Axes(last.yaw,last.pitch,last.roll):RG3.transition?RG3.transition.targetAxes:rg3Axes(),neg=v=>v.map(q=>-q);
+  const pose=direction==="left"?{r:neg(a.u),u:a.r,n:a.n}:direction==="right"?{r:a.u,u:neg(a.r),n:a.n}:null;
+  if(pose)rg3Goto(rg3Angles(pose),animate,animate);
 }
 function rg3Step(direction,animate=false){
   if(!["h","v"].includes(RV.plane)||!rgCan())return;rg3PlaneSync();const a=rg3NextPose(direction);if(a)rg3Goto(rg3Angles(a),animate,animate);
@@ -3967,7 +4173,7 @@ function rg3Zoom(mx,my,f,W,H){if(!RG3.view)return;rg3Motion();const pl=rg3Plot(W
 function rg3Render(W,H){
   const rows=rgRows(),m=rg3Model(rows);if(!m)return false;const fit=rg3Fit(W,H,m);if(!RG3.view)RG3.view={...fit,W,H};else if(RG3.view.W!==W||RG3.view.H!==H){const old=rg3Fit(RG3.view.W,RG3.view.H,m);RG3.view.s*=fit.s/old.s;RG3.view.W=W;RG3.view.H=H;}RG3.view.depth=fit.depth;RG3.visibility=null;const sc=rg3Scene(W,H,m,RG3.view);RG3.scene=sc;
   if(!rg3Draw(sc,m,RG3.view)){rg3Stop();RG3.yaw=RG3.pitch=RG3.roll=0;rg3Ui();return false;}
-  RGP=sc.pts;$("rgsvg").innerHTML="";$("rg3overlay").innerHTML=svgOf({...sc,items:[],pts:[],transparent:true},"rg3clip");return true;
+  RGP=sc.pts;$("rgsvg").innerHTML="";$("rg3overlay").innerHTML=svgOf(planScreenScene({...sc,items:[],pts:[],transparent:true},"rg"),"rg3clip");return true;
 }
 (()=>{
   const space=$("rgcubespace");let drag=null,suppress=false;
@@ -3980,7 +4186,7 @@ function rg3Render(W,H){
   const end=e=>{if(!drag||drag.id!==e.pointerId)return;const target=drag.target,moved=Math.hypot(e.clientX-drag.sx,e.clientY-drag.sy)>4;drag=null;suppress=true;try{space.releasePointerCapture(e.pointerId);}catch(x){}if(!moved)activate(target);setTimeout(()=>suppress=false,0);};
   space.addEventListener("pointerup",end);space.addEventListener("lostpointercapture",()=>{drag=null;});space.addEventListener("pointercancel",()=>{drag=null;suppress=true;setTimeout(()=>suppress=false,0);});
   space.addEventListener("click",e=>{if(!suppress)activate(targetOf(e));});space.addEventListener("dblclick",()=>rg3Face(rg3Home()));
-  $("rgcubenav").addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-dir]");if(b&&!b.disabled)rg3Step(b.dataset.dir,true);});
+  $("rgcubenav").addEventListener("click",e=>{const b=e.target.closest&&(e.target.closest("[data-dir]")||e.target.closest("[data-roll]"));if(b&&!b.disabled){if(b.dataset.roll)rg3Roll(b.dataset.roll,true);else rg3Step(b.dataset.dir,true);}});
   $("rgcubezones").addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;e.preventDefault();e.stopPropagation();activate(targetOf(e));space.focus();});
   $("rg3front").onclick=()=>rg3Face(rg3Home(),true);$("rg3plane").addEventListener("change",()=>{rgOptSave();rgOptSync();rgRequestRender();});
   $("rg3factor").addEventListener("change",()=>{const k=Number($("rg3factor").value);rg3Factor=[1,2,5,10,20,50,100].includes(k)?k:1;RG3.view=null;RG3.visibility=null;rgOptSave();rgOptSync();rgRequestRender();});
@@ -3988,6 +4194,41 @@ function rg3Render(W,H){
   $("rg3canvas").addEventListener("webglcontextlost",e=>{e.preventDefault();rg3Stop();RG3.gl=null;RG3.failed=true;RG3.yaw=RG3.pitch=RG3.roll=0;toast("Prostorové vykreslení bylo přerušeno. Přepnuto na původní 2D pohled.");rgRender();});
   $("rg3canvas").addEventListener("webglcontextrestored",()=>{RG3.gl=null;RG3.failed=false;rg3Ui();});
 })();
+
+function rgGeneralDefs(){
+  if(RV.plane!=='o'||!RV.defOk||!$('rgref').checked)return [];
+  const f=rvGeneralFrame();if(!f)return [];
+  return f.points.map((q,i)=>{const p={y:q[0],x:q[1],z:q[2]},v=f.at(p);return {id:String(i+1),pid:RV.def.o[i].pid||'',...p,xp:v.xp,yp:v.yp};});
+}
+function rgGeneralPlanUi(){
+  const on=RV.plane==='o';$('rgref').disabled=!on;$('rgref').closest('label').hidden=!on;$('rgexp').hidden=on;
+  if(!on)return;
+  $('rgtitle').textContent='6. POHLED';$('rgmetric').textContent=rvLM()?'h':'d';
+  $('rgSurfaceLabel').hidden=$('rgSurfaceControls').hidden=false;
+  for(const id of ['rgmp','rgct','rgcs','rgop','rgsm','rgtn','rgvl','rgem'])$(id).disabled=false;
+  $('rgvl').closest('label').hidden=false;$('rgvl').closest('label').title='Kubatury z kolmých odchylek d a lineárního TIN v rovině x′, y′; nezávisle na filtru, vyhlazení a hodnotách h od latě.';
+  for(const id of ['rgdz','rgmk']){const label=$(id).closest('label');if(label)label.title=rvLM()?(id==='rgdz'?'Popíše body odchylkou h od rozhodující latě ve směru d. Bod bez latě nemá popisek h.':'Barva a odstín značek podle h od latě a tolerance latě.'):id==='rgdz'?'Popíše body kolmou odchylkou d ve zvolených jednotkách a přesnosti; nejde o rozdíl výšek Z.':'Značky podle kolmé odchylky d: zeleně v toleranci, červeně nad ní; odstín podle znaménka.';}
+}
+function rgGeneralReferenceScene(pl,SX,SY,fs,occupied){
+  const refs=rgGeneralDefs().map(r=>({r,x:SX(r.yp),y:SY(r.xp)})),items=[],labels=[],color='#2563a6',rad=Math.max(4,6*Math.min(1.3,fs));
+  if(refs.length===3)items.push({t:'pl',p:refs.flatMap(p=>[p.x,p.y]).concat([refs[0].x,refs[0].y]),c:color,sw:1,dash:[5,4],k:'ROVINA_definice'});
+  for(const p of refs){items.push({t:'circ',x:p.x,y:p.y,r:rad,c:color,sw:1.8,k:'ROVINA_definice'});occupied.add({x:p.x-rad-2,y:p.y-rad-2,w:rad*2+4,h:rad*2+4});}
+  const size=Math.max(9,Math.min(14,11*fs)),w=size*.65+5,h=size*1.25,offset=Math.max(rad,5*fs)+4;
+  for(const p of refs){
+    for(const [x,y] of [[p.x+offset,p.y-h/2],[p.x-offset-w,p.y-h/2],[p.x-w/2,p.y-offset-h],[p.x-w/2,p.y+offset]]){
+      const box={x,y,w,h};if(x<pl.x||x+w>pl.x+pl.w||y<pl.y||y+h>pl.y+pl.h||occupied.hit(box))continue;
+      occupied.add(box);labels.push({t:'text',x:x+w/2,y:y+h*.78,s:p.r.id,size,c:color,a:'middle',halo:true,k:'ROVINA_popis',title:'Definiční bod '+p.r.id+(p.r.pid?' ('+p.r.pid+')':'')+': Y '+rvPtFmt(p.r.y)+', X '+rvPtFmt(p.r.x)+', Z '+rvPtFmt(p.r.z)+' m'});break;
+    }
+  }
+  return {items,labels,refs};
+}
+function rgGeneralAxisLayout(width,fs){return {size:Math.min(Math.max(7,10.5*fs),width/Math.max(1,rgLegendTextWidth('x′ [m] ↓ · y′ [m] ←',1))),gap:Math.ceil(10.5*fs+14)};}
+function rgGeneralHeader(pl,W,fs){
+  const text='x′ [m] ↓ · y′ [m] ←',axis=rgGeneralAxisLayout(pl.w,fs),size=axis.size,x=W-36,y=25;
+  return [{t:'text',x:pl.x,y:pl.y-axis.gap,s:text,size,c:GC.gray,a:'start',k:'osy'},
+    {t:'circ',x,y,r:7,c:GC.gray,sw:1.2,k:'strana'},{t:'circ',x,y,r:2,fill:GC.gray,k:'strana'},
+    {t:'text',x,y:y+22,s:'+d',size:10,c:GC.gray,a:'middle',k:'strana',title:'Pohled z kladné strany roviny; +d směřuje z výkresu k pozorovateli. +x′ dolů, +y′ doleva.'}];
+}
 
 function rgPlaneUi(){
   const vertical=RV.plane==="v";
@@ -4002,9 +4243,9 @@ function rgPlaneUi(){
 }
 function rgRows(){
   const visible=new Set((RV.view||[]).map(r=>r.key)), showUn=$("rgus").checked;
-  return (RV.rows||[]).filter(r=>visible.has(r.key)&&Number.isFinite(r.y)&&Number.isFinite(r.x)&&(RV.plane!=="v"||(Number.isFinite(r.s)&&Number.isFinite(r.z)))&&(r.use||showUn));
+  return (RV.rows||[]).filter(r=>visible.has(r.key)&&Number.isFinite(r.y)&&Number.isFinite(r.x)&&(RV.plane!=="v"||(Number.isFinite(r.s)&&Number.isFinite(r.z)))&&(RV.plane!=="o"||(Number.isFinite(r.xp)&&Number.isFinite(r.yp)))&&(r.use||showUn));
 }
-const rgCan=()=>["h","v"].includes(RV.plane)&&!!(RV.rows&&RV.rows.length);   // plán lze otevřít i kvůli zapnutí odškrtnutých bodů
+const rgCan=()=>["h","v","o"].includes(RV.plane)&&!!(RV.rows&&RV.rows.length);   // plán lze otevřít i kvůli zapnutí odškrtnutých bodů
 const rgExportCan=()=>["h","v"].includes(RV.plane)&&RV.defOk&&rgRows().length>0;
 const setRsp=v=>{ v=Math.min(80,Math.max(20,Math.round(v*10)/10)); document.documentElement.style.setProperty("--rsp",v); return v; };
 const saveRsp=()=>{ try{ writeStorage(RSK,parseFloat(document.documentElement.style.getPropertyValue("--rsp"))||50); }catch(e){} };
@@ -4014,7 +4255,7 @@ function rgSync(){ const st=rgState();
   if(!rgPend){ try{ writeStorage(RGK,st); }catch(e){} }
   [$("rvgbs"),$("rgsp")].forEach(b=>{ b.classList.toggle("p",st>0); b.firstElementChild.innerHTML=st===2?IC_FULL:RG_IC_SPLIT; });
   const b=$("rvgbs"); b.title=b.disabled?b.dataset.t0:RG_VT[st]; $("rgsp").title=RG_VT[st]; }
-function rgSetView(n){ if(!["h","v"].includes(RV.plane)) n=0; const m=$("rgm");
+function rgSetView(n){ if(!["h","v","o"].includes(RV.plane)) n=0; const m=$("rgm");
   if(n===0){ rg3Stop();RG3.hoverFaces=[];m.hidden=true; rgSelect(null,"x"); } else { m.classList.toggle("split",n===1); m.hidden=false; RGV=null; }
   rgSync(); if(n!==0) rgRender(); }
 function rgCycle(){ if(!rgCan()) return; rgSetView((rgState()+1)%3); }
@@ -4036,12 +4277,16 @@ function rgLegendWrap(text,width,size){
  }if(line)out.push(line);return out;
 }
 function rgPlaneLegendNote(){
- if(RV.plane==='v')return rgWallNote();const u=RV.set.u,lat=rvLM();return RV.set.pn===false?(lat?`Rovinnost latí ${fmtCz(RV.set.L.toFixed(2))} m${RV.set.lv==='dn'?' (jen prohlubeň)':''}: h v ${u} (+ hrb, − prohlubeň), tolerance latě ${rvTolTxtE()}.`:`ΔZ v ${u} (+ nad rovinou, − pod rovinou), tolerance ${rvTolTxt()}.`):lat?`Rovinnost latí ${fmtCz(RV.set.L.toFixed(2))} m${RV.set.lv==='dn'?' (jen prohlubeň)':''}: světlejší značka = hrb (+), tmavší = prohlubeň (−). h v ${u}, tolerance latě ${rvTolTxtE()}.`:`Světlejší značka = bod nad rovinou (+), tmavší = pod rovinou (−). ΔZ v ${u}, tolerance ${rvTolTxt()}.`;
+ if(RV.plane==='o'&&rvLM())return `Lať ${fmtCz(RV.set.L.toFixed(2))} m: h [${RV.set.u}], + hrb k pozorovateli, − prohlubeň; tolerance latě ${rvTolTxtE()}. d je pouze informativní. x′ dolů, y′ doleva.`;if(RV.plane==='o')return `d [${RV.set.u}]: + k pozorovateli, − za rovinu; tolerance ${rvTolTxt()}. x′ roste dolů, y′ doleva.`+(RV.def.oReverse?' Kladná strana je obrácená.':'');if(RV.plane==='v')return rgWallNote();const u=RV.set.u,lat=rvLM();return RV.set.pn===false?(lat?`Rovinnost latí ${fmtCz(RV.set.L.toFixed(2))} m${RV.set.lv==='dn'?' (jen prohlubeň)':''}: h v ${u} (+ hrb, − prohlubeň), tolerance latě ${rvTolTxtE()}.`:`ΔZ v ${u} (+ nad rovinou, − pod rovinou), tolerance ${rvTolTxt()}.`):lat?`Rovinnost latí ${fmtCz(RV.set.L.toFixed(2))} m${RV.set.lv==='dn'?' (jen prohlubeň)':''}: světlejší značka = hrb (+), tmavší = prohlubeň (−). h v ${u}, tolerance latě ${rvTolTxtE()}.`:`Světlejší značka = bod nad rovinou (+), tmavší = pod rovinou (−). ΔZ v ${u}, tolerance ${rvTolTxt()}.`;
 }
 function rg2LegendData(W,H,fs,width,top){
  let d=rgWallLegendData(fs,width),height=()=>Math.ceil((d.maps.length+d.lines.length+d.notes.length)*d.lh),available=Math.max(30,H-top-100-($("rghd").checked?12*rgHs(W,H):0));
  // Keep a usable drawing above the legend on short screens; the normal legend cap is unchanged.
  while(d.ls>7&&height()>available)d=rgWallLegendData(Math.max(7,d.ls-.5)/11,width);
+ if(RV.plane==='o'&&height()>available){
+  const entries=rgLegMapEntries(),cut=entries.findIndex(e=>e.t.startsWith('Kubatury vůči rovině'));
+  if(cut>=0){d.maps=rgLegMapRows(d.ls,width,entries.slice(0,cut).map(e=>e.w==='box'?{...e,t:e.t.split(':')[0]}:e));d.notes=rgLegendWrap((rvLM()?'h':'d')+' ['+RV.set.u+']; tolerance '+rvTolTxtE()+'. Legenda zkrácena; kubatury v souhrnu.',width,d.ls*.95);d.compact=true;}
+ }
  return d;
 }
 
@@ -4051,6 +4296,7 @@ function rgWallLegendData(fs,width){
   if(used.some(r=>rvOvE(r)&&!rvHiE(r))) entries.push({ov:true,hi:false,text:"nad tolerancí"});
   if(used.some(r=>rvHiE(r))) entries.push({ov:true,hi:true,text:`nad 150 % tolerance (${rvTolTxtE(1.5)})`});
   if(rvLM()&&rows.some(r=>r.use&&r.h==null)) entries.push({color:GC.pile,text:"bez latě"});
+  if(RV.plane==='o'&&$('rgref').checked)entries.push({color:'#2563a6',text:'1–2–3: definiční body roviny'});
   if(rows.some(r=>!r.use&&!rvOut(r))) entries.push({color:GC.gray,text:"odškrtnutý"});
   if(rows.some(r=>!r.use&&rvOut(r))) entries.push({color:GC.unp,text:"odlehlý (vyřazený)"});
   const lines=[];let x=0;for(const e of entries){e.mark=e.color||RV.set.pn===false?14:27;const parts=rgLegendWrap(e.text,Math.max(ls,width-e.mark-16),ls);
@@ -4077,13 +4323,18 @@ function rgWallLegendScene(W,H,fs,pl,data){
       out.push({t:"text",x:x+e.mark,y,s:e.text,size:d.ls,c:GC.txt,a:"start",k:"leg"}); x+=e.width; } });
   d.notes.forEach((s,i)=>out.push({t:"text",x:pl.x,y:pointStart+(d.lines.length+i)*d.lh,s,size:d.ls*.95,c:GC.gray,a:"start",k:"leg"})); return out;
 }
-const rgPlot=(W,H,fs)=>{const f=fs||rgFs(W,H),hs=rgHs(W,H),l=Math.round(Math.max(58,8*10.5*f*.56+12)),t=Math.round(Math.max(24,10.5*f+12,(52*hs+4)+9+7.9*f+6))+(RV.plane==='v'?Math.round(22*hs):0),w=Math.max(10,W-l-14),d=$('rgll').checked?rg2LegendData(W,H,f,w,t):null,lg=d?Math.ceil((d.maps.length+d.lines.length+d.notes.length)*d.lh+($('rghd').checked?12*hs:0)+8):$('rghd').checked?Math.round(8*hs+8):0;
- return {x:l,y:t,w,h:Math.max(10,H-t-12-lg)};};
+const rgPlot=(W,H,fs)=>{
+ const f=fs||rgFs(W,H),hs=rgHs(W,H),l=Math.round(Math.max(58,8*10.5*f*.56+12)),w=Math.max(10,W-l-14),axis=RV.plane==='o'?rgGeneralAxisLayout(w,f):null,
+ t=axis?Math.ceil(($('rghd').checked?70:52)*hs+axis.size+8+axis.gap):Math.round(Math.max(24,10.5*f+12,(52*hs+4)+9+7.9*f+6))+(RV.plane==='v'?Math.round(22*hs):0),
+ d=$('rgll').checked?rg2LegendData(W,H,f,w,t):null,lg=d?Math.ceil((d.maps.length+d.lines.length+d.notes.length)*d.lh+($('rghd').checked?12*hs:0)+8):$('rghd').checked?Math.round(8*hs+8):0;
+ return {x:l,y:t,w,h:Math.max(10,H-t-12-lg)};
+};
 
 function rgFit(W,H,fs){
   const rows=rgRows(), pl=rgPlot(W,H,fs), b=rgBounds(rows);
   const m=0.08, wy=Math.max((b[1]-b[0])*(1+2*m),0.5), wx=Math.max((b[3]-b[2])*(1+2*m),0.5);
-  return {cy:(b[0]+b[1])/2,cx:(b[2]+b[3])/2,s:Math.min(pl.w/wy,pl.h/wx),sig:rows.length+"|"+b.map(v=>v.toFixed(3)).join(",")+(RV.plane==="v"?"|v|"+JSON.stringify(RV.def.v.map(p=>[p.y,p.x])):"")}; }
+  const general=RV.plane==='o',font=fs||rgFs(W,H),band=general&&pl.w>=70&&pl.h>=40*Math.min(1.2,Math.max(.6,font))?40*Math.min(1.2,Math.max(.6,font)):0,scale=Math.min(pl.w/wy,Math.max(10,pl.h-band)/wx);
+  return {cy:(b[0]+b[1])/2,cx:(b[2]+b[3])/2+(general?band/(2*scale):0),s:scale,sig:rows.length+"|"+b.map(v=>v.toFixed(3)).join(",")+(RV.plane==="v"?"|v|"+JSON.stringify(RV.def.v.map(p=>[p.y,p.x])):RV.plane==="o"?"|o|"+JSON.stringify([RV.def.o,RV.def.oReverse===true,$("rgref").checked]):"")}; }
 function rgKeep(){ if(rg3Active()||!RGV) return; const box=$("rgsvg"), f=rgFit(box.clientWidth,box.clientHeight); if(f.s>0) RGZ={z:RGV.s/f.s,cy:RGV.cy,cx:RGV.cx}; }
 // barvy značek bodů podle odchylky: kladná (nad rovinou) světlejší, záporná (pod rovinou) tmavší
 //   křížky (výchozí): kladná základní odstín, záporná ztmavená (jako tabulka ve světlém režimu)
@@ -4124,17 +4375,55 @@ const RG_MAPC=[   // třídy podle tolerance (lo, hi = násobky tolerance); modr
 const RG_CS=[0.5,1,2,5,10,20,50,100,200,500];   // kroky vrstevnic v mm
 const RG_CTC={z:"#111827",t:"#7f1d1d",n:"#4b5563"};   // vrstevnice: 0 (rovina), ±tolerance, ostatní
 let RGTIN=null, RGMAP=null, RGCT=null, RGTIN_SRC=null, RGTIN_OPT="";
-const rgMapMode=()=>$("rgmp").value, rgCtOn=()=>["h","v"].includes(RV.plane)&&$("rgct").checked, rgMapOn=()=>["h","v"].includes(RV.plane)&&(rgMapMode()!=="off"||rgCtOn()||$("rgtn").checked);
+const rgMapMode=()=>$("rgmp").value, rgCtOn=()=>["h","v","o"].includes(RV.plane)&&$("rgct").checked, rgMapOn=()=>["h","v","o"].includes(RV.plane)&&(rgMapMode()!=="off"||rgCtOn()||$("rgtn").checked);
 const rgEmIn=()=>{ const t=String($("rgem").value).trim().replace(",","."); if(t==="") return null; const v=parseFloat(t); return isFinite(v)&&v>0?v:null; };   // ručně zadaná max. hrana v m (prázdné = auto)
 const rgMix=(h,op)=>{ const c=[1,3,5].map(i=>parseInt(h.substr(i,2),16)); return "#"+c.map(v=>Math.round(255-op*(255-v)).toString(16).padStart(2,"0")).join(""); };   // průhlednost předem smíchaná s bílou (stejná barva v SVG, PDF i legendě)
 const rgLv=l=>{ const u=RV.set.u, a=Math.abs(l), s=l>0?"+":l<0?"\u2212":""; return s+fmtCz(u==="m"?String(+(a/1000).toFixed(5)):String(+a.toFixed(2))); };   // úroveň v mm jako text ve zvolených jednotkách
 // The wall TIN shares the screen coordinates of its measured points (−s, −Z).
 // Both axes are reflected, so areas, distances and triangle orientation are preserved.
-function rgTinRows(){ const rows=(RV.rows||[]).filter(r=>r.use); return RV.plane==="v"?rows.map(r=>({...r,...rgPointCoords(r)})):rows; }
-function rgTin(){ const opt=RV.plane+"|"+rvLM()+"|"+rgEmIn()+"|"+rgSmIn();if(RGTIN&&RGTIN_SRC===RV.rows&&RGTIN_OPT===opt)return RGTIN;RGTIN_SRC=RV.rows;RGTIN_OPT=opt;const T=rgTinOf(rgTinRows(),rvEv,(RV.plane==="v"?"v":"")+(rvLM()?"L":"P"),rgEmIn(),rgSmIn(),RGTIN);   // plocha pro mapu a vrstevnice (u latě z h, jen body s latí)
+function rgTinRows(){ const rows=(RV.rows||[]).filter(r=>r.use);if(RV.plane==='o'&&!rvGeneralProjection().ok)return [];return ['v','o'].includes(RV.plane)?rows.map(r=>({...r,...rgPointCoords(r),_tinMagnitude:Math.max(Math.abs(r.y),Math.abs(r.x),Math.abs(r.z))})):rows; }
+function rgTin(){ const opt=RV.plane+"|"+rvLM()+"|"+rgEmIn()+"|"+rgSmIn();if(RGTIN&&RGTIN_SRC===RV.rows&&RGTIN_OPT===opt)return RGTIN;RGTIN_SRC=RV.rows;RGTIN_OPT=opt;const T=rgTinOf(rgTinRows(),rvEv,(RV.plane==="o"?"o":RV.plane==="v"?"v":"")+(rvLM()?"L":"P"),rgEmIn(),rgSmIn(),RGTIN);   // plocha pro mapu a vrstevnice (u latě z h, jen body s latí)
   if(T!==RGTIN){ RGTIN=T; RGMAP=null; RGCT=null; } return T; }
 let RGVT=null, RGVOL=null, RGVT_SRC=null, RGVT_OPT="";
-function rgVolTin(){const opt=RV.plane+"|"+rgEmIn();if(RGVT&&RGVT_SRC===RV.rows&&RGVT_OPT===opt)return RGVT;RGVT_SRC=RV.rows;RGVT_OPT=opt; RGVT=rgTinOf(rgTinRows(),r=>r.d,RV.plane==="v"?"vD":"D",rgEmIn(),1,RGVT); return RGVT; }   // plocha pro kubatury: vždy ΔZ vůči rovině, vždy lineární TIN (bez vyhlazení), stejné body a stejná Max. hrana
+function rgVolTin(){const opt=RV.plane+"|"+rgEmIn();if(RGVT&&RGVT_SRC===RV.rows&&RGVT_OPT===opt)return RGVT;RGVT_SRC=RV.rows;RGVT_OPT=opt; RGVT=rgTinOf(rgTinRows(),r=>r.d,RV.plane==="o"?"oD":RV.plane==="v"?"vD":"D",rgEmIn(),1,RGVT); return RGVT; }   // plocha pro kubatury: vždy ΔZ vůči rovině, vždy lineární TIN (bez vyhlazení), stejné body a stejná Max. hrana
+/* Canonical TIN. Only the topology is normalised; measured coordinates and values stay intact.
+   Unique point names order ambiguous diagonals lexicographically. Coordinates break repeated-name ties.
+   Sorting the triangulator input also makes coincident-point selection independent of file row order.
+   The cocircular test allows only a coordinate-roundoff envelope, never the measurement tolerance. */
+function rgStableTin(rows,Y,X){
+ const n=rows.length,order=Array.from({length:n},(_,i)=>i),name=i=>String(rows[i].id??rows[i].key??''),cmpText=(a,b)=>a<b?-1:a>b?1:0;
+ order.sort((a,b)=>cmpText(name(a),name(b))||Y[a]-Y[b]||X[a]-X[b]||(Number.isFinite(rows[a].d)&&Number.isFinite(rows[b].d)?rows[a].d-rows[b].d:0)||cmpText(String(rows[a].key||''),String(rows[b].key||'')));
+ const rank=new Uint32Array(n),coords=new Float64Array(n*2),origin=order[0];let magnitude=1;
+ for(let k=0;k<n;k++){const i=order[k];rank[i]=k;coords[2*k]=Y[i]-Y[origin];coords[2*k+1]=X[i]-X[origin];magnitude=Math.max(magnitude,Math.abs(Y[i]),Math.abs(X[i]),rows[i]._tinMagnitude||0);}
+ const d=new Delaunator(coords);d.triangles=Uint32Array.from(d.triangles,i=>order[i]);d.hull=Uint32Array.from(d.hull,i=>order[i]);
+ const original=new Float64Array(n*2);for(let i=0;i<n;i++){original[2*i]=Y[i]-Y[origin];original[2*i+1]=X[i]-X[origin];}d.coords=original;
+ // Rotation of a collinear hull edge can introduce machine-thin triangles. They have no resolved area.
+ const kept=[];let roundoffTriangles=0;for(let k=0;k<d.triangles.length;k+=3){const a=d.triangles[k],b=d.triangles[k+1],c=d.triangles[k+2],uy=Y[b]-Y[a],ux=X[b]-X[a],vy=Y[c]-Y[a],vx=X[c]-X[a],span=Math.max(Math.abs(uy),Math.abs(ux),Math.abs(vy),Math.abs(vx));
+  if(Math.abs(uy*vx-ux*vy)<=128*Number.EPSILON*span*span+8*Number.EPSILON*magnitude*span){roundoffTriangles++;continue;}kept.push(a,b,c);
+ }
+ const t=Uint32Array.from(kept),h=new Int32Array(t.length).fill(-1),next=e=>e-e%3+(e+1)%3,prev=e=>e-e%3+(e+2)%3,queue=[],edges=new Map();
+ for(let e=0;e<t.length;e++){const a=t[e],b=t[next(e)],reverse=b*n+a;if(edges.has(reverse)){const f=edges.get(reverse);h[e]=f;h[f]=e;edges.delete(reverse);}else edges.set(a*n+b,e);}
+ const hullNext=new Map();for(let e=0;e<h.length;e++)if(h[e]<0)hullNext.set(t[e],t[next(e)]);const hull=[];if(hullNext.size){let first=-1;for(const i of hullNext.keys())if(first<0||rank[i]<rank[first])first=i;let i=first;do{hull.push(i);i=hullNext.get(i);}while(i!==undefined&&i!==first&&hull.length<=hullNext.size);}
+
+ for(let e=0;e<h.length;e++)if(h[e]>e)queue.push(e);
+ let flips=0;const link=(a,b)=>{h[a]=b;if(b>=0)h[b]=a;};
+ while(queue.length){const e=queue.pop(),f=h[e];if(f<0)continue;const ep=prev(e),fp=prev(f),a=t[e],b=t[next(e)],c=t[ep],q=t[fp];
+  const old0=Math.min(rank[a],rank[b]),old1=Math.max(rank[a],rank[b]),new0=Math.min(rank[c],rank[q]),new1=Math.max(rank[c],rank[q]);
+  if(new0>old0||new0===old0&&new1>=old1)continue;
+  const ids=[a,b,c,q];let span=0;for(let i=0;i<4;i++)for(let j=0;j<i;j++)span=Math.max(span,Math.abs(Y[ids[i]]-Y[ids[j]]),Math.abs(X[ids[i]]-X[ids[j]]));if(!(span>0))continue;
+  const P=ids.map(i=>[(Y[i]-Y[q])/span,(X[i]-X[q])/span]),[A,B,C,Q]=P,cross=(a,b,c)=>(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);
+  const eps=128*Number.EPSILON+8*Number.EPSILON*magnitude/span;
+  // Both diagonals must lie inside a non-degenerate convex quadrilateral.
+  const o1=cross(A,B,C),o2=cross(A,B,Q),o3=cross(C,Q,A),o4=cross(C,Q,B);
+  if(o1*o2>=0||o3*o4>=0||Math.min(Math.abs(o1),Math.abs(o2),Math.abs(o3),Math.abs(o4))<=eps)continue;
+  const aa=A[0]*A[0]+A[1]*A[1],bb=B[0]*B[0]+B[1]*B[1],cc=C[0]*C[0]+C[1]*C[1],u=A[0]*(B[1]*cc-bb*C[1]),v=A[1]*(B[0]*cc-bb*C[0]),w=aa*(B[0]*C[1]-B[1]*C[0]),det=u-v+w;
+  if(Math.abs(det)>eps*(1+Math.abs(u)+Math.abs(v)+Math.abs(w)))continue;
+  const hp=h[ep],hq=h[fp];t[e]=q;t[f]=c;link(e,hq);link(f,hp);link(ep,fp);flips++;
+  for(const k of [e,next(e),ep,f,next(f),fp])if(h[k]>=0)queue.push(k);
+ }
+ return {triangles:t,halfedges:h,hull:Uint32Array.from(hull),coords:original,tieFlips:flips,roundoffTriangles};
+}
+
 function rgTinOf(src,ev,tag,em,smw,prev){
   const rows=src.filter(r=>isFinite(r.y)&&isFinite(r.x)&&ev(r)!=null&&isFinite(ev(r)));
   let hs=2166136261; const hh=s=>{ for(let i=0;i<s.length;i++){ hs^=s.charCodeAt(i); hs=Math.imul(hs,16777619); } };
@@ -4145,8 +4434,7 @@ function rgTinOf(src,ev,tag,em,smw,prev){
   rows.forEach((r,i)=>{ Y[i]=r.y; X[i]=r.x; V[i]=ev(r)*1000; });   // V = odchylka v mm (ΔZ, u latě h)
   const T={sig,n,Y,X,V,tri:[],nn:0,em:0,area:0,ok:false,d:null,keep:null,idx:null};
   if(n<3||typeof Delaunator!=="function") return T;
-  const c=new Float64Array(2*n); for(let i=0;i<n;i++){ c[2*i]=Y[i]-Y[0]; c[2*i+1]=X[i]-X[0]; }   // posun k prvnímu bodu kvůli přesnosti velkých souřadnic JTSK
-  let d; try{ d=new Delaunator(c); }catch(e){ return T; }
+  let d; try{ d=rgStableTin(rows,Y,X); }catch(e){ return T; }
   const t=d.triangles, nt=t.length/3; if(!nt) return T;
   const L=(a,b)=>Math.hypot(Y[a]-Y[b],X[a]-X[b]), mn=new Float64Array(n).fill(Infinity);
   for(let e=0;e<t.length;e++){ const a=t[e], b=t[e%3===2?e-2:e+1], l=L(a,b); if(l<mn[a]) mn[a]=l; if(l<mn[b]) mn[b]=l; }
@@ -4217,7 +4505,7 @@ function rgVol(zr){ const T=rgVolTin(), tol=rvT(), st=RV_PR[RV.set.p].st, sig=T.
   if(!(R.A>0)) return R;
   ["up","dn","upT","dnT"].forEach(q=>{ R[q]/=1000; });   // m² × mm → m³
   R.mean=S/R.A; R.z0=zr+R.mean/1000;
-  R.z0r=Number((Math.round(Math.round(R.z0*1000/st*1e6)/1e6)*st/1000).toFixed(RV_PR[RV.set.p].m));   // vyrovnaná výška zaokrouhlená podle Přesnosti (0,1 mm / 1 mm / 1 cm)
+  R.z0r=RV.plane==='o'?rvR1(R.z0)/1000:Number((Math.round(Math.round(R.z0*1000/st*1e6)/1e6)*st/1000).toFixed(RV_PR[RV.set.p].m));   // vyrovnaná výška zaokrouhlená podle Přesnosti (0,1 mm / 1 mm / 1 cm)
   const l=(R.z0r-zr)*1000; P3.forEach(([P,mn,mx])=>{ R.upB+=part(P,mn,mx,l,true); R.dnB+=part(P,mn,mx,l,false); }); R.upB/=1000; R.dnB/=1000; R.balB=R.upB-R.dnB;
   R.ok=true; return R; }
 const rgM3=(v,sg)=>{ const a=Math.abs(v), t=fmtCz(a<100?a.toFixed(3):a.toFixed(1)); return (sg?(v>5e-7?"+":v<-5e-7?"\u2212":""):"")+t+" m\u00b3"; };   // objem v m³ (do 100 m³ na 3 desetinná místa)
@@ -4304,7 +4592,7 @@ function rgTinValueAt(T,y,x,stable=false){ if(!T.ok) return null;   // interpolo
 // legenda mapy a vrstevnic: položky a jejich rozdělení do řádků podle šířky plánu
 function rgLegMapEntries(){ if(!$("rgll").checked) return []; const T=rgMapOn()?rgTin():{ok:false};
   const out=[], u=RV.set.u, A=v=>fmtCz(v.toFixed(v<10?2:1))+" m\u00b2", P=(v,t)=>{ const p=t>0?v/t*100:0; return p>0&&p<1?"<1 %":Math.round(p)+" %"; };
-  const lat=rvLM(), nm=lat?"h":RV.plane==="v"?"d":"\u0394Z";
+  const lat=rvLM(), nm=lat?"h":RV.plane!=="h"?"d":"\u0394Z";
   if(T.ok&&rgMapMode()!=="off"){ const M=rgMapCalc();
     out.push({w:"txt",t:`Mapa ${nm} [${u}]:`});
     if(M.mode==="cls"){ const tl=M.tol; M.B.forEach((b,i)=>{ if(!(b.a>1e-9)) return;
@@ -4318,13 +4606,13 @@ function rgLegMapEntries(){ if(!$("rgll").checked) return []; const T=rgMapOn()?
     if(C.lv.some(q=>q.kind==="t")) out.push({w:"dash",c:RG_CTC.t,sw:1.4,t:`\u00b1${rgLv(rvTE()).replace("+","")} = tolerance`});
     out.push({w:"line",c:RG_CTC.n,sw:0.7,t:`vrstevnice po ${rgLv(C.st).replace("+","")} ${u}`}); }
   if(T.ok&&T.sm>1&&(rgMapMode()!=="off"||rgCtOn())) out.push({w:"txt",t:`plocha vyhlazená (${T.sm}×)`});
-  if($("rgvl").checked&&["h","v"].includes(RV.plane)){ const zr=RV.plane==="v"?0:rvDefParse("z",RV.def.h[0].z).v, R=zr!=null&&isFinite(zr)?rgVol(zr):null;   // kubatury vůči rovině (vždy z lineárního TIN)
+  if($("rgvl").checked&&["h","v","o"].includes(RV.plane)){ const zr=RV.plane!=="h"?0:rvDefParse("z",RV.def.h[0].z).v, R=zr!=null&&isFinite(zr)?rgVol(zr):null;   // kubatury vůči rovině (vždy z lineárního TIN)
     if(R&&R.ok){ const tl=rvTolTxt();
       out.push({w:"txt",t:`Kubatury vůči rovině (lineární TIN, ${rgM2(R.A)}):`},{w:"txt",t:`odbourání ${rgM3(R.up)}`},{w:"txt",t:`doplnění ${rgM3(R.dn)}`},{w:"txt",t:`bilance ${rgM3(R.up-R.dn,true)}`},
-        {w:"txt",t:`nad +${tl}: ${rgM3(R.upT)}`},{w:"txt",t:`pod \u2212${tl}: ${rgM3(R.dnT)}`},{w:"txt",t:RV.plane==="v"?`vyrovnaný posun ${rvDS(R.z0r)} ${RV.set.u}`:`vyrovnaná výška Z ${rvPtFmt(R.z0r)} m`}); } }
+        {w:"txt",t:`nad +${tl}: ${rgM3(R.upT)}`},{w:"txt",t:`pod \u2212${tl}: ${rgM3(R.dnT)}`},{w:"txt",t:RV.plane!=="h"?`vyrovnaný posun ${rvDS(R.z0r)} ${RV.set.u}`:`vyrovnaná výška Z ${rvPtFmt(R.z0r)} m`}); } }
   return out; }
 const rgLegW=(e,ls)=>(e.pad||0)+(e.w==='txt'?0:e.w==='grad'?54:22)+rgLegendTextWidth(e.t,ls)+14;
-function rgLegMapRows(ls,wmax){const rows=[];let x=0;for(const e of rgLegMapEntries()){
+function rgLegMapRows(ls,wmax,entries=rgLegMapEntries()){const rows=[];let x=0;for(const e of entries){
  const prefix=e.w==='txt'?0:e.w==='grad'?54:22,parts=rgLegendWrap(e.t,Math.max(ls,wmax-prefix-14),ls);
  parts.forEach((t,i)=>{const q=i?{...e,w:'txt',pad:prefix,t}:{...e,t},w=rgLegW(q,ls);if(!rows.length||i>0||x>0&&x+w>wmax){rows.push([]);x=0;}rows[rows.length-1].push(q);x+=w;if(parts.length>1)x=wmax;});
  }return rows;}
@@ -4332,10 +4620,10 @@ function rgLegMapRows(ls,wmax){const rows=[];let x=0;for(const e of rgLegMapEntr
 function rgScene(W,H,v,o){   // plán Rovinnosti jako scéna (jako buildScene v ZSS pilot): kreslí se z ní SVG na obrazovce i exporty PDF a DXF
   o=o||{};
   const fs=o.fsFixed||rgFs(W,H), pl=rgPlot(W,H,fs), rows=rgRows(), s=v.s, ccx=pl.x+pl.w/2, ccy=pl.y+pl.h/2;
-  const vertical=RV.plane==="v", SX=y=>ccx-(y-v.cy)*s, SY=x=>ccy+(x-v.cx)*s;   // jako v plánu pilot: Y roste doleva (západ), X dolů (jih)
+  const vertical=RV.plane==="v",general=RV.plane==="o", SX=y=>ccx-(y-v.cy)*s, SY=x=>ccy+(x-v.cx)*s;   // jako v plánu pilot: Y roste doleva (západ), X dolů (jih)
   const it=[], fr=[];
   const gon=$("rggr").checked;
-  const step=vertical?Math.max(.001,niceStep(110*fs/s)):niceStep(110*fs/s), dec=step>=1?0:Math.min(vertical?3:6,Math.ceil(-Math.log10(step)-1e-9));
+  const step=(vertical||general)?Math.max(.001,niceStep(110*fs/s)):niceStep(110*fs/s), dec=step>=1?0:Math.min(vertical||general?3:6,Math.ceil(-Math.log10(step)-1e-9));
   const ymax=v.cy+(ccx-pl.x)/s, ymin=v.cy-(pl.x+pl.w-ccx)/s, xmin=v.cx-(ccy-pl.y)/s, xmax=v.cx+(pl.y+pl.h-ccy)/s, y0=Math.ceil(ymin/step), x0=Math.ceil(xmin/step);
   for(let k=0;k<300;k++){ const y=(y0+k)*step; if(y>ymax) break; const px=SX(y);
     if(gon) it.push({t:"line",x1:px,y1:pl.y,x2:px,y2:pl.y+pl.h,c:GC.grid,sw:0.6});
@@ -4352,7 +4640,7 @@ function rgScene(W,H,v,o){   // plán Rovinnosti jako scéna (jako buildScene v 
       for(let e=0;e<t.length;e++){ const k=(e/3)|0; if(!TIN.keep[k]) continue; const oe=he[e]; if(oe>=0&&TIN.keep[(oe/3)|0]&&oe<e) continue;
         const a=t[e], b=t[e%3===2?e-2:e+1], x1=SX(Y[a]), y1=SY(X[a]), x2=SX(Y[b]), y2=SY(X[b]); if(out(Math.min(x1,x2),Math.min(y1,y2),Math.max(x1,x2),Math.max(y1,y2))) continue;
         tnl.push({t:"line",x1,y1,x2,y2,c:"#9aa1ab",sw:0.5,k:"TIN"}); } }
-    if(rgCtOn()){ const C=rgContours(), zr=!vertical&&!rvLM()?rvDefParse("z",RV.def.h[0].z).v:null;
+    if(rgCtOn()){ const C=rgContours(), zr=!vertical&&!general&&!rvLM()?rvDefParse("z",RV.def.h[0].z).v:null;
       C.lv.forEach(q=>{ const c=RG_CTC[q.kind], sw=(q.kind==="z"?1.8:q.kind==="t"?1.4:0.7)*Math.max(0.8,Math.min(1.4,fs)), ly=q.kind==="z"?"VRSTEVNICE_0":q.kind==="t"?"VRSTEVNICE_tol":"VRSTEVNICE";
         q.lines.forEach(R=>{ const p=scr(R); if(!p) return; const it2={t:"pl",p,c,sw,k:ly,z:isFinite(zr)&&zr!=null?zr+q.l/1000:0}; if(q.kind==="t") it2.dash=[6*fs,3.5*fs]; ctl.push(it2); if(q.lab) ctc.push({p,q}); }); }); } }
   // body: podle filtru tabulky; nepoužité (odškrtnuté, odlehlé) jen s volbou „Odškrtnuté a odlehlé“
@@ -4366,7 +4654,7 @@ function rgScene(W,H,v,o){   // plán Rovinnosti jako scéna (jako buildScene v 
     const ov=rvOvE(r), hi=rvHiE(r), pos=RV.set.pn===false?null:rvPos(rvEv(r)); cnt[hi?"hi":ov?"ov":"ok"]++;
     return rgMarkItems(p.px,p.py,rad,ov,pos,hi,null,(hi||ov)?"BODY_nad":"BODY_mereno",r.z); };
   const ord=pts.slice().sort((a,b)=>(a.r.use-b.r.use)||(av(a.r)-av(b.r)));   // nepoužité dole, nejhorší body navrch
-  const marks=[]; ord.forEach(p=>{ const items=mk(p); if(vertical||o.dxf3) items.forEach(i=>i.d=p.r.d); marks.push(...items); });
+  const marks=[]; ord.forEach(p=>{ const items=mk(p); if(vertical||general||o.dxf3) items.forEach(i=>i.d=p.r.d); marks.push(...items); });
   const sp=sel&&pts.find(p=>p.r.key===sel);
   if(sp&&lat&&sp.r.lat){ const q=sp.r.lat, ax=SX(vertical?-q.ay:q.ay), ay=SY(vertical?-q.ax:q.ax), bx=SX(vertical?-q.by:q.by), by=SY(vertical?-q.bx:q.bx);   // rozhodující lať označeného bodu (jen na obrazovce)
     marks.push({t:"line",x1:ax,y1:ay,x2:bx,y2:by,c:"#f59e0b",sw:3.2,k:"sel"},{t:"circ",x:ax,y:ay,r:rad*0.7,fill:"#f59e0b",c:"#b45309",sw:1,k:"sel"},{t:"circ",x:bx,y:by,r:rad*0.7,fill:"#f59e0b",c:"#b45309",sw:1,k:"sel"}); }
@@ -4375,6 +4663,7 @@ function rgScene(W,H,v,o){   // plán Rovinnosti jako scéna (jako buildScene v 
   let labels=[]; const nm=$("rgnm").checked, zv=$("rgzv").checked, dz=$("rgdz").checked, sz=10*fs, hh=sz*1.15, occupied=labelGrid(Math.max(32,48*fs));
   if(!o.dxf&&pl.w>=70&&pl.h>=40*Math.min(1.2,Math.max(.6,fs)))occupied.add({x:pl.x,y:pl.y+pl.h-40*Math.min(1.2,Math.max(.6,fs)),w:pl.w,h:40*Math.min(1.2,Math.max(.6,fs))});
   pts.forEach(p=>{ const a={x:p.px-rad,y:p.py-rad,w:2*rad,h:2*rad}; if(a.x<pl.x+pl.w&&a.x+a.w>pl.x&&a.y<pl.y+pl.h&&a.y+a.h>pl.y) occupied.add(a); });
+  const reference=general?rgGeneralReferenceScene(pl,SX,SY,fs,occupied):{items:[],labels:[]};marks.unshift(...reference.items);labels.push(...reference.labels);
   const hit=a=>occupied.hit(a);
   if(nm||dz||zv){
     const put=(p,t,col,order,k)=>{ const w=t.length*sz*0.56+2, g=3;
@@ -4400,13 +4689,14 @@ function rgScene(W,H,v,o){   // plán Rovinnosti jako scéna (jako buildScene v 
           labels.push({t:"text",x:cx-Math.sin(ra)*cs*0.35,y:cy+Math.cos(ra)*cs*0.35,s:t,size:cs,c:o2.c.q.kind==="t"?RG_CTC.t:RG_CTC.z,a:"middle",halo:true,rot:Math.abs(an)<0.5?0:an,k:"VRSTEVNICE_popis"}); } }); }
   const legendData=$('rgll').checked?rg2LegendData(W,H,fs,pl.w,pl.y):null;
   const leg=legendData?rgWallLegendScene(W,H,fs,pl,legendData):[];
+  if(general)fr.push(...rgGeneralHeader(pl,W,fs));
   if(vertical){const f=rvPlaneFrame();fr.push({t:'text',x:pl.x,y:pl.y-23,s:`s [m] → (1: 0; 2: ${rvStationFmt(f.L)}) · Z [m] ↑`,size:10.5*fs,c:GC.gray,a:'start',k:'osy'});}
   const hs=rgHs(W,H);   // nadpis, název souboru a jednotky odchylek
-  fr.push({t:"text",x:pl.x,y:20*hs,s:vertical?"Svislá rovina – pohled z kladné strany":lat?`Zaměření rovinnosti – rovinnost latí ${fmtCz(RV.set.L.toFixed(2))} m:`:RG_HEAD1,size:14*hs,c:GC.txt,a:"start",k:"nadpis"});
+  fr.push({t:"text",x:pl.x,y:20*hs,s:general?"Obecná rovina – čelní pohled":vertical?"Svislá rovina – pohled z kladné strany":lat?`Zaměření rovinnosti – rovinnost latí ${fmtCz(RV.set.L.toFixed(2))} m:`:RG_HEAD1,size:14*hs,c:GC.txt,a:"start",k:"nadpis"});
   fr.push({t:"text",x:pl.x,y:36*hs,s:rgHead2(),size:11*hs,c:GC.txt,a:"start",k:"nadpis"});
   fr.push({t:"text",x:pl.x,y:52*hs,s:`Odchylky jsou uvedeny v ${RV.set.u==="m"?"m":"mm"}.`,size:10*hs,c:GC.gray,a:"start",k:"nadpis"});
   if($("rghd").checked){   // hlavička jako v ZSS pilot (bez poznámky o šipkách)
-    fr.push({t:"text",x:pl.x+pl.w,y:16*hs,s:"Měření: "+listName(RV.files||[],70)+", "+new Date().toLocaleDateString("cs-CZ"),size:8.5*hs,c:GC.gray,a:"end",k:"hlavicka"});
+    fr.push({t:"text",x:general?pl.x:pl.x+pl.w,y:general?70*hs:16*hs,s:"Měření: "+listName(RV.files||[],70)+", "+new Date().toLocaleDateString("cs-CZ"),size:8.5*hs,c:GC.gray,a:general?"start":"end",k:"hlavicka"});
     fr.push({t:"text",x:W-16,y:H-5,s:"Autor: Jan Bartůněk, GeoMAT verze "+APP_VERSION+" ("+APP_DATE+")",size:8*hs,c:GC.gray,a:"end",k:"hlavicka"}); }
   fr.push({t:"rect",x:pl.x,y:pl.y,w:pl.w,h:pl.h,c:GC.frame,sw:1});
   return {W,H,pl,items:it.concat(mp,tnl,ctl,marks,labels),frame:fr.concat(o.dxf?[]:planScale(pl,s,fs),leg),pts};   // mřížka pod mapou (v ploše ji mapa zakryje, souřadnice zůstanou na okraji)
@@ -4424,7 +4714,7 @@ function rgCsHint(){ const e=$("rgcs"); if(!e) return;   // nabídka kroku vrste
     if(o.textContent!==t) o.textContent=t; if(o.disabled!==(dis&&!o.selected)) o.disabled=dis&&!o.selected;
     o.title=dis?(I&&I.R>0&&I.R/parseFloat(o.value)>40?"Příliš hustý krok pro rozpětí odchylek ("+lab(I.R).slice(3)+").":parseFloat(o.value)<RV_PR[RV.set.p].st?"Jemnější než nastavená Přesnost.":"Příliš řídký krok pro rozpětí odchylek"+(I?" ("+lab(I.R).slice(3)+")":"")+"."):""; }); }   // jako „Typický [m]“: prázdné pole = auto, šedě vypočtená hodnota
 function rgRender(){
-  if(!["h","v"].includes(RV.plane)) return;
+  if(!["h","v","o"].includes(RV.plane)) return;
   const box=$("rgsvg"); if(!box||$("rgm").hidden) return;
   const W=box.clientWidth, H=box.clientHeight; if(!(W>0&&H>0)) return;
   rg3Ui();
@@ -4432,10 +4722,14 @@ function rgRender(){
   if(rg3Active()&&rg3Render(W,H)) return;
   const f=rgFit(W,H);
   if(f.sig!==RGSIG){ RGSIG=f.sig; RGV=null; RGZ=null; }   // jiné body: pohled se znovu přizpůsobí
-  if(!RGV){ RGV={cy:f.cy,cx:f.cx,s:f.s}; if(RGZ){ RGV.s*=RGZ.z; RGV.cy=RGZ.cy; RGV.cx=RGZ.cx; } }
+  if(!RGV){ RGV={cy:f.cy,cx:f.cx,s:f.s}; if(RGZ){ RGV.s*=RGZ.z; RGV.cy=RGZ.cy; RGV.cx=RGZ.cx; }if(RV.plane==='o'){RGV.W=W;RGV.H=H;} }
+  else if(RV.plane==='o'&&(RGV.W!==W||RGV.H!==H)){
+    const old=rgFit(RGV.W||W,RGV.H||H),zoom=RGV.s/old.s;
+    RGV={cy:f.cy+RGV.cy-old.cy,cx:f.cx+RGV.cx-old.cx,s:f.s*zoom,W,H};rgKeep();
+  }
   const sc=rgScene(W,H,RGV,{sel:RV.selk});
   RGP=sc.pts;
-  box.innerHTML=svgOf(sc,"rgclip"); if(["h","v"].includes(RV.plane)){ rgEmHint(); rgCsHint(); }
+  box.innerHTML=svgOf(planScreenScene(sc,"rg"),"rgclip"); if(["h","v","o"].includes(RV.plane)){ rgEmHint(); rgCsHint(); }
 }
 
 // označení bodu: klik v plánu označí řádek v tabulce, klik na řádek označí bod v plánu (a vycentruje ho, když je mimo střed výřezu)
@@ -4463,6 +4757,10 @@ function rvPlanSync(){
   if(has&&wasOff) nudge(planButton); else if(!has) planButton.classList.remove("shine");
   const canExport=rgExportCan();
   ["rvpdf","rvdxf","rvdxf3","rgpdf","rgdxf","rgdxf3"].forEach(id=>{ const b=$(id); if(b.dataset.t0===undefined) b.dataset.t0=b.title; b.disabled=!canExport; b.title=!canExport?"V aktuálním výběru není žádný zobrazený bod pro export. Změňte filtr nebo zapněte odškrtnuté a odlehlé body.":unavailable?(id.endsWith("pdf")?"Shift+P: celý pohled na stěnu na PDF A3, včetně zvolené mapy, vrstevnic a legendy.":id.endsWith("dxf3")?"DXF 3D JTSK: skutečná poloha stěny. CAD X = −Y, CAD Y = −X, CAD Z = původní výška. Oba definiční body jsou v záhlaví.":"Shift+S: DXF 2D – pohled na stěnu. CAD X = staničení s, CAD Y = výška Z, CAD Z = 0. Oba definiční body jsou v záhlaví."):id.endsWith("dxf3")?"DXF 3D JTSK: skutečná poloha bodů a plochy. CAD X = −Y, CAD Y = −X, CAD Z = skutečná výška. Nezávisí na natočení ani zvětšení ΔZ.":b.dataset.t0; });
+  if(RV.plane==="o"){
+    for(const id of ['rvcp','rvcsv','rvstx','rvpdf','rvdxf','rvdxf3','rvpdf3']){$(id).disabled=true;$(id).title='Obecná rovina: exporty budou doplněny v části 5.';}
+    $('rvgb').title='Čelní 2D pohled z kladné strany d: x′ roste dolů, y′ doleva; V přepíná zobrazení, F zobrazí celý výkres. Prostorový pohled bude doplněn v části 4.';
+  }
   if(has&&rgPend){ rgPend=false; if(rgWant) { rgSetView(rgWant); return; } }
   if(!has){ if(!rgPend&&rgState()) rgSetView(0); rgSync(); return; }
   if(RV.selk&&!RV.rows.some(r=>r.key===RV.selk)) RV.selk=null;
@@ -4476,7 +4774,7 @@ $("rgx").onclick=()=>rgSetView(0);
 $("rgfit").onclick=()=>{ rg3Stop();if(rg3Active()) RG3.view=null; else {RGV=null;RGZ=null;} rgRender(); };
 // exporty plánu Rovinnosti jako v ZSS pilot: PDF A3 a DXF (tlačítka v sekci 4. Export i v liště plánu, zkratky Shift+P a Shift+S)
 function rgBounds(rows=rgRows()){ let b=[1e18,-1e18,1e18,-1e18];   // rozsah bodů [Ymin, Ymax, Xmin, Xmax]
-  rows.forEach(r=>{ const q=rgPointCoords(r); if(!isFinite(q.y)||!isFinite(q.x)) return; b[0]=Math.min(b[0],q.y); b[1]=Math.max(b[1],q.y); b[2]=Math.min(b[2],q.x); b[3]=Math.max(b[3],q.x); });
+  const all=RV.plane==='o'?rows.concat(rgGeneralDefs()):rows;all.forEach(r=>{ const q=rgPointCoords(r); if(!isFinite(q.y)||!isFinite(q.x)) return; b[0]=Math.min(b[0],q.y); b[1]=Math.max(b[1],q.y); b[2]=Math.min(b[2],q.x); b[3]=Math.max(b[3],q.x); });
   if(b[0]>b[1]) b=[0,1,0,1]; return b; }
 function rgPdfA3(){   // vždy celý výkres na jednu stránku A3 (na šířku nebo na výšku podle tvaru plánu), drobné ale čitelné popisky jako v ZSS pilot
   const b=rgBounds(), land=(b[1]-b[0])>=(b[3]-b[2]), W=land?1190.55:841.89, H=land?841.89:1190.55;
@@ -4615,7 +4913,7 @@ $("rgpdf").onclick=rvSavePdf; $("rvpdf").onclick=rvSavePdf;
 $("rgdxf").onclick=$("rvdxf").onclick=()=>rvSaveDxf("local");
 $("rgdxf3").onclick=$("rvdxf3").onclick=()=>{if(["h","v"].includes(RV.plane)) rvSaveDxf("jtsk");};
 // volby plánu jako v ZSS pilot: posuvník písma (25–300 %, střed = 100 %) s číslem a klikacím „%“, rámeček voleb ve skupinách, hromadné zaškrtnutí a výchozí hodnoty
-const RG_DEF={rgmk:"x",rgus:false,rgnm:false,rgzv:false,rgdz:true,rggr:true,rgll:true,rghd:false,rgmp:"off",rgct:false,rgcs:"a",rgop:"60",rgsm:"1",rgtn:false,rgvl:true,rgem:""};
+const RG_DEF={rgref:true,rgmk:"x",rgus:false,rgnm:false,rgzv:false,rgdz:true,rggr:true,rgll:true,rghd:false,rgmp:"off",rgct:false,rgcs:"a",rgop:"60",rgsm:"1",rgtn:false,rgvl:true,rgem:""};
 const rgChk=()=>[...$("rgchk").querySelectorAll('input[type=checkbox]')].filter(e=>!e.disabled);
 function rgOptSync(){ if(document.activeElement!==$("rgfs")) $("rgfs").value=Math.round(rgPct());
   rgEmHint();
@@ -4624,7 +4922,7 @@ function rgOptSync(){ if(document.activeElement!==$("rgfs")) $("rgfs").value=Mat
   if(b.dataset.t===undefined) b.dataset.t=b.title;
   b.disabled=ok; b.title=ok?"Volby plánu i velikost písma už jsou na výchozích hodnotách, není co vracet.":b.dataset.t; }
 const rgOptCh=()=>{ rgOptSave(); rgOptSync(); rvPlanSync(); };
-["rgnm","rgzv","rgdz","rgus","rgll","rggr","rghd","rgmk","rgmp","rgct","rgcs","rgop","rgsm","rgtn","rgvl"].forEach(id=>$(id).addEventListener("change",rgOptCh));
+["rgref","rgnm","rgzv","rgdz","rgus","rgll","rggr","rghd","rgmk","rgmp","rgct","rgcs","rgop","rgsm","rgtn","rgvl"].forEach(id=>$(id).addEventListener("change",rgOptCh));
 { const em=$("rgem"); em.addEventListener("keydown",e=>{ if(!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.key.length===1&&!/[0-9.,]/.test(e.key)) e.preventDefault(); });
   em.addEventListener("input",()=>{ const t=em.value.trim(); em.classList.toggle("bad",t!==""&&rgEmIn()==null); rgOptCh(); clearTimeout(em._vt); em._vt=setTimeout(()=>{ try{ rvResRender(); }catch(e){} },250); }); }
 $("rgt").addEventListener("input",()=>{ $("rgfs").value=Math.round(pct("rgt")); rgOptCh(); });
@@ -4652,10 +4950,10 @@ window.addEventListener("resize",rgRequestRender);
 (()=>{ const box=$("rgsvg"), tip=$("rgtip"); let drag=null, dn=null;
   const hitAt=(cx,cy)=>{ const r=box.getBoundingClientRect(), mx=cx-r.left, my=cy-r.top; let best=null, bd=1e9;
     RGP.forEach(p=>{ const d=Math.hypot(mx-p.px,my-p.py); if(d<=Math.max(p.rad+4,10)&&d<=bd&&(!rg3Active()||d<bd-1e-9||!best||p.depth>=best.depth)&&(!rg3Active()||rg3PointVisible(p))){ bd=d; best=p; } }); return best; };
-  const tipHtml=p=>{ const r=p.r, ov=rvOver(r.d), u=RV.set.u, multi=RV.files.length>1, vertical=RV.plane==="v";
+  const tipHtml=p=>{ if(RV.plane==='o')return rgGeneralPointTip(p.r);const r=p.r, ov=rvOver(r.d), u=RV.set.u, multi=RV.files.length>1, vertical=RV.plane==="v";
     return `<b>${esc(r.id)}</b>`+(r.code?` <span class="m">(${esc(r.code)})</span>`:"")
       +`<br>Y ${rvPtFmt(r.y)}, X ${rvPtFmt(r.x)}, Z ${rvPtFmt(r.z)} m`
-      +(vertical?`<br>s ${rvStationFmt(r.s)} m · ${rvLM()?"d (informativně)":"d"}: <span class="${rvLM()?"":ov?"bad":"ok"}">${rvDS(r.d)} ${u}</span> <span class="m">(${r.d>0?"před rovinou":r.d<0?"za rovinou":"v rovině"})</span>`+(rvLM()?(r.lat?`<br>h (lať ${esc(r.lat.aid)} – ${esc(r.lat.bid)}): <span class="${rvOvE(r)?"bad":"ok"}">${rvDS(r.h)} ${u}</span>`+(rvHiE(r)?` <span class="m">(nad 150 % tolerance latě)</span>`:""):`<br><span class="m">Bez latě</span>`):""):rvLM()?`<br>ΔZ: ${rvDS(r.d)} ${u}`+(r.lat?`<br>h (lať ${esc(r.lat.aid)} – ${esc(r.lat.bid)}): <span class="${rvOvE(r)?"bad":"ok"}">${rvDS(r.h)} ${u}</span>`+(rvHiE(r)?` <span class="m">(nad 150 % tolerance latě)</span>`:""):`<br><span class="m">Bez latě</span>`)
+      +(RV.plane==="o"?`<br>x′ ${rvStationFmt(r.xp)}, y′ ${rvStationFmt(r.yp)} m<br>d: <span class="${ov?"bad":"ok"}">${rvDS(r.d)} ${u}</span> <span class="m">(${r.d>0?"před rovinou, k pozorovateli":r.d<0?"za rovinou":"v rovině"})</span>`:vertical?`<br>s ${rvStationFmt(r.s)} m · ${rvLM()?"d (informativně)":"d"}: <span class="${rvLM()?"":ov?"bad":"ok"}">${rvDS(r.d)} ${u}</span> <span class="m">(${r.d>0?"před rovinou":r.d<0?"za rovinou":"v rovině"})</span>`+(rvLM()?(r.lat?`<br>h (lať ${esc(r.lat.aid)} – ${esc(r.lat.bid)}): <span class="${rvOvE(r)?"bad":"ok"}">${rvDS(r.h)} ${u}</span>`+(rvHiE(r)?` <span class="m">(nad 150 % tolerance latě)</span>`:""):`<br><span class="m">Bez latě</span>`):""):rvLM()?`<br>ΔZ: ${rvDS(r.d)} ${u}`+(r.lat?`<br>h (lať ${esc(r.lat.aid)} – ${esc(r.lat.bid)}): <span class="${rvOvE(r)?"bad":"ok"}">${rvDS(r.h)} ${u}</span>`+(rvHiE(r)?` <span class="m">(nad 150 % tolerance latě)</span>`:""):`<br><span class="m">Bez latě</span>`)
         :`<br>ΔZ: <span class="${ov?"bad":"ok"}">${rvDS(r.d)} ${u}</span>`+(rvHi(r.d)?` <span class="m">(nad 150 % tolerance)</span>`:""))
       +(r.auto&&!r.kept?`<br><span class="bad">Odlehlý bod, vyřazen:</span> <span class="m">${esc(r.auto)}</span>`:(r.auto&&r.kept?`<br><span class="m">Odlehlý bod vrácený do výpočtu</span>`:(!r.use?`<br><span class="m">Odškrtnutý bod (nezapočítá se)</span>`:"")))
       +(multi&&r.file?`<br><span class="m">Soubor: ${esc(r.file)}</span>`:""); };
@@ -4665,7 +4963,7 @@ window.addEventListener("resize",rgRequestRender);
     if(mx<pl.x||mx>pl.x+pl.w||my<pl.y||my>pl.y+pl.h) return null;
     const wy=RGV.cy-(mx-pl.x-pl.w/2)/RGV.s, wx=RGV.cx+(my-pl.y-pl.h/2)/RGV.s, v=rgTinAt(wy,wx); if(v==null) return null;
     const vertical=RV.plane==="v", lat=rvLM(), u=RV.set.u, d=v/1000, a=Math.abs(rvR1(d)), tl=rvTE(), ov=a>tl+1e-9, hi=a>1.5*tl+1e-9, up=rvR1(d)>0;
-    return `<span class="m">${T.sm>1?"Hladká plocha (vyhlazení "+T.sm+"×)":"Plocha (lineární interpolace z bodů)"}</span><br>${vertical?"s "+rvStationFmt(-wy)+", Z "+rvPtFmt(-wx):"Y "+fmtCz(wy.toFixed(3))+", X "+fmtCz(wx.toFixed(3))} m<br>${lat?"h":vertical?"d":"ΔZ"}: <span class="${ov?"bad":"ok"}">${rvDS(d)} ${u}</span>`
+    return `<span class="m">${T.sm>1?"Hladká plocha (vyhlazení "+T.sm+"×)":"Plocha (lineární interpolace z bodů)"}</span><br>${RV.plane==='o'?"x′ "+rvStationFmt(wx)+", y′ "+rvStationFmt(wy):vertical?"s "+rvStationFmt(-wy)+", Z "+rvPtFmt(-wx):"Y "+fmtCz(wy.toFixed(3))+", X "+fmtCz(wx.toFixed(3))} m<br>${lat?"h":RV.plane!=="h"?"d":"ΔZ"}: <span class="${ov?"bad":"ok"}">${rvDS(d)} ${u}</span>`
       +`<br><span class="m">${ov?(hi?"nad 150 % tolerance":"nad tolerancí")+(lat?(up?" (hrb)":" (prohlubeň)"):(up?", k odbourání":", k doplnění")):"v toleranci"}</span>`; };
   box.addEventListener("wheel",e=>{ e.preventDefault(); tip.hidden=true; if(rg3Active()){const r=box.getBoundingClientRect();rg3Zoom(e.clientX-r.left,e.clientY-r.top,e.deltaY<0?1.25:1/1.25,box.clientWidth,box.clientHeight);return;} if(!RGV) return;
     const r=box.getBoundingClientRect(), pl=rgPlot(box.clientWidth,box.clientHeight), mx=e.clientX-r.left, my=e.clientY-r.top, cx=pl.x+pl.w/2, cy=pl.y+pl.h/2;
@@ -4700,7 +4998,7 @@ document.addEventListener("keydown",e=>{
   rgSelect(keys[n],"key"); });
 // Reset modulu: zavře plán a vrátí jeho volby a poměr rozdělení na výchozí hodnoty
 function rgReset(){ rg3Release();RGTIN=RGMAP=RGCT=RGVT=RGVOL=null;RGTIN_SRC=RGVT_SRC=null;RGTIN_OPT=RGVT_OPT=""; $("rg3plane").checked=true;rg3Factor=1;RG3.surface=null;RG3.scene=null;RG3.visibility=null; RG3.yaw=RG3.pitch=RG3.roll=0;RG3.view=null;RG3.model=null; rgPend=false; rgSetView(0); RGV=null; RGZ=null; RGSIG=""; setRsp(50);
-  $("rgnm").checked=false; $("rgzv").checked=false; $("rgdz").checked=true; $("rgus").checked=false; $("rgll").checked=true; $("rggr").checked=true; $("rghd").checked=false; $("rgfs").value=100; $("rgmk").value="x"; $("rgmp").value="off"; $("rgct").checked=false; $("rgcs").value="a"; $("rgop").value="60"; $("rgsm").value="1"; $("rgtn").checked=false; $("rgvl").checked=true; $("rgem").value=""; rgOptSync();
+  $("rgref").checked=true;$("rgnm").checked=false; $("rgzv").checked=false; $("rgdz").checked=true; $("rgus").checked=false; $("rgll").checked=true; $("rggr").checked=true; $("rghd").checked=false; $("rgfs").value=100; $("rgmk").value="x"; $("rgmp").value="off"; $("rgct").checked=false; $("rgcs").value="a"; $("rgop").value="60"; $("rgsm").value="1"; $("rgtn").checked=false; $("rgvl").checked=true; $("rgem").value=""; rgOptSync();
   try{ [RGK,RSK,ROK].forEach(k=>removeStorage(k)); }catch(e){} }
 
 /* ---------- Rovinnost: „i“ (popis modulu) a Reset v hlavičce – stejné chování jako v ZSS pilot ---------- */
@@ -4744,7 +5042,7 @@ document.addEventListener("keydown",e=>{
   if(e.code==="KeyS"&&e.shiftKey){ e.preventDefault(); if(rgCan()) rvSaveDxf(); } });   // DXF plánu (stejně jako v ZSS pilot)
 // Reset modulu Rovinnost: měření, PD, typ a zadání roviny, odškrtnuté body, filtr, řazení, hledání a uložená nastavení modulu; ZSS pilot se nemění
 function rvReset(){
-  delete RV.def.vOriginal;
+  delete RV.def.vOriginal;delete RV.def.oOriginal;delete RV.def.oReverse;RV_O0U=null;RV_GENERAL_PROJECTION_CACHE=null;
   rgReset(); rvClear(); rvpClear();
   ["h","v","o"].forEach(t=>RV.def[t].forEach(pt=>RV_FLD[t].forEach(c=>pt[c]=""))); RV.def.h[0].s="";
   RV.off.clear(); RV.sort.k=""; RV.sort.dir=1; $("rvflt").value="all"; $("rvtsr").value=""; $("rvstf").textContent=""; $("rvlogd").open=false;
@@ -4813,18 +5111,19 @@ function pg3Ui(){
   const active=pg3Active();$('pgcubeui').hidden=!piles.length;$('pg3front').textContent='Půdorys';$('pg3front').title='Vrátí původní 2D půdorys včetně přiblížení a posunu.';
   $('pg3canvas').hidden=$('pg3overlay').hidden=!active;$('pgcube').style.transform=`rotateZ(${-PG3.roll*180/Math.PI}deg) rotateX(${-PG3.pitch*180/Math.PI}deg) rotateY(${PG3.yaw*180/Math.PI}deg) rotateX(-90deg)`;
   pg3CubeLabels(false);pg3CubeZones();pg3CubeHighlight();
+  $("pg3front").hidden=!piles.length;$("pg3front").disabled=!pg3Can();for(const b of $("pgcubenav").querySelectorAll("[data-roll]"))b.disabled=!pg3Can()||PG3.failed;
   for(const b of $('pgcube').querySelectorAll('button'))b.disabled=!piles.length||PG3.failed&&b.dataset.face!=='top';
-  const dirs={left:'vlevo',right:'vpravo',up:'nahoru',down:'dolů'};for(const b of $('pgcubenav').querySelectorAll('button')){const face=pg3Neighbor(b.dataset.dir);b.title='Sousední pohled '+dirs[b.dataset.dir]+': '+pg3FaceTitle(face);b.setAttribute('aria-label',b.title);b.disabled=!piles.length||PG3.failed&&face!=='top';}
+  const dirs={left:'vlevo',right:'vpravo',up:'nahoru',down:'dolů'};for(const b of $('pgcubenav').querySelectorAll('[data-dir]')){const face=pg3Neighbor(b.dataset.dir);b.title='Sousední pohled '+dirs[b.dataset.dir]+': '+pg3FaceTitle(face);b.setAttribute('aria-label',b.title);b.disabled=!piles.length||PG3.failed&&face!=='top';}
   for(const id of ['pgpdf3','spdf3']){const b=$(id);b.hidden=false;b.disabled=!active||!pg3State()||!!PG3.transition||!!PG3.pdfBusy||PG3.failed;b.title='PDF 3D: aktuální prostorový pohled na jednu stránku A3, skutečné výšky bez zvětšení.';}
   for(const id of ['pgdxf3','sdxf3']){$(id).hidden=false;$(id).disabled=!piles.length;$(id).title='DXF 3D JTSK: skutečné souřadnice X = −Y, Y = −X, Z = výška. PD bez výšky se vynechají; jejich polohová odchylka bude popsána u skutečného středu. Šipky směřují od PD ke skutečnosti, hodnoty dp, dY, dX a dZ jsou v mm.';}
-  const box=$('gsvg');$('pgcubeui').style.top=(pg3Plot(box.clientWidth,box.clientHeight).y+6)+'px';$('pgcubespace').title='Tažení / Shift + tažení: natočení. Stěny, hrany a rohy: přesné pohledy. Šipky: 90°. Home / dvojklik: půdorys.';
+  const box=$('gsvg');planNavFit('pg',box,active?pg3Plot(box.clientWidth,box.clientHeight):plotRect(box.clientWidth,box.clientHeight,headTop(box.clientWidth,box.clientHeight,gOpts(1))));$('pgcubespace').title='Tažení / Shift + tažení: natočení. Stěny, hrany a rohy: přesné pohledy. Šipky: 90°. Home / dvojklik: půdorys.';
   const gs=$('gs');if(gs.dataset.pgTitle===undefined)gs.dataset.pgTitle=gs.parentElement.title;gs.disabled=active;gs.parentElement.title=active?'Ve 3D jsou vyhodnocené středy vždy označené. Volba platí pro 2D plán.':gs.dataset.pgTitle;
 }
 function pg3Layout(W,H){
- const m=PG3.model,fs=Math.min(1.25,Math.max(.75,Math.min(W,H)/600))*pct('gt')/100,key=[W,H,fs,$('gg').checked,$('gh').checked].join('|'),old=PG3.layout;if(old&&old.model===m&&old.key===key)return old;
+ const m=PG3.model,fs=Math.min(1.25,Math.max(.75,Math.min(W,H)/600))*pct('gt')/100,nav=planNavWidth(),key=[W,H,fs,nav,$('gg').checked,$('gh').checked].join('|'),old=PG3.layout;if(old&&old.model===m&&old.key===key)return old;
  let ls=Math.min(11,10*fs),texts=[];if($('gg').checked&&m){texts=[`Vyhodnocené středy: ${piles.length} · měřené body: ${m.pts.filter(p=>p.kind==='measured').length} · body PD se Z: ${m.pts.filter(p=>p.kind==='pd').length}`,`Kružnice: vodorovné průřezy ve výšce středu; spojnice PD → skutečný střed.`,...(m.missing?[`PD bez výšky: ${m.missing}; pomocná rovina Z = ${m.datum.toFixed(3)} m (pouze projekce).`]:[]),'Modře odhad · fialově měření · šedě PD · zeleně/červeně středy a polohová odchylka.'];}
  let rows=texts.flatMap(t=>rgWrapText(t,Math.max(80,W-60),ls*.56));if(rows.length*ls*1.35>Math.max(65,H*.28)){ls=Math.min(ls,10);texts=m&&$('gg').checked?[`Středy ${piles.length} · PD se Z ${m.pts.filter(p=>p.kind==='pd').length} · skutečné výšky.`,...(m.missing?[`PD bez Z: ${m.missing}; pouze projekce Z = ${m.datum.toFixed(3)} m.`]:[])]:[];rows=texts.flatMap(t=>rgWrapText(t,Math.max(80,W-60),ls*.56));}
- const top=Math.max(90,70*Math.min(1.25,Math.max(.75,Math.min(W,H)/600))),bottom=Math.max(30,rows.length*ls*1.35+20+($('gh').checked?8:0)),plot={x:30,y:top,w:Math.max(20,W-146),h:Math.max(20,H-top-bottom)};return PG3.layout={key,model:m,plot,rows,ls,lh:ls*1.35};
+ const top=Math.max(90,70*Math.min(1.25,Math.max(.75,Math.min(W,H)/600))),bottom=Math.max(30,rows.length*ls*1.35+20+($('gh').checked?8:0)),plot={x:30,y:top,w:Math.max(20,W-nav-64),h:Math.max(20,H-top-bottom)};return PG3.layout={key,model:m,plot,rows,ls,lh:ls*1.35};
 }
 const pg3Plot=(W,H)=>pg3Layout(W,H).plot;
 function pg3Model(){
@@ -4877,7 +5176,7 @@ function pg3Draw(sc,m,v){
   if($('ggrid').checked)draw(G.cache.groups.grid,gl.LINES);draw(G.cache.groups.solid,gl.LINES);draw(G.cache.groups.dash,gl.LINES,-1,1,v.s);gl.uniform1f(G.bias,-1e-5);draw(G.cache.groups.measured,gl.POINTS,0,9);draw(G.cache.groups.pd,gl.POINTS,0,10);draw(G.cache.groups.missing,gl.POINTS,2,11);draw(G.cache.groups.centre,gl.POINTS,2,13);
   const selected=m.pts.find(p=>p.kind==='centre'&&p.owner.first===GSEL);if(selected){const data=vertex(selected,'#f59e0b');gl.bindBuffer(gl.ARRAY_BUFFER,G.buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(data),gl.DYNAMIC_DRAW);gl.uniform1f(G.bias,-2e-5);draw({buffer:G.buffer,count:1},gl.POINTS,2,21);}gl.disable(gl.SCISSOR_TEST);return true;
 }
-function pg3Render(W,H){const m=pg3Model();if(!m)return false;const fit=pg3Fit(W,H,m);if(!PG3.view)PG3.view=fit;else if(PG3.view.W!==W||PG3.view.H!==H){const old=pg3Fit(PG3.view.W,PG3.view.H,m);PG3.view.s*=fit.s/old.s;PG3.view.W=W;PG3.view.H=H;}PG3.view.depth=fit.depth;const sc=pg3Scene(W,H,m,PG3.view);PG3.scene=sc;if(!pg3Draw(sc,m,PG3.view)){pg3Stop();PG3.yaw=PG3.pitch=PG3.roll=0;pg3Ui();return false;}$('gsvg').innerHTML='';$('pg3overlay').innerHTML=svgOf({...sc,transparent:true},'pg3clip');return true;}
+function pg3Render(W,H){const m=pg3Model();if(!m)return false;const fit=pg3Fit(W,H,m);if(!PG3.view)PG3.view=fit;else if(PG3.view.W!==W||PG3.view.H!==H){const old=pg3Fit(PG3.view.W,PG3.view.H,m);PG3.view.s*=fit.s/old.s;PG3.view.W=W;PG3.view.H=H;}PG3.view.depth=fit.depth;const sc=pg3Scene(W,H,m,PG3.view);PG3.scene=sc;if(!pg3Draw(sc,m,PG3.view)){pg3Stop();PG3.yaw=PG3.pitch=PG3.roll=0;pg3Ui();return false;}$('gsvg').innerHTML='';$('pg3overlay').innerHTML=svgOf(planScreenScene({...sc,transparent:true},'pg'),'pg3clip');return true;}
 function pg3Release(){pg3Stop();PG3.hoverFaces=[];PG3.model=PG3.scene=PG3.view=PG3.layout=null;if(PG3.gl&&PG3.gl.cache){for(const a of Object.values(PG3.gl.cache.groups))PG3.gl.gl.deleteBuffer(a.buffer);PG3.gl.cache=null;}}
 function pg3Focus(key){const m=PG3.model,v=PG3.view;if(!m||!v)return;const p=m.pts.find(p=>p.kind==='centre'&&p.owner.first===key);if(!p)return;const box=$('gsvg'),q=pg3Project(p,m,v,box.clientWidth,box.clientHeight),pl=pg3Plot(box.clientWidth,box.clientHeight);if(q.x<pl.x||q.x>pl.x+pl.w||q.y<pl.y||q.y>pl.y+pl.h){const a=pg3Rotate(p,m);v.cx=a.x;v.cy=a.y;}}
 function pg3BindViewport(){
@@ -4957,6 +5256,12 @@ function pg3Neighbor(direction){const p=pg3NextPose(direction);return p?pg3Physi
 function pg3Angles(a){
   const pitch=Math.asin(Math.max(-1,Math.min(1,a.n[1]))),yaw=Math.abs(Math.cos(pitch))<1e-9?0:Math.atan2(-a.n[0],a.n[2]),base=pg3Axes(yaw,pitch,0),roll=Math.atan2(-pg3Dot(a.r,base.u),pg3Dot(a.r,base.r));
   return {yaw:Math.abs(yaw)<1e-9?0:yaw,pitch:Math.abs(pitch)<1e-9?0:pitch,roll:Math.abs(roll)<1e-9?0:roll};
+}
+function pg3Roll(direction,animate=false){
+  if(!pg3Can())return;pg3PlaneSync();
+  const last=PG3.pending&&PG3.pending.length?PG3.pending[PG3.pending.length-1]:null,a=last?pg3Axes(last.yaw,last.pitch,last.roll):PG3.transition?PG3.transition.targetAxes:pg3Axes(),neg=v=>v.map(q=>-q);
+  const pose=direction==="left"?{r:neg(a.u),u:a.r,n:a.n}:direction==="right"?{r:a.u,u:neg(a.r),n:a.n}:null;
+  if(pose)pg3Goto(pg3Angles(pose),animate,animate);
 }
 function pg3Step(direction,animate=false){
   if(!["h","v"].includes("h")||!pg3Can())return;pg3PlaneSync();const a=pg3NextPose(direction);if(a)pg3Goto(pg3Angles(a),animate,animate);
@@ -5045,7 +5350,7 @@ function pg3Zoom(mx,my,f,W,H){if(!PG3.view)return;pg3Motion();const pl=pg3Plot(W
   const end=e=>{if(!drag||drag.id!==e.pointerId)return;const target=drag.target,moved=Math.hypot(e.clientX-drag.sx,e.clientY-drag.sy)>4;drag=null;suppress=true;try{space.releasePointerCapture(e.pointerId);}catch(x){}if(!moved)activate(target);setTimeout(()=>suppress=false,0);};
   space.addEventListener("pointerup",end);space.addEventListener("lostpointercapture",()=>{drag=null;});space.addEventListener("pointercancel",()=>{drag=null;suppress=true;setTimeout(()=>suppress=false,0);});
   space.addEventListener("click",e=>{if(!suppress)activate(targetOf(e));});space.addEventListener("dblclick",()=>pg3Face(pg3Home()));
-  $("pgcubenav").addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-dir]");if(b&&!b.disabled)pg3Step(b.dataset.dir,true);});
+  $("pgcubenav").addEventListener("click",e=>{const b=e.target.closest&&(e.target.closest("[data-dir]")||e.target.closest("[data-roll]"));if(b&&!b.disabled){if(b.dataset.roll)pg3Roll(b.dataset.roll,true);else pg3Step(b.dataset.dir,true);}});
   $("pgcubezones").addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;e.preventDefault();e.stopPropagation();activate(targetOf(e));space.focus();});
   $("pg3front").onclick=()=>pg3Face(pg3Home(),true);
   space.addEventListener("keydown",e=>{if(e.key.startsWith("Arrow")){e.preventDefault();e.stopPropagation();pg3Turn(e.key==="ArrowLeft"?-12:e.key==="ArrowRight"?12:0,e.key==="ArrowUp"?-12:e.key==="ArrowDown"?12:0);}else if(e.key==="Home"){e.preventDefault();pg3Face(pg3Home());}});

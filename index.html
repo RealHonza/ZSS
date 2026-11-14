@@ -602,7 +602,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 <div class="cad-field"><span id="cadUnitLabel">Jednotky DXF</span><select id="cadUnit" hidden aria-hidden="true"><option value="m" selected>Metry [m]</option><option value="mm">Milimetry [mm]</option><option value="ft">Stopy [ft]</option></select><div class="rvseg cad-seg" role="radiogroup" aria-labelledby="cadUnitLabel"><label title="Metry"><input type="radio" name="cadUnitChoice" value="m" checked aria-label="Metry">m</label><label title="Milimetry"><input type="radio" name="cadUnitChoice" value="mm" aria-label="Milimetry">mm</label><label title="Stopy"><input type="radio" name="cadUnitChoice" value="ft" aria-label="Stopy">ft</label></div><small id="cadUnitHelp">Metry</small></div>
 <div class="cad-field"><span id="cadCoordinateLabel">Souřadnicový systém</span><input type="hidden" id="cadMapping" value="neg_yx"><div class="rvseg cad-seg" role="radiogroup" aria-labelledby="cadCoordinateLabel"><label><input type="radio" name="cadCoordinate" value="neg_yx" checked>S-JTSK</label><label><input type="radio" name="cadCoordinate" value="pos_xy">Matematický</label></div><small id="cadCoordinateHelp">CAD X = −Y, CAD Y = −X</small></div><input type="hidden" id="cadType" value="2d"></div>
 
-<p id="cadZero"></p><p id="cadScaleInfo"></p><p id="cadBounds" class="cad-bounds"></p><div id="cadSpatialWarn" class="project-coord-warning" role="status" aria-live="polite" hidden></div><p id="cadError" class="bad" role="alert" hidden></p><p id="cadPartial" class="warn" hidden></p>
+<p id="cadZero"></p><p id="cadScaleInfo"></p><p id="cadBounds" class="cad-bounds"></p><p id="cadExtent" class="cad-bounds" aria-live="polite" hidden></p><div id="cadSpatialWarn" class="project-coord-warning" role="status" aria-live="polite" hidden></div><p id="cadError" class="bad" role="alert" hidden></p><p id="cadPartial" class="warn" hidden></p>
 <details id="cadReport" hidden><summary id="cadReportSummary">Zpráva o importu</summary><div class="cad-report-table"><table><thead><tr><th>Stav</th><th>Prvek / důvod</th><th>Počet</th></tr></thead><tbody id="cadReportBody"></tbody></table></div></details>
 <p class="cad-note">DXF je samostatný projektový podklad; nevstupuje do výpočtů ani MNČ. Výkres bez nenulových výšek se načte jako 2D v Z = 0, pouze pro půdorysný 2D plán. Nenulové výšky se zachovají v prostorovém projektu. Volba Projekt DXF platí pro plán, PDF i DXF; prostorový výstup zachovává skutečné výšky.</p>
 <div class="rmb"><button type="button" id="cadApply">Potvrdit import</button></div></div></div>
@@ -827,7 +827,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 </script>
 <script type="application/x-geomat" data-gm-core="2">
 "use strict";
-const APP_VERSION="1.202", APP_DATE="14. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
+const APP_VERSION="1.203", APP_DATE="14. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
 const RD_MIN=0.01, RD_MAX=1;   // meze pole „do vzdálenosti“ [m]
 const RD_K_LIM=3, RD_K_SP=0.45, DD_K=0.4;   // auto: „do vzdálenosti“ = větší z (3 × mez odchylky, typický poloměr), u každého bodu PD nejvýš 45 % rozteče k sousednímu bodu; „přímý střed“ = 40 % typického poloměru
 function minSpacing(refs){   // nejmenší vzdálenost dvou různých bodů PD [m] (shodné body do 20 mm = duplicity se přeskočí); Infinity, když nejsou aspoň 2
@@ -2045,6 +2045,7 @@ function projectCADRefresh(file){const state=PROJECT_CAD_DATA.get(file);if(!stat
 function projectCADGeometries(module){return PROJECT_CAD[module].map(file=>({file,geometry:(PROJECT_CAD_DATA.get(file)||{}).geometry})).filter(v=>v.geometry);}
 function projectCADDefaultConfig(model,file){const old=projectCADConfig(file.cfg);return {confirmed:true,unit:old&&['m','mm','ft'].includes(old.unit)?old.unit:'m',mapping:old&&['neg_yx','pos_xy'].includes(old.mapping)?old.mapping:'neg_yx',type:model.nonzeroZ?'3d':'2d'};}
 function projectCADReport(model){const out=[];for(const [kind,title] of [['unsupported','Nepodporováno'],['invalid','Neplatný prvek'],['warnings','Upozornění']])for(const [name,count] of Object.entries(model.report[kind]))out.push({kind:title,name,count});if(model.report.paper)out.push({kind:'Vynecháno',name:'Výkresové rozvržení (paper space); načítá se pouze model',count:model.report.paper});return out;}
+function projectCADLengthLabel(metres){const km=metres>=1000;return new Intl.NumberFormat('cs-CZ',{maximumFractionDigits:3}).format(km?metres/1000:metres)+(km?' km':' m');}
 function projectCADDialogUpdate(){
  if(!CAD_DIALOG)return;for(const radio of document.querySelectorAll('input[name="cadUnitChoice"]'))radio.checked=radio.value===$('cadUnit').value;for(const radio of document.querySelectorAll('input[name="cadCoordinate"]'))radio.checked=radio.value===$('cadMapping').value;$('cadUnitHelp').textContent=({m:'Metry',mm:'Milimetry',ft:'Stopy'})[$('cadUnit').value]||'';$('cadCoordinateHelp').textContent=$('cadMapping').value==='neg_yx'?'CAD X = −Y, CAD Y = −X':'CAD X = X, CAD Y = Y';const {model,module}=CAD_DIALOG,cfg={confirmed:true,unit:$('cadUnit').value,mapping:$('cadMapping').value,type:model.nonzeroZ?'3d':'2d'},error=$('cadError');
  try{
@@ -2052,9 +2053,10 @@ function projectCADDialogUpdate(){
   for(const x of [model.bounds.min[0],model.bounds.max[0]])for(const y of [model.bounds.min[1],model.bounds.max[1]])for(const z of [model.bounds.min[2],model.bounds.max[2]]){const p=convert([x,y,z]);p.forEach((v,i)=>{b.min[i]=Math.min(b.min[i],v);b.max[i]=Math.max(b.max[i],v);});}
   const limits=[9999999.999,9999999.999,9999.999];if(b.min.some((v,i)=>!Number.isFinite(v)||Math.abs(v)>limits[i]||Math.abs(b.max[i])>limits[i]))throw Error('Souřadnice po převodu jsou mimo rozsah GeoMATu. Zkontrolujte jednotky a konvenci souřadnic.');
   const fmt=v=>fmtCz(v.toFixed(3));$('cadBounds').textContent=['Y','X','Z'].map((label,i)=>label+': '+fmt(b.min[i])+' až '+fmt(b.max[i])+' m').join(' · ');
+  $('cadExtent').textContent='Rozměr podkladu: ΔY = '+projectCADLengthLabel(b.max[0]-b.min[0])+' · ΔX = '+projectCADLengthLabel(b.max[1]-b.min[1])+'.';$('cadExtent').hidden=false;
   const spatialWarning=coordCheckPreview(module,CAD_DIALOG.file,[b.min[0],b.max[0],b.min[1],b.max[1]]);$('cadSpatialWarn').innerHTML=coordCheckPreviewMarkup(spatialWarning);$('cadSpatialWarn').hidden=!spatialWarning;
   $('cadScaleInfo').textContent='Převod do metrů: 1 '+unitLabel+' = '+fmtCz(String(factor))+' m.'+(GeoMATDXF.units[model.unitCode]&&Math.abs(GeoMATDXF.units[model.unitCode][0]-factor)>1e-12?' Pozor: hlavička DXF uvádí '+GeoMATDXF.units[model.unitCode][1]+'; použijí se vámi zvolené jednotky.':'');$('cadApply').disabled=false;error.hidden=true;error.textContent='';
- }catch(e){error.textContent=e.message;error.hidden=false;$('cadApply').disabled=true;$('cadBounds').textContent='';$('cadScaleInfo').textContent='';$('cadSpatialWarn').hidden=true;}
+ }catch(e){error.textContent=e.message;error.hidden=false;$('cadApply').disabled=true;$('cadBounds').textContent='';$('cadExtent').textContent='';$('cadExtent').hidden=true;$('cadScaleInfo').textContent='';$('cadSpatialWarn').hidden=true;}
 }
 function projectCADNextDialog(){
  if(CAD_DIALOG)return;let request;while(CAD_DIALOG_QUEUE.length){const next=CAD_DIALOG_QUEUE.shift();if(next.isCurrent&&!next.isCurrent()){next.resolve(null);continue;}request=next;break;}if(!request)return;

@@ -835,7 +835,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 </script>
 <script type="application/x-geomat" data-gm-core="2">
 "use strict";
-const APP_VERSION="1.209", APP_DATE="14. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
+const APP_VERSION="1.210", APP_DATE="14. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
 // Shared decimal input contract. File parsers retain their scientific-notation support.
 function gmDecimal(value){const t=String(value).trim().replace(/\u2212/g,'-');return /^[+\-]?(?:\d+(?:[.,]\d*)?|[.,]\d+)$/.test(t)&&Number.isFinite(Number(t.replace(',','.')))?Number(t.replace(',','.')):NaN;}
 function gmNumericDraft(value,opt={}){const t=String(value).replace(/\u2212/g,'-'),part=opt.integer?'\\d*':'\\d*(?:[.,]\\d*)?',sign=opt.signed?'[+\\-]?':'\\+?',re=new RegExp('^'+sign+part+'$');return opt.list?t.split(';').every(v=>re.test(v.trim())):re.test(t);}
@@ -1803,8 +1803,7 @@ function syncExp(){
 }
 ["gb","rvgb"].forEach(id=>$(id).addEventListener("animationend",e=>e.currentTarget.classList.remove("shine")));
 function nudge(btn){ btn.classList.remove("shine"); void btn.offsetWidth; btn.classList.add("shine"); }   // jednorázový návodný lesk
-["drop","refrow"].forEach(id=>$(id).addEventListener("animationend",e=>{ if(e.target===e.currentTarget) e.currentTarget.classList.remove("shine"); }));
-setTimeout(()=>{ if(!points.length) nudge($("drop")); },600);   // start programu: lesk přes blok 1. MĚŘENÍ
+["drop","rvdrop","refrow"].forEach(id=>$(id).addEventListener("animationend",e=>{ if(e.target===e.currentTarget) e.currentTarget.classList.remove("shine"); }));
 // krátká hláška o provedené akci (uložení, kopírování) – nepřepisuje souhrn ani varování ve stavovém řádku, zmizí při dalším přepočtu
 const flash=t=>{ $("stf").textContent=t; };
 // log pod tabulkou je sbalený; nadpis ukazuje počet řádků, prázdný log se skryje
@@ -5722,13 +5721,20 @@ $("rm").addEventListener("click",e=>{ if(e.target===$("rm")) $("rmn").onclick();
 (function(){
   const MK="zsspilot.modul", TT={zss:"ZSS pilot",rov:"Rovinnost"};
   const nav=document.getElementById("mods");
+  let hintTimer=null,hintEpoch=0;
   function setMod(m,save){
     if(!TT[m]) m="zss";
     nav.querySelectorAll("button.mod").forEach(b=>{ const on=b.dataset.mod===m; b.classList.toggle("act",on); if(on) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
     ["zss","rov"].forEach(k=>{ const el=document.getElementById("mod-"+k); if(el) el.hidden=(k!==m); });
     document.body.classList.toggle("mrov",m==="rov");
     document.title=TT[m];
-    if(save){ try{ writeStorage(MK,m); }catch(e){} if(m==="rov"&&!RV.pts.length) setTimeout(()=>nudge($("rvdrop")),200); }
+    if(save){ try{ writeStorage(MK,m); }catch(e){} }
+    // Same empty-measurement cue on startup and every module entry. Recheck after the delay.
+    clearTimeout(hintTimer);const epoch=++hintEpoch;
+    ["drop","rvdrop"].forEach(id=>$(id).classList.remove("shine"));
+    hintTimer=setTimeout(()=>{if(epoch!==hintEpoch)return;hintTimer=null;
+      if(!$("mod-"+m).hidden&&!(m==="zss"?points.length:RV.pts.length))nudge($(m==="zss"?"drop":"rvdrop"));
+    },save?200:600);
     if(m==="zss") window.dispatchEvent(new Event("resize"));
     if(m==="rov"&&typeof rgRefresh==="function") rgRefresh();   // plán bodů v Rovinnosti se přepočítá na skutečnou velikost
     if(typeof syncBw==="function") syncBw();   // tlačítka vpravo v zónách a v hlavičce: stejná šířka v obou modulech   // po návratu se plán a tabulka přepočítají na aktuální velikost

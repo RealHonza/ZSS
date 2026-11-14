@@ -612,8 +612,8 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 <p id="rmd">Smaže se načtené měření i projekt, ruční výběr a všechna uložená nastavení. Parametry, volby plánu, filtr a řazení se vrátí na výchozí hodnoty. Tuto akci nelze vrátit zpět.</p>
 <div class="rmb"><button type="button" id="rmn" title="Zavře okno bez změny (stejně jako klávesa Esc).">Zrušit</button><button type="button" id="rmy" title="Smaže načtená data i uložená nastavení a vrátí výchozí hodnoty.">Resetovat</button></div>
 </div></div>
-<div id="im" hidden><div class="card">
-<div id="imh"><div class="row" style="margin:0"><h2 class="info-title"><img class="app-favicon" src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Crect%20width=%2224%22%20height=%2224%22%20rx=%225%22%20fill=%22%23fff%22/%3E%3Cg%20fill=%22none%22%20stroke=%22%232f855a%22%20stroke-width=%222.08%22%20stroke-linecap=%22round%22%3E%3Ccircle%20cx=%2212%22%20cy=%2212%22%20r=%225.2%22/%3E%3Cpath%20d=%22M12%204v4.8M12%2015.2V20M4%2012h4.8M15.2%2012H20%22/%3E%3C/g%3E%3C/svg%3E" alt="GeoMat" title="GeoMat" width="18" height="18"><span>ZSS pilot – co aplikace dělá</span></h2><button id="ix" style="margin-left:auto" title="Zavře popis aplikace (stejně jako klávesa Esc).">Zavřít</button></div>
+<div id="im" hidden><div class="card" role="dialog" aria-modal="true" aria-labelledby="imt">
+<div id="imh"><div class="row" style="margin:0"><h2 id="imt" class="info-title"><img class="app-favicon" src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Crect%20width=%2224%22%20height=%2224%22%20rx=%225%22%20fill=%22%23fff%22/%3E%3Cg%20fill=%22none%22%20stroke=%22%232f855a%22%20stroke-width=%222.08%22%20stroke-linecap=%22round%22%3E%3Ccircle%20cx=%2212%22%20cy=%2212%22%20r=%225.2%22/%3E%3Cpath%20d=%22M12%204v4.8M12%2015.2V20M4%2012h4.8M15.2%2012H20%22/%3E%3C/g%3E%3C/svg%3E" alt="GeoMat" title="GeoMat" width="18" height="18"><span>ZSS pilot – co aplikace dělá</span></h2><button id="ix" style="margin-left:auto" title="Zavře popis aplikace (stejně jako klávesa Esc).">Zavřít</button></div>
 <div class="row" style="margin:8px 0 0"><input type="search" id="ims" placeholder="Hledat v popisu…" autocomplete="off" aria-label="Hledat v popisu" title="Hledá bez ohledu na diakritiku a velikost písmen, nalezené zvýrazní zeleně. Enter nebo Tab = další nález, Shift+Enter nebo Shift+Tab = předchozí, Esc = smaže hledání."><span id="imc" aria-live="polite"></span></div></div>
 <div id="imb">
 <p style="color:var(--mut)">GeoMAT verze <span class="ver"></span> · Autor: Jan Bartůněk · aplikace se vyvíjí od října 2026.</p>
@@ -683,7 +683,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 <p>CSV a kopírování do schránky mají společné záhlaví s verzí GeoMAT, typem roviny, jednotkami, přesností a rozsahem použitých bodů. Výběr bodových řádků respektuje filtr; kubatury, sklon / odklon a RMS používají všechny zaškrtnuté body, což je v záhlaví výslovně uvedeno. Původní souřadnice bodů se zachovávají.</p>
 <h3>1. Měření</h3>
 <ul><li>Soubor STX, TXT nebo CSV přetáhni do zeleného okna, nebo ho načti tlačítkem <b>Načíst SS</b> s ikonou zaměření. Načíst lze jednotlivě i víc souborů najednou, celkem nejvýš 50. Nové soubory se přidávají; soubor se stejným názvem nahradí původní a stane se nejnovějším. Každý soubor má štítek s křížkem pro odebrání, <b>Zrušit SS</b> odebere všechny.</li>
-<li>Sloupce vždy v pořadí: 1. název bodu, 2. Y, 3. X, 4. Z (povinné), 5. kód (volitelný). Souřadnice v metrech. Oddělovač mezera, tabulátor nebo středník, desetinná tečka i čárka – stejně jako v ZSS pilot. Duplicity v měření se jen ohlásí (stavový řádek a log), oba body se dál počítají: stejný název bodu (i mezi soubory) a dva body ve stejné poloze Y, X do 1 mm (i s rozdílem Z).</li>
+<li>Sloupce vždy v pořadí: 1. název bodu, 2. Y, 3. X, 4. Z (povinné), 5. kód (volitelný). Souřadnice v metrech. Oddělovač mezera, tabulátor nebo středník, desetinná tečka i čárka – stejně jako v ZSS pilot. Duplicity v měření se jen ohlásí (stavový řádek a log), oba body se dál počítají: stejný název bodu (i mezi soubory) a dva body ve stejné poloze Y, X do 1 mm (u vodorovné a obecné roviny i s rozdílem Z); u svislé stěny se porovnává prostorová poloha Y, X, Z do 1 mm.</li>
 <li>V Rovinnosti se výchozím nastavením používají všechny body ze souboru. Ve skupině Body a výstup lze vypnout Všechny body a vybírat měření podle kódu v 5. sloupci nebo podle předpony názvu: předpřipravené BET a ZB, navíc až 20 vlastních kódů A–Z / 0–9 o délce 1 až 8 znaků. Kód musí souhlasit celý, předpona stačí na začátku názvu; velikost písmen nerozhoduje. Výběr platí pro tabulku, robustní filtraci, MNČ z měření, lať, TIN, kubatury, plán a exporty. Projektové body PD a podklad DXF zůstávají samostatnou referencí. Původní měření zůstává načtené; přepnutí Všechny body vrátí jeho úplný výběr. Kódy a přepínač se pamatují samostatně pro Rovinnost. Výchozí hodnoty vrátí Všechny body a smažou vlastní kódy. Přeskočené řádky jsou v logu dole.</li>
 <li><b>Vyřadit odlehlé body</b> (zaškrtávátko, výchozí zapnuto; vypnutí se pamatuje v prohlížeči) – robustní filtrace podobně jako vynechání špatných bodů u pilot. Program ze zaměřených bodů robustně vyrovná skutečnou plochu (smí být i mírně skloněná) a každý bod porovná s mediánem jeho 8 nejbližších sousedů. Vyřadí body, které do plochy zjevně nepatří (výztuž, nářadí, bod na jiné konstrukci, překlep ve výšce): liší se od okolí nebo od vyrovnané plochy o víc než <b>mez</b>. Mez se zadává v <b>násobcích tolerance</b> odchylek. Prázdné pole = <b>auto</b> (výchozí, stejně jako „Typický [m]“ v ZSS pilot: šedě ukazuje použitou hodnotu, např. „auto 3,6“, v tooltipu je odvození): mez se určí z dat – nejméně 2× tolerance (bod jen mírně nad tolerancí se tak nikdy nevyřadí), u hrubší plochy 5× šum mezi sousedními body, a je-li v odchylkách od okolí zřetelná mezera mezi běžnými a odlehlými body (do 10× tolerance, nad ní nejvýš 10 % bodů), dá se mez doprostřed ní; jinak 3×. Vedle pole je přepočet v jednotkách a počet odlehlých bodů. Vlastní násobek 1 až 20 zapíšeš do pole, smazáním se vrátí auto. Body se neposuzují podle zadané roviny, takže deska celá výš nebo níž (nevyhovující) se nevyřadí. Odebírá se vždy jen nejhorší bod a vše se přepočte. Při překročení pojistného počtu (10 % bodů zaokrouhlených nahoru) se nevyřadí nic, protože tolik bodů už nejsou ojedinělé chyby měření (plocha má buď větší nerovnosti – pak lze upozornění ignorovat –, nebo soubor obsahuje i body z jiných ploch): upozornění se ukáže vedle zaškrtávátka, v řádku pod tabulkou odchylek a v logu, kde je i seznam kandidátů. Body z jiných ploch stačí odškrtnout v tabulce nebo načíst jen body zaměřené plochy. Potřeba je aspoň 6 bodů. Ručně odškrtnuté body se do výpočtu nezahrnou.</li>
 <li>Vyřazený bod zůstane v tabulce zašedlý se značkou <b>odlehlý</b> (tooltip ukáže důvod, např. „o +85 mm proti okolním bodům“), nezapočítá se do souhrnu, kopírování ani CSV. Zaškrtnutím ho vrátíš do výpočtu (značka zůstane obrysová, v CSV „odlehlý (vrácen)“). Filtr „jen odlehlé“ je ukáže všechny, seznam s důvody je i v logu. Volba, auto / ruční mez i vrácené body se pamatují po F5.</li></ul>
@@ -701,7 +701,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 <li><b>Výchozí hodnoty</b> (šipka vpravo v sekci): vrátí jednotky (mm), přesnost (1 mm), toleranci (10 mm), odlišení odstínů + / −, desetinnou čárku v CSV i vyhodnocení na Odchylky od roviny a parametry latě (2 m, rozpětí 1,6 m, pás ±0,1 m, tolerance 2 mm, varianta ±) na výchozí hodnoty a přepočítá tabulku. Je zašedlé, když je vše na výchozích hodnotách; načtené soubory, zadaná rovina ani volby robustní filtrace se nemění (ty vrací tlačítko u roviny a Reset).</li>
 <li><b>Odlišit + / − odstínem</b> (skupina Odchylky, výchozí zapnuto): kladné odchylky (nad rovinou, u latě hrb) světlejším a záporné (pod rovinou, prohlubeň) tmavším odstínem zelené i červené v tabulce, plánu, PDF i DXF; v legendě plánu je u každé skupiny dvojice značek. Vypnuto: jeden základní odstín zelené a červené, v legendě jedna značka, znaménko ukazuje jen číslo. Pamatuje se v prohlížeči a vrací ji „Výchozí hodnoty“.</li>
 <li><b>CSV s des. čárkou</b> (skupina Body a výstup, výchozí zapnuto): desetinná čárka v uloženém CSV i v tabulce zkopírované do schránky; vypnuto = desetinná tečka. Volba patří jen Rovinnosti, nastavení v ZSS pilot ji neovlivní, pamatuje se v prohlížeči a vrací ji i tlačítko „Výchozí hodnoty“.</li></ul>
-<h3>4. Odchylky</h3><p><b>Znaménka:</b> vodorovná ΔZ je kladná nad rovinou. U svislé roviny je d kladné vpravo od směru 1 → 2 při pohledu shora; prohození bodů obrátí stranu. U obecné roviny je d kladné na zvolené straně normály; lze ji obrátit. V režimu latě h znamená hrb (+) nebo prohlubeň (−). Označení odbourat / doplnit předpokládá, že kladná strana směřuje ven z materiálu.</p>
+<h3>Kontrola jednoznačnosti povrchu</h3><p>U všech typů rovin se ověřuje, zda použité body nemají stejný průmět do referenční roviny, ale různé kolmé odchylky. U vodorovné roviny se porovnává Y, X a ΔZ; u svislé s, Z a d; u obecné x′, y′ a d. Při konfliktu zůstanou dostupné jednotlivé bodové odchylky, ale lať, TIN, mapa, vrstevnice a kubatury se nevyhodnotí. Upozornění uvede konfliktní body; ostatní povrchy odškrtni. Platí i při vypnuté robustní filtraci. U svislé stěny se skutečná duplicita polohy hledá podle Y, X i Z, takže body nad sebou v různých výškách nejsou duplicitou.</p><h3>4. Odchylky</h3><p><b>Znaménka:</b> vodorovná ΔZ je kladná nad rovinou. U svislé roviny je d kladné vpravo od směru 1 → 2 při pohledu shora; prohození bodů obrátí stranu. U obecné roviny je d kladné na zvolené straně normály; lze ji obrátit. V režimu latě h znamená hrb (+) nebo prohlubeň (−). Označení odbourat / doplnit předpokládá, že kladná strana směřuje ven z materiálu.</p>
 <ul><li>Sekce se zobrazí po zadání platné roviny libovolného typu. U vodorovné roviny ukáže <b>ΔZ = Z bodu − výška roviny</b>: kladná = nad rovinou, záporná = pod rovinou. U svislé a obecné roviny ukazuje <b>kolmou odchylku d</b> podle definované kladné strany (viz příslušné kapitoly), u latě také <b>h</b>. Vše ve zvolených jednotkách. Do tolerance včetně zeleně, nad ní červeně, nad 150 % tolerance je červeně podbarvená i buňka; kladné odchylky světlejším, záporné tmavším odstínem. Nejvyšší a nejnižší bod jsou tučně. Přesná (nezaokrouhlená) hodnota je v tooltipu buňky ΔZ; nula má znaménko podle strany roviny (−0 těsně pod rovinou, +0 těsně nad).</li>
 <li><b>Zaškrtávátko u #</b>: odškrtnutý bod zůstane v tabulce zašedlý, ale nezapočítá se do souhrnu ani do kopírování. Zaškrtávátko v záhlaví přepne všechny body; automaticky vyřazené odlehlé body přitom zůstanou vyřazené (vrátíš je jednotlivě) a zaškrtávátko je plné, když jsou zaškrtnuté všechny ostatní body. Odškrtnutí se pamatuje i po F5.</li>
 <li><b>Filtr bodů</b>: všechny body; podle tolerance: v toleranci (vyhovující), nad tolerancí (nevyhovující, včetně bodů nad 150 %), nad 150 % tolerance, nad tolerancí nad rovinou (místa k odbourání) a nad tolerancí pod rovinou (místa k doplnění); podle polohy k rovině: nad rovinou, pod rovinou, v rovině (ΔZ = 0), jen nejvyšší a nejnižší. Počet bodů je u každé volby v závorce. Filtr platí pro tabulku a kopírování, souhrn se počítá vždy ze všech zaškrtnutých bodů.</li>
@@ -827,7 +827,7 @@ pre{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-bar)
 </script>
 <script type="application/x-geomat" data-gm-core="2">
 "use strict";
-const APP_VERSION="1.200", APP_DATE="13. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
+const APP_VERSION="1.202", APP_DATE="14. 11. 2026";   // jediné místo s číslem verze, ostatní texty se doplní skriptem
 const RD_MIN=0.01, RD_MAX=1;   // meze pole „do vzdálenosti“ [m]
 const RD_K_LIM=3, RD_K_SP=0.45, DD_K=0.4;   // auto: „do vzdálenosti“ = větší z (3 × mez odchylky, typický poloměr), u každého bodu PD nejvýš 45 % rozteče k sousednímu bodu; „přímý střed“ = 40 % typického poloměru
 function minSpacing(refs){   // nejmenší vzdálenost dvou různých bodů PD [m] (shodné body do 20 mm = duplicity se přeskočí); Infinity, když nejsou aspoň 2
@@ -3015,7 +3015,7 @@ document.addEventListener("keydown",e=>{
   if(document.body.classList.contains("mrov")) return;   // zkratky platí jen v modulu ZSS pilot
   if(e.ctrlKey||e.altKey||e.metaKey||e.repeat||!$("rm").hidden) return;
   const t=e.target, tag=t&&t.tagName; if((tag==="INPUT"&&!/^(checkbox|radio|range|button|file)$/.test(t.type))||tag==="TEXTAREA"||tag==="SELECT"||(t&&t.isContentEditable)) return;
-  if(e.code==="KeyI"&&!e.shiftKey){ e.preventDefault(); $("im").hidden=!$("im").hidden; return; }
+  if(e.code==="KeyI"&&!e.shiftKey){ e.preventDefault(); gmInfoToggle("im"); return; }
   if(!$("im").hidden) return;   // při otevřeném popisu ostatní zkratky nefungují
   if(e.code==="KeyF"&&!e.shiftKey&&!$("gm").hidden){ e.preventDefault(); $("gfit").click(); return; }
   if(e.code==="KeyV"&&!e.shiftKey){ e.preventDefault(); if(viewState()===0&&!piles.length) return; cycleView(); return; }
@@ -3049,10 +3049,48 @@ $("ims").addEventListener("keydown",e=>{
   if(e.key==="Enter"){ e.preventDefault(); if(!imHits.length) imSearch(); else imGo(imCur+(e.shiftKey?-1:1)); }
   else if(e.key==="Tab"&&imHits.length){ e.preventDefault(); imGo(imCur+(e.shiftKey?-1:1)); }   // Tab / Shift+Tab v poli skáče po nálezech (bez nálezů se Tab chová běžně)
   else if(e.key==="Escape"&&$("ims").value){ e.preventDefault(); e.stopPropagation(); $("ims").value=""; imSearch(); } });   // první Esc smaže hledání, další zavře okno
-$("ib").onclick=()=>{ $("im").hidden=false; };
-$("ix").onclick=()=>{ $("im").hidden=true; };
-$("im").addEventListener("click",e=>{ if(e.target===$("im")) $("im").hidden=true; });
-document.addEventListener("keydown",e=>{ if(e.key==="Escape") $("im").hidden=true; });
+// Information dialogs share focus, background isolation and keyboard behaviour.
+let GM_INFO=null;
+function gmInfoFields(modal){return [...modal.querySelectorAll('button,input,select,textarea,a[href],[tabindex]')].filter(e=>!e.disabled&&!e.hidden&&!(e.tabIndex<0)&&(!e.getClientRects||e.getClientRects().length));}
+function gmInfoClose(restore=true){
+ const state=GM_INFO;if(!state)return;GM_INFO=null;state.modal.hidden=true;
+ state.background.forEach(([element,inert])=>element.inert=inert);
+ if(restore&&!$('gmApp').hidden){const target=state.opener&&state.opener.isConnected!==false?state.opener:$(state.id==='im'?'ib':'ib2');target?.focus({preventScroll:true});}
+}
+function gmInfoOpen(id){
+ const opener=document.activeElement;gmInfoClose(false);const modal=$(id),app=$('gmApp');
+ if(!modal||app.hidden)return;
+ const state={id,modal,opener,background:[]};GM_INFO=state;modal.hidden=false;
+ for(const sibling of app.children)if(sibling!==modal&&!['SCRIPT','STYLE','LINK'].includes(sibling.tagName)){state.background.push([sibling,!!sibling.inert]);sibling.inert=true;}
+ $(id==='im'?'ims':'ims2').focus({preventScroll:true});
+}
+function gmInfoToggle(id){if(GM_INFO&&GM_INFO.id===id)gmInfoClose();else gmInfoOpen(id);}
+$('ib').onclick=()=>gmInfoOpen('im');$('ix').onclick=()=>gmInfoClose();
+$('im').addEventListener('click',e=>{if(e.target===$('im'))gmInfoClose();});
+document.addEventListener('focusin',e=>{
+ if(!GM_INFO)return;
+ if($('gmApp').hidden||GM_INFO.modal.hidden){gmInfoClose(false);return;}
+ if(!GM_INFO.modal.contains(e.target))$(GM_INFO.id==='im'?'ims':'ims2').focus({preventScroll:true});
+},true);
+document.addEventListener('keydown',e=>{
+ const state=GM_INFO;if(!state)return;
+ if($('gmApp').hidden||state.modal.hidden){gmInfoClose(false);return;}
+ const search=$(state.id==='im'?'ims':'ims2'),typing=e.target&&(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.isContentEditable);
+ if(e.key==='Escape'){
+  if(e.target===search&&search.value)return; // Existing field handler clears the search on the first Escape.
+  e.preventDefault();e.stopImmediatePropagation();gmInfoClose();return;
+ }
+ if(e.code==='KeyI'&&!typing&&!e.shiftKey&&!e.ctrlKey&&!e.altKey&&!e.metaKey){e.preventDefault();e.stopImmediatePropagation();gmInfoClose();return;}
+ if(e.shiftKey&&/^(Digit|Numpad)[12]$/.test(e.code||'')&&!typing&&!e.ctrlKey&&!e.altKey&&!e.metaKey){gmInfoClose(false);return;}
+ if(e.key==='Tab'){
+  const hits=state.id==='im'?imHits:im2Hits;
+  if(e.target===search&&hits.length)return; // Preserve Tab / Shift+Tab navigation between matches.
+  const fields=gmInfoFields(state.modal),at=fields.indexOf(document.activeElement);
+  if(!fields.length){e.preventDefault();return;}
+  if((e.shiftKey&&at<=0)||(!e.shiftKey&&(at<0||at===fields.length-1))){e.preventDefault();fields[e.shiftKey?fields.length-1:0].focus();}
+ }
+},true);
+
 // tlačítka vpravo v zónách 1 až 3 mají stejnou šířku podle nejširšího z nich (i skrytá se změří)
 function syncBw(){
   const bs=["bl","mclr","br","rclr","hsp","rvbl","rvclr","rvpb","rvpclr","hsp2"].map($).filter(Boolean); let w=0;
@@ -3119,18 +3157,23 @@ function rvRender(){
 }
 function rvDataChanged(){ RV.dataVersion=(RV.dataVersion||0)+1; RV.robLog=[]; }
 const rvPl=(n,a,b,c)=>n===1?a:(n>=2&&n<=4?b:c);
-function rvDupes(pts,multi){   // upozornění na duplicity v měření (oba body se dál počítají): stejný název (i mezi soubory) a dva body ve stejné poloze Y, X do 1 mm (i s rozdílem Z)
+function rvDupes(pts,multi){
+  const spatial=RV.plane==="v";   // upozornění na duplicity v měření (oba body se dál počítají): stejný název (i mezi soubory) a dva body ve stejné poloze Y, X do 1 mm (i s rozdílem Z)
   const loc=q=>multi?`${q.file}:${q.line}`:`řádek ${q.line}`, first=new Map(), dn=new Map(), log=[];
   pts.forEach(q=>{ if(first.has(q.id)){ if(!dn.has(q.id)) dn.set(q.id,[first.get(q.id)]); dn.get(q.id).push(q); } else first.set(q.id,q); });
   [...dn].slice(0,30).forEach(([id,a])=>log.push(`Měření: název bodu „${id}“ je v měření ${a.length}× (${a.slice(0,8).map(loc).join(", ")}${a.length>8?" …":""})`));
   if(dn.size>30) log.push(`… a dalších ${dn.size-30} duplicitních názvů v měření`);
   const G=0.001, cell=new Map(), pp=[]; let np=0;
-  pts.forEach(q=>{ const cx=Math.floor(q.y/G), cy=Math.floor(q.x/G);
-    for(let a=-1;a<=1;a++) for(let b=-1;b<=1;b++){ const l=cell.get((cx+a)+"|"+(cy+b)); if(l) l.forEach(p=>{ if(Math.hypot(p.y-q.y,p.x-q.x)<=G+1e-9){ np++; if(pp.length<30) pp.push([p,q]); } }); }
-    const k=cx+"|"+cy; if(cell.has(k)) cell.get(k).push(q); else cell.set(k,[q]); });
-  pp.forEach(([p,q])=>log.push(`Měření: stejná poloha Y, X (do 1 mm): ${p.id} (${loc(p)}) a ${q.id} (${loc(q)}), rozdíl Z ${Math.round(Math.abs(p.z-q.z)*1000)} mm`));
+  pts.forEach(q=>{const c=[Math.floor(q.y/G),Math.floor(q.x/G),spatial?Math.floor(q.z/G):0];
+    for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++)for(let z=spatial?-1:0;z<=(spatial?1:0);z++){const l=cell.get((c[0]+a)+'|'+(c[1]+b)+'|'+(c[2]+z));if(l)for(const p of l)if(Math.hypot(p.y-q.y,p.x-q.x,spatial?p.z-q.z:0)<=G+1e-9){np++;if(pp.length<30)pp.push([p,q]);}}
+    const key=c.join('|');if(cell.has(key))cell.get(key).push(q);else cell.set(key,[q]);});
+  pp.forEach(([p,q])=>log.push(spatial?`Měření: stejná prostorová poloha Y, X, Z (do 1 mm): ${p.id} (${loc(p)}) a ${q.id} (${loc(q)})`:`Měření: stejná poloha Y, X (do 1 mm): ${p.id} (${loc(p)}) a ${q.id} (${loc(q)}), rozdíl Z ${Math.round(Math.abs(p.z-q.z)*1000)} mm`));
   if(np>30) log.push(`… a dalších ${np-30} dvojic bodů ve stejné poloze`);
   return {log,n:dn.size,p:np}; }
+function rvRefreshDupes(){
+  const spatial=RV.plane==="v";if(RV.dupSource===RV.pts&&RV.dupSpatial===spatial)return;
+  RV.dupSource=RV.pts;RV.dupSpatial=spatial;RV.dup=rvDupes(RV.pts,RV.files.length>1);RV.log=(RV.baseLog||[]).concat(RV.dup.log);rvLogRender();
+}
 function rvApply(files,restore){
   rvDataChanged();
   const multi=files.length>1; let pts=[], bad=0; const sk=[], rng=[], info=[];
@@ -3142,14 +3185,13 @@ function rvApply(files,restore){
   if(!restore) rangeToast("měření",rng);   // po F5 se toast neopakuje
   RV.files=files; RV.pts=pts; RV.bad=bad;coordCheckRefresh('rv');
   const lg=info.concat(sk.slice(0,30)); if(sk.length>30) lg.push(`… a dalších ${sk.length-30} přeskočených řádků`);
-  const dp=rvDupes(pts,multi); RV.dup=dp; dp.log.forEach(t=>lg.push(t));
-  RV.log=lg; rvLogRender();
+  RV.baseLog=lg;rvRefreshDupes();
   try{ if(files.length) writeStorage(FK_RV,JSON.stringify({f:files.map(q=>({n:q.n,t:q.t}))})); else removeStorage(FK_RV); }catch(e){}
   rvRender(); rvResRender(); }
 // log Rovinnosti: měření i projektované body dohromady
 function rvLogRender(){ const lg=(RV.log||[]).concat(RV.robLog||[],RVP.log||[]), bad=(RV.bad||0)+(RVP.bad||0);
   $("rvlog").textContent=lg.join("\n"); $("rvlogd").hidden=!lg.length; $("rvlogs").textContent="Log"+(bad?` (přeskočeno řádků: ${bad})`:""); }
-function rvClear(){ rvDataChanged(); RV.keep.clear(); rvKeepSave(); if(RV.off){ RV.off.clear(); rvOffSave(); } RV.files=[]; RV.pts=[]; RV.bad=0;coordCheckRefresh('rv'); RV.dup=null; RV.log=[]; rvLogRender(); try{ removeStorage(FK_RV); }catch(e){} rvRender(); rvResRender(); }
+function rvClear(){ rvDataChanged(); RV.keep.clear(); rvKeepSave(); if(RV.off){ RV.off.clear(); rvOffSave(); } RV.files=[]; RV.pts=[]; RV.bad=0;coordCheckRefresh('rv'); RV.dup=null;RV.dupSource=null;RV.baseLog=[]; RV.log=[]; rvLogRender(); try{ removeStorage(FK_RV); }catch(e){} rvRender(); rvResRender(); }
 function rvLoad(list){ readFiles(list,fs=>{ const cur=mergeFiles(RV.files,fs,t=>parse(t).pts.length>0,MAX_FILES_M); if(cur) rvApply(cur,false); },MAX_FILES_M); }
 $("rvbl").onclick=()=>$("rvfi").click();
 $("rvfi").onchange=e=>{ if(e.target.files.length) rvLoad(e.target.files); e.target.value=""; };
@@ -3164,7 +3206,7 @@ const FK_RP="zsspilot.rovina", RV_PLANES={h:"vodorovná",v:"svislá",o:"obecná"
 function rvPlaneSet(v,save){ if(!RV_PLANES[v]) v="h"; RV.plane=v;
   const r=document.querySelector('input[name="rvplane"][value="'+v+'"]'); if(r) r.checked=true;
   $("rvpst").textContent="Zvolená rovina: "+RV_PLANES[v];
-  if(RV.def) rvDefRender();   // pole zadání roviny se přestaví podle typu
+  if(RV.def){ rvRefreshDupes();rvDefRender(); }   // pole zadání roviny se přestaví podle typu
   if(save){ try{ writeStorage(FK_RP,v); }catch(e){} } }
 document.querySelectorAll('input[name="rvplane"]').forEach(r=>r.addEventListener("change",()=>{ if(r.checked) rvPlaneSet(r.value,true); }));
 { let v="h"; try{ v=localStorage.getItem(FK_RP)||"h"; }catch(e){} rvPlaneSet(v,false); }
@@ -3764,17 +3806,23 @@ let rvRobC={k:null,r:null};   // výsledek se přepočítá jen po změně bodů
 // Cell scale reflects floating-point uncertainty of the original JTSK coordinates, not the tolerance.
 let RV_GENERAL_PROJECTION_CACHE=null;
 function rvGeneralProjection(rows=RV.rows){
-  if(RV.plane!=='o')return {ok:true};
-  if(RV_GENERAL_PROJECTION_CACHE&&RV_GENERAL_PROJECTION_CACHE.rows===rows)return RV_GENERAL_PROJECTION_CACHE.result;
-  const pts=rows.filter(r=>r.use!==false&&[r.xp,r.yp,r.d].every(Number.isFinite));let magnitude=1;
+  if(!['h','v','o'].includes(RV.plane))return {ok:true};
+  if(RV_GENERAL_PROJECTION_CACHE&&RV_GENERAL_PROJECTION_CACHE.rows===rows&&RV_GENERAL_PROJECTION_CACHE.plane===RV.plane)return RV_GENERAL_PROJECTION_CACHE.result;
+  const coords=r=>RV.plane==='o'?[r.xp,r.yp]:RV.plane==='v'?[r.s,r.z]:[r.y,r.x];
+  const pts=rows.filter(r=>r.use!==false&&[...coords(r),r.d].every(Number.isFinite));let magnitude=1;
   for(const r of pts)magnitude=Math.max(magnitude,Math.abs(r.y),Math.abs(r.x),Math.abs(r.z));
-  const eps=Math.max(1e-8,64*Number.EPSILON*magnitude),cells=new Map(),ids=new Set();let conflicts=0;
-  for(const r of pts){const i=Math.floor(r.yp/eps),j=Math.floor(r.xp/eps);
-    for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++){const q=cells.get((i+a)+','+(j+b));if(q&&Math.hypot(r.yp-q.y,r.xp-q.x)<=2*eps&&Math.max(Math.abs(r.d-q.min),Math.abs(r.d-q.max))>2*eps){conflicts++;if(ids.size<8){ids.add(q.id);ids.add(r.id);}}}
-    const key=i+','+j,q=cells.get(key);if(q){q.min=Math.min(q.min,r.d);q.max=Math.max(q.max,r.d);}else cells.set(key,{y:r.yp,x:r.xp,min:r.d,max:r.d,id:r.id});
+  const eps=Math.max(1e-8,64*Number.EPSILON*magnitude),radius=2*eps,cells=new Map(),ids=new Set(),origin=pts.length?coords(pts[0]):[0,0];let conflicts=0;
+  const remember=id=>{if(ids.size<8)ids.add(id);};
+  for(const r of pts){const [u,v]=coords(r),i=Math.floor((u-origin[0])/radius),j=Math.floor((v-origin[1])/radius);
+    for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++){const cell=cells.get((i+a)+','+(j+b));if(!cell)continue;
+      for(const q of cell.values())if(Math.hypot(u-q.u,v-q.v)<=radius){const low=Math.abs(r.d-q.min)>radius,high=Math.abs(r.d-q.max)>radius;if(low||high){conflicts++;if(low)remember(q.minId);if(high)remember(q.maxId);remember(r.id);}}
+    }
+    const key=i+','+j;let cell=cells.get(key);if(!cell)cells.set(key,cell=new Map());
+    const position=u+','+v,q=cell.get(position);if(q){if(r.d<q.min){q.min=r.d;q.minId=r.id;}if(r.d>q.max){q.max=r.d;q.maxId=r.id;}}else cell.set(position,{u,v,min:r.d,max:r.d,minId:r.id,maxId:r.id});
   }
-  const result={ok:conflicts===0,conflicts,ids:[...ids],eps,why:conflicts?'Body '+[...ids].join(', ')+' mají stejný průmět v x′, y′, ale různé d. Zřejmě jde o více povrchů. Pro lať, mapu a kubatury ponech jen jednu plochu; ostatní body odškrtni. Body ani jejich odchylky se automaticky neslučují.':''};
-  RV_GENERAL_PROJECTION_CACHE={rows,result};return result;
+  const axes=RV.plane==='o'?'x′, y′':RV.plane==='v'?'s, Z':'Y, X',value=RV.plane==='h'?'ΔZ':'d';
+  const result={ok:conflicts===0,conflicts,ids:[...ids],eps,why:conflicts?'Body '+[...ids].join(', ')+' mají stejný průmět v '+axes+', ale různé '+value+'. Zřejmě jde o více povrchů. Pro lať, mapu, TIN a kubatury ponech jen jednu plochu; ostatní body odškrtni. Body ani jejich odchylky se automaticky neslučují.':''};
+  RV_GENERAL_PROJECTION_CACHE={rows,plane:RV.plane,result};return result;
 }
 function rvGeneralLathNote(){return `h je odchylka bodu od latě ve směru d; polohy latě se hledají v rovině x′, y′. + hrb k pozorovateli, − prohlubeň za lať${RV.set.lv==='dn'?' (jen prohlubeň)':''}. Délka ${fmtCz(RV.set.L.toFixed(2))} m, bod v prostřední třetině a v pásu ±${fmtCz(RV.set.w.toFixed(2))} m od osy latě. Tolerance, barvy a filtr používají h; d zůstává informativní odchylkou od zadané roviny.`;}
 var RV_O0U=null;
@@ -3815,8 +3863,8 @@ function rvWallFilterRank(rows){
   return a*b-c*c>1e-12*Math.max(1,a*b);
 }
 function rvRobGet(rows){
-  if(RV.plane==='o'){
-    const check=rvGeneralProjection(rows.filter(r=>!RV.off.has(r.key)));if(!check.ok){const result={out:new Map(),warn:check.why,short:'více povrchů ve stejném průmětu',log:[check.why]};rvRobC={k:null,r:result};RV.robLog=result.log;rvLogRender();rvRobHint();return result;}
+  if(['h','v','o'].includes(RV.plane)){
+    const check=rvGeneralProjection(rows.filter(r=>!RV.off.has(r.key)));if(!check.ok){const result={out:new Map(),surfaceConflict:true,warn:check.why,short:'více povrchů ve stejném průmětu',log:[check.why]};rvRobC={k:null,r:result};RV.robLog=result.log;rvLogRender();rvRobHint();return result;}
   }
   if(!RV.set.rob) { if(RV.robLog.length){ RV.robLog=[]; rvLogRender(); } rvRobC={k:null,r:null}; rvRobHint(); return {out:new Map(),warn:""}; }
   const T=rvT(), cand=rvSurfaceRows(rows.filter(r=>!RV.off.has(r.key)));
@@ -3833,7 +3881,7 @@ function rvRobHint(){
   el.disabled=!on; el.placeholder=k!=null&&au?"auto "+fmtCz(String(k)):"auto";
   if(!au&&document.activeElement!==el) el.value=fmtCz(String(RV.set.rk));
   lb.title=(RV.plane==='o'?'Robustní filtrace v místní soustavě x′, y′, d; plocha se vyrovnává nezávisle na referenční rovině. Stávající 10% pojistka zůstává zachovaná.':lb.dataset.t0)+(on&&au?`\n\nAktuálně (auto): ${k!=null?`${fmtCz(String(k))}× = ${rvTolTxt(k)} – ${r.why}`:"– (málo bodů)"}`:"");
-  const hw=$("rvrobh"), wr=on&&r&&r.warn;   // varování přímo u volby (nic nevyřazeno / málo bodů); podrobnosti v řádku pod tabulkou a v logu
+  const hw=$("rvrobh"), wr=r&&r.warn&&(on||r.surfaceConflict);   // varování přímo u volby (nic nevyřazeno / málo bodů); podrobnosti v řádku pod tabulkou a v logu
   hw.classList.toggle("rvw",!!wr); hw.title=wr?r.warn:"";
   hw.textContent=wr?`⚠ ${r.short||r.warn}`:on&&k!=null?`= ${rvTolTxt(k)}`+(r&&!r.warn?` · odlehlých ${r.out.size}`:""):(on?"":"prázdné = auto z dat"); }
 /* ---------- rovinnost latí (místní rovinnost, ČSN 74 4505: lať se položí středem na zkoušené místo a otáčí se, hledá se největší odchylka) ----------
@@ -3859,7 +3907,7 @@ function rvLatCalc(rows,sup){ const S=RV.set, L=S.L, Lm=Math.min(S.Lm,L), w=S.w,
       if(!best||(dn?h<best.h:Math.abs(h)>Math.abs(best.h))) best={h,a:A,b:B,d:Math.sqrt(d2)}; } }
     if(best){ const A=best.a, B=best.b; out.set(c.key,{h:dn&&best.h>0?0:best.h,hx:dn?0:Math.max(0,hx),hn:Math.min(0,hn),aid:A.id,bid:B.id,ay:A.y,ax:A.x,by:B.y,bx:B.x,d:best.d,n}); } });
   return out; }
-function rvLatGet(rows){ if(RV.plane==='o'&&!rvGeneralProjection(rows).ok)return new Map();rows=rvSurfaceRows(rows); const S=RV.set, sup=rows.filter(r=>r.use&&isFinite(r.y)&&isFinite(r.x)&&isFinite(r.z));
+function rvLatGet(rows){ if(!rvGeneralProjection(rows).ok)return new Map();rows=rvSurfaceRows(rows); const S=RV.set, sup=rows.filter(r=>r.use&&isFinite(r.y)&&isFinite(r.x)&&isFinite(r.z));
   const k=RV.plane+"|"+[S.L,S.Lm,S.w,S.lv].join("|")+"#"+rows.map(r=>r.key+":"+r.y+":"+r.x+":"+r.z+(r.use?"":"-")).join(";");
   if(rvLatC.k!==k) rvLatC={k,r:rvLatCalc(rows,sup)};
   return rvLatC.r; }
@@ -3867,7 +3915,7 @@ function rvRoffUpd(){ $("rvroff").disabled=!(RV.rows.length&&(RV.rows.some(r=>RV
 // souhrn kubatur pod souhrnem odchylek: odbourání / doplnění vůči rovině, nad tolerancí, bilance, citlivost a vyrovnaná výška s tlačítkem Převzít (Vrátit)
 var RV_Z0U=null, RV_V0U=null, RG_VOL_READY=false;   // poslední převzetí vyrovnané výšky {from, to} (jen v této relaci)
 function rvVolSum(zr,sum,pc){ if(RV.plane==='o')return rvGeneralVolSum(sum,pc);if(RV.plane==="v") return rvWallVolSum(sum,pc); const R=rgVol(zr), tu=RV.set.u, tl=rvTolTxt();
-  if(!R.ok){ sum.insertAdjacentHTML("beforeend",`<span class="vbr"></span><span class="sl">Kubatury: z bodů nevznikla žádná plocha (potřeba aspoň 3 zaškrtnuté body, které nejsou v přímce; trojúhelníky delší než Max. hrana v Plánu se vynechají).</span>`); return; }
+  if(!R.ok){ const check=rvGeneralProjection();sum.insertAdjacentHTML("beforeend",`<span class="vbr"></span><span class="sl">Kubatury: ${esc(check.ok?"z bodů nevznikla žádná plocha (potřeba aspoň 3 zaškrtnuté body, které nejsou v přímce; trojúhelníky delší než Max. hrana v Plánu se vynechají).":check.why)}</span>`); return; }
   const cur=String(RV.def.h[0].z).trim(), fz=fmtCz(R.z0r.toFixed(RV_PR[RV.set.p].m)), same=Math.abs(R.z0r-zr)<1e-9, und=RV_Z0U&&RV_Z0U.to===cur&&same;
   const lat=rvLM();
   sum.insertAdjacentHTML("beforeend",`<span class="vbr"></span><span class="sl">Kubatury vůči rovině${lat?" (z ΔZ, ne z h latě)":""} (lineární TIN, ${rgM2(R.A)}):</span>`
@@ -3886,7 +3934,7 @@ function rvVolSum(zr,sum,pc){ if(RV.plane==='o')return rvGeneralVolSum(sum,pc);i
 }
 function rvWallVolSum(sum,pc){
   const R=rgVol(0), tl=rvTolTxt();
-  if(!R.ok){ sum.insertAdjacentHTML("beforeend",'<span class="vbr"></span><span class="sl">Kubatury stěny: nevznikla žádná plocha v (s, Z). Potřeba aspoň 3 použité body, které v pohledu neleží v přímce; zkontroluj také Max. hranu.</span>'); return; }
+  if(!R.ok){ const check=rvGeneralProjection();sum.insertAdjacentHTML("beforeend",'<span class="vbr"></span><span class="sl">Kubatury stěny: '+esc(check.ok?'nevznikla žádná plocha v (s, Z). Potřeba aspoň 3 použité body, které v pohledu neleží v přímce; zkontroluj také Max. hranu.':check.why)+'</span>'); return; }
   const shift=R.z0r, same=Math.abs(shift)<1e-9, undo=RV_V0U&&RV_V0U.to===JSON.stringify(RV.def.v);
   sum.insertAdjacentHTML("beforeend",'<span class="vbr"></span><span class="sl">Kubatury stěny vůči rovině'+(rvLM()?' (z d, ne z h latě)':'')+' (lineární TIN, '+rgM2(R.A)+'):</span>'
     +pc('odbourání',rgM3(R.up),'Objem před rovinou (+d), z lineárního TIN použitých bodů v pohledu s, Z.','')
@@ -3981,6 +4029,7 @@ function rvTiltPdf(sc){
 }
 
 function rvResRender(){
+  rvRefreshDupes();
   rvCodeRender();
   const box=$("rvrzone"); if(!box||!RV.def||!RV.sort) return;   // při startu se volá dřív, než je sekce připravená
   const frame=RV.defOk?rvPlaneFrame():null, vertical=RV.plane==="v", general=RV.plane==="o", zr=frame&&frame.kind==="h"?frame.z:null;
@@ -4192,7 +4241,7 @@ $("rvrobk").addEventListener("change",()=>{ const t=$("rvrobk").value.trim(), v=
 $("rvroff").onclick=()=>{ RV.off.clear(); rvOffSave(); RV.keep.clear(); rvKeepSave(); $("rvflt").value="all"; RV.sort.k=""; RV.sort.dir=1; $("rvtsr").value=""; $("rvtw").scrollTop=0; $("rvtw").scrollLeft=0; $("rvstf").textContent=""; rvResRender(); };
 // kopírování do schránky: body podle filtru v zobrazeném pořadí, oddělovač tabulátor (vložení do Excelu)
 // tabulka pro kopírování i CSV: body podle filtru v zobrazeném pořadí; sep = oddělovač sloupců (tabulátor / středník)
-function rvCsvCommon(f){return [['GeoMAT_verze',APP_VERSION],['Typ_roviny',RV.plane==='o'?'obecna':RV.plane==='v'?'svisla':'vodorovna'],['Souradnice','puvodni Y, X, Z v metrech; orientace dle souřadnicových os'],['Jednotky_odchylek',RV.set.u],['Presnost_mm',f(RV_PR[RV.set.p].st,1)],['Vyhodnoceni',rvLM()?'rovinnost_lati':'odchylky_od_roviny'],['Rozsah_bodu','zaskrtnute body podle filtru tabulky v zobrazenem poradi'],['Rozsah_kubatur','vsechny pouzite body; linearni TIN; nezavisle na filtru'],['Rozsah_sklonu_a_odklonu','vsechny zaskrtnute body; puvodni XYZ; nezavisle na filtru' ]].concat(rvCodeCSV());}
+function rvCsvCommon(f){return [['GeoMAT_verze',APP_VERSION],['Typ_roviny',RV.plane==='o'?'obecna':RV.plane==='v'?'svisla':'vodorovna'],['Souradnice','puvodni Y, X, Z v metrech; orientace dle souřadnicových os'],['Jednotky_odchylek',RV.set.u],['Presnost_mm',f(RV_PR[RV.set.p].st,1)],['Vyhodnoceni',rvLM()?'rovinnost_lati':'odchylky_od_roviny'],['Rozsah_bodu','zaskrtnute body podle filtru tabulky v zobrazenem poradi'],['Rozsah_kubatur','vsechny pouzite body; linearni TIN; nezavisle na filtru'],['Rozsah_sklonu_a_odklonu','vsechny zaskrtnute body; puvodni XYZ; nezavisle na filtru' ]].concat(rvCodeCSV(),rvGeneralProjection().ok?[]:[['Povrch_stav','nejednoznacny'],['Povrch_upozorneni',rvGeneralProjection().why]]);}
 function rvExpRows(sep){ if(RV.plane==="o")return rvGeneralExpRows(sep); if(RV.plane==="v") return rvWallExpRows(sep); if(RV.plane!=="h") return {n:0,t:""}; const cv=RV.view.filter(r=>r.use);
   const comma=RV.set.c!==false, f=(v,d)=>{ const s=v.toFixed(d); return comma?s.replace(".",","):s; };
   const coord=v=>{ const raw=String(v), t=/e/i.test(raw)||(raw.split(".")[1]||"").length>3?raw:v.toFixed(3); return comma?t.replace(".",","):t; };
@@ -4427,6 +4476,12 @@ function rg3PointStyle(r){
   const mk=$("rgmk").value,ov=rvOvE(r)?"ov":"ok",pn=RV.set.pn!==false,pos=rvPos(rvEv(r))?"p":"n";
   return {c:mk==="o"?(pn?RG_MC.o[ov][pos]:RG_MC.o[ov].s):(pn?RG_MC.x[ov][pos]:RG_MC.o[ov].s),shape:mk==="o"?1:0};
 }
+function rgSurfaceWarning(frame,pl,fs){
+ const check=rvGeneralProjection();if(check.ok)return;
+ const lines=rgWrapText('Více povrchů ve stejném průmětu: lať, mapa, TIN a kubatury nejsou vyhodnoceny.',Math.max(20,pl.w-16),Math.max(8,Math.min(11,10*fs))*.56),size=Math.max(8,Math.min(11,10*fs)),height=lines.length*size*1.35+12;
+ frame.push({t:'poly',rs:[[pl.x+3,pl.y+3,pl.x+pl.w-3,pl.y+3,pl.x+pl.w-3,pl.y+height,pl.x+3,pl.y+height]],fill:'#fff'});
+ lines.forEach((s,i)=>frame.push({t:'text',x:pl.x+8,y:pl.y+size+7+i*size*1.35,s,size,c:GC.bad,a:'start',k:'POVRCH_upozorneni'}));
+}
 function rg3Scene(W,H,m,v,preview=false){
   const pl=rg3Plot(W,H),hs=rgHs(W,H),fs=rgFs(W,H),rad=Math.max(3,5*fs),items=[],frame=[],gridEntries=[],project=rg3Projector(m,v,W,H,pl),line=(a,b,c,sw=1)=>{const A=project(a),B=project(b);items.push({t:"line",x1:A.x,y1:A.y,x2:B.x,y2:B.y,depth1:A.depth,depth2:B.depth,c,sw});};
   if($("rg3plane").checked){const P=m.corners.map(project);items.push({t:'poly',rs:[P.flatMap(p=>[p.x,p.y])],fill:'#e5e9ef'});for(let i=0;i<4;i++)line(m.corners[i],m.corners[(i+1)%4],'#9aa1ab');}
@@ -4451,7 +4506,7 @@ function rg3Scene(W,H,m,v,preview=false){
     if($('rg3plane').checked)for(const r of m.rows)if(r.use&&Math.abs(r.d)>1e-12){const A=project({...r,d:0}),B=project(r);items.push({t:'line',x1:A.x,y1:A.y,x2:B.x,y2:B.y,depth1:A.depth,depth2:B.depth,c:'#94a3b8',sw:.7,k:'general_normal'});}
     for(let i=0;i<defs.length;i++){const A=defs[i],B=defs[(i+1)%defs.length];items.push({t:'line',x1:A.p.x,y1:A.p.y,x2:B.p.x,y2:B.p.y,depth1:A.p.depth,depth2:B.p.depth,c:'#2563a6',sw:1,k:'general_reference'});}
   }
-  const sc={W,H,pl,items,frame,pts,defs};frame.push(...rg3Labels(sc,m,v));frame.push(...planGridLabels(gridEntries,project,pl,Math.min(11,9*fs),gridReserved(sc)));return sc;
+  const sc={W,H,pl,items,frame,pts,defs};frame.push(...rg3Labels(sc,m,v));frame.push(...planGridLabels(gridEntries,project,pl,Math.min(11,9*fs),gridReserved(sc)));rgSurfaceWarning(frame,pl,fs);return sc;
 }
 function rg3Ensure(){
   if(RG3.gl)return RG3.gl;if(RG3.failed)return null;
@@ -4838,7 +4893,7 @@ const rgMix=(h,op)=>{ const c=[1,3,5].map(i=>parseInt(h.substr(i,2),16)); return
 const rgLv=l=>{ const u=RV.set.u, a=Math.abs(l), s=l>0?"+":l<0?"\u2212":""; return s+fmtCz(u==="m"?String(+(a/1000).toFixed(5)):String(+a.toFixed(2))); };   // úroveň v mm jako text ve zvolených jednotkách
 // The wall TIN shares the screen coordinates of its measured points (−s, −Z).
 // Both axes are reflected, so areas, distances and triangle orientation are preserved.
-function rgTinRows(){ const rows=(RV.rows||[]).filter(r=>r.use);if(RV.plane==='o'&&!rvGeneralProjection().ok)return [];return ['v','o'].includes(RV.plane)?rows.map(r=>({...r,...rgPointCoords(r),_tinMagnitude:Math.max(Math.abs(r.y),Math.abs(r.x),Math.abs(r.z))})):rows; }
+function rgTinRows(){ const rows=(RV.rows||[]).filter(r=>r.use);if(!rvGeneralProjection().ok)return [];return ['v','o'].includes(RV.plane)?rows.map(r=>({...r,...rgPointCoords(r),_tinMagnitude:Math.max(Math.abs(r.y),Math.abs(r.x),Math.abs(r.z))})):rows; }
 function rgTin(){ const opt=RV.plane+"|"+rvLM()+"|"+rgEmIn()+"|"+rgSmIn();if(RGTIN&&RGTIN_SRC===RV.rows&&RGTIN_OPT===opt)return RGTIN;RGTIN_SRC=RV.rows;RGTIN_OPT=opt;const T=rgTinOf(rgTinRows(),rvEv,(RV.plane==="o"?"o":RV.plane==="v"?"v":"")+(rvLM()?"L":"P"),rgEmIn(),rgSmIn(),RGTIN);   // plocha pro mapu a vrstevnice (u latě z h, jen body s latí)
   if(T!==RGTIN){ RGTIN=T; RGMAP=null; RGCT=null; } return T; }
 let RGVT=null, RGVOL=null, RGVT_SRC=null, RGVT_OPT="";
@@ -5156,7 +5211,7 @@ function rgScene(W,H,v,o){   // plán Rovinnosti jako scéna (jako buildScene v 
     fr.push({t:"text",x:general?pl.x:pl.x+pl.w,y:general?70*hs:16*hs,s:"Měření: "+listName(RV.files||[],70)+", "+new Date().toLocaleDateString("cs-CZ"),size:8.5*hs,c:GC.gray,a:general?"start":"end",k:"hlavicka"});
     fr.push({t:"text",x:W-16,y:H-5,s:"Autor: Jan Bartůněk, GeoMAT verze "+APP_VERSION+" ("+APP_DATE+")",size:8*hs,c:GC.gray,a:"end",k:"hlavicka"}); }
   fr.push({t:"rect",x:pl.x,y:pl.y,w:pl.w,h:pl.h,c:GC.frame,sw:1});
-  return projectCADAdd2D({W,H,pl,items:it.concat(mp,tnl,ctl,marks,labels),frame:fr.concat(o.dxf?[]:planScale(pl,s,fs),leg),pts},'rv',v,o);   // mřížka pod mapou (v ploše ji mapa zakryje, souřadnice zůstanou na okraji)
+  rgSurfaceWarning(fr,pl,fs);return projectCADAdd2D({W,H,pl,items:it.concat(mp,tnl,ctl,marks,labels),frame:fr.concat(o.dxf?[]:planScale(pl,s,fs),leg),pts},'rv',v,o);   // mřížka pod mapou (v ploše ji mapa zakryje, souřadnice zůstanou na okraji)
 }
 const rgRequestRender=planFrame(()=>{ rgKeep(); rgRender(); },()=>!$("rgm").hidden&&document.body.classList.contains("mrov"));
 function rgSmHint(){ const T=RGTIN, e=$("rgsm"); if(!e) return; [...e.options].forEach(o=>{ const k=+o.value, red=T&&T.ok&&T.smw===k&&k>1&&T.sm<k;
@@ -5280,7 +5335,7 @@ function rgDxfOf(mode="local"){   // rozvržení stejné jako v grafu (stejné p
   const world=(px,py,d)=>{ if(general){const q=frame.from(-fy(py),-fx(px),d);return [-q.y,-q.x,q.z];}if(!vertical)return [fx(px),fy(py),zref+d];const s=fx(px), z=fy(py); return [-frame.y-s*frame.ey-d*frame.ex,-frame.x-s*frame.ex+d*frame.ey,z]; };
   const dot=(a,b)=>a.reduce((s,v,i)=>s+v*b[i],0),cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],unit=a=>{const n=Math.hypot(...a);return a.map(v=>v/n);};
   const generalOCS=general?(()=>{const U=[frame.ey[0],frame.ey[1],-frame.ey[2]],V=[frame.ex[0],frame.ex[1],-frame.ex[2]],N=unit(cross(U,V)),A=unit(cross(Math.abs(N[0])<1/64&&Math.abs(N[1])<1/64?[0,1,0]:[0,0,1],N)),B=cross(N,A);return {N,A,B,angle:Math.atan2(dot(U,B),dot(U,A))*180/Math.PI};})():null;
-  const L={BODY_mereno:3,BODY_nad:1,BODY_vyrazeno:9,BODY_odlehle:30,BODY_bezlate:5,ODCHYLKY_ok:3,ODCHYLKY_nad:1,BODY_popis:8,BODY_vyska:8,NADPIS:7,HLAVICKA:8,LEGENDA:7};
+  const L={BODY_mereno:3,BODY_nad:1,BODY_vyrazeno:9,BODY_odlehle:30,BODY_bezlate:5,ODCHYLKY_ok:3,ODCHYLKY_nad:1,BODY_popis:8,BODY_vyska:8,NADPIS:7,HLAVICKA:8,LEGENDA:7};if(!rvGeneralProjection().ok)L.POVRCH_upozorneni=1;
   if(spatial) L.BODY_souradnice=8;
   if(general)Object.assign(L,{ROVINA_definice:5,ROVINA_popis:5,ROVINA_souradnice:5});
   RG_MAPC.forEach(q=>{ L[q.ly]=q.aci; }); Object.assign(L,{VRSTEVNICE:8,VRSTEVNICE_0:7,VRSTEVNICE_tol:1,VRSTEVNICE_popis:8,TIN:8});   // mapa odchylek (plochy tříd jako SOLID), vrstevnice ve skutečné výšce (rovina + ΔZ), síť trojúhelníků
@@ -5303,7 +5358,7 @@ function rgDxfOf(mode="local"){   // rozvržení stejné jako v grafu (stejné p
     if(!(d>0)||Math.abs((a.y2-a.y1)/2-d)>tol||Math.abs((b.x2-b.x1)/2-d)>tol||Math.abs((b.y1-b.y2)/2-d)>tol) return null;
     const x=(a.x1+a.x2)/2, y=(a.y1+a.y2)/2;
     return Math.abs((b.x1+b.x2)/2-x)>tol||Math.abs((b.y1+b.y2)/2-y)>tol?null:{x,y,d,z:Number.isFinite(a.z)?a.z:0}; };   // z = výška bodu
-  const all=sc.items.concat(sc.frame.filter(i=>i.k==="leg"||i.k==="hlavicka"||i.k==="nadpis"));
+  const all=sc.items.concat(sc.frame.filter(i=>i.k==="leg"||i.k==="hlavicka"||i.k==="nadpis"||i.k==="POVRCH_upozorneni"));
   for(let n=0;n<all.length;n++){ const i=all[n];
     const ly=layerOf(i); if(!ly) continue;
     const fm=i.k==="leg", gg=(c,val)=>{ e.push(c+"\n"+val); if(c===8&&fm){ e.push("62\n"+(i.aci||aci[i.c]||7)); if(i.dash) e.push("6\nDASHED"); } };
@@ -5504,16 +5559,14 @@ $("ims2").addEventListener("keydown",e=>{
   if(e.key==="Enter"){ e.preventDefault(); if(!im2Hits.length) im2Search(); else im2Go(im2Cur+(e.shiftKey?-1:1)); }
   else if(e.key==="Tab"&&im2Hits.length){ e.preventDefault(); im2Go(im2Cur+(e.shiftKey?-1:1)); }
   else if(e.key==="Escape"&&$("ims2").value){ e.preventDefault(); e.stopPropagation(); $("ims2").value=""; im2Search(); } });   // první Esc smaže hledání, další zavře okno
-$("ib2").onclick=()=>{ $("im2").hidden=false; };
-$("ix2").onclick=()=>{ $("im2").hidden=true; };
-$("im2").addEventListener("click",e=>{ if(e.target===$("im2")) $("im2").hidden=true; });
-document.addEventListener("keydown",e=>{ if(e.key==="Escape") $("im2").hidden=true; });
+$('ib2').onclick=()=>gmInfoOpen('im2');$('ix2').onclick=()=>gmInfoClose();
+$('im2').addEventListener('click',e=>{if(e.target===$('im2'))gmInfoClose();});
 // zkratka I jen v modulu Rovinnost (v ZSS pilot má vlastní)
 document.addEventListener("keydown",e=>{
   if(!document.body.classList.contains("mrov")) return;
   if(e.ctrlKey||e.altKey||e.metaKey||e.repeat||!$("rm").hidden) return;
   const t=e.target, tag=t&&t.tagName; if((tag==="INPUT"&&!/^(checkbox|radio|range|button|file)$/.test(t.type))||tag==="TEXTAREA"||tag==="SELECT"||(t&&t.isContentEditable)) return;
-  if(e.code==="KeyI"&&!e.shiftKey){ e.preventDefault(); $("im2").hidden=!$("im2").hidden; return; }
+  if(e.code==="KeyI"&&!e.shiftKey){ e.preventDefault(); gmInfoToggle("im2"); return; }
   if(!$("im2").hidden) return;   // při otevřeném popisu ostatní zkratky nefungují
   if(e.code==="KeyF"&&!e.shiftKey&&!$("rgm").hidden){ e.preventDefault(); $("rgfit").click(); return; }
   if(e.code==="KeyV"&&!e.shiftKey){ e.preventDefault(); rgCycle(); return; }   // V: jen tabulka / rozdělená obrazovka / plán na celou obrazovku (jako v ZSS pilot)
@@ -5566,8 +5619,8 @@ $("rm").addEventListener("click",e=>{ if(e.target===$("rm")) $("rmn").onclick();
     const t=e.target, tag=t&&t.tagName; if((tag==="INPUT"&&!/^(checkbox|radio|range|button|file)$/.test(t.type))||tag==="TEXTAREA"||tag==="SELECT"||(t&&t.isContentEditable)) return;
     if(!document.getElementById("rm").hidden) return;
     const b=nav.querySelectorAll("button.mod")[+m[1]-1]; if(!b) return;
-    e.preventDefault(); ["im","im2"].forEach(id=>{ const el=document.getElementById(id); if(el) el.hidden=true; });   // otevřený popis aplikace se zavře
-    setMod(b.dataset.mod,true); });
+    e.preventDefault(); gmInfoClose(false);   // otevřený popis aplikace se zavře
+    setMod(b.dataset.mod,true); b.focus(); });
   let m0="zss"; try{ m0=localStorage.getItem(MK)||"zss"; }catch(e){}
   setMod(m0,false);
 })();
@@ -6097,7 +6150,7 @@ projectRestoreCAD('zss');projectRestoreCAD('rv');projectCADPlanInit();coordCheck
   "users": [
     {
       "id": "psJBqKuUWnHzt7Mw",
-      "label": "GeoMAT",
+      "label": "GKNR",
       "hash": "b8c99f68f2ffd14fd38c08a0f97aff1af0be24d74d9f30bd9ad4e17a22637baf",
       "active": true
     }
